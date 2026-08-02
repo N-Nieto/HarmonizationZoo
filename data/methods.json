@@ -1,0 +1,1116 @@
+{
+  "generated_by": "build_seed.py",
+  "methods": [
+    {
+      "id": "combat",
+      "name": "ComBat",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "batch-effect",
+        "cortical-thickness"
+      ],
+      "paper_title": "Harmonization of cortical thickness measurements across scanners and sites",
+      "github": "Jfortin1/ComBatHarmonization",
+      "language": [
+        "R",
+        "Python",
+        "MATLAB"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "neurocombat",
+      "name": "neuroComBat",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "batch-effect",
+        "cortical-thickness"
+      ],
+      "paper_title": "Harmonization of cortical thickness measurements across scanners and sites",
+      "github": "Jfortin1/neuroCombat",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "combat-gam",
+      "name": "ComBat-GAM (neuroHarmonize)",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "lifespan",
+        "GAM"
+      ],
+      "paper_title": "Harmonization of large MRI datasets for the analysis of brain imaging patterns throughout the lifespan",
+      "github": "rpomponio/neuroHarmonize",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "harmonizer",
+      "name": "harmonizer",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "benchmark",
+        "multicenter",
+        "machine-learning"
+      ],
+      "paper_title": "Efficacy of MRI data harmonization in the age of machine learning: a multicenter study across 36 datasets",
+      "github": "Imaging-AI-for-Health-virtual-lab/harmonizer",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "covbat",
+      "name": "CovBat",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "covariance",
+        "batch-effect"
+      ],
+      "paper_title": "Mitigating site effects in covariance for machine learning in neuroimaging data",
+      "github": "andy1764/CovBat_Harmonization",
+      "language": [
+        "R",
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "prettyharmonize",
+      "name": "PrettYharmonize",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "data-leakage",
+        "class-imbalance",
+        "pipeline"
+      ],
+      "paper_title": "Impact of Leakage on Data Harmonization in Machine Learning Pipelines in Class Imbalance Across Sites",
+      "github": "juaml/PrettYharmonize",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "pycombat",
+      "name": "pycombat",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "batch-effect"
+      ],
+      "paper_title": null,
+      "github": "CoAxLab/pycombat",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "longcombat",
+      "name": "LongComBat",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "longitudinal"
+      ],
+      "paper_title": "Longitudinal ComBat: A method for harmonizing longitudinal multi-scanner imaging data",
+      "github": "jcbeer/longCombat",
+      "language": [
+        "R"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "ravel",
+      "name": "RAVEL",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "image-level",
+      "tags": [
+        "intensity-normalization",
+        "control-region"
+      ],
+      "paper_title": "Removing inter-subject technical variability in magnetic resonance imaging studies",
+      "github": "Jfortin1/RAVEL",
+      "language": [
+        "R"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "relief",
+      "name": "RELIEF",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "multivariate",
+        "latent-effects"
+      ],
+      "paper_title": "RELIEF: a structured multivariate approach for removal of latent inter-scanner effects",
+      "github": "junjypark/RELIEF",
+      "language": [
+        "R"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "combat-mega",
+      "name": "ComBat-mega (ENIGMA)",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "mega-analysis",
+        "ENIGMA"
+      ],
+      "paper_title": "Increased power by harmonizing structural MRI site differences with the ComBat batch adjustment method in ENIGMA",
+      "github": null,
+      "other_url": "https://enigma.ini.usc.edu/wp-content/uploads/combat_for_ENIGMA_sMRI/combat_for_ENIGMA_sMRI.R",
+      "language": [
+        "R"
+      ],
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "combatls",
+      "name": "ComBatLS",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "location-scale"
+      ],
+      "paper_title": "ComBatLS: A location- and scale-preserving method for multi-site image harmonization",
+      "github": "andy1764/ComBatFamily",
+      "language": [
+        "R"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "opnestedcombat",
+      "name": "OPNestedComBat",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "radiomics",
+        "nested"
+      ],
+      "paper_title": "Improved generalized ComBat methods for harmonization of radiomic features",
+      "github": "hannah-horng/opnested-combat",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "harmonizr",
+      "name": "HarmonizR",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "omics",
+        "proteomics"
+      ],
+      "paper_title": null,
+      "github": "SimonSchlumbohm/HarmonizR",
+      "language": [
+        "R"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ComBat-based"
+    },
+    {
+      "id": "deepharmony",
+      "name": "DeepHarmony",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "CNN",
+        "contrast-harmonization"
+      ],
+      "paper_title": "DeepHarmony: A deep learning approach to contrast harmonization across scanner changes",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "imunity",
+      "name": "ImUnity",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "VAE",
+        "GAN"
+      ],
+      "paper_title": "ImUnity: A generalizable VAE-GAN solution for multicenter MR image harmonization",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "cyclegan-brainmri",
+      "name": "CycleGAN (3D brain MRI)",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "GAN",
+        "cycle-consistency",
+        "brain-age"
+      ],
+      "paper_title": "Unsupervised harmonization of brain MRI using 3D CycleGANs and its effect on brain age prediction",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "mispel",
+      "name": "MISPEL",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "autoencoder",
+        "paired-data",
+        "embedding"
+      ],
+      "paper_title": "Multi-Scanner Harmonization of Paired Neuroimaging Data via Structure Preserving Embedding Learning",
+      "github": "Mahbaneh/MISPEL",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "harmless",
+      "name": "Harmless",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "GAN",
+        "adversarial",
+        "reproducibility"
+      ],
+      "paper_title": "'Harmless' adversarial network harmonization approach for removing site effects and improving reproducibility in neuroimaging studies",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "xcov-disentanglement",
+      "name": "Xcov disentanglement",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "feature-level",
+      "tags": [
+        "disentanglement",
+        "psychiatric",
+        "representation-learning"
+      ],
+      "paper_title": "Disentangled Neuroimaging Harmonization for Multi-Site Psychiatric Data Analysis",
+      "github": "inesws/DRL_site_harmonization",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "unlearning-mri",
+      "name": "Unlearning for MRI Harmonisation",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "feature-level",
+      "tags": [
+        "unlearning",
+        "confound-removal",
+        "domain-adaptation"
+      ],
+      "paper_title": "Deep learning-based unlearning of dataset bias for MRI harmonisation and confound removal",
+      "github": "nkdinsdale/Unlearning_for_MRI_harmonisation",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "sfharmony",
+      "name": "SFHarmony",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "feature-level",
+      "tags": [
+        "source-free",
+        "domain-adaptation",
+        "distributed"
+      ],
+      "paper_title": "SFHarmony: Source Free Domain Adaptation for Distributed Neuroimaging Analysis",
+      "github": "nkdinsdale/SFHarmony",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "harmonized-fmri",
+      "name": "Harmonized_fMRI",
+      "category": "deep-learning",
+      "method_type": "other",
+      "level": "acquisition-level",
+      "tags": [
+        "fMRI",
+        "protocol",
+        "toolbox"
+      ],
+      "paper_title": null,
+      "github": "HarmonizedMRI/Harmonized_fMRI",
+      "language": [
+        "MATLAB"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "dmri-harmonization",
+      "name": "dMRIharmonization",
+      "category": "deep-learning",
+      "method_type": "statistical",
+      "level": "image-level",
+      "tags": [
+        "diffusion-MRI",
+        "multi-shell",
+        "retrospective"
+      ],
+      "paper_title": "Retrospective harmonization of multi-site diffusion MRI data acquired with different acquisition parameters",
+      "github": "pnlbwh/multi-shell-dMRIharmonization",
+      "language": [
+        "Python",
+        "MATLAB",
+        "Shell"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "dictionary-learning-harmonization",
+      "name": "Harmonization (adaptive dictionary learning)",
+      "category": "deep-learning",
+      "method_type": "statistical",
+      "level": "image-level",
+      "tags": [
+        "diffusion-MRI",
+        "dictionary-learning"
+      ],
+      "paper_title": "Harmonization of diffusion MRI datasets with adaptive dictionary learning",
+      "github": "samuelstjean/harmonization",
+      "language": [
+        "Python",
+        "C",
+        "Fortran"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "b0shimming",
+      "name": "B0shimming",
+      "category": "deep-learning",
+      "method_type": "other",
+      "level": "acquisition-level",
+      "tags": [
+        "shimming",
+        "toolbox",
+        "acquisition"
+      ],
+      "paper_title": "An open toolbox for harmonized B0 shimming",
+      "github": "HarmonizedMRI/B0shimming",
+      "language": [
+        "MATLAB",
+        "Julia"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "intensity-normalization",
+      "name": "Intensity Normalization",
+      "category": "deep-learning",
+      "method_type": "statistical",
+      "level": "image-level",
+      "tags": [
+        "intensity-normalization",
+        "image-synthesis"
+      ],
+      "paper_title": "Evaluating the impact of intensity normalization on MR image synthesis",
+      "github": "jcreinhold/intensity-normalization",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "calamiti",
+      "name": "CALAMITI",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "disentanglement",
+        "information-bottleneck",
+        "unsupervised"
+      ],
+      "paper_title": "Information-based Disentangled Representation Learning for Unsupervised MR Harmonization",
+      "github": null,
+      "other_url": "https://iacl.ece.jhu.edu/index.php?title=CALAMITI",
+      "language": [
+        "Python"
+      ],
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "murd",
+      "name": "MURD",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "multi-site",
+        "phantom-free"
+      ],
+      "paper_title": "Learning multi-site harmonization of magnetic resonance images without traveling human phantoms",
+      "github": null,
+      "other_url": "https://zenodo.org/records/8115979",
+      "language": [
+        "Python"
+      ],
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "stgan",
+      "name": "STGAN",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "GAN",
+        "style-transfer",
+        "reference-image"
+      ],
+      "paper_title": "Style transfer generative adversarial networks to harmonize multisite MRI to a single reference image to avoid overcorrection",
+      "github": "USC-IGC/style_transfer_harmonization",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "disarm",
+      "name": "DISARM",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "disentanglement",
+        "image-to-image",
+        "scanner-free"
+      ],
+      "paper_title": "DISARM: Disentangled scanner-free image generation via unsupervised image2image translation",
+      "github": "luca2245/DISARM_Harmonization",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "disarmpp",
+      "name": "DISARM++",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "disentanglement",
+        "image-to-image",
+        "scanner-free"
+      ],
+      "paper_title": "DISARM++: Beyond scanner-free harmonization",
+      "github": "luca2245/DISARMpp_Harmonization",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "iguane",
+      "name": "IGUANe",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "GAN",
+        "cycle-consistency",
+        "generalizable"
+      ],
+      "paper_title": "A 3D generalizable CycleGAN for multicenter harmonization of brain MR images",
+      "github": "RocaVincent/iguane_harmonization",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "haca3",
+      "name": "HACA3",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "disentanglement",
+        "unified-framework"
+      ],
+      "paper_title": "HACA3: A unified approach for multi-site MR image harmonization",
+      "github": "lianruizuo/haca3",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based"
+    },
+    {
+      "id": "bartharm",
+      "name": "BARTharm",
+      "category": "alternative",
+      "method_type": "statistical",
+      "level": "image-level",
+      "tags": [
+        "IQM",
+        "bayesian-nonparametric"
+      ],
+      "paper_title": "BARTharm: MRI Harmonization Using Image Quality Metrics and Bayesian Non-parametric",
+      "github": "NeuroSML/BARTharm",
+      "language": [
+        "R"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Alternative"
+    },
+    {
+      "id": "neuroharmony",
+      "name": "NeuroHarmony",
+      "category": "alternative",
+      "method_type": "machine-learning",
+      "level": "feature-level",
+      "tags": [
+        "IQM",
+        "unseen-scanners",
+        "random-forest"
+      ],
+      "paper_title": "Neuroharmony: A new tool for harmonizing volumetric MRI data from unseen scanners",
+      "github": "garciadias/Neuroharmony",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Alternative"
+    },
+    {
+      "id": "bayesian-normative",
+      "name": "Bayesian Normative Models",
+      "category": "alternative",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "normative-modeling",
+        "hierarchical-bayesian"
+      ],
+      "paper_title": "Accommodating site variation in neuroimaging data using normative and hierarchical Bayesian models",
+      "github": "likeajumprope/Bayesian_normative_models",
+      "language": [
+        "Stan"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Alternative"
+    },
+    {
+      "id": "ismi",
+      "name": "Inter-Site Matched Harmonization (ISMI)",
+      "category": "alternative",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "interpolation",
+        "brain-age"
+      ],
+      "paper_title": "Data harmonizing via interpolation applied to brain age prediction",
+      "github": null,
+      "other_url": "https://github.com/N-Nieto/UniHarmony",
+      "language": [
+        "Python"
+      ],
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Alternative"
+    },
+    {
+      "id": "isi",
+      "name": "Intra-Site Interpolation (ISI)",
+      "category": "alternative",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "interpolation"
+      ],
+      "paper_title": null,
+      "github": null,
+      "other_url": "https://github.com/N-Nieto/UniHarmony",
+      "language": [
+        "Python"
+      ],
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Alternative"
+    },
+    {
+      "id": "fedharmony",
+      "name": "FedHarmony",
+      "category": "alternative",
+      "method_type": "deep-learning",
+      "level": "feature-level",
+      "tags": [
+        "federated-learning",
+        "unlearning",
+        "distributed"
+      ],
+      "paper_title": "FedHarmony: Unlearning Scanner Bias with Distributed Data",
+      "github": "nkdinsdale/FedHarmony",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Alternative"
+    },
+    {
+      "id": "fedcombat",
+      "name": "Fed-ComBat",
+      "category": "alternative",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "federated-learning",
+        "empirical-bayes",
+        "distributed"
+      ],
+      "paper_title": "Fed-ComBat: A Generalized Federated Framework for Batch Effect Harmonization in Collaborative Studies",
+      "github": "greguig/fedcombat",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Alternative"
+    },
+    {
+      "id": "d-combat",
+      "name": "d-ComBat",
+      "category": "alternative",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "federated-learning",
+        "privacy-preserving",
+        "distributed"
+      ],
+      "paper_title": "Privacy-preserving harmonization via distributed ComBat",
+      "github": "andy1764/Distributed-ComBat",
+      "language": [
+        "R",
+        "Python"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Alternative"
+    },
+    {
+      "id": "ica-dp",
+      "name": "ICA-DP",
+      "category": "alternative",
+      "method_type": "statistical",
+      "level": "image-level",
+      "tags": [
+        "ICA",
+        "blind-source-separation",
+        "dual-projection"
+      ],
+      "paper_title": "Repeatability analysis of ICA-based harmonization for multi-site MRI data using dual projection models",
+      "github": "Yuxing-Hao/ICA-DP_Harmonization",
+      "language": [
+        "MATLAB"
+      ],
+      "other_url": null,
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Alternative"
+    },
+    {
+      "id": "otda",
+      "name": "OTDA",
+      "category": "alternative",
+      "method_type": "machine-learning",
+      "level": "feature-level",
+      "tags": [
+        "optimal-transport",
+        "domain-adaptation"
+      ],
+      "paper_title": "Optimal Transport for Domain Adaptation",
+      "github": null,
+      "other_url": "https://github.com/N-Nieto/UniHarmony",
+      "language": [
+        "Python"
+      ],
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Alternative"
+    },
+    {
+      "id": "botda",
+      "name": "BOTDA",
+      "category": "alternative",
+      "method_type": "machine-learning",
+      "level": "feature-level",
+      "tags": [
+        "optimal-transport",
+        "domain-adaptation",
+        "EEG"
+      ],
+      "paper_title": "Transfer learning based on optimal transport for motor imagery brain-computer interfaces",
+      "github": null,
+      "other_url": "https://github.com/N-Nieto/UniHarmony",
+      "language": [
+        "Python"
+      ],
+      "paper_year": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Alternative"
+    }
+  ],
+  "stats_fetched_at": "2026-07-31T13:10:31Z"
+}

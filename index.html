@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harmonization Zoo — a field guide to MRI harmonization methods</title>
+<meta name="description" content="An interactive, contributor-editable map of statistical and deep-learning methods for harmonizing multi-site MRI data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="scanlines" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 40 40" width="34" height="34">
+        <circle cx="20" cy="20" r="18" fill="none" stroke="var(--phosphor)" stroke-width="1.4" opacity="0.55"/>
+        <circle cx="20" cy="20" r="12" fill="none" stroke="var(--phosphor)" stroke-width="1.4" opacity="0.75"/>
+        <circle cx="20" cy="20" r="5.5" fill="var(--phosphor)" opacity="0.9"/>
+      </svg>
+    </span>
+    <div>
+      <h1>Harmonization <em>Zoo</em></h1>
+      <p class="tagline">a field guide to multi-site MRI harmonization methods</p>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span id="method-count">— methods</span>
+    <a href="https://github.com/" id="repo-link" target="_blank" rel="noopener">View on GitHub ↗</a>
+  </div>
+</header>
+
+<main>
+  <section class="controls" aria-label="Filters">
+    <div class="control-group">
+      <label for="group-by">Group by</label>
+      <select id="group-by">
+        <option value="category">Family (ComBat / Deep learning / Alternative)</option>
+        <option value="level">Harmonization level</option>
+        <option value="method_type">Method type</option>
+        <option value="primary_language">Primary language</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label for="size-by">Bubble size</label>
+      <select id="size-by">
+        <option value="stars">GitHub stars</option>
+        <option value="equal">Equal size</option>
+      </select>
+    </div>
+
+    <div class="control-group search-group">
+      <label for="search">Search</label>
+      <input id="search" type="search" placeholder="method, tag, language…" autocomplete="off">
+    </div>
+
+    <div class="control-group toggle-group" id="level-toggles" aria-label="Filter by level">
+      <!-- populated by JS -->
+    </div>
+  </section>
+
+  <section class="stage-wrap">
+    <svg id="stage" aria-label="Bubble map of harmonization methods"></svg>
+    <div id="empty-state" class="empty-state hidden">
+      <p>No methods match that search.</p>
+      <button id="clear-search-btn">Clear search</button>
+    </div>
+    <div id="legend" class="legend" aria-hidden="true"></div>
+  </section>
+</main>
+
+<aside id="drawer" class="drawer" aria-hidden="true">
+  <button id="drawer-close" class="drawer-close" aria-label="Close">✕</button>
+  <div id="drawer-content"></div>
+</aside>
+<div id="drawer-scrim" class="drawer-scrim"></div>
+
+<footer class="site-footer">
+  <p>
+    Seed data drawn from the <a href="https://github.com/N-Nieto/UniHarmony/wiki/References" target="_blank" rel="noopener">UniHarmony reference list</a>
+    and recent harmonization surveys. Stars and last-commit dates refresh automatically from the GitHub API.
+    Missing a method, or is something wrong? <a href="CONTRIBUTING.md">Add it in two minutes →</a>
+  </p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
