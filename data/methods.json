@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "stats_fetched_at": "2026-08-02T20:47:50Z",
+=======
+  "stats_fetched_at": null,
+>>>>>>> 2317052 (revert methods)
   "methods": [
     {
       "name": "ComBat",
