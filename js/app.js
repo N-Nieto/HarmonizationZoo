@@ -1,11 +1,9 @@
-/* Harmonization Zoo — bubble map
- * Renders methods from data/methods.json as a force-clustered bubble chart.
- * Group-by, size-by, search, and level filters are all driven by the same
- * `state` object below, so adding a new grouping dimension only means
- * adding one entry to GROUPERS.
+/* Harmonization Zoo — box map
+ * Renders methods from data/methods.json as name-fitting boxes, either
+ * grouped into flex-wrap sections (Level / Family) or laid out along a
+ * horizontal year timeline. Color always encodes Family, regardless of
+ * which grouping is active, so the family mix stays visible everywhere.
  */
-
-const COLORS = ["#f2a93b", "#5fc9c9", "#9c8cf0", "#e0708a", "#7fd88f", "#6fa8dc", "#e0a8f0", "#d8c26a"];
 
 const LEVEL_ORDER = ["feature-level", "image-level", "acquisition-level"];
 const LEVEL_LABELS = {
@@ -14,34 +12,28 @@ const LEVEL_LABELS = {
   "acquisition-level": "Acquisition-level",
 };
 
-const GROUPERS = {
-  category: {
-    label: "Family",
-    fn: (d) => d.category_label,
-  },
-  level: {
-    label: "Level",
-    fn: (d) => LEVEL_LABELS[d.level] || "Unspecified",
-  },
-  method_type: {
-    label: "Method type",
-    fn: (d) => (d.method_type ? d.method_type.replace("-", " ") : "other"),
-  },
-  primary_language: {
-    label: "Language",
-    fn: (d) => d.primary_language,
-  },
-};
+// Fixed order + color per family, so the same family always reads as the
+// same color whether you're grouped by Level, Family, or Year.
+const FAMILY_ORDER = [
+  ["combat-family", "ComBat-based", "#f2a93b"],
+  ["deep-learning", "Deep learning-based", "#5fc9c9"],
+  ["iqm-based", "IQM-based", "#9c8cf0"],
+  ["normative-modeling", "Normative Modeling", "#e0708a"],
+  ["interpolation-based", "Interpolation-based", "#7fd88f"],
+  ["federated", "Federated Learning-compatible", "#6fa8dc"],
+  ["ica-based", "ICA-based", "#e0a8f0"],
+  ["optimal-transport", "Optimal transport-based", "#d8c26a"],
+];
+const FAMILY_COLOR = new Map(FAMILY_ORDER.map(([id, , color]) => [id, color]));
+const FAMILY_LABEL = new Map(FAMILY_ORDER.map(([id, label]) => [id, label]));
 
 const state = {
   data: [],
-  groupBy: "category",
-  sizeBy: "stars",
+  groupBy: "level",
   search: "",
   activeLevels: new Set(LEVEL_ORDER),
+  fontSize: 13,
 };
-
-let svg, width, height, simulation, colorScale;
 
 async function init() {
   const res = await fetch("data/methods.json");
@@ -55,14 +47,21 @@ async function init() {
   document.getElementById("method-count").textContent = `${state.data.length} methods`;
 
   buildLevelToggles();
+  buildFamilyLegend();
   bindControls();
-  setupStage();
   render();
+}
 
-  window.addEventListener("resize", debounce(() => {
-    setupStage();
-    render();
-  }, 200));
+function buildFamilyLegend() {
+  const legend = document.getElementById("family-legend");
+  legend.innerHTML = "";
+  const present = new Set(state.data.map((d) => d.category));
+  FAMILY_ORDER.filter(([id]) => present.has(id)).forEach(([id, label, color]) => {
+    const item = document.createElement("span");
+    item.className = "legend-item";
+    item.innerHTML = `<span class="legend-swatch" style="background:${color}"></span>${label}`;
+    legend.appendChild(item);
+  });
 }
 
 function buildLevelToggles() {
@@ -95,18 +94,18 @@ function bindControls() {
     state.groupBy = e.target.value;
     render();
   });
-  document.getElementById("size-by").addEventListener("change", (e) => {
-    state.sizeBy = e.target.value;
-    render();
+  document.getElementById("font-size").addEventListener("input", (e) => {
+    state.fontSize = Number(e.target.value);
+    document.getElementById("stage").style.setProperty("--label-size", `${state.fontSize}px`);
   });
   document.getElementById("search").addEventListener("input", (e) => {
     state.search = e.target.value.trim().toLowerCase();
-    applySearchDimming();
+    render();
   });
   document.getElementById("clear-search-btn").addEventListener("click", () => {
     document.getElementById("search").value = "";
     state.search = "";
-    applySearchDimming();
+    render();
   });
   document.getElementById("drawer-close").addEventListener("click", closeDrawer);
   document.getElementById("drawer-scrim").addEventListener("click", closeDrawer);
@@ -115,196 +114,165 @@ function bindControls() {
   });
 }
 
-function setupStage() {
-  const stageWrap = document.querySelector(".stage-wrap");
-  width = stageWrap.clientWidth;
-  height = stageWrap.clientHeight;
-
-  svg = d3.select("#stage")
-    .attr("viewBox", `0 0 ${width} ${height}`)
-    .attr("preserveAspectRatio", "xMidYMid meet");
-
-  svg.selectAll("*").remove();
-  svg.append("g").attr("class", "cluster-labels-layer");
-  svg.append("g").attr("class", "nodes-layer");
-}
-
-function methodMatches(d) {
-  if (!state.activeLevels.has(d.level)) return false;
-  return true;
-}
-
-function searchMatches(d) {
-  if (!state.search) return true;
-  const haystack = [
-    d.name, d.category_label, d.method_type, d.level,
-    ...(d.tags || []), ...(d.language || []),
-  ].join(" ").toLowerCase();
-  return haystack.includes(state.search);
+function visibleMethods() {
+  return state.data.filter((d) => {
+    if (!state.activeLevels.has(d.level)) return false;
+    if (!state.search) return true;
+    const haystack = [
+      d.name, d.category_label, d.method_type, d.level,
+      ...(d.tags || []), ...(d.language || []),
+    ].join(" ").toLowerCase();
+    return haystack.includes(state.search);
+  });
 }
 
 function render() {
-  const grouper = GROUPERS[state.groupBy];
-  const visible = state.data.filter(methodMatches);
+  const stage = document.getElementById("stage");
+  stage.style.setProperty("--label-size", `${state.fontSize}px`);
+  stage.innerHTML = "";
 
-  const groupNames = Array.from(new Set(visible.map(grouper.fn))).sort();
-  colorScale = d3.scaleOrdinal().domain(groupNames).range(COLORS);
+  const methods = visibleMethods();
+  document.getElementById("empty-state").classList.toggle("hidden", methods.length > 0);
+  if (methods.length === 0) return;
 
-  const centers = clusterCenters(groupNames.length, width, height);
-  const centerByGroup = new Map(groupNames.map((g, i) => [g, centers[i]]));
-
-  const maxStars = d3.max(visible, (d) => d.stars || 0) || 1;
-  const radiusScale = d3.scaleSqrt().domain([0, maxStars]).range([18, 50]);
-
-  const nodes = visible.map((d) => ({
-    ...d,
-    group: grouper.fn(d),
-    // Unknown star counts (stats not fetched yet) get a neutral mid-size
-    // bubble rather than collapsing to the scale's minimum.
-    r: state.sizeBy === "stars"
-      ? (d.stars != null ? Math.max(18, radiusScale(d.stars)) : 24)
-      : 22,
-  }));
-
-  drawClusterLabels(groupNames, centerByGroup);
-
-  const nodeSel = svg.select(".nodes-layer")
-    .selectAll("g.node")
-    .data(nodes, (d) => d.id);
-
-  nodeSel.exit().remove();
-
-  const nodeEnter = nodeSel.enter()
-    .append("g")
-    .attr("class", "node")
-    .attr("tabindex", 0)
-    .attr("role", "button")
-    .on("click", (event, d) => openDrawer(d))
-    .on("keydown", (event, d) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        openDrawer(d);
-      }
-    });
-
-  nodeEnter.append("circle").attr("class", "core");
-  nodeEnter.append("text").attr("class", "label");
-
-  const merged = nodeEnter.merge(nodeSel);
-
-  merged.select("circle.core")
-    .attr("r", (d) => d.r)
-    .attr("fill", (d) => colorScale(d.group))
-    .attr("fill-opacity", 0.85)
-    .attr("stroke", (d) => colorScale(d.group))
-    .attr("aria-label", (d) => d.name);
-
-  merged.select("text.label")
-    .attr("font-size", (d) => Math.min(12.5, Math.max(8.5, d.r / 3.1)))
-    .text((d) => truncateLabel(d.name, d.r))
-    .each(function (d) { fitLabel(this, d.r); });
-
-  merged.append("title").text((d) => d.name);
-
-  if (simulation) simulation.stop();
-  simulation = d3.forceSimulation(nodes)
-    .force("x", d3.forceX((d) => centerByGroup.get(d.group).x).strength(0.12))
-    .force("y", d3.forceY((d) => centerByGroup.get(d.group).y).strength(0.12))
-    .force("collide", d3.forceCollide((d) => d.r + 2.5).iterations(2))
-    .force("charge", d3.forceManyBody().strength(1))
-    .alpha(0.9)
-    .on("tick", () => {
-      merged.attr("transform", (d) => `translate(${clamp(d.x, d.r, width - d.r)},${clamp(d.y, d.r + 26, height - d.r)})`);
-    });
-
-  buildLegend(groupNames);
-  applySearchDimming();
-
-  document.getElementById("empty-state").classList.toggle("hidden", nodes.length > 0);
-}
-
-function clusterCenters(n, w, h) {
-  if (n === 0) return [];
-  const cols = Math.ceil(Math.sqrt(n * (w / h)));
-  const rows = Math.ceil(n / cols);
-  const cellW = w / cols;
-  const cellH = (h - 40) / rows;
-  const out = [];
-  for (let i = 0; i < n; i++) {
-    const col = i % cols;
-    const row = Math.floor(i / cols);
-    out.push({
-      x: cellW * col + cellW / 2,
-      y: 40 + cellH * row + cellH / 2,
-    });
-  }
-  return out;
-}
-
-function drawClusterLabels(groupNames, centerByGroup) {
-  const layer = svg.select(".cluster-labels-layer");
-  const sel = layer.selectAll("text.cluster-label").data(groupNames, (d) => d);
-  sel.exit().remove();
-  sel.enter()
-    .append("text")
-    .attr("class", "cluster-label")
-    .merge(sel)
-    .attr("x", (d) => centerByGroup.get(d).x)
-    .attr("y", (d) => Math.max(16, centerByGroup.get(d).y - 90))
-    .attr("text-anchor", "middle")
-    .text((d) => d);
-}
-
-function buildLegend(groupNames) {
-  const legend = document.getElementById("legend");
-  legend.innerHTML = "";
-  groupNames.forEach((g) => {
-    const item = document.createElement("span");
-    item.className = "legend-item";
-    item.innerHTML = `<span class="legend-swatch" style="background:${colorScale(g)}"></span>${g}`;
-    legend.appendChild(item);
-  });
-}
-
-function applySearchDimming() {
-  const nodeSel = svg.selectAll("g.node");
-  let anyMatch = false;
-  nodeSel.each(function (d) {
-    const match = searchMatches(d);
-    if (match) anyMatch = true;
-    d3.select(this).classed("dim", state.search && !match);
-  });
-  document.getElementById("empty-state").classList.toggle("hidden", anyMatch || !state.search);
-}
-
-function truncateLabel(name, r) {
-  const maxChars = Math.max(3, Math.floor(r / 3.4));
-  return name.length > maxChars ? name.slice(0, maxChars - 1) + "…" : name;
-}
-
-function fitLabel(textEl, r) {
-  // Shrinks font further if the truncated label still overflows the bubble.
-  let size = parseFloat(d3.select(textEl).attr("font-size"));
-  const maxWidth = r * 1.7;
-  let guard = 0;
-  while (textEl.getComputedTextLength && textEl.getComputedTextLength() > maxWidth && size > 7 && guard < 8) {
-    size -= 0.6;
-    d3.select(textEl).attr("font-size", size);
-    guard++;
+  if (state.groupBy === "year") {
+    stage.appendChild(renderTimeline(methods));
+  } else {
+    stage.appendChild(renderClusters(methods, state.groupBy));
   }
 }
 
-function clamp(v, lo, hi) {
-  if (Number.isNaN(v)) return (lo + hi) / 2;
-  return Math.max(lo, Math.min(hi, v));
+function makeBox(d) {
+  const box = document.createElement("div");
+  box.className = "method-box";
+  box.tabIndex = 0;
+  box.setAttribute("role", "button");
+  box.style.setProperty("--box-color", FAMILY_COLOR.get(d.category) || "#888");
+  box.textContent = d.name;
+  if (d.stars != null) {
+    const badge = document.createElement("span");
+    badge.className = "star-badge";
+    badge.textContent = `★${d.stars}`;
+    box.appendChild(badge);
+  }
+  box.addEventListener("click", () => openDrawer(d));
+  box.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openDrawer(d);
+    }
+  });
+  return box;
 }
 
-function debounce(fn, ms) {
-  let t;
-  return (...args) => {
-    clearTimeout(t);
-    t = setTimeout(() => fn(...args), ms);
-  };
+/* ---------------- Cluster view (Level / Family) ---------------- */
+
+function renderClusters(methods, groupBy) {
+  const wrap = document.createElement("div");
+  wrap.className = "cluster-wrap";
+
+  const groupFn = groupBy === "category"
+    ? (d) => d.category
+    : (d) => d.level;
+  const groupOrder = groupBy === "category"
+    ? FAMILY_ORDER.map(([id]) => id)
+    : LEVEL_ORDER;
+  const groupLabel = groupBy === "category"
+    ? (id) => FAMILY_LABEL.get(id) || id
+    : (id) => LEVEL_LABELS[id] || id;
+
+  const byGroup = new Map(groupOrder.map((g) => [g, []]));
+  methods.forEach((d) => {
+    const g = groupFn(d);
+    if (!byGroup.has(g)) byGroup.set(g, []);
+    byGroup.get(g).push(d);
+  });
+
+  byGroup.forEach((items, g) => {
+    if (items.length === 0) return;
+    const section = document.createElement("section");
+    section.className = "cluster-section";
+
+    const header = document.createElement("h3");
+    header.className = "cluster-heading";
+    header.innerHTML = `${groupLabel(g)} <span class="cluster-count">${items.length}</span>`;
+    section.appendChild(header);
+
+    const flow = document.createElement("div");
+    flow.className = "box-flow";
+    items
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .forEach((d) => flow.appendChild(makeBox(d)));
+    section.appendChild(flow);
+
+    wrap.appendChild(section);
+  });
+
+  return wrap;
+}
+
+/* ---------------- Timeline view (Year) ---------------- */
+
+function renderTimeline(methods) {
+  const wrap = document.createElement("div");
+  wrap.className = "timeline-wrap";
+
+  const known = methods.filter((d) => d.paper_year);
+  const unknown = methods.filter((d) => !d.paper_year);
+
+  const minYear = known.length ? Math.min(...known.map((d) => d.paper_year)) : new Date().getFullYear();
+  const maxYear = new Date().getFullYear();
+
+  const byYear = new Map();
+  for (let y = minYear; y <= maxYear; y++) byYear.set(y, []);
+  known.forEach((d) => byYear.get(d.paper_year).push(d));
+
+  const track = document.createElement("div");
+  track.className = "timeline-track";
+
+  byYear.forEach((items, year) => {
+    const col = document.createElement("div");
+    col.className = "timeline-col" + (items.length ? "" : " timeline-col-empty");
+
+    const boxes = document.createElement("div");
+    boxes.className = "timeline-boxes";
+    items
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .forEach((d) => boxes.appendChild(makeBox(d)));
+    col.appendChild(boxes);
+
+    const tick = document.createElement("div");
+    tick.className = "timeline-tick";
+    const label = document.createElement("span");
+    label.className = "timeline-year-label";
+    label.textContent = year;
+    tick.appendChild(label);
+    col.appendChild(tick);
+
+    track.appendChild(col);
+  });
+
+  if (unknown.length) {
+    const col = document.createElement("div");
+    col.className = "timeline-col timeline-col-unknown";
+    const boxes = document.createElement("div");
+    boxes.className = "timeline-boxes";
+    unknown
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .forEach((d) => boxes.appendChild(makeBox(d)));
+    col.appendChild(boxes);
+    const tick = document.createElement("div");
+    tick.className = "timeline-tick";
+    const label = document.createElement("span");
+    label.className = "timeline-year-label";
+    label.textContent = "Year unknown";
+    tick.appendChild(label);
+    col.appendChild(tick);
+    track.appendChild(col);
+  }
+
+  wrap.appendChild(track);
+  return wrap;
 }
 
 /* ---------------- Drawer ---------------- */
@@ -329,10 +297,10 @@ function openDrawer(d) {
     : "";
   const noPaperNote = !d.paper_title
     ? `<p class="no-data-note">No paper is listed for this entry yet — if you know the reference, please contribute it.</p>`
-    : "";
+    : (!d.paper_year ? `<p class="no-data-note">Publication year not yet verified for this entry — contributions welcome.</p>` : "");
 
   content.innerHTML = `
-    <div class="drawer-eyebrow">${d.category_label} · ${LEVEL_LABELS[d.level] || d.level}</div>
+    <div class="drawer-eyebrow" style="--eyebrow-color:${FAMILY_COLOR.get(d.category) || "#888"}">${d.category_label} · ${LEVEL_LABELS[d.level] || d.level}</div>
     <h2>${d.name}</h2>
     ${d.paper_title ? `<p class="paper-title">"${escapeHtml(d.paper_title)}"</p>` : ""}
     ${d.abstract ? `<p>${escapeHtml(d.abstract)}</p>` : ""}

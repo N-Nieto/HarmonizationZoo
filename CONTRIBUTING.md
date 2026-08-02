@@ -43,7 +43,7 @@ the repo.
 |---|---|---|
 | `id` | yes | Lowercase, hyphenated, unique. Used as the chart's key — don't change an existing one, or the bubble will reset its animation state. |
 | `name` | yes | Shown on the bubble and in the detail panel. |
-| `category` | yes | One of `combat-family`, `deep-learning`, `alternative`, or propose a new one (also add it to `CATEGORY_LABELS` in `scripts/build_seed.py` and to `GROUPERS` handling in `js/app.js` if it's a genuinely new family). |
+| `category` | yes | One of `combat-family`, `deep-learning`, `iqm-based`, `normative-modeling`, `interpolation-based`, `federated`, `ica-based`, `optimal-transport`, or propose a new one — add it to `FAMILY_ORDER` in `js/app.js` (id, label, color) so it gets a legend entry and a color. |
 | `category_label` | yes | Human-readable version of `category`, shown as a cluster label. |
 | `method_type` | yes | `statistical`, `deep-learning`, `machine-learning`, or `other`. |
 | `level` | yes | `feature-level` (harmonizes extracted features/ROIs), `image-level` (harmonizes voxel data directly), or `acquisition-level` (harmonizes scanner protocol/sequence). |
@@ -77,11 +77,13 @@ that to 5000/hour.
 
 ## Adding a new grouping dimension
 
-Groupings (the "Group by" dropdown) are defined in `GROUPERS` near the top of
-`js/app.js`. Each entry just needs a label and a function that reads the
-grouping key off a method record — e.g. data modality (structural / diffusion
-/ functional MRI) would be a good next dimension once enough entries are
-tagged with it in `tags`.
+The three "Group by" options (Level, Family, Year) are handled in
+`render()` in `js/app.js`: Level and Family go through `renderClusters()`
+(flex-wrap sections), Year goes through `renderTimeline()`. Adding a fourth
+dimension — e.g. data modality (structural / diffusion / functional MRI)
+once enough entries are tagged with it — means adding an `<option>` to the
+`#group-by` select in `index.html` and a branch in `renderClusters()`'s
+`groupFn`/`groupOrder`/`groupLabel` logic.
 
 ## Regenerating the seed file from scratch
 
