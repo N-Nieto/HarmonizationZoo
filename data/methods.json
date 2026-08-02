@@ -23,10 +23,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "ComBat-based"
+      "stars": 335,
+      "last_commit": "2023-07-07",
+      "repo_description": "Harmonization of multi-site imaging data with ComBat",
+      "category_label": "ComBat-based",
+      "language_detected": "R"
     },
     {
       "id": "neurocombat",
@@ -48,10 +49,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "ComBat-based"
+      "stars": 176,
+      "last_commit": "2023-04-20",
+      "repo_description": "Harmonization of multi-site imaging data with ComBat (Python)",
+      "category_label": "ComBat-based",
+      "language_detected": "Python"
     },
     {
       "id": "combat-gam",
@@ -73,10 +75,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "ComBat-based"
+      "stars": 124,
+      "last_commit": "2026-08-01",
+      "repo_description": "Harmonization tools for multi-site neuroimaging analysis. Implemented as a python package. Harmonization of MRI, sMRI, dMRI, fMRI variables with support for NIFTI images. Complements the work in Neuroimage by Pomponio et al. (2019).",
+      "category_label": "ComBat-based",
+      "language_detected": "Python"
     },
     {
       "id": "harmonizer",
@@ -98,10 +101,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
+      "stars": 7,
+      "last_commit": "2024-12-24",
       "repo_description": null,
-      "category_label": "ComBat-based"
+      "category_label": "ComBat-based",
+      "language_detected": "Python"
     },
     {
       "id": "covbat",
@@ -124,10 +128,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "ComBat-based"
+      "stars": 27,
+      "last_commit": "2023-03-13",
+      "repo_description": "Correcting Covariance Batch Effects (CovBat): Harmonization of mean and covariance for multi-site data",
+      "category_label": "ComBat-based",
+      "language_detected": "R"
     },
     {
       "id": "prettyharmonize",
@@ -149,10 +154,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "ComBat-based"
+      "stars": 2,
+      "last_commit": "2026-07-12",
+      "repo_description": "Harmonization with no target available in test time. Pedicte targets to harmonize. ",
+      "category_label": "ComBat-based",
+      "language_detected": "Python"
     },
     {
       "id": "pycombat",
@@ -173,10 +179,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "ComBat-based"
+      "stars": 16,
+      "last_commit": "2023-10-30",
+      "repo_description": "Python implementation of Combat for data harmonisation, allowing also to remove unwanted effects",
+      "category_label": "ComBat-based",
+      "language_detected": "Jupyter Notebook"
     },
     {
       "id": "longcombat",
@@ -197,10 +204,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "ComBat-based"
+      "stars": 43,
+      "last_commit": "2025-09-10",
+      "repo_description": "R package to implement longitudinal ComBat: A method for harmonizing multi-batch longitudinal data",
+      "category_label": "ComBat-based",
+      "language_detected": "R"
     },
     {
       "id": "ravel",
@@ -221,10 +229,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "ComBat-based"
+      "stars": 30,
+      "last_commit": "2023-09-07",
+      "repo_description": "Intensity normalization of structural MRIs using RAVEL",
+      "category_label": "ComBat-based",
+      "language_detected": "HTML"
     },
     {
       "id": "relief",
@@ -246,10 +255,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
+      "stars": 2,
+      "last_commit": "2025-09-26",
       "repo_description": null,
-      "category_label": "ComBat-based"
+      "category_label": "ComBat-based",
+      "language_detected": "R"
     },
     {
       "id": "combat-mega",
@@ -295,10 +305,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "ComBat-based"
+      "stars": 33,
+      "last_commit": "2026-07-01",
+      "repo_description": "ComBat Family of Harmonization Methods",
+      "category_label": "ComBat-based",
+      "language_detected": "HTML"
     },
     {
       "id": "opnestedcombat",
@@ -320,10 +331,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "ComBat-based"
+      "stars": 9,
+      "last_commit": "2023-08-16",
+      "repo_description": "This is the repository for OPNested, OPNested+GMM, and OPNested-ComBat from the manuscript entitled \"Improved generalized ComBat methods for harmonization of radiomic features\" by Horng et al., published at Nature Scientific Reports. These methods are updates to the algorithms previously published at generalized-combat. ",
+      "category_label": "ComBat-based",
+      "language_detected": "Python"
     },
     {
       "id": "harmonizr",
@@ -345,10 +357,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
+      "stars": 17,
+      "last_commit": "2022-07-18",
       "repo_description": null,
-      "category_label": "ComBat-based"
+      "category_label": "ComBat-based",
+      "language_detected": "R"
     },
     {
       "id": "deepharmony",
@@ -437,10 +450,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
+      "stars": 11,
+      "last_commit": "2023-01-20",
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "language_detected": "Python"
     },
     {
       "id": "harmless",
@@ -485,10 +499,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "Deep learning-based"
+      "stars": 0,
+      "last_commit": "2026-06-05",
+      "repo_description": "multimodal CNN-AE to integrate brain-environment latent representations, incorporating a DRL strategy for mitigating site effects in the multi-site FC data",
+      "category_label": "Deep learning-based",
+      "language_detected": "Python"
     },
     {
       "id": "unlearning-mri",
@@ -510,10 +525,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "Deep learning-based"
+      "stars": 30,
+      "last_commit": "2021-06-21",
+      "repo_description": "Code for implementation of Unlearning Scanner Bias for MRI Harmonisation",
+      "category_label": "Deep learning-based",
+      "language_detected": "Python"
     },
     {
       "id": "sfharmony",
@@ -535,10 +551,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "Deep learning-based"
+      "stars": 10,
+      "last_commit": "2024-03-25",
+      "repo_description": "Source code for SFHarmony",
+      "category_label": "Deep learning-based",
+      "language_detected": "Jupyter Notebook"
     },
     {
       "id": "harmonized-fmri",
@@ -560,10 +577,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
+      "stars": 1,
+      "last_commit": "2024-03-12",
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "language_detected": "MATLAB"
     },
     {
       "id": "dmri-harmonization",
@@ -587,10 +605,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "Deep learning-based"
+      "stars": 14,
+      "last_commit": "2026-07-29",
+      "repo_description": "Harmonization of multi-site, multi-shell diffusion MRI",
+      "category_label": "Deep learning-based",
+      "language_detected": "Python"
     },
     {
       "id": "dictionary-learning-harmonization",
@@ -613,10 +632,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "Deep learning-based"
+      "stars": 2,
+      "last_commit": "2025-10-07",
+      "repo_description": "Harmonization of diffusion MRI datasets across scanners",
+      "category_label": "Deep learning-based",
+      "language_detected": "C"
     },
     {
       "id": "b0shimming",
@@ -639,10 +659,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
+      "stars": 11,
+      "last_commit": "2026-05-01",
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "language_detected": "MATLAB"
     },
     {
       "id": "intensity-normalization",
@@ -663,10 +684,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "Deep learning-based"
+      "stars": 340,
+      "last_commit": "2025-07-21",
+      "repo_description": "Normalize MR image intensities in Python",
+      "category_label": "Deep learning-based",
+      "language_detected": "Python"
     },
     {
       "id": "calamiti",
@@ -737,10 +759,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
+      "stars": 0,
+      "last_commit": "2026-01-28",
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "language_detected": null
     },
     {
       "id": "disarm",
@@ -762,10 +785,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
+      "stars": 0,
+      "last_commit": "2026-07-06",
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "language_detected": "Python"
     },
     {
       "id": "disarmpp",
@@ -787,10 +811,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
+      "stars": 0,
+      "last_commit": "2026-07-06",
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "language_detected": "Python"
     },
     {
       "id": "iguane",
@@ -812,10 +837,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
+      "stars": 16,
+      "last_commit": "2026-07-09",
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "language_detected": "Python"
     },
     {
       "id": "haca3",
@@ -836,10 +862,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "Deep learning-based"
+      "stars": 34,
+      "last_commit": "2026-06-17",
+      "repo_description": "This is the official site of HACA3 harmonization algorithm.",
+      "category_label": "Deep learning-based",
+      "language_detected": "Python"
     },
     {
       "id": "bartharm",
@@ -860,10 +887,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "IQM-based"
+      "stars": 2,
+      "last_commit": "2026-03-29",
+      "repo_description": "R-based pipeline to harmonize data using Bayesian Additive Regression Trees (BART) and Image Quality Metric (IQMs)",
+      "category_label": "IQM-based",
+      "language_detected": "R"
     },
     {
       "id": "neuroharmony",
@@ -885,10 +913,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "IQM-based"
+      "stars": 18,
+      "last_commit": "2023-01-06",
+      "repo_description": "A new tool for harmonizing volumetric MRI data from unseen scanners (Garcia-Dias et al. 2020)",
+      "category_label": "IQM-based",
+      "language_detected": "Python"
     },
     {
       "id": "autocombat",
@@ -911,10 +940,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "IQM-based"
+      "stars": 10,
+      "last_commit": "2022-07-31",
+      "repo_description": "Implementation of ComBat and AutoComBat for features radiomics harmonization",
+      "category_label": "IQM-based",
+      "language_detected": "Python"
     },
     {
       "id": "bayesian-normative",
@@ -935,10 +965,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "Normative Modeling"
+      "stars": 12,
+      "last_commit": "2022-10-27",
+      "repo_description": "Code &  instructions to the paper \"Accommodating site variation in neuroimaging data using normative and hierarchical Bayesian models\", published in NeuroImage",
+      "category_label": "Normative Modeling",
+      "language_detected": "Stan"
     },
     {
       "id": "ismi",
@@ -1007,10 +1038,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "Federated Learning-compatible"
+      "stars": 6,
+      "last_commit": "2022-07-06",
+      "repo_description": "Code implementation for FedHarmony (MICCAI 2022)",
+      "category_label": "Federated Learning-compatible",
+      "language_detected": "Python"
     },
     {
       "id": "fedcombat",
@@ -1058,10 +1090,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "Federated Learning-compatible"
+      "stars": 1,
+      "last_commit": "2022-10-19",
+      "repo_description": "Adaptation of ComBat for a distributed data setting",
+      "category_label": "Federated Learning-compatible",
+      "language_detected": "R"
     },
     {
       "id": "ica-dp",
@@ -1083,10 +1116,11 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": null,
-      "last_commit": null,
-      "repo_description": null,
-      "category_label": "ICA-based"
+      "stars": 1,
+      "last_commit": "2025-12-05",
+      "repo_description": "Harmonization of multi-site MRI data with dual-projection based on ICA ",
+      "category_label": "ICA-based",
+      "language_detected": "MATLAB"
     },
     {
       "id": "otda",
@@ -1137,5 +1171,6 @@
       "repo_description": null,
       "category_label": "Optimal transport-based"
     }
-  ]
+  ],
+  "stats_fetched_at": "2026-08-02T19:32:31Z"
 }
