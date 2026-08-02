@@ -16,8 +16,8 @@ import json
 import os
 import sys
 import time
-import urllib.request
 import urllib.error
+import urllib.request
 
 API = "https://api.github.com/repos/{repo}"
 TOKEN = os.environ.get("GITHUB_TOKEN")
