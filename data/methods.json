@@ -1,5 +1,5 @@
 {
-  "stats_fetched_at": "2026-08-02T20:43:31Z",
+  "stats_fetched_at": "2026-08-02T20:47:50Z",
   "methods": [
     {
       "name": "ComBat",
@@ -1336,6 +1336,5 @@
       "repo_description": null,
       "language_detected": null
     }
-  ],
-  "stats_fetched_at": "2026-08-02T19:32:31Z"
+  ]
 }
