@@ -15,7 +15,7 @@ the repo.
   "id": "short-unique-slug",
   "name": "Method Name",
   "category": "combat-family",
-  "category_label": "ComBat-based",
+  "category_label": "Location/Scale Models (ComBat-family)",
   "method_type": "statistical",
   "level": "feature-level",
   "tags": ["empirical-bayes", "longitudinal"],
@@ -29,7 +29,10 @@ the repo.
   "citations": null,
   "stars": null,
   "last_commit": null,
-  "repo_description": null
+  "repo_description": null,
+  "validation_data": "Agnostic",
+  "in_uniharmony": false,
+  "also_implemented_in": []
 }
 ```
 
@@ -42,8 +45,8 @@ the repo.
 
 | Field | Required | Notes |
 |---|---|---|
-| `id` | yes | Lowercase, hyphenated, unique. Used as the chart's key — don't change an existing one, or the bubble will reset its animation state. |
-| `name` | yes | Shown on the bubble and in the detail panel. |
+| `id` | yes | Lowercase, hyphenated, unique. Used as the box's key — don't change an existing one. |
+| `name` | yes | Shown on the box and in the detail panel. |
 | `category` | yes | One of `combat-family`, `deep-learning`, `iqm-based`, `normative-modeling`, `interpolation-based`, `federated`, `ica-based`, `optimal-transport`, or propose a new one — add it to `FAMILY_ORDER` in `js/app.js` (id, label, color) so it gets a legend entry and a color. |
 | `category_label` | yes | Human-readable version of `category`, shown as a cluster label. |
 | `method_type` | yes | `statistical`, `deep-learning`, `machine-learning`, or `other`. |
@@ -57,6 +60,9 @@ the repo.
 | `other_url` | no | Use this instead of `github` when the implementation lives somewhere that isn't a GitHub repo (Zenodo, a lab wiki, ENIGMA, etc). |
 | `language` | no | Array of languages, primary one first. |
 | `citations`, `stars`, `forks`, `open_issues`, `license`, `topics`, `archived`, `repo_created_at`, `first_commit_date`, `last_commit`, `repo_description` | no | Leave these `null` — they're meant to be filled automatically by `scripts/fetch_github_stats.py` (GitHub-derived fields) or by hand only for `citations` if you have a real number, not by guessing. See below. |
+| `validation_data` | no | The dataset/cohort the method was mainly proposed or validated on (e.g. `"ENIGMA consortium"`, `"ABCD"`). If the paper doesn't anchor to one specific dataset — evaluated across several with no clear primary one, or you just don't know — use the literal string `"Agnostic"` (this is the default; it's a real category here, not a stand-in for missing data). |
+| `in_uniharmony` | no | `true` if the method has a working implementation in [UniHarmony](https://github.com/N-Nieto/UniHarmony), else `false`. |
+| `also_implemented_in` | no | Array of other toolkits/packages that also bundle this method (e.g. `["neuroHarmonize"]`), beyond its own dedicated repo. Empty array if none. |
 
 ## Keeping stats current
 
@@ -79,12 +85,14 @@ that to 5000/hour.
 
 ## Adding a new grouping dimension
 
-The three "Group by" options (Level, Family, Year) are handled in
-`render()` in `js/app.js`: Level and Family go through `renderClusters()`
-(flex-wrap sections), Year goes through `renderTimeline()`. Adding a fourth
-dimension — e.g. data modality (structural / diffusion / functional MRI)
-once enough entries are tagged with it — means adding an `<option>` to the
-`#group-by` select in `index.html` and a branch in `renderClusters()`'s
+The six "Group by" options are handled in `render()` in `js/app.js`: Level,
+Family, Validation data, and Implemented-in-UniHarmony all go through
+`renderClusters()` (flex-wrap sections); Year and GitHub stars go through
+`renderYearTimeline()` / `renderStarsTimeline()` (both built on the shared
+`buildTimelineColumn()` helper). Adding another cluster-style dimension —
+e.g. data modality (structural / diffusion / functional MRI) once enough
+entries are tagged with it — means adding an `<option>` to the `#group-by`
+select in `index.html` and a branch in `renderClusters()`'s
 `groupFn`/`groupOrder`/`groupLabel` logic.
 
 ## Regenerating the seed file from scratch

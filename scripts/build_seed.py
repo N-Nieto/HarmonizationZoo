@@ -46,7 +46,8 @@ METHODS = [
     dict(id="prettyharmonize", name="PrettYharmonize", category="combat-family", method_type="statistical",
          level="feature-level", tags=["data-leakage", "class-imbalance", "pipeline"],
          paper_title="Impact of Leakage on Data Harmonization in Machine Learning Pipelines in Class Imbalance Across Sites",
-         paper_year=None, paper_url=None, github="juaml/PrettYharmonize", language=["Python"]),
+         paper_year=2026, paper_url="https://www.sciencedirect.com/science/article/pii/S0925231226005436",
+         github="juaml/PrettYharmonize", language=["Python"]),
     dict(id="pycombat", name="pycombat", category="combat-family", method_type="statistical",
          level="feature-level", tags=["empirical-bayes", "batch-effect"],
          paper_title=None, paper_year=None, paper_url=None,
@@ -64,7 +65,7 @@ METHODS = [
     dict(id="relief", name="RELIEF", category="combat-family", method_type="statistical",
          level="feature-level", tags=["empirical-bayes", "multivariate", "latent-effects"],
          paper_title="RELIEF: a structured multivariate approach for removal of latent inter-scanner effects",
-         paper_year=2023, paper_url=None, github="junjypark/RELIEF", language=["R"]),
+         paper_year=2023, paper_url="https://doi.org/10.1162/imag_a_00011", github="junjypark/RELIEF", language=["R"]),
     dict(id="combat-mega", name="ComBat-mega (ENIGMA)", category="combat-family", method_type="statistical",
          level="feature-level", tags=["empirical-bayes", "mega-analysis", "ENIGMA"],
          paper_title="Increased power by harmonizing structural MRI site differences with the ComBat batch adjustment method in ENIGMA",
@@ -182,7 +183,7 @@ METHODS = [
     dict(id="haca3", name="HACA3", category="deep-learning", method_type="deep-learning",
          level="image-level", tags=["disentanglement", "unified-framework"],
          paper_title="HACA3: A unified approach for multi-site MR image harmonization",
-         paper_year=2023, paper_url=None, github="lianruizuo/haca3", language=["Python"]),
+         paper_year=2023, paper_url="https://doi.org/10.1016/j.compmedimag.2023.102285", github="lianruizuo/haca3", language=["Python"]),
     dict(id="scanner-invariant-repr", name="Scanner Invariant Representations (Moyer et al.)", category="deep-learning",
          method_type="deep-learning", level="feature-level", tags=["diffusion-MRI", "adversarial", "invariant-representation"],
          paper_title="Scanner invariant representations for diffusion MRI harmonization",
@@ -199,6 +200,10 @@ METHODS = [
          method_type="deep-learning", level="image-level", tags=["GAN", "cycle-consistency"],
          paper_title="MRI image harmonization using cycle-consistent generative adversarial network",
          paper_year=2020, paper_url="https://doi.org/10.1117/12.2551301", github=None, language=[]),
+    dict(id="dlest", name="DLEST (Disentangled Latent Energy-Based Style Translation)", category="deep-learning",
+         method_type="deep-learning", level="image-level", tags=["disentanglement", "energy-based-model", "style-translation"],
+         paper_title="Disentangled Latent Energy-Based Style Translation: An Image-Level Structural MRI Harmonization Framework",
+         paper_year=2025, paper_url="https://arxiv.org/abs/2402.06875", github=None, language=[]),
 
     # ---------------- IQM-based ----------------
     dict(id="bartharm", name="BARTharm", category="iqm-based", method_type="statistical",
@@ -221,10 +226,11 @@ METHODS = [
          paper_year=2022, paper_url=None, github="likeajumprope/Bayesian_normative_models", language=["Stan"]),
 
     # ---------------- Interpolation-based ----------------
-    dict(id="ismi", name="Inter-Site Matched Harmonization (ISMI)", category="interpolation-based", method_type="statistical",
-         level="feature-level", tags=["interpolation", "brain-age"],
+    dict(id="ismi", name="Inter-Site SMOTE (ISMI)", category="interpolation-based", method_type="statistical",
+         level="feature-level", tags=["interpolation", "brain-age", "SMOTE"],
          paper_title="Data harmonizing via interpolation applied to brain age prediction",
-         paper_year=None, paper_url=None, github=None, other_url="https://github.com/N-Nieto/UniHarmony", language=["Python"]),
+         paper_year=2026, paper_url="https://doi.org/10.1007/s44248-026-00100-7",
+         github=None, other_url="https://github.com/N-Nieto/UniHarmony", language=["Python"]),
     dict(id="isi", name="Intra-Site Interpolation (ISI)", category="interpolation-based", method_type="statistical",
          level="feature-level", tags=["interpolation"],
          paper_title=None, paper_year=None, paper_url=None,
@@ -262,7 +268,7 @@ METHODS = [
 ]
 
 CATEGORY_LABELS = {
-    "combat-family": "ComBat-based",
+    "combat-family": "Location/Scale Models (ComBat-family)",
     "classical-normalization": "Classical Intensity Normalization",
     "deep-learning": "Deep learning-based",
     "iqm-based": "IQM-based",
@@ -271,6 +277,38 @@ CATEGORY_LABELS = {
     "federated": "Federated Learning-compatible",
     "ica-based": "ICA-based",
     "optimal-transport": "Optimal transport-based",
+}
+
+# Confirmed by the UniHarmony/PrettYharmonize/Inter-Site-SMOTE author directly
+# (not independently re-verified via API — treated as a primary source here).
+IN_UNIHARMONY = {
+    "combat", "neurocombat", "combat-gam", "harmonizer", "covbat",
+    "prettyharmonize", "pycombat", "ismi", "isi", "otda", "botda",
+}
+
+# Other toolkits/packages that also bundle a given method, beyond its own repo.
+ALSO_IMPLEMENTED_IN = {
+    "neurocombat": ["neuroHarmonize"],
+    "covbat": ["neuroHarmonize"],
+}
+
+# Primary validation cohort/dataset, where the paper is clearly anchored to
+# one (or a named, bounded set) rather than "whatever was on hand". Default
+# is "Agnostic" — either genuinely dataset-agnostic, evaluated across many
+# heterogeneous datasets with no single primary one, or just not yet
+# researched. Never guessed; only set from a verified source.
+VALIDATION_DATA = {
+    "combat": "EMBARC, VDLC (multi-site depression studies)",
+    "neurocombat": "EMBARC, VDLC (multi-site depression studies)",
+    "combat-gam": "iSTAGING consortium (UK Biobank, ADNI, BLSA, and others)",
+    "combat-mega": "ENIGMA consortium",
+    "relief": "SPINS (schizophrenia, diffusion MRI)",
+    "haca3": "21-site multi-institutional MRI (multiple contrasts)",
+    "stgan": "UK Biobank, PPMI, ADNI, ABCD, ICBM",
+    "cyclegan-brainmri": "ADNI, WHIMS, OASIS, AIBL, UK Biobank",
+    "harmless": "ABCD",
+    "ismi": "4 neuroimaging datasets, brain-age (N=2031)",
+    "whitestripe": "AIBL, ADNI",
 }
 
 
@@ -297,6 +335,9 @@ def main():
         rec["last_commit"] = None
         rec["repo_description"] = None
         rec["category_label"] = CATEGORY_LABELS[rec["category"]]
+        rec["in_uniharmony"] = rec["id"] in IN_UNIHARMONY
+        rec["also_implemented_in"] = ALSO_IMPLEMENTED_IN.get(rec["id"], [])
+        rec["validation_data"] = VALIDATION_DATA.get(rec["id"], "Agnostic")
         out.append(rec)
 
     os.makedirs("data", exist_ok=True)
@@ -306,9 +347,13 @@ def main():
     have_year = sum(1 for m in out if m["paper_year"])
     have_url = sum(1 for m in out if m["paper_url"])
     have_repo = sum(1 for m in out if m["github"])
+    have_data = sum(1 for m in out if m["validation_data"] != "Agnostic")
+    in_uh = sum(1 for m in out if m["in_uniharmony"])
     print(f"{have_year}/{len(out)} have a verified publication year")
     print(f"{have_url}/{len(out)} have a verified paper link")
     print(f"{have_repo}/{len(out)} have a GitHub repo (eligible for auto-fetched stats)")
+    print(f"{have_data}/{len(out)} have a specific (non-Agnostic) validation dataset")
+    print(f"{in_uh}/{len(out)} flagged as implemented in UniHarmony")
 
 
 if __name__ == "__main__":

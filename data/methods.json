@@ -28,13 +28,16 @@
       "forks": 121,
       "open_issues": 17,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2017-03-23",
-      "first_commit_date": "2017-03-23",
-      "last_commit": "2023-07-07",
-      "repo_description": "Harmonization of multi-site imaging data with ComBat",
-      "category_label": "ComBat-based"
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": true,
+      "also_implemented_in": [],
+      "validation_data": "EMBARC, VDLC (multi-site depression studies)"
     },
     {
       "id": "neurocombat",
@@ -57,25 +60,22 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 176,
-      "forks": 41,
-      "open_issues": 17,
-      "license": "MIT",
-      "topics": [
-        "combat",
-        "harmonization",
-        "mri-images",
-        "multi-site-imaging",
-        "neuroimaging",
-        "normalization",
-        "python"
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": true,
+      "also_implemented_in": [
+        "neuroHarmonize"
       ],
-      "archived": false,
-      "repo_created_at": "2020-05-16",
-      "first_commit_date": "2020-05-16",
-      "last_commit": "2023-04-20",
-      "repo_description": "Harmonization of multi-site imaging data with ComBat (Python)",
-      "category_label": "ComBat-based"
+      "validation_data": "EMBARC, VDLC (multi-site depression studies)"
     },
     {
       "id": "combat-gam",
@@ -98,17 +98,20 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 124,
-      "forks": 36,
-      "open_issues": 7,
-      "license": "MIT",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2019-09-12",
-      "first_commit_date": "2019-09-12",
-      "last_commit": "2026-08-02",
-      "repo_description": "Harmonization tools for multi-site neuroimaging analysis. Implemented as a python package. Harmonization of MRI, sMRI, dMRI, fMRI variables with support for NIFTI images. Complements the work in Neuroimage by Pomponio et al. (2019).",
-      "category_label": "ComBat-based"
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": true,
+      "also_implemented_in": [],
+      "validation_data": "iSTAGING consortium (UK Biobank, ADNI, BLSA, and others)"
     },
     {
       "id": "harmonizer",
@@ -141,8 +144,10 @@
       "first_commit_date": "2022-09-21",
       "last_commit": "2024-12-24",
       "repo_description": null,
-      "category_label": "ComBat-based",
-      "language_detected": "Python"
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": true,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "covbat",
@@ -170,13 +175,18 @@
       "forks": 17,
       "open_issues": 1,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2019-12-03",
-      "first_commit_date": "2017-03-23",
-      "last_commit": "2023-03-13",
-      "repo_description": "Correcting Covariance Batch Effects (CovBat): Harmonization of mean and covariance for multi-site data",
-      "category_label": "ComBat-based"
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": true,
+      "also_implemented_in": [
+        "neuroHarmonize"
+      ],
+      "validation_data": "Agnostic"
     },
     {
       "id": "prettyharmonize",
@@ -190,8 +200,8 @@
         "pipeline"
       ],
       "paper_title": "Impact of Leakage on Data Harmonization in Machine Learning Pipelines in Class Imbalance Across Sites",
-      "paper_year": null,
-      "paper_url": null,
+      "paper_year": 2026,
+      "paper_url": "https://www.sciencedirect.com/science/article/pii/S0925231226005436",
       "github": "juaml/PrettYharmonize",
       "language": [
         "Python"
@@ -199,17 +209,20 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 2,
-      "forks": 0,
-      "open_issues": 3,
-      "license": "AGPL-3.0",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2022-09-22",
-      "first_commit_date": "2022-09-22",
-      "last_commit": "2026-07-12",
-      "repo_description": "Harmonization with no target available in test time. Pedicte targets to harmonize. ",
-      "category_label": "ComBat-based"
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": true,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "pycombat",
@@ -231,20 +244,20 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 16,
-      "forks": 7,
-      "open_issues": 1,
-      "license": "MIT",
-      "topics": [
-        "combat",
-        "data-harmonization"
-      ],
-      "archived": false,
-      "repo_created_at": "2020-04-06",
-      "first_commit_date": "2020-04-06",
-      "last_commit": "2023-10-30",
-      "repo_description": "Python implementation of Combat for data harmonisation, allowing also to remove unwanted effects",
-      "category_label": "ComBat-based"
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": true,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "longcombat",
@@ -266,17 +279,20 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 43,
-      "forks": 23,
-      "open_issues": 0,
-      "license": "Artistic-2.0",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2019-12-19",
-      "first_commit_date": "2019-12-19",
-      "last_commit": "2025-09-10",
-      "repo_description": "R package to implement longitudinal ComBat: A method for harmonizing multi-batch longitudinal data",
-      "category_label": "ComBat-based"
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "ravel",
@@ -302,23 +318,16 @@
       "forks": 13,
       "open_issues": 0,
       "license": null,
-      "topics": [
-        "brain-imaging",
-        "image-normalization",
-        "image-preprocessing",
-        "image-processing",
-        "mri",
-        "normalization",
-        "ravel",
-        "smri",
-        "structural-mri"
-      ],
-      "archived": false,
-      "repo_created_at": "2015-08-10",
-      "first_commit_date": "2015-08-10",
-      "last_commit": "2023-09-07",
-      "repo_description": "Intensity normalization of structural MRIs using RAVEL",
-      "category_label": "ComBat-based"
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "relief",
@@ -333,7 +342,7 @@
       ],
       "paper_title": "RELIEF: a structured multivariate approach for removal of latent inter-scanner effects",
       "paper_year": 2023,
-      "paper_url": null,
+      "paper_url": "https://doi.org/10.1162/imag_a_00011",
       "github": "junjypark/RELIEF",
       "language": [
         "R"
@@ -351,8 +360,10 @@
       "first_commit_date": "2022-05-23",
       "last_commit": "2025-09-26",
       "repo_description": null,
-      "category_label": "ComBat-based",
-      "language_detected": "R"
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "SPINS (schizophrenia, diffusion MRI)"
     },
     {
       "id": "combat-mega",
@@ -385,7 +396,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "ComBat-based"
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "ENIGMA consortium"
     },
     {
       "id": "combatls",
@@ -411,13 +425,16 @@
       "forks": 8,
       "open_issues": 0,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2023-02-10",
-      "first_commit_date": "2023-02-10",
-      "last_commit": "2026-07-01",
-      "repo_description": "ComBat Family of Harmonization Methods",
-      "category_label": "ComBat-based"
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "opnestedcombat",
@@ -440,17 +457,20 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 9,
-      "forks": 4,
-      "open_issues": 0,
-      "license": "MIT",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2022-03-21",
-      "first_commit_date": "2022-03-21",
-      "last_commit": "2023-08-16",
-      "repo_description": "This is the repository for OPNested, OPNested+GMM, and OPNested-ComBat from the manuscript entitled \"Improved generalized ComBat methods for harmonization of radiomic features\" by Horng et al., published at Nature Scientific Reports. These methods are updates to the algorithms previously published at generalized-combat. ",
-      "category_label": "ComBat-based"
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "harmonizr",
@@ -483,7 +503,10 @@
       "first_commit_date": "2022-05-16",
       "last_commit": "2022-07-18",
       "repo_description": null,
-      "category_label": "ComBat-based"
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "whitestripe",
@@ -510,13 +533,16 @@
       "forks": 6,
       "open_issues": 0,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2014-04-29",
-      "first_commit_date": "2014-04-29",
-      "last_commit": "2025-07-23",
-      "repo_description": "WhiteStripe Package",
-      "category_label": "Classical Intensity Normalization"
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Classical Intensity Normalization",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "AIBL, ADNI"
     },
     {
       "id": "nyul",
@@ -548,7 +574,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Classical Intensity Normalization"
+      "category_label": "Classical Intensity Normalization",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "deepharmony",
@@ -578,7 +607,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "imunity",
@@ -608,7 +640,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "cyclegan-brainmri",
@@ -639,7 +674,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "ADNI, WHIMS, OASIS, AIBL, UK Biobank"
     },
     {
       "id": "mispel",
@@ -673,7 +711,9 @@
       "last_commit": "2023-01-20",
       "repo_description": null,
       "category_label": "Deep learning-based",
-      "language_detected": "Python"
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "harmless",
@@ -704,7 +744,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "ABCD"
     },
     {
       "id": "xcov-disentanglement",
@@ -727,17 +770,20 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 0,
-      "forks": 0,
-      "open_issues": 0,
-      "license": "MIT",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2024-09-11",
-      "first_commit_date": "2024-09-11",
-      "last_commit": "2026-06-05",
-      "repo_description": "multimodal CNN-AE to integrate brain-environment latent representations, incorporating a DRL strategy for mitigating site effects in the multi-site FC data",
-      "category_label": "Deep learning-based"
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "unlearning-mri",
@@ -764,17 +810,16 @@
       "forks": 10,
       "open_issues": 0,
       "license": null,
-      "topics": [
-        "domain-adaptation",
-        "harmonisation",
-        "unlearning"
-      ],
-      "archived": false,
-      "repo_created_at": "2020-07-03",
-      "first_commit_date": "2020-07-03",
-      "last_commit": "2021-06-21",
-      "repo_description": "Code for implementation of Unlearning Scanner Bias for MRI Harmonisation",
-      "category_label": "Deep learning-based"
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "sfharmony",
@@ -801,13 +846,16 @@
       "forks": 2,
       "open_issues": 1,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2023-03-28",
-      "first_commit_date": "2023-03-28",
-      "last_commit": "2024-03-25",
-      "repo_description": "Source code for SFHarmony",
-      "category_label": "Deep learning-based"
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "harmonized-fmri",
@@ -841,7 +889,9 @@
       "last_commit": "2024-03-12",
       "repo_description": null,
       "category_label": "Deep learning-based",
-      "language_detected": "MATLAB"
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "dmri-harmonization",
@@ -866,17 +916,20 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 14,
-      "forks": 7,
-      "open_issues": 4,
-      "license": "NOASSERTION",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2019-09-12",
-      "first_commit_date": "2019-09-12",
-      "last_commit": "2026-07-29",
-      "repo_description": "Harmonization of multi-site, multi-shell diffusion MRI",
-      "category_label": "Deep learning-based"
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "dictionary-learning-harmonization",
@@ -900,17 +953,20 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 2,
-      "forks": 4,
-      "open_issues": 0,
-      "license": "GPL-2.0",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2019-09-04",
-      "first_commit_date": "2019-09-04",
-      "last_commit": "2025-10-07",
-      "repo_description": "Harmonization of diffusion MRI datasets across scanners",
-      "category_label": "Deep learning-based"
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "b0shimming",
@@ -945,7 +1001,9 @@
       "last_commit": "2026-05-01",
       "repo_description": null,
       "category_label": "Deep learning-based",
-      "language_detected": "MATLAB"
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "intensity-normalization",
@@ -968,27 +1026,20 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 340,
-      "forks": 57,
-      "open_issues": 0,
-      "license": "MIT",
-      "topics": [
-        "fcm",
-        "harmonization",
-        "intensity-normalization",
-        "mri",
-        "neuroimaging",
-        "normalization",
-        "standardization",
-        "whitestripe",
-        "zscore"
-      ],
-      "archived": false,
-      "repo_created_at": "2018-06-10",
-      "first_commit_date": "2018-04-24",
-      "last_commit": "2025-07-21",
-      "repo_description": "Normalize MR image intensities in Python",
-      "category_label": "Deep learning-based"
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "calamiti",
@@ -1021,7 +1072,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "dewey-disentangled-latent",
@@ -1051,7 +1105,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "murd",
@@ -1083,7 +1140,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "stgan",
@@ -1117,7 +1177,9 @@
       "last_commit": "2026-01-28",
       "repo_description": null,
       "category_label": "Deep learning-based",
-      "language_detected": null
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "UK Biobank, PPMI, ADNI, ABCD, ICBM"
     },
     {
       "id": "disarm",
@@ -1151,7 +1213,9 @@
       "last_commit": "2026-07-06",
       "repo_description": null,
       "category_label": "Deep learning-based",
-      "language_detected": "Python"
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "disarmpp",
@@ -1185,7 +1249,9 @@
       "last_commit": "2026-07-06",
       "repo_description": null,
       "category_label": "Deep learning-based",
-      "language_detected": "Python"
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "iguane",
@@ -1219,7 +1285,9 @@
       "last_commit": "2026-07-09",
       "repo_description": null,
       "category_label": "Deep learning-based",
-      "language_detected": "Python"
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "haca3",
@@ -1233,7 +1301,7 @@
       ],
       "paper_title": "HACA3: A unified approach for multi-site MR image harmonization",
       "paper_year": 2023,
-      "paper_url": null,
+      "paper_url": "https://doi.org/10.1016/j.compmedimag.2023.102285",
       "github": "lianruizuo/haca3",
       "language": [
         "Python"
@@ -1245,17 +1313,16 @@
       "forks": 10,
       "open_issues": 5,
       "license": null,
-      "topics": [
-        "harmonization",
-        "image-to-image-translation",
-        "mri"
-      ],
-      "archived": false,
-      "repo_created_at": "2023-10-10",
-      "first_commit_date": "2023-09-05",
-      "last_commit": "2026-06-17",
-      "repo_description": "This is the official site of HACA3 harmonization algorithm.",
-      "category_label": "Deep learning-based"
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "21-site multi-institutional MRI (multiple contrasts)"
     },
     {
       "id": "scanner-invariant-repr",
@@ -1286,7 +1353,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "flow-causal-harmonization",
@@ -1316,7 +1386,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "bashyam-stargan-harmonization",
@@ -1347,7 +1420,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "modanwal-cyclegan",
@@ -1377,7 +1453,44 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Deep learning-based"
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
+    },
+    {
+      "id": "dlest",
+      "name": "DLEST (Disentangled Latent Energy-Based Style Translation)",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "disentanglement",
+        "energy-based-model",
+        "style-translation"
+      ],
+      "paper_title": "Disentangled Latent Energy-Based Style Translation: An Image-Level Structural MRI Harmonization Framework",
+      "paper_year": 2025,
+      "paper_url": "https://arxiv.org/abs/2402.06875",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": null,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "bartharm",
@@ -1403,13 +1516,16 @@
       "forks": 2,
       "open_issues": 0,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2025-05-29",
-      "first_commit_date": "2025-05-29",
-      "last_commit": "2026-03-29",
-      "repo_description": "R-based pipeline to harmonize data using Bayesian Additive Regression Trees (BART) and Image Quality Metric (IQMs)",
-      "category_label": "IQM-based"
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "IQM-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "neuroharmony",
@@ -1436,13 +1552,16 @@
       "forks": 10,
       "open_issues": 4,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2020-02-10",
-      "first_commit_date": "2019-10-10",
-      "last_commit": "2023-01-06",
-      "repo_description": "A new tool for harmonizing volumetric MRI data from unseen scanners (Garcia-Dias et al. 2020)",
-      "category_label": "IQM-based"
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "IQM-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "autocombat",
@@ -1466,22 +1585,20 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 10,
-      "forks": 1,
-      "open_issues": 1,
-      "license": "Apache-2.0",
-      "topics": [
-        "autocombat",
-        "combat",
-        "harmonization",
-        "radiomics"
-      ],
-      "archived": false,
-      "repo_created_at": "2021-01-14",
-      "first_commit_date": "2021-01-14",
-      "last_commit": "2022-07-31",
-      "repo_description": "Implementation of ComBat and AutoComBat for features radiomics harmonization",
-      "category_label": "IQM-based"
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "IQM-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "bayesian-normative",
@@ -1503,31 +1620,35 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 12,
-      "forks": 1,
-      "open_issues": 0,
-      "license": "CC0-1.0",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2020-08-27",
-      "first_commit_date": "2020-08-27",
-      "last_commit": "2022-10-27",
-      "repo_description": "Code &  instructions to the paper \"Accommodating site variation in neuroimaging data using normative and hierarchical Bayesian models\", published in NeuroImage",
-      "category_label": "Normative Modeling"
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Normative Modeling",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "ismi",
-      "name": "Inter-Site Matched Harmonization (ISMI)",
+      "name": "Inter-Site SMOTE (ISMI)",
       "category": "interpolation-based",
       "method_type": "statistical",
       "level": "feature-level",
       "tags": [
         "interpolation",
-        "brain-age"
+        "brain-age",
+        "SMOTE"
       ],
       "paper_title": "Data harmonizing via interpolation applied to brain age prediction",
-      "paper_year": null,
-      "paper_url": null,
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.1007/s44248-026-00100-7",
       "github": null,
       "other_url": "https://github.com/N-Nieto/UniHarmony",
       "language": [
@@ -1545,7 +1666,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Interpolation-based"
+      "category_label": "Interpolation-based",
+      "in_uniharmony": true,
+      "also_implemented_in": [],
+      "validation_data": "4 neuroimaging datasets, brain-age (N=2031)"
     },
     {
       "id": "isi",
@@ -1576,7 +1700,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Interpolation-based"
+      "category_label": "Interpolation-based",
+      "in_uniharmony": true,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "fedharmony",
@@ -1603,13 +1730,16 @@
       "forks": 3,
       "open_issues": 2,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2022-05-16",
-      "first_commit_date": "2022-05-16",
-      "last_commit": "2022-07-06",
-      "repo_description": "Code implementation for FedHarmony (MICCAI 2022)",
-      "category_label": "Federated Learning-compatible"
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Federated Learning-compatible",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "fedcombat",
@@ -1642,7 +1772,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Federated Learning-compatible"
+      "category_label": "Federated Learning-compatible",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "d-combat",
@@ -1670,13 +1803,16 @@
       "forks": 3,
       "open_issues": 2,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2021-09-27",
-      "first_commit_date": "2021-09-24",
-      "last_commit": "2022-10-19",
-      "repo_description": "Adaptation of ComBat for a distributed data setting",
-      "category_label": "Federated Learning-compatible"
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "Federated Learning-compatible",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "ica-dp",
@@ -1703,13 +1839,16 @@
       "forks": 0,
       "open_issues": 0,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2023-07-12",
-      "first_commit_date": "2023-07-12",
-      "last_commit": "2025-12-05",
-      "repo_description": "Harmonization of multi-site MRI data with dual-projection based on ICA ",
-      "category_label": "ICA-based"
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "category_label": "ICA-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "otda",
@@ -1741,7 +1880,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Optimal transport-based"
+      "category_label": "Optimal transport-based",
+      "in_uniharmony": true,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     },
     {
       "id": "botda",
@@ -1774,8 +1916,10 @@
       "first_commit_date": null,
       "last_commit": null,
       "repo_description": null,
-      "category_label": "Optimal transport-based"
+      "category_label": "Optimal transport-based",
+      "in_uniharmony": true,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic"
     }
-  ],
-  "stats_fetched_at": "2026-08-03T00:36:42Z"
+  ]
 }

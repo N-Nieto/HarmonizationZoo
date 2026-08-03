@@ -432,6 +432,11 @@ select:focus, input[type="search"]:focus, button:focus-visible {
   color: var(--rose);
   border-color: var(--rose);
 }
+.inline-link {
+  color: var(--cyan);
+  text-decoration: none;
+  margin-left: 2px;
+}
 
 .repo-description {
   font-size: 13.5px;

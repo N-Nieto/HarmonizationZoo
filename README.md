@@ -1,19 +1,24 @@
 # Harmonization Zoo 🧠🔬
 
 An interactive, contributor-editable map of methods for harmonizing
-multi-site / multi-scanner MRI data — ComBat-family statistical methods,
-deep-learning approaches, and everything in between (federated, IQM-based,
-normative modeling, optimal transport, …).
+multi-site / multi-scanner MRI data — location/scale (ComBat-family)
+statistical methods, deep-learning approaches, and everything in between
+(federated, IQM-based, normative modeling, optimal transport, classical
+intensity normalization, …).
 
-Methods are drawn as bubbles, clustered by whichever keyword you pick
-(family, harmonization level, method type, or language). Click a bubble for
-the paper title, level, language, GitHub stars, and last-commit date. The
+Methods are drawn as boxes sized to fit their full name (nothing gets
+truncated or overlapped), grouped however you pick from "Group by":
+**Harmonization level** (default), **Family**, **Year** (of the repo's
+first commit), **GitHub stars**, **Validation data** (the dataset/cohort a
+method was mainly proposed or validated on), or **Implemented in
+UniHarmony**. Click a box for the paper title and link, level, language,
+GitHub stars/forks/issues/license, last-maintained status, and more. The
 whole thing is one static site with one JSON file as its database, so it's
 built to grow: adding a method is a two-minute JSON edit and a pull request
 (see [`CONTRIBUTING.md`](CONTRIBUTING.md)).
 
-**No framework, no build step, no backend.** Plain HTML/CSS/JS + [D3](https://d3js.org/),
-so it can be served as-is from GitHub Pages.
+**No framework, no build step, no backend, no external JS dependencies.**
+Plain HTML/CSS/vanilla JS, so it can be served as-is from GitHub Pages.
 
 ## Live site
 
@@ -48,13 +53,38 @@ the page doesn't render after enabling it.
 
 ## What's in the database right now
 
-`data/methods.json` seeds **53 methods** across nine families (the
-"Family" grouping) — the original ComBat / Deep-learning / IQM / Normative /
-Interpolation / Federated / ICA / Optimal-transport groups, plus a
-**Classical Intensity Normalization** family (WhiteStripe, Nyúl–Udupa
-histogram matching) for the pre-"harmonization"-era baselines that most of
-the survey papers still cite and compare against. Color always encodes
-**Family**, no matter which "Group by" option is active.
+`data/methods.json` seeds **54 methods** across nine families (the
+"Family" grouping) — **Location/Scale Models (ComBat-family)** /
+Deep-learning / IQM / Normative Modeling / Interpolation / Federated / ICA /
+Optimal-transport, plus a **Classical Intensity Normalization** family
+(WhiteStripe, Nyúl–Udupa histogram matching) for the pre-"harmonization"-era
+baselines that most of the survey papers still cite and compare against.
+Color always encodes **Family**, no matter which "Group by" option is
+active. The ComBat family is labeled "Location/Scale Models" rather than
+just "ComBat-based" because that's the actual statistical model class
+(adjusting per-batch location and/or scale) that ComBat, CovBat, ComBatLS,
+RELIEF, etc. all belong to — "ComBat-family" is kept alongside it since
+that's still how everyone refers to and searches for it.
+
+### Two more grouping dimensions
+
+- **Validation data** — the dataset/cohort a method was mainly proposed or
+  validated on (e.g. ENIGMA, ABCD, the iSTAGING consortium), stored in a new
+  `validation_data` field. Methods that were evaluated across many
+  heterogeneous datasets with no single primary one, or where this hasn't
+  been researched yet, default to **"Agnostic"** rather than `null` — that's
+  a real, useful category here (it tells you the method wasn't built or
+  tuned around one specific cohort), not a placeholder for missing data.
+  Currently 11 of 53 entries have a specific, verified dataset; the rest are
+  "Agnostic" and worth digging into if you know the paper.
+- **Implemented in UniHarmony** — a new `in_uniharmony` boolean, splitting
+  the zoo into what's already usable through
+  [UniHarmony](https://github.com/N-Nieto/UniHarmony) today (11 methods:
+  ComBat, neuroComBat, ComBat-GAM, harmonizer, CovBat, PrettYharmonize,
+  pycombat, Inter-Site SMOTE, Intra-Site Interpolation, OTDA, BOTDA) versus
+  everything else. A separate `also_implemented_in` array tracks other
+  bundling toolkits — e.g. neuroComBat and CovBat are also available inside
+  neuroHarmonize, alongside its own native ComBat-GAM.
 
 ### Where this round's additions came from
 

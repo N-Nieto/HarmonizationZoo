@@ -15,7 +15,7 @@ const LEVEL_LABELS = {
 // Fixed order + color per family, so the same family always reads as the
 // same color whether you're grouped by Level, Family, Year, or Stars.
 const FAMILY_ORDER = [
-  ["combat-family", "ComBat-based", "#f2a93b"],
+  ["combat-family", "Location/Scale Models (ComBat-family)", "#f2a93b"],
   ["classical-normalization", "Classical Intensity Normalization", "#c98f5e"],
   ["deep-learning", "Deep learning-based", "#5fc9c9"],
   ["iqm-based", "IQM-based", "#9c8cf0"],
@@ -143,6 +143,7 @@ function render() {
   } else if (state.groupBy === "stars") {
     stage.appendChild(renderStarsTimeline(methods));
   } else {
+    // level / category / data / uniharmony all use the flex-wrap cluster layout
     stage.appendChild(renderClusters(methods, state.groupBy));
   }
 }
@@ -176,15 +177,29 @@ function renderClusters(methods, groupBy) {
   const wrap = document.createElement("div");
   wrap.className = "cluster-wrap";
 
-  const groupFn = groupBy === "category"
-    ? (d) => d.category
-    : (d) => d.level;
-  const groupOrder = groupBy === "category"
-    ? FAMILY_ORDER.map(([id]) => id)
-    : LEVEL_ORDER;
-  const groupLabel = groupBy === "category"
-    ? (id) => FAMILY_LABEL.get(id) || id
-    : (id) => LEVEL_LABELS[id] || id;
+  let groupFn, groupOrder, groupLabel;
+
+  if (groupBy === "category") {
+    groupFn = (d) => d.category;
+    groupOrder = FAMILY_ORDER.map(([id]) => id);
+    groupLabel = (id) => FAMILY_LABEL.get(id) || id;
+  } else if (groupBy === "uniharmony") {
+    groupFn = (d) => (d.in_uniharmony ? "yes" : "no");
+    groupOrder = ["yes", "no"];
+    groupLabel = (id) => (id === "yes" ? "Implemented in UniHarmony" : "Not (yet) in UniHarmony");
+  } else if (groupBy === "data") {
+    groupFn = (d) => d.validation_data || "Agnostic";
+    // Agnostic last; everything else alphabetical, so named cohorts stand out.
+    const present = Array.from(new Set(methods.map(groupFn)));
+    groupOrder = present.filter((g) => g !== "Agnostic").sort().concat(
+      present.includes("Agnostic") ? ["Agnostic"] : []
+    );
+    groupLabel = (id) => id;
+  } else {
+    groupFn = (d) => d.level;
+    groupOrder = LEVEL_ORDER;
+    groupLabel = (id) => LEVEL_LABELS[id] || id;
+  }
 
   const byGroup = new Map(groupOrder.map((g) => [g, []]));
   methods.forEach((d) => {
@@ -383,6 +398,12 @@ function openDrawer(d) {
 
   const archivedBadge = d.archived ? `<span class="chip chip-warning">archived</span>` : "";
 
+  const uniharmonyLine = d.in_uniharmony
+    ? `Yes <a href="https://github.com/N-Nieto/UniHarmony" target="_blank" rel="noopener" class="inline-link">↗</a>`
+    : "No";
+  const alsoIn = (d.also_implemented_in || []);
+  const alsoInLine = alsoIn.length ? ` · also in ${alsoIn.join(", ")}` : "";
+
   const missingNote = (d.stars == null && d.github)
     ? `<p class="no-data-note">Live GitHub stats haven't been fetched in this build — run <code>scripts/fetch_github_stats.py</code> (or the scheduled Action) to populate this.</p>`
     : "";
@@ -402,6 +423,8 @@ function openDrawer(d) {
       <dt>Paper year</dt><dd>${d.paper_year || "—"}</dd>
       <dt>First commit</dt><dd>${firstCommitLine}</dd>
       <dt>Last maintained</dt><dd>${maintLine}</dd>
+      <dt>Validation data</dt><dd>${escapeHtml(d.validation_data || "Agnostic")}</dd>
+      <dt>UniHarmony</dt><dd>${uniharmonyLine}${alsoInLine}</dd>
       <dt>Language</dt><dd><div class="chip-row">${languages}</div></dd>
       <dt>Stars</dt><dd>${starsLine}</dd>
       <dt>Forks</dt><dd>${forksLine}</dd>
