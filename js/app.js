@@ -261,6 +261,11 @@ function renderClusters(methods, groupBy) {
     const present = Array.from(new Set(methods.map(groupFn)));
     groupOrder = present.sort();
     groupLabel = (id) => id;
+  } else if (groupBy === "language") {
+    groupFn = (d) => d.primary_language;
+    const present = Array.from(new Set(methods.map(groupFn)));
+    groupOrder = present.sort();
+    groupLabel = (id) => id;
   } else if (groupBy === "data") {
     groupFn = (d) => d.validation_data || "Agnostic";
     // Agnostic last; everything else alphabetical, so named cohorts stand out.
@@ -585,237 +590,344 @@ function escapeHtml(s) {
   return div.innerHTML;
 }
 
-/* ---------------- "Which method?" recommender ---------------- */
+/* ---------------- "Which method?" recommender (live filter tree) ---------------- */
 
 const recState = {
   task: null,          // "statistical" | "ml"
   mlType: null,        // "classification_binary" | "classification_multiclass" | "regression"
-  linear: null,        // "yes" | "no" | "unsure"
+  level: null,          // "feature-level" | "image-level"
+  newSite: null,        // "yes" | "no"
+  hasSiteId: null,      // "yes" | "no"
+  hasGpu: null,          // "yes" | "no"
+  linear: null,          // "yes" | "no" | "unsure"
+  minPerSite: null,
   totalN: null,
   nClasses: null,
-  minPerSite: null,
-  newSite: null,       // "yes" | "no"
-  hasSiteId: null,     // "yes" | "no"
-  hasGpu: null,        // "yes" | "no"
 };
+
+// Steps after "task" (which is special-cased for its ML sub-question).
+// Each filter() receives the pool as narrowed by every earlier step, and
+// returns {pool, message}. message is only used once the step has an
+// answer; it renders directly above that step's own options.
+const REC_STEPS = [
+  {
+    key: "level",
+    legend: "Harmonization level",
+    help: "Does this need to operate on extracted features (ROI volumes, cortical thickness, radiomics, …) or directly on images?",
+    type: "pills",
+    options: [["feature-level", "Feature-level"], ["image-level", "Image-level"]],
+    filter(pool, value) {
+      const after = pool.filter((d) => d.level === value);
+      const removed = pool.length - after.length;
+      const label = value === "feature-level" ? "feature-level" : "image-level";
+      return {
+        pool: after,
+        message: removed > 0 ? `Kept only ${label} methods — removed ${removed} operating at a different level.` : null,
+      };
+    },
+  },
+  {
+    key: "newSite",
+    legend: "New, unseen site",
+    help: "Will this be applied to a new site that wasn't part of the original harmonized batch?",
+    type: "pills",
+    options: [["yes", "Yes"], ["no", "No"]],
+    filter(pool, value) {
+      if (value !== "yes") return { pool, message: null };
+      const after = pool.filter((d) => d.recommend && d.recommend.generalizes_to_new_site === true);
+      const removed = pool.length - after.length;
+      return {
+        pool: after,
+        message: removed > 0
+          ? `Removed ${removed} method${removed === 1 ? "" : "s"} that assume a fixed, known batch of sites rather than generalizing to a new one.`
+          : null,
+      };
+    },
+  },
+  {
+    key: "hasSiteId",
+    legend: "Site ID",
+    help: "Do you have access to the Site ID? IQM-based methods can be applied without knowing site membership.",
+    type: "pills",
+    options: [["yes", "Yes"], ["no", "No"]],
+    filter(pool, value) {
+      if (value !== "no") return { pool, message: null };
+      const after = pool.filter((d) => d.recommend && d.recommend.requires_site_id === false);
+      const removed = pool.length - after.length;
+      return {
+        pool: after,
+        message: removed > 0
+          ? `Removed ${removed} method${removed === 1 ? "" : "s"} that require an explicit Site ID.`
+          : null,
+      };
+    },
+  },
+  {
+    key: "hasGpu",
+    legend: "Hardware",
+    help: "Do you have access to a GPU? (Only asked when deep-learning, image-level methods are still in the running.)",
+    type: "pills",
+    options: [["yes", "Yes"], ["no", "No"]],
+    visibleIf(pool, rs) {
+      return rs.level === "image-level" && pool.some((d) => d.method_type === "deep-learning");
+    },
+    filter(pool, value) {
+      if (value !== "no") return { pool, message: null };
+      const after = pool.filter((d) => !(d.recommend && d.recommend.needs_gpu));
+      const removed = pool.length - after.length;
+      return {
+        pool: after,
+        message: removed > 0
+          ? `Removed ${removed} deep-learning method${removed === 1 ? "" : "s"} that need a GPU to be practical.`
+          : null,
+      };
+    },
+  },
+  {
+    key: "linear",
+    legend: "Signal assumptions",
+    help: "Can you assume your biological signal is linear (in the covariates you'd harmonize for)?",
+    type: "pills",
+    options: [["yes", "Yes"], ["no", "No"], ["unsure", "Not sure"]],
+    filter(pool, value) {
+      if (value !== "no") return { pool, message: null };
+      const after = pool.filter((d) => !(d.recommend && d.recommend.requires_linear_signal === true));
+      const removed = pool.length - after.length;
+      return {
+        pool: after,
+        message: removed > 0
+          ? `Removed ${removed} method${removed === 1 ? "" : "s"} that assume a linear signal.`
+          : null,
+      };
+    },
+  },
+  {
+    key: "minPerSite",
+    legend: "Data quantity",
+    help: "Minimum samples per site. Total N and N classes below are shown for reference only — they don't currently filter results, since we don't have a verified per-method threshold for them.",
+    type: "quantity",
+    filter(pool, value) {
+      if (value == null || value >= 15) return { pool, message: null };
+      const after = pool.filter((d) => d.recommend && d.recommend.low_n_friendly === true);
+      const removed = pool.length - after.length;
+      return {
+        pool: after,
+        message: removed > 0
+          ? `Removed ${removed} method${removed === 1 ? "" : "s"} not well-suited to very small per-site samples.`
+          : null,
+      };
+    },
+  },
+];
 
 function buildRecommender() {
   const root = document.getElementById("recommend-root");
   root.innerHTML = `
     <div class="recommend-wrap">
       <p class="recommend-intro">
-        Answer what you know — anything left blank is just treated as "no strong constraint".
-        This uses reasoned defaults per method family (documented in each result), not a
-        paper-verified fact for every one of the 54 methods, so treat it as a shortlist to
-        investigate rather than a final answer.
+        Answer each question and the method list on the right narrows live. These are
+        reasoned defaults per method family (documented in the README), not a paper-verified
+        fact for every one of the 54 methods — treat this as a shortlist to investigate, not
+        a final answer.
       </p>
-
-      <fieldset class="rec-question" id="rq-task">
-        <legend>Downstream task</legend>
-        <div class="rec-options" data-key="task">
-          <button type="button" class="rec-pill" data-value="statistical">Statistical analysis</button>
-          <button type="button" class="rec-pill" data-value="ml">Machine learning prediction</button>
-        </div>
-        <div class="rec-subquestion hidden" id="rq-mltype">
-          <div class="rec-options" data-key="mlType">
-            <button type="button" class="rec-pill" data-value="classification_binary">Classification (binary)</button>
-            <button type="button" class="rec-pill" data-value="classification_multiclass">Classification (multiclass)</button>
-            <button type="button" class="rec-pill" data-value="regression">Regression</button>
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset class="rec-question">
-        <legend>Signal assumptions</legend>
-        <p class="rec-help">Can you assume your biological signal is linear (in the covariates you'd harmonize for)?</p>
-        <div class="rec-options" data-key="linear">
-          <button type="button" class="rec-pill" data-value="yes">Yes</button>
-          <button type="button" class="rec-pill" data-value="no">No</button>
-          <button type="button" class="rec-pill" data-value="unsure">Not sure</button>
-        </div>
-      </fieldset>
-
-      <fieldset class="rec-question">
-        <legend>Data quantity</legend>
-        <div class="rec-numbers">
-          <label>Total N
-            <input type="number" min="0" id="rn-totalN" placeholder="e.g. 500">
-          </label>
-          <label>Total N classes
-            <input type="number" min="0" id="rn-nClasses" placeholder="e.g. 2">
-          </label>
-          <label>Min samples per site
-            <input type="number" min="0" id="rn-minPerSite" placeholder="e.g. 8">
-          </label>
-        </div>
-      </fieldset>
-
-      <fieldset class="rec-question">
-        <legend>New site</legend>
-        <p class="rec-help">Will this be applied to a new, previously unseen site (not part of the original harmonized batch)?</p>
-        <div class="rec-options" data-key="newSite">
-          <button type="button" class="rec-pill" data-value="yes">Yes</button>
-          <button type="button" class="rec-pill" data-value="no">No</button>
-        </div>
-      </fieldset>
-
-      <fieldset class="rec-question">
-        <legend>Site assumptions</legend>
-        <p class="rec-help">Do you have access to the Site ID? IQM-based methods can be applied without knowing site membership.</p>
-        <div class="rec-options" data-key="hasSiteId">
-          <button type="button" class="rec-pill" data-value="yes">Yes</button>
-          <button type="button" class="rec-pill" data-value="no">No</button>
-        </div>
-      </fieldset>
-
-      <fieldset class="rec-question">
-        <legend>Hardware</legend>
-        <p class="rec-help">Only relevant for deep-learning models: do you have access to a GPU?</p>
-        <div class="rec-options" data-key="hasGpu">
-          <button type="button" class="rec-pill" data-value="yes">Yes</button>
-          <button type="button" class="rec-pill" data-value="no">No</button>
-        </div>
-      </fieldset>
-
-      <div class="rec-submit-row">
-        <button type="button" id="rec-submit">Get recommendations</button>
+      <div class="rec-columns">
+        <div id="rec-tree" class="rec-tree"></div>
+        <div id="rec-methods-panel" class="rec-methods-panel"></div>
       </div>
-
-      <div id="rec-results" class="rec-results"></div>
     </div>
   `;
-
-  root.querySelectorAll(".rec-options").forEach((group) => {
-    const key = group.dataset.key;
-    group.querySelectorAll(".rec-pill").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        recState[key] = recState[key] === btn.dataset.value ? null : btn.dataset.value;
-        group.querySelectorAll(".rec-pill").forEach((b) => b.classList.toggle("active", b.dataset.value === recState[key]));
-        if (key === "task") {
-          document.getElementById("rq-mltype").classList.toggle("hidden", recState.task !== "ml");
-          if (recState.task !== "ml") recState.mlType = null;
-        }
-      });
-    });
-  });
-
-  document.getElementById("rn-totalN").addEventListener("input", (e) => { recState.totalN = e.target.value ? Number(e.target.value) : null; });
-  document.getElementById("rn-nClasses").addEventListener("input", (e) => { recState.nClasses = e.target.value ? Number(e.target.value) : null; });
-  document.getElementById("rn-minPerSite").addEventListener("input", (e) => { recState.minPerSite = e.target.value ? Number(e.target.value) : null; });
-
-  document.getElementById("rec-submit").addEventListener("click", runRecommender);
+  renderRecommenderTree();
 }
 
-function runRecommender() {
-  const resultsEl = document.getElementById("rec-results");
-  let pool = state.data.slice();
-  const excludedReasons = [];
+function renderRecommenderTree() {
+  const treeEl = document.getElementById("rec-tree");
+  const methodsEl = document.getElementById("rec-methods-panel");
+  treeEl.innerHTML = "";
 
-  // --- Hard filters: genuine incompatibilities, not preferences ---
+  let pool = state.data.slice();
+
+  pool = renderTaskStep(treeEl, pool);
+  if (recState.task == null) {
+    renderMethodsPanel(methodsEl, pool, []);
+    return;
+  }
+
+  const excludedNotes = [];
   if (recState.task === "ml") {
     const before = pool.length;
     pool = pool.filter((d) => d.category !== "combat-family");
     if (pool.length < before) {
-      excludedReasons.push(
-        "Location/Scale (ComBat-family) methods are excluded for machine-learning prediction: the covariate " +
-        "they need to fit the harmonization model is typically the same variable you're trying to predict, " +
-        "which causes data leakage."
+      excludedNotes.push(
+        `Removed ${before - pool.length} Location/Scale (ComBat-family) methods — the covariate they need ` +
+        `to fit the harmonization model is typically the same variable you're trying to predict, causing data leakage.`
       );
     }
-  }
-  if (recState.hasGpu === "no") {
-    const before = pool.length;
-    pool = pool.filter((d) => !(d.recommend && d.recommend.needs_gpu));
-    if (pool.length < before) {
-      excludedReasons.push("Deep-learning methods are excluded: they need a GPU to be practical to train/run.");
-    }
-  }
-  if (recState.hasSiteId === "no") {
-    const before = pool.length;
-    pool = pool.filter((d) => d.recommend && d.recommend.requires_site_id === false);
-    if (pool.length < before) {
-      excludedReasons.push(
-        "Methods that require an explicit Site ID are excluded. IQM-based, classical intensity-normalization, " +
-        "and normative-modeling methods don't need one."
-      );
-    }
-  }
-
-  // --- Soft scoring: preferences that rank results, don't eliminate them ---
-  const scored = pool.map((d) => {
-    let score = 0;
-    const reasons = [];
-    const rc = d.recommend || {};
-
-    if (recState.linear === "no") {
-      if (rc.requires_linear_signal === false) { score += 2; reasons.push("handles nonlinear effects"); }
-      else if (rc.requires_linear_signal === true) { score -= 2; }
-    }
-    if (recState.minPerSite != null && recState.minPerSite < 15) {
-      if (rc.low_n_friendly) { score += 2; reasons.push("works with small per-site N"); }
-      else { score -= 1; }
-    }
-    if (recState.newSite === "yes") {
-      if (rc.generalizes_to_new_site) { score += 2; reasons.push("generalizes to a new site"); }
-      else { score -= 1; }
-    }
-    if (recState.totalN != null && recState.totalN < 100 && d.method_type === "deep-learning") {
-      score -= 1; // data-hungry
-    }
-    if (recState.task === "ml" && recState.mlType === "regression" &&
-        (d.category === "normative-modeling" || d.id === "ismi")) {
-      score += 1; reasons.push("commonly used for regression-style prediction (e.g. brain age)");
-    }
-    if (recState.task === "ml" && recState.mlType && recState.mlType.startsWith("classification") &&
-        (d.category === "federated" || d.category === "optimal-transport")) {
-      score += 1; reasons.push("commonly used ahead of classification pipelines");
-    }
-    if (d.in_uniharmony) { score += 0.5; reasons.push("available in UniHarmony"); }
-
-    return { d, score, reasons };
-  });
-
-  scored.sort((a, b) => b.score - a.score || a.d.name.localeCompare(b.d.name));
-  const top = scored.slice(0, 12);
-
-  let html = `<h3>${pool.length} candidate method${pool.length === 1 ? "" : "s"}, top ${top.length} shown</h3>`;
-
-  excludedReasons.forEach((r) => {
-    html += `<p class="rec-excluded-note">✕ ${escapeHtml(r)}</p>`;
-  });
-
-  if (recState.task === "ml") {
     const pretty = state.data.find((d) => d.id === "prettyharmonize");
     if (pretty) {
-      html += `<p class="rec-special-note">Note: PrettYharmonize is a Location/Scale (ComBat-family) method
-        specifically designed to be leakage-free inside ML pipelines. It's excluded above by the blanket
-        family rule, but if you specifically want ComBat-style harmonization for an ML pipeline, it's worth
-        looking at directly.</p>`;
+      excludedNotes.push(
+        `Note: PrettYharmonize is a Location/Scale method built specifically to be leakage-free in ML ` +
+        `pipelines. It's excluded above by that same rule, but if you want ComBat-style harmonization for ` +
+        `an ML pipeline specifically, it's worth a direct look.`
+      );
+    }
+  }
+  renderTaskExcludedNotes(treeEl, excludedNotes);
+
+  for (const step of REC_STEPS) {
+    if (step.visibleIf && !step.visibleIf(pool, recState)) continue;
+
+    const answer = recState[step.key];
+    const { pool: nextPool, message } = answer != null
+      ? step.filter(pool, answer)
+      : { pool, message: null };
+
+    renderStep(treeEl, step, pool, answer, message);
+    pool = nextPool;
+
+    if (answer == null) {
+      renderMethodsPanel(methodsEl, pool, []);
+      return;
     }
   }
 
-  if (top.length === 0) {
-    html += `<p class="rec-excluded-note">No methods satisfy all the hard constraints — try relaxing GPU or Site ID access.</p>`;
-  } else {
-    html += `<div class="rec-card-list">`;
-    top.forEach(({ d, reasons }) => {
-      const chips = reasons.map((r) => `<span class="rec-reason-chip">${escapeHtml(r)}</span>`).join("");
-      html += `
-        <div class="rec-card" style="--box-color:${FAMILY_COLOR.get(d.category) || "#888"}" data-id="${d.id}">
-          <div class="rec-card-title">${escapeHtml(d.name)} <span class="rec-card-family">${d.category_label} · ${LEVEL_LABELS[d.level] || d.level}</span></div>
-          ${chips ? `<div class="rec-reason-chips">${chips}</div>` : ""}
-        </div>`;
+  renderMethodsPanel(methodsEl, pool, []);
+}
+
+function renderTaskStep(container, pool) {
+  const fs = document.createElement("fieldset");
+  fs.className = "rec-question";
+  fs.innerHTML = `
+    <legend>Downstream analysis</legend>
+    <p class="rec-help">Will you use the harmonized data for statistical analysis or as input to a machine-learning model?</p>
+    <div class="rec-step-message" id="rec-msg-task"></div>
+    <div class="rec-options" id="rec-opts-task"></div>
+    <div class="rec-subquestion hidden" id="rec-mltype-wrap">
+      <div class="rec-options" id="rec-opts-mltype"></div>
+    </div>
+  `;
+  container.appendChild(fs);
+
+  const optsWrap = fs.querySelector("#rec-opts-task");
+  [["statistical", "Statistical analysis"], ["ml", "Machine learning prediction"]].forEach(([value, label]) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rec-pill" + (recState.task === value ? " active" : "");
+    btn.textContent = label;
+    btn.addEventListener("click", () => {
+      recState.task = recState.task === value ? null : value;
+      if (recState.task !== "ml") recState.mlType = null;
+      renderRecommenderTree();
     });
-    html += `</div>`;
+    optsWrap.appendChild(btn);
+  });
+
+  const mlWrap = fs.querySelector("#rec-mltype-wrap");
+  mlWrap.classList.toggle("hidden", recState.task !== "ml");
+  const mlOptsWrap = fs.querySelector("#rec-opts-mltype");
+  [
+    ["classification_binary", "Classification (binary)"],
+    ["classification_multiclass", "Classification (multiclass)"],
+    ["regression", "Regression"],
+  ].forEach(([value, label]) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rec-pill" + (recState.mlType === value ? " active" : "");
+    btn.textContent = label;
+    btn.addEventListener("click", () => {
+      recState.mlType = recState.mlType === value ? null : value;
+      renderRecommenderTree();
+    });
+    mlOptsWrap.appendChild(btn);
+  });
+
+  return pool; // task's own filter is applied by the caller (needs the special-case note)
+}
+
+function renderTaskExcludedNotes(container, notes) {
+  if (!notes.length) return;
+  const msgHost = document.getElementById("rec-msg-task");
+  msgHost.innerHTML = notes
+    .map((n, i) => `<p class="${i === 0 ? "rec-excluded-note" : "rec-special-note"}">${i === 0 ? "✕ " : ""}${escapeHtml(n)}</p>`)
+    .join("");
+}
+
+function renderStep(container, step, poolBefore, answer, message) {
+  const fs = document.createElement("fieldset");
+  fs.className = "rec-question";
+
+  if (step.type === "pills") {
+    fs.innerHTML = `
+      <legend>${step.legend}</legend>
+      <p class="rec-help">${step.help}</p>
+      <div class="rec-step-message"></div>
+      <div class="rec-options"></div>
+    `;
+    container.appendChild(fs);
+
+    if (message) {
+      fs.querySelector(".rec-step-message").innerHTML = `<p class="rec-excluded-note">✕ ${escapeHtml(message)}</p>`;
+    }
+
+    const optsWrap = fs.querySelector(".rec-options");
+    step.options.forEach(([value, label]) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "rec-pill" + (answer === value ? " active" : "");
+      btn.textContent = label;
+      btn.addEventListener("click", () => {
+        recState[step.key] = recState[step.key] === value ? null : value;
+        renderRecommenderTree();
+      });
+      optsWrap.appendChild(btn);
+    });
+  } else if (step.type === "quantity") {
+    fs.innerHTML = `
+      <legend>${step.legend}</legend>
+      <p class="rec-help">${step.help}</p>
+      <div class="rec-step-message"></div>
+      <div class="rec-numbers">
+        <label>Total N <input type="number" min="0" id="rn-totalN" value="${recState.totalN ?? ""}"></label>
+        <label>Total N classes <input type="number" min="0" id="rn-nClasses" value="${recState.nClasses ?? ""}"></label>
+        <label>Min samples per site <input type="number" min="0" id="rn-minPerSite" value="${recState.minPerSite ?? ""}"></label>
+      </div>
+    `;
+    container.appendChild(fs);
+
+    if (message) {
+      fs.querySelector(".rec-step-message").innerHTML = `<p class="rec-excluded-note">✕ ${escapeHtml(message)}</p>`;
+    }
+
+    fs.querySelector("#rn-totalN").addEventListener("change", (e) => {
+      recState.totalN = e.target.value ? Number(e.target.value) : null;
+      renderRecommenderTree();
+    });
+    fs.querySelector("#rn-nClasses").addEventListener("change", (e) => {
+      recState.nClasses = e.target.value ? Number(e.target.value) : null;
+      renderRecommenderTree();
+    });
+    fs.querySelector("#rn-minPerSite").addEventListener("change", (e) => {
+      recState.minPerSite = e.target.value ? Number(e.target.value) : null;
+      renderRecommenderTree();
+    });
   }
 
-  resultsEl.innerHTML = html;
-  resultsEl.querySelectorAll(".rec-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      const d = state.data.find((m) => m.id === card.dataset.id);
-      if (d) openDrawer(d);
-    });
-  });
+  return fs;
 }
+
+function renderMethodsPanel(container, pool) {
+  container.innerHTML = `<h3 class="rec-methods-heading">${pool.length} method${pool.length === 1 ? "" : "s"} remaining</h3>`;
+  if (pool.length === 0) {
+    container.innerHTML += `<p class="rec-excluded-note">Nothing satisfies every answer so far — try relaxing the most recent one.</p>`;
+    return;
+  }
+  const flow = document.createElement("div");
+  flow.className = "box-flow";
+  pool
+    .slice()
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .forEach((d) => flow.appendChild(makeBox(d)));
+  container.appendChild(flow);
+}
+
 
 init();

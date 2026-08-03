@@ -8,7 +8,7 @@ intensity normalization, …).
 
 Methods are drawn as boxes sized to fit their full name (nothing gets
 truncated or overlapped), grouped however you pick from "Group by":
-**Harmonization level** (default), **Family**, **Data modality**, **Year**
+**Harmonization level** (default), **Family**, **Data modality**, **Programming language**, **Year**
 (of the repo's first commit), **GitHub stars**, **Validation data** (the
 dataset/cohort a method was mainly proposed or validated on), or
 **Implemented in UniHarmony**. Click a box for the paper title and link,
@@ -214,30 +214,42 @@ If Pages shows a blank page after enabling it:
 
 ## How the "Which method?" recommender works
 
-The recommender (in `js/app.js`, function `runRecommender`) applies three
-**hard filters** — genuine incompatibilities, methods are excluded entirely:
+It's a **live filter tree**, not a form-and-submit wizard: it starts by
+showing all 54 methods, and every answer immediately narrows the list on
+the right — no submit button. Questions are asked in a fixed hierarchy
+(`REC_STEPS` in `js/app.js`), each one only appearing once the previous one
+is answered:
 
-- **Machine-learning downstream task** → excludes every Location/Scale
-  (ComBat-family) method. Their harmonization model needs the same
-  covariate you're usually trying to predict as an ML target, which causes
-  data leakage. (PrettYharmonize is the one method in that family built
-  specifically to avoid this — it's still excluded by the blanket rule, but
-  the results panel calls it out separately rather than silently dropping it.)
-- **No GPU access** → excludes every deep-learning method.
-- **No Site ID access** → excludes every method whose `recommend.requires_site_id`
-  is `true`. IQM-based, classical-normalization, and normative-modeling
-  methods don't need one, so they survive.
+1. **Downstream analysis** — statistical vs. machine-learning (with a
+   classification/regression sub-question if ML)
+2. **Harmonization level** — feature-level vs. image-level
+3. **New, unseen site?**
+4. **Site ID access?**
+5. **Hardware (GPU)** — only asked at all if image-level, deep-learning
+   methods are still in the running after step 4; otherwise it's skipped
+   automatically
+6. **Signal linearity assumption**
+7. **Data quantity** (min samples per site filters; total N / N classes are
+   shown for reference only — no verified per-method threshold for those yet)
 
-Everything else (signal linearity, per-site sample size, generalizing to a
-new site, total N, ML sub-task) is a **soft scoring** signal: it re-ranks
-the surviving methods and shows *why* each one scored well (as chips on the
-result card), rather than eliminating anything. That distinction is
-deliberate — the hard filters are things a method genuinely cannot do; the
-rest are preferences that reasonable people could weigh differently.
+Every question is a genuine filter (methods that don't fit are removed, not
+just re-ranked), and the elimination message for a question appears
+directly above that question's own options as soon as you answer it — e.g.
+picking "Machine learning" immediately shows "Removed 14 Location/Scale
+methods — ..." right above the task pills, and the right-hand list updates
+in the same moment. Changing an earlier answer re-derives everything below
+it automatically.
+
+The one deliberate exception: **machine-learning task** excludes the whole
+Location/Scale (ComBat-family) — their harmonization model needs the same
+covariate you're usually trying to predict as an ML target, which causes
+data leakage. PrettYharmonize is the one method in that family built
+specifically to avoid this; it's still excluded by the blanket rule, but a
+separate note calls it out rather than silently dropping it.
 
 The `recommend.*` compatibility fields (`requires_site_id`,
 `generalizes_to_new_site`, `low_n_friendly`, `requires_linear_signal`,
-`ml_compatible`, `needs_gpu`) that drive this are set per-family in
+`ml_compatible`, `needs_gpu`) that drive all of this are set per-family in
 `scripts/build_seed.py`'s `CATEGORY_RECOMMEND_DEFAULTS`, with a handful of
 per-method overrides where there's a specific, citable reason to deviate
 (e.g. ComBat-GAM is explicitly a nonlinear/GAM extension). These are
@@ -254,11 +266,18 @@ if you know a specific method behaves differently, override it there.
   (e.g. two implementations of the same paper) go in the `ALLOWED` set at
   the top of the script.
 - **`scripts/fetch_citations.py`** — fills in `citations` via the Semantic
-  Scholar API for every entry with a DOI in `paper_url`. Not wired into the
-  scheduled Action and untested from this project's build environment
-  (`api.semanticscholar.org` isn't reachable from there) — it's a standard,
-  documented DOI-lookup call, so it should work for a maintainer running it
-  locally, but verify before relying on it.
+  Scholar API. Uses the batch DOI-lookup endpoint for the 23 entries with a
+  DOI in `paper_url`, and falls back to a title-search lookup (accepted only
+  above a similarity threshold, to avoid attaching the wrong paper's count)
+  for the ~27 entries that have a `paper_title` but no captured DOI link —
+  that second path is new; the previous version of this script silently
+  skipped every entry without a `doi.org` link in `paper_url`, which is why
+  citations weren't showing up for methods that clearly had a paper. Not
+  wired into the scheduled Action and untested from this project's build
+  environment (`api.semanticscholar.org` isn't reachable from there) — run
+  with `-v` to see the raw API response per entry if it's still not working
+  for you, and `--dry-run` to see what it would look up without calling
+  anything.
 
 ## Project layout
 

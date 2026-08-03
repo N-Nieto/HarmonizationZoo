@@ -96,8 +96,8 @@ that to 5000/hour.
 
 ## Adding a new grouping dimension
 
-The seven "Group by" options are handled in `render()` in `js/app.js`:
-Level, Family, Data modality, Validation data, and Implemented-in-UniHarmony
+The eight "Group by" options are handled in `render()` in `js/app.js`:
+Level, Family, Data modality, Programming language, Validation data, and Implemented-in-UniHarmony
 all go through `renderClusters()` (flex-wrap sections); Year and GitHub
 stars go through `renderYearTimeline()` / `renderStarsTimeline()` (both
 built on the shared `buildTimelineColumn()` helper). Adding another
