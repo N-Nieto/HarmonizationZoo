@@ -24,9 +24,9 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 335,
-      "forks": 121,
-      "open_issues": 17,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
       "topics": [],
       "archived": false,
@@ -37,7 +37,16 @@
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": true,
       "also_implemented_in": [],
-      "validation_data": "EMBARC, VDLC (multi-site depression studies)"
+      "validation_data": "EMBARC, VDLC (multi-site depression studies)",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      }
     },
     {
       "id": "neurocombat",
@@ -83,7 +92,16 @@
       "also_implemented_in": [
         "neuroHarmonize"
       ],
-      "validation_data": "EMBARC, VDLC (multi-site depression studies)"
+      "validation_data": "EMBARC, VDLC (multi-site depression studies)",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      }
     },
     {
       "id": "combat-gam",
@@ -119,7 +137,16 @@
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": true,
       "also_implemented_in": [],
-      "validation_data": "iSTAGING consortium (UK Biobank, ADNI, BLSA, and others)"
+      "validation_data": "iSTAGING consortium (UK Biobank, ADNI, BLSA, and others)",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": false,
+        "requires_linear_signal": false,
+        "ml_compatible": false,
+        "needs_gpu": false
+      }
     },
     {
       "id": "harmonizer",
@@ -142,20 +169,29 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 7,
-      "forks": 1,
-      "open_issues": 1,
-      "license": "NOASSERTION",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2022-09-21",
-      "first_commit_date": "2022-09-21",
-      "last_commit": "2024-12-24",
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
       "repo_description": null,
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": true,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      }
     },
     {
       "id": "covbat",
@@ -179,9 +215,9 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 27,
-      "forks": 17,
-      "open_issues": 1,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
       "topics": [],
       "archived": false,
@@ -194,7 +230,16 @@
       "also_implemented_in": [
         "neuroHarmonize"
       ],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      }
     },
     {
       "id": "prettyharmonize",
@@ -230,7 +275,16 @@
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": true,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "pycombat",
@@ -268,7 +322,16 @@
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": true,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      }
     },
     {
       "id": "longcombat",
@@ -303,7 +366,16 @@
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      }
     },
     {
       "id": "ravel",
@@ -325,9 +397,9 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 30,
-      "forks": 13,
-      "open_issues": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
       "topics": [
         "brain-imaging",
@@ -348,7 +420,16 @@
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      }
     },
     {
       "id": "relief",
@@ -371,20 +452,29 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 2,
-      "forks": 2,
-      "open_issues": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2022-05-23",
-      "first_commit_date": "2022-05-23",
-      "last_commit": "2025-09-26",
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
       "repo_description": null,
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "SPINS (schizophrenia, diffusion MRI)"
+      "validation_data": "SPINS (schizophrenia, diffusion MRI)",
+      "modality": "Diffusion MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      }
     },
     {
       "id": "combat-mega",
@@ -420,7 +510,16 @@
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "ENIGMA consortium"
+      "validation_data": "ENIGMA consortium",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      }
     },
     {
       "id": "combatls",
@@ -442,9 +541,9 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 33,
-      "forks": 8,
-      "open_issues": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
       "topics": [],
       "archived": false,
@@ -455,7 +554,16 @@
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      }
     },
     {
       "id": "opnestedcombat",
@@ -491,7 +599,16 @@
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Radiomics (CT/MRI)",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      }
     },
     {
       "id": "harmonizr",
@@ -514,20 +631,29 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 17,
-      "forks": 4,
-      "open_issues": 1,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2022-05-16",
-      "first_commit_date": "2022-05-16",
-      "last_commit": "2022-07-18",
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
       "repo_description": null,
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Omics/Proteomics",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      }
     },
     {
       "id": "whitestripe",
@@ -550,9 +676,9 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 9,
-      "forks": 6,
-      "open_issues": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
       "topics": [],
       "archived": false,
@@ -563,7 +689,16 @@
       "category_label": "Classical Intensity Normalization",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "AIBL, ADNI"
+      "validation_data": "AIBL, ADNI",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "nyul",
@@ -598,7 +733,16 @@
       "category_label": "Classical Intensity Normalization",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "deepharmony",
@@ -631,7 +775,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "imunity",
@@ -664,7 +817,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "cyclegan-brainmri",
@@ -698,7 +860,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "ADNI, WHIMS, OASIS, AIBL, UK Biobank"
+      "validation_data": "ADNI, WHIMS, OASIS, AIBL, UK Biobank",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "mispel",
@@ -721,20 +892,29 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 11,
-      "forks": 5,
-      "open_issues": 1,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2021-08-10",
-      "first_commit_date": "2021-08-11",
-      "last_commit": "2023-01-20",
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
       "repo_description": null,
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "harmless",
@@ -768,7 +948,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "ABCD"
+      "validation_data": "ABCD",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "xcov-disentanglement",
@@ -804,7 +993,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "unlearning-mri",
@@ -827,9 +1025,9 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 30,
-      "forks": 10,
-      "open_issues": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
       "topics": [
         "domain-adaptation",
@@ -844,7 +1042,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "sfharmony",
@@ -867,9 +1074,9 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 10,
-      "forks": 2,
-      "open_issues": 1,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
       "topics": [],
       "archived": false,
@@ -880,7 +1087,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "harmonized-fmri",
@@ -903,20 +1119,29 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 1,
-      "forks": 0,
-      "open_issues": 0,
-      "license": "MIT",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2024-03-11",
-      "first_commit_date": "2024-03-11",
-      "last_commit": "2024-03-12",
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
       "repo_description": null,
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Functional MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "dmri-harmonization",
@@ -954,7 +1179,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Diffusion MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "dictionary-learning-harmonization",
@@ -991,7 +1225,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Diffusion MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "b0shimming",
@@ -1015,20 +1258,29 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 11,
-      "forks": 2,
-      "open_issues": 0,
-      "license": "MIT",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2020-10-27",
-      "first_commit_date": "2020-10-27",
-      "last_commit": "2026-05-01",
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
       "repo_description": null,
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Acquisition (modality-agnostic)",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "intensity-normalization",
@@ -1074,7 +1326,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "calamiti",
@@ -1110,7 +1371,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "dewey-disentangled-latent",
@@ -1143,7 +1413,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "murd",
@@ -1178,7 +1457,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "stgan",
@@ -1201,20 +1489,29 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 0,
-      "forks": 0,
-      "open_issues": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2026-02-10",
-      "first_commit_date": "2026-01-13",
-      "last_commit": "2026-01-28",
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
       "repo_description": null,
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "UK Biobank, PPMI, ADNI, ABCD, ICBM"
+      "validation_data": "UK Biobank, PPMI, ADNI, ABCD, ICBM",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "disarm",
@@ -1237,20 +1534,29 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 0,
-      "forks": 0,
-      "open_issues": 0,
-      "license": "MIT",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2024-07-28",
-      "first_commit_date": "2024-07-28",
-      "last_commit": "2026-07-06",
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
       "repo_description": null,
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "disarmpp",
@@ -1273,20 +1579,29 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 0,
-      "forks": 0,
-      "open_issues": 0,
-      "license": "MIT",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2025-04-13",
-      "first_commit_date": "2025-04-13",
-      "last_commit": "2026-07-06",
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
       "repo_description": null,
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "iguane",
@@ -1309,20 +1624,29 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 16,
-      "forks": 6,
-      "open_issues": 0,
-      "license": "Apache-2.0",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2023-11-14",
-      "first_commit_date": "2023-11-17",
-      "last_commit": "2026-07-09",
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
       "repo_description": null,
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "haca3",
@@ -1344,9 +1668,9 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 34,
-      "forks": 10,
-      "open_issues": 5,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
       "topics": [
         "harmonization",
@@ -1361,7 +1685,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "21-site multi-institutional MRI (multiple contrasts)"
+      "validation_data": "21-site multi-institutional MRI (multiple contrasts)",
+      "modality": "Structural MRI (multi-contrast)",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "scanner-invariant-repr",
@@ -1395,7 +1728,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Diffusion MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "flow-causal-harmonization",
@@ -1428,7 +1770,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "bashyam-stargan-harmonization",
@@ -1462,7 +1813,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "modanwal-cyclegan",
@@ -1495,7 +1855,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "dlest",
@@ -1529,7 +1898,16 @@
       "category_label": "Deep learning-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true
+      }
     },
     {
       "id": "bartharm",
@@ -1551,9 +1929,9 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 2,
-      "forks": 2,
-      "open_issues": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
       "topics": [],
       "archived": false,
@@ -1564,7 +1942,16 @@
       "category_label": "IQM-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "neuroharmony",
@@ -1587,9 +1974,9 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 18,
-      "forks": 10,
-      "open_issues": 4,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
       "topics": [],
       "archived": false,
@@ -1600,7 +1987,16 @@
       "category_label": "IQM-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "autocombat",
@@ -1642,7 +2038,16 @@
       "category_label": "IQM-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Radiomics (CT/MRI)",
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "bayesian-normative",
@@ -1677,7 +2082,16 @@
       "category_label": "Normative Modeling",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "ismi",
@@ -1713,7 +2127,16 @@
       "category_label": "Interpolation-based",
       "in_uniharmony": true,
       "also_implemented_in": [],
-      "validation_data": "4 neuroimaging datasets, brain-age (N=2031)"
+      "validation_data": "4 neuroimaging datasets, brain-age (N=2031)",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "isi",
@@ -1747,7 +2170,16 @@
       "category_label": "Interpolation-based",
       "in_uniharmony": true,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "fedharmony",
@@ -1770,9 +2202,9 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 6,
-      "forks": 3,
-      "open_issues": 2,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
       "topics": [],
       "archived": false,
@@ -1783,7 +2215,16 @@
       "category_label": "Federated Learning-compatible",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "fedcombat",
@@ -1819,7 +2260,16 @@
       "category_label": "Federated Learning-compatible",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "d-combat",
@@ -1843,9 +2293,9 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 1,
-      "forks": 3,
-      "open_issues": 2,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
       "topics": [],
       "archived": false,
@@ -1856,7 +2306,16 @@
       "category_label": "Federated Learning-compatible",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "ica-dp",
@@ -1879,9 +2338,9 @@
       "other_url": null,
       "abstract": null,
       "citations": null,
-      "stars": 1,
-      "forks": 0,
-      "open_issues": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
       "license": null,
       "topics": [],
       "archived": false,
@@ -1892,7 +2351,16 @@
       "category_label": "ICA-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "MRI (unspecified)",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "otda",
@@ -1927,7 +2395,16 @@
       "category_label": "Optimal transport-based",
       "in_uniharmony": true,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "Modality-agnostic (general ML)",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     },
     {
       "id": "botda",
@@ -1963,7 +2440,16 @@
       "category_label": "Optimal transport-based",
       "in_uniharmony": true,
       "also_implemented_in": [],
-      "validation_data": "Agnostic"
+      "validation_data": "Agnostic",
+      "modality": "EEG",
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      }
     }
   ],
   "stats_fetched_at": "2026-08-03T07:50:01Z"

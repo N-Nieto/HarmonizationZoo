@@ -36,6 +36,9 @@ const state = {
   search: "",
   activeLevels: new Set(LEVEL_ORDER),
   fontSize: 13,
+  compareMode: false,
+  selectedIds: new Set(),
+  activeTab: "explore",
 };
 
 async function init() {
@@ -52,6 +55,9 @@ async function init() {
   buildLevelToggles();
   buildFamilyLegend();
   bindControls();
+  bindTabs();
+  bindCompareBar();
+  buildRecommender();
   render();
 }
 
@@ -113,8 +119,51 @@ function bindControls() {
   document.getElementById("drawer-close").addEventListener("click", closeDrawer);
   document.getElementById("drawer-scrim").addEventListener("click", closeDrawer);
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeDrawer();
+    if (e.key === "Escape") { closeDrawer(); closeComparePanel(); }
   });
+
+  document.getElementById("compare-toggle").addEventListener("click", () => {
+    state.compareMode = !state.compareMode;
+    const btn = document.getElementById("compare-toggle");
+    btn.classList.toggle("active", state.compareMode);
+    btn.textContent = `Compare mode: ${state.compareMode ? "on" : "off"}`;
+    if (!state.compareMode) {
+      state.selectedIds.clear();
+      updateCompareBar();
+    }
+    render();
+  });
+}
+
+function bindTabs() {
+  document.querySelectorAll(".tab-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.activeTab = btn.dataset.tab;
+      document.querySelectorAll(".tab-btn").forEach((b) => b.classList.toggle("active", b === btn));
+      document.querySelectorAll(".tab-panel").forEach((p) => {
+        p.classList.toggle("active", p.id === `tab-${state.activeTab}`);
+      });
+    });
+  });
+}
+
+function bindCompareBar() {
+  document.getElementById("compare-clear-btn").addEventListener("click", () => {
+    state.selectedIds.clear();
+    updateCompareBar();
+    render();
+  });
+  document.getElementById("compare-view-btn").addEventListener("click", openComparePanel);
+  document.getElementById("compare-close").addEventListener("click", closeComparePanel);
+  document.getElementById("compare-scrim").addEventListener("click", closeComparePanel);
+}
+
+function updateCompareBar() {
+  const bar = document.getElementById("compare-bar");
+  const n = state.selectedIds.size;
+  bar.classList.toggle("hidden", !state.compareMode || n === 0);
+  document.getElementById("compare-count").textContent = `${n} selected`;
+  document.getElementById("compare-view-btn").disabled = n < 2;
 }
 
 function visibleMethods() {
@@ -161,11 +210,31 @@ function makeBox(d) {
     badge.textContent = `★${d.stars}`;
     box.appendChild(badge);
   }
-  box.addEventListener("click", () => openDrawer(d));
+
+  if (state.compareMode) {
+    box.classList.add("selectable");
+    box.classList.toggle("selected", state.selectedIds.has(d.id));
+  }
+
+  const activate = () => {
+    if (state.compareMode) {
+      if (state.selectedIds.has(d.id)) {
+        state.selectedIds.delete(d.id);
+      } else {
+        state.selectedIds.add(d.id);
+      }
+      box.classList.toggle("selected", state.selectedIds.has(d.id));
+      updateCompareBar();
+    } else {
+      openDrawer(d);
+    }
+  };
+
+  box.addEventListener("click", activate);
   box.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      openDrawer(d);
+      activate();
     }
   });
   return box;
@@ -187,6 +256,11 @@ function renderClusters(methods, groupBy) {
     groupFn = (d) => (d.in_uniharmony ? "yes" : "no");
     groupOrder = ["yes", "no"];
     groupLabel = (id) => (id === "yes" ? "Implemented in UniHarmony" : "Not (yet) in UniHarmony");
+  } else if (groupBy === "modality") {
+    groupFn = (d) => d.modality || "MRI (unspecified)";
+    const present = Array.from(new Set(methods.map(groupFn)));
+    groupOrder = present.sort();
+    groupLabel = (id) => id;
   } else if (groupBy === "data") {
     groupFn = (d) => d.validation_data || "Agnostic";
     // Agnostic last; everything else alphabetical, so named cohorts stand out.
@@ -454,10 +528,294 @@ function closeDrawer() {
   document.getElementById("drawer").setAttribute("aria-hidden", "true");
 }
 
+/* ---------------- Compare panel ---------------- */
+
+const COMPARE_ROWS = [
+  ["Family", (d) => d.category_label],
+  ["Level", (d) => LEVEL_LABELS[d.level] || d.level],
+  ["Modality", (d) => d.modality || "—"],
+  ["Method type", (d) => d.method_type],
+  ["Validation data", (d) => d.validation_data || "Agnostic"],
+  ["Paper year", (d) => d.paper_year || "—"],
+  ["First commit", (d) => d.first_commit_date || "not fetched yet"],
+  ["Last maintained", (d) => formatMaintenance(d.last_commit).text],
+  ["Stars", (d) => (d.stars != null ? d.stars.toLocaleString() : "not fetched yet")],
+  ["License", (d) => d.license || "—"],
+  ["Language", (d) => (d.language || []).join(", ") || "—"],
+  ["UniHarmony", (d) => (d.in_uniharmony ? "Yes" : "No")],
+  ["GPU needed", (d) => (d.recommend && d.recommend.needs_gpu ? "Yes" : "No")],
+  ["ML-compatible", (d) => (d.recommend && d.recommend.ml_compatible ? "Yes" : "No")],
+];
+
+function openComparePanel() {
+  const selected = state.data.filter((d) => state.selectedIds.has(d.id));
+  if (selected.length < 2) return;
+
+  const content = document.getElementById("compare-content");
+  const headerRow = selected.map((d) => `<th style="--box-color:${FAMILY_COLOR.get(d.category)}">${escapeHtml(d.name)}</th>`).join("");
+  const bodyRows = COMPARE_ROWS.map(([label, fn]) => {
+    const cells = selected.map((d) => `<td>${escapeHtml(String(fn(d)))}</td>`).join("");
+    return `<tr><th class="row-label">${label}</th>${cells}</tr>`;
+  }).join("");
+
+  content.innerHTML = `
+    <h2 style="font-family:var(--font-display);margin:0 0 16px;">Comparing ${selected.length} methods</h2>
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead><tr><th></th>${headerRow}</tr></thead>
+        <tbody>${bodyRows}</tbody>
+      </table>
+    </div>
+  `;
+
+  document.getElementById("compare-panel").classList.add("open");
+  document.getElementById("compare-scrim").classList.add("open");
+  document.getElementById("compare-panel").setAttribute("aria-hidden", "false");
+}
+
+function closeComparePanel() {
+  document.getElementById("compare-panel").classList.remove("open");
+  document.getElementById("compare-scrim").classList.remove("open");
+  document.getElementById("compare-panel").setAttribute("aria-hidden", "true");
+}
+
 function escapeHtml(s) {
   const div = document.createElement("div");
   div.textContent = s;
   return div.innerHTML;
+}
+
+/* ---------------- "Which method?" recommender ---------------- */
+
+const recState = {
+  task: null,          // "statistical" | "ml"
+  mlType: null,        // "classification_binary" | "classification_multiclass" | "regression"
+  linear: null,        // "yes" | "no" | "unsure"
+  totalN: null,
+  nClasses: null,
+  minPerSite: null,
+  newSite: null,       // "yes" | "no"
+  hasSiteId: null,     // "yes" | "no"
+  hasGpu: null,        // "yes" | "no"
+};
+
+function buildRecommender() {
+  const root = document.getElementById("recommend-root");
+  root.innerHTML = `
+    <div class="recommend-wrap">
+      <p class="recommend-intro">
+        Answer what you know — anything left blank is just treated as "no strong constraint".
+        This uses reasoned defaults per method family (documented in each result), not a
+        paper-verified fact for every one of the 54 methods, so treat it as a shortlist to
+        investigate rather than a final answer.
+      </p>
+
+      <fieldset class="rec-question" id="rq-task">
+        <legend>Downstream task</legend>
+        <div class="rec-options" data-key="task">
+          <button type="button" class="rec-pill" data-value="statistical">Statistical analysis</button>
+          <button type="button" class="rec-pill" data-value="ml">Machine learning prediction</button>
+        </div>
+        <div class="rec-subquestion hidden" id="rq-mltype">
+          <div class="rec-options" data-key="mlType">
+            <button type="button" class="rec-pill" data-value="classification_binary">Classification (binary)</button>
+            <button type="button" class="rec-pill" data-value="classification_multiclass">Classification (multiclass)</button>
+            <button type="button" class="rec-pill" data-value="regression">Regression</button>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="rec-question">
+        <legend>Signal assumptions</legend>
+        <p class="rec-help">Can you assume your biological signal is linear (in the covariates you'd harmonize for)?</p>
+        <div class="rec-options" data-key="linear">
+          <button type="button" class="rec-pill" data-value="yes">Yes</button>
+          <button type="button" class="rec-pill" data-value="no">No</button>
+          <button type="button" class="rec-pill" data-value="unsure">Not sure</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="rec-question">
+        <legend>Data quantity</legend>
+        <div class="rec-numbers">
+          <label>Total N
+            <input type="number" min="0" id="rn-totalN" placeholder="e.g. 500">
+          </label>
+          <label>Total N classes
+            <input type="number" min="0" id="rn-nClasses" placeholder="e.g. 2">
+          </label>
+          <label>Min samples per site
+            <input type="number" min="0" id="rn-minPerSite" placeholder="e.g. 8">
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="rec-question">
+        <legend>New site</legend>
+        <p class="rec-help">Will this be applied to a new, previously unseen site (not part of the original harmonized batch)?</p>
+        <div class="rec-options" data-key="newSite">
+          <button type="button" class="rec-pill" data-value="yes">Yes</button>
+          <button type="button" class="rec-pill" data-value="no">No</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="rec-question">
+        <legend>Site assumptions</legend>
+        <p class="rec-help">Do you have access to the Site ID? IQM-based methods can be applied without knowing site membership.</p>
+        <div class="rec-options" data-key="hasSiteId">
+          <button type="button" class="rec-pill" data-value="yes">Yes</button>
+          <button type="button" class="rec-pill" data-value="no">No</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="rec-question">
+        <legend>Hardware</legend>
+        <p class="rec-help">Only relevant for deep-learning models: do you have access to a GPU?</p>
+        <div class="rec-options" data-key="hasGpu">
+          <button type="button" class="rec-pill" data-value="yes">Yes</button>
+          <button type="button" class="rec-pill" data-value="no">No</button>
+        </div>
+      </fieldset>
+
+      <div class="rec-submit-row">
+        <button type="button" id="rec-submit">Get recommendations</button>
+      </div>
+
+      <div id="rec-results" class="rec-results"></div>
+    </div>
+  `;
+
+  root.querySelectorAll(".rec-options").forEach((group) => {
+    const key = group.dataset.key;
+    group.querySelectorAll(".rec-pill").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        recState[key] = recState[key] === btn.dataset.value ? null : btn.dataset.value;
+        group.querySelectorAll(".rec-pill").forEach((b) => b.classList.toggle("active", b.dataset.value === recState[key]));
+        if (key === "task") {
+          document.getElementById("rq-mltype").classList.toggle("hidden", recState.task !== "ml");
+          if (recState.task !== "ml") recState.mlType = null;
+        }
+      });
+    });
+  });
+
+  document.getElementById("rn-totalN").addEventListener("input", (e) => { recState.totalN = e.target.value ? Number(e.target.value) : null; });
+  document.getElementById("rn-nClasses").addEventListener("input", (e) => { recState.nClasses = e.target.value ? Number(e.target.value) : null; });
+  document.getElementById("rn-minPerSite").addEventListener("input", (e) => { recState.minPerSite = e.target.value ? Number(e.target.value) : null; });
+
+  document.getElementById("rec-submit").addEventListener("click", runRecommender);
+}
+
+function runRecommender() {
+  const resultsEl = document.getElementById("rec-results");
+  let pool = state.data.slice();
+  const excludedReasons = [];
+
+  // --- Hard filters: genuine incompatibilities, not preferences ---
+  if (recState.task === "ml") {
+    const before = pool.length;
+    pool = pool.filter((d) => d.category !== "combat-family");
+    if (pool.length < before) {
+      excludedReasons.push(
+        "Location/Scale (ComBat-family) methods are excluded for machine-learning prediction: the covariate " +
+        "they need to fit the harmonization model is typically the same variable you're trying to predict, " +
+        "which causes data leakage."
+      );
+    }
+  }
+  if (recState.hasGpu === "no") {
+    const before = pool.length;
+    pool = pool.filter((d) => !(d.recommend && d.recommend.needs_gpu));
+    if (pool.length < before) {
+      excludedReasons.push("Deep-learning methods are excluded: they need a GPU to be practical to train/run.");
+    }
+  }
+  if (recState.hasSiteId === "no") {
+    const before = pool.length;
+    pool = pool.filter((d) => d.recommend && d.recommend.requires_site_id === false);
+    if (pool.length < before) {
+      excludedReasons.push(
+        "Methods that require an explicit Site ID are excluded. IQM-based, classical intensity-normalization, " +
+        "and normative-modeling methods don't need one."
+      );
+    }
+  }
+
+  // --- Soft scoring: preferences that rank results, don't eliminate them ---
+  const scored = pool.map((d) => {
+    let score = 0;
+    const reasons = [];
+    const rc = d.recommend || {};
+
+    if (recState.linear === "no") {
+      if (rc.requires_linear_signal === false) { score += 2; reasons.push("handles nonlinear effects"); }
+      else if (rc.requires_linear_signal === true) { score -= 2; }
+    }
+    if (recState.minPerSite != null && recState.minPerSite < 15) {
+      if (rc.low_n_friendly) { score += 2; reasons.push("works with small per-site N"); }
+      else { score -= 1; }
+    }
+    if (recState.newSite === "yes") {
+      if (rc.generalizes_to_new_site) { score += 2; reasons.push("generalizes to a new site"); }
+      else { score -= 1; }
+    }
+    if (recState.totalN != null && recState.totalN < 100 && d.method_type === "deep-learning") {
+      score -= 1; // data-hungry
+    }
+    if (recState.task === "ml" && recState.mlType === "regression" &&
+        (d.category === "normative-modeling" || d.id === "ismi")) {
+      score += 1; reasons.push("commonly used for regression-style prediction (e.g. brain age)");
+    }
+    if (recState.task === "ml" && recState.mlType && recState.mlType.startsWith("classification") &&
+        (d.category === "federated" || d.category === "optimal-transport")) {
+      score += 1; reasons.push("commonly used ahead of classification pipelines");
+    }
+    if (d.in_uniharmony) { score += 0.5; reasons.push("available in UniHarmony"); }
+
+    return { d, score, reasons };
+  });
+
+  scored.sort((a, b) => b.score - a.score || a.d.name.localeCompare(b.d.name));
+  const top = scored.slice(0, 12);
+
+  let html = `<h3>${pool.length} candidate method${pool.length === 1 ? "" : "s"}, top ${top.length} shown</h3>`;
+
+  excludedReasons.forEach((r) => {
+    html += `<p class="rec-excluded-note">✕ ${escapeHtml(r)}</p>`;
+  });
+
+  if (recState.task === "ml") {
+    const pretty = state.data.find((d) => d.id === "prettyharmonize");
+    if (pretty) {
+      html += `<p class="rec-special-note">Note: PrettYharmonize is a Location/Scale (ComBat-family) method
+        specifically designed to be leakage-free inside ML pipelines. It's excluded above by the blanket
+        family rule, but if you specifically want ComBat-style harmonization for an ML pipeline, it's worth
+        looking at directly.</p>`;
+    }
+  }
+
+  if (top.length === 0) {
+    html += `<p class="rec-excluded-note">No methods satisfy all the hard constraints — try relaxing GPU or Site ID access.</p>`;
+  } else {
+    html += `<div class="rec-card-list">`;
+    top.forEach(({ d, reasons }) => {
+      const chips = reasons.map((r) => `<span class="rec-reason-chip">${escapeHtml(r)}</span>`).join("");
+      html += `
+        <div class="rec-card" style="--box-color:${FAMILY_COLOR.get(d.category) || "#888"}" data-id="${d.id}">
+          <div class="rec-card-title">${escapeHtml(d.name)} <span class="rec-card-family">${d.category_label} · ${LEVEL_LABELS[d.level] || d.level}</span></div>
+          ${chips ? `<div class="rec-reason-chips">${chips}</div>` : ""}
+        </div>`;
+    });
+    html += `</div>`;
+  }
+
+  resultsEl.innerHTML = html;
+  resultsEl.querySelectorAll(".rec-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const d = state.data.find((m) => m.id === card.dataset.id);
+      if (d) openDrawer(d);
+    });
+  });
 }
 
 init();

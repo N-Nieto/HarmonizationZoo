@@ -311,6 +311,76 @@ VALIDATION_DATA = {
     "whitestripe": "AIBL, ADNI",
 }
 
+# Data modality the method targets. "MRI (unspecified)" is used rather than
+# a guess when the paper doesn't clearly anchor to one sequence/modality.
+MODALITY = {
+    "combat": "Structural MRI", "neurocombat": "Structural MRI",
+    "combat-gam": "Structural MRI", "harmonizer": "Structural MRI",
+    "covbat": "Structural MRI", "prettyharmonize": "Structural MRI",
+    "pycombat": "Structural MRI", "longcombat": "Structural MRI",
+    "ravel": "Structural MRI", "relief": "Diffusion MRI",
+    "combat-mega": "Structural MRI", "combatls": "Structural MRI",
+    "opnestedcombat": "Radiomics (CT/MRI)", "harmonizr": "Omics/Proteomics",
+    "whitestripe": "Structural MRI", "nyul": "Structural MRI",
+    "deepharmony": "Structural MRI", "imunity": "Structural MRI",
+    "cyclegan-brainmri": "Structural MRI", "mispel": "Structural MRI",
+    "harmless": "Structural MRI", "xcov-disentanglement": "Structural MRI",
+    "unlearning-mri": "Structural MRI", "sfharmony": "Structural MRI",
+    "harmonized-fmri": "Functional MRI", "dmri-harmonization": "Diffusion MRI",
+    "dictionary-learning-harmonization": "Diffusion MRI",
+    "b0shimming": "Acquisition (modality-agnostic)",
+    "intensity-normalization": "Structural MRI", "calamiti": "Structural MRI",
+    "dewey-disentangled-latent": "Structural MRI", "murd": "Structural MRI",
+    "stgan": "Structural MRI", "disarm": "Structural MRI", "disarmpp": "Structural MRI",
+    "iguane": "Structural MRI", "haca3": "Structural MRI (multi-contrast)",
+    "scanner-invariant-repr": "Diffusion MRI",
+    "flow-causal-harmonization": "Structural MRI",
+    "bashyam-stargan-harmonization": "Structural MRI",
+    "modanwal-cyclegan": "Structural MRI", "dlest": "Structural MRI",
+    "bartharm": "Structural MRI", "neuroharmony": "Structural MRI",
+    "autocombat": "Radiomics (CT/MRI)", "bayesian-normative": "Structural MRI",
+    "ismi": "Structural MRI", "isi": "Structural MRI",
+    "fedharmony": "Structural MRI", "fedcombat": "Structural MRI",
+    "d-combat": "Structural MRI", "ica-dp": "MRI (unspecified)",
+    "otda": "Modality-agnostic (general ML)", "botda": "EEG",
+}
+
+# --- "Which method?" recommender compatibility fields -----------------------
+# These are reasoned defaults from each method's family/design intent (some
+# directly evidenced by the paper's own framing, e.g. "unseen scanners" in
+# NeuroHarmony's title) rather than exhaustively paper-verified per-method
+# facts. They drive the recommender tab's filters/scoring, not the main
+# explorer, and are flagged as heuristic in the UI copy.
+CATEGORY_RECOMMEND_DEFAULTS = {
+    "combat-family":          dict(requires_site_id=True,  generalizes_to_new_site=False, low_n_friendly=False, requires_linear_signal=True,  ml_compatible=False),
+    "classical-normalization": dict(requires_site_id=False, generalizes_to_new_site=True,  low_n_friendly=True,  requires_linear_signal=None,  ml_compatible=True),
+    "deep-learning":           dict(requires_site_id=True,  generalizes_to_new_site=False, low_n_friendly=False, requires_linear_signal=None,  ml_compatible=True),
+    "iqm-based":               dict(requires_site_id=False, generalizes_to_new_site=True,  low_n_friendly=True,  requires_linear_signal=None,  ml_compatible=True),
+    "normative-modeling":      dict(requires_site_id=False, generalizes_to_new_site=True,  low_n_friendly=True,  requires_linear_signal=None,  ml_compatible=True),
+    "interpolation-based":     dict(requires_site_id=True,  generalizes_to_new_site=False, low_n_friendly=True,  requires_linear_signal=None,  ml_compatible=True),
+    "federated":               dict(requires_site_id=True,  generalizes_to_new_site=True,  low_n_friendly=True,  requires_linear_signal=None,  ml_compatible=True),
+    "ica-based":               dict(requires_site_id=True,  generalizes_to_new_site=False, low_n_friendly=False, requires_linear_signal=None,  ml_compatible=True),
+    "optimal-transport":       dict(requires_site_id=True,  generalizes_to_new_site=True,  low_n_friendly=False, requires_linear_signal=None,  ml_compatible=True),
+}
+
+# Per-method overrides where there's a clear, specific reason to deviate
+# from the family default (cited inline).
+RECOMMEND_OVERRIDES = {
+    # Explicitly a nonlinear (GAM) extension of ComBat's location-scale model.
+    "combat-gam": dict(requires_linear_signal=False, generalizes_to_new_site=True),
+    # Title is literally "...from unseen scanners"; IQM-based so no site ID needed.
+    "neuroharmony": dict(generalizes_to_new_site=True),
+    # "Source-Free Domain Adaptation" — designed to not need source-site data at deployment.
+    "sfharmony": dict(generalizes_to_new_site=True),
+    # The one ComBat-family method explicitly built to be leakage-free for ML use —
+    # see the special callout logic in the app rather than a plain family override.
+    "prettyharmonize": dict(ml_compatible=True),
+    # Optimal-transport domain adaptation targets a new domain by construction.
+    "otda": dict(generalizes_to_new_site=True),
+    "botda": dict(generalizes_to_new_site=True),
+}
+NEEDS_GPU_CATEGORIES = {"deep-learning"}
+
 
 def main():
     out = []
@@ -338,6 +408,13 @@ def main():
         rec["in_uniharmony"] = rec["id"] in IN_UNIHARMONY
         rec["also_implemented_in"] = ALSO_IMPLEMENTED_IN.get(rec["id"], [])
         rec["validation_data"] = VALIDATION_DATA.get(rec["id"], "Agnostic")
+        rec["modality"] = MODALITY.get(rec["id"], "MRI (unspecified)")
+
+        compat = dict(CATEGORY_RECOMMEND_DEFAULTS[rec["category"]])
+        compat.update(RECOMMEND_OVERRIDES.get(rec["id"], {}))
+        compat["needs_gpu"] = rec["category"] in NEEDS_GPU_CATEGORIES
+        rec["recommend"] = compat
+
         out.append(rec)
 
     os.makedirs("data", exist_ok=True)

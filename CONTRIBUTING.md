@@ -32,7 +32,16 @@ the repo.
   "repo_description": null,
   "validation_data": "Agnostic",
   "in_uniharmony": false,
-  "also_implemented_in": []
+  "also_implemented_in": [],
+  "modality": "Structural MRI",
+  "recommend": {
+    "requires_site_id": true,
+    "generalizes_to_new_site": false,
+    "low_n_friendly": false,
+    "requires_linear_signal": null,
+    "ml_compatible": true,
+    "needs_gpu": false
+  }
 }
 ```
 
@@ -63,6 +72,8 @@ the repo.
 | `validation_data` | no | The dataset/cohort the method was mainly proposed or validated on (e.g. `"ENIGMA consortium"`, `"ABCD"`). If the paper doesn't anchor to one specific dataset — evaluated across several with no clear primary one, or you just don't know — use the literal string `"Agnostic"` (this is the default; it's a real category here, not a stand-in for missing data). |
 | `in_uniharmony` | no | `true` if the method has a working implementation in [UniHarmony](https://github.com/N-Nieto/UniHarmony), else `false`. |
 | `also_implemented_in` | no | Array of other toolkits/packages that also bundle this method (e.g. `["neuroHarmonize"]`), beyond its own dedicated repo. Empty array if none. |
+| `modality` | no | The data modality the method targets, e.g. `"Structural MRI"`, `"Diffusion MRI"`, `"Functional MRI"`, `"Omics/Proteomics"`, `"EEG"`. Use `"MRI (unspecified)"` rather than guessing if the paper doesn't clearly anchor to one. |
+| `recommend` | no | Compatibility flags used by the "Which method?" tab — see [How the recommender works](README.md#how-the-which-method-recommender-works) in the README before setting these; they should reflect the method's actual design, not a guess. If omitted, a new entry won't show up in recommender results (it still appears in Explore). |
 
 ## Keeping stats current
 
@@ -85,13 +96,12 @@ that to 5000/hour.
 
 ## Adding a new grouping dimension
 
-The six "Group by" options are handled in `render()` in `js/app.js`: Level,
-Family, Validation data, and Implemented-in-UniHarmony all go through
-`renderClusters()` (flex-wrap sections); Year and GitHub stars go through
-`renderYearTimeline()` / `renderStarsTimeline()` (both built on the shared
-`buildTimelineColumn()` helper). Adding another cluster-style dimension —
-e.g. data modality (structural / diffusion / functional MRI) once enough
-entries are tagged with it — means adding an `<option>` to the `#group-by`
+The seven "Group by" options are handled in `render()` in `js/app.js`:
+Level, Family, Data modality, Validation data, and Implemented-in-UniHarmony
+all go through `renderClusters()` (flex-wrap sections); Year and GitHub
+stars go through `renderYearTimeline()` / `renderStarsTimeline()` (both
+built on the shared `buildTimelineColumn()` helper). Adding another
+cluster-style dimension means adding an `<option>` to the `#group-by`
 select in `index.html` and a branch in `renderClusters()`'s
 `groupFn`/`groupOrder`/`groupLabel` logic.
 

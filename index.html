@@ -34,51 +34,82 @@
   </div>
 </header>
 
+<nav class="tab-nav" aria-label="Sections">
+  <button class="tab-btn active" data-tab="explore" type="button">Explore</button>
+  <button class="tab-btn" data-tab="recommend" type="button">Which method?</button>
+</nav>
+
 <main>
-  <section class="controls" aria-label="Filters">
-    <div class="control-group">
-      <label for="group-by">Group by</label>
-      <select id="group-by">
-        <option value="level" selected>Harmonization level</option>
-        <option value="category">Family</option>
-        <option value="year">Year (first commit)</option>
-        <option value="stars">GitHub stars</option>
-        <option value="data">Validation data</option>
-        <option value="uniharmony">Implemented in UniHarmony</option>
-      </select>
-    </div>
+  <section id="tab-explore" class="tab-panel active">
+    <section class="controls" aria-label="Filters">
+      <div class="control-group">
+        <label for="group-by">Group by</label>
+        <select id="group-by">
+          <option value="level" selected>Harmonization level</option>
+          <option value="category">Family</option>
+          <option value="modality">Data modality</option>
+          <option value="year">Year (first commit)</option>
+          <option value="stars">GitHub stars</option>
+          <option value="data">Validation data</option>
+          <option value="uniharmony">Implemented in UniHarmony</option>
+        </select>
+      </div>
 
-    <div class="control-group">
-      <label for="font-size">Label size</label>
-      <input id="font-size" type="range" min="10" max="18" step="1" value="13">
-    </div>
+      <div class="control-group">
+        <label for="font-size">Label size</label>
+        <input id="font-size" type="range" min="10" max="18" step="1" value="13">
+      </div>
 
-    <div class="control-group search-group">
-      <label for="search">Search</label>
-      <input id="search" type="search" placeholder="method, tag, language…" autocomplete="off">
-    </div>
+      <div class="control-group search-group">
+        <label for="search">Search</label>
+        <input id="search" type="search" placeholder="method, tag, language…" autocomplete="off">
+      </div>
 
-    <div class="control-group toggle-group" id="level-toggles" aria-label="Filter by level">
-      <!-- populated by JS -->
-    </div>
+      <div class="control-group">
+        <label for="compare-toggle">&nbsp;</label>
+        <button id="compare-toggle" type="button" class="compare-toggle-btn">Compare mode: off</button>
+      </div>
+
+      <div class="control-group toggle-group" id="level-toggles" aria-label="Filter by level">
+        <!-- populated by JS -->
+      </div>
+    </section>
+
+    <div id="family-legend" class="family-legend" aria-label="Family color legend"></div>
+
+    <section class="stage-wrap">
+      <div id="stage" aria-label="Map of harmonization methods"></div>
+      <div id="empty-state" class="empty-state hidden">
+        <p>No methods match that search.</p>
+        <button id="clear-search-btn">Clear search</button>
+      </div>
+    </section>
   </section>
 
-  <div id="family-legend" class="family-legend" aria-label="Family color legend"></div>
-
-  <section class="stage-wrap">
-    <div id="stage" aria-label="Map of harmonization methods"></div>
-    <div id="empty-state" class="empty-state hidden">
-      <p>No methods match that search.</p>
-      <button id="clear-search-btn">Clear search</button>
-    </div>
+  <section id="tab-recommend" class="tab-panel">
+    <div id="recommend-root"><!-- populated by JS --></div>
   </section>
 </main>
+
+<div id="compare-bar" class="compare-bar hidden">
+  <span id="compare-count">0 selected</span>
+  <button id="compare-view-btn" type="button" disabled>Compare</button>
+  <button id="compare-clear-btn" type="button">Clear</button>
+</div>
 
 <aside id="drawer" class="drawer" aria-hidden="true">
   <button id="drawer-close" class="drawer-close" aria-label="Close">✕</button>
   <div id="drawer-content"></div>
 </aside>
 <div id="drawer-scrim" class="drawer-scrim"></div>
+
+<div id="compare-panel" class="compare-panel" aria-hidden="true">
+  <div class="compare-panel-inner">
+    <button id="compare-close" class="drawer-close" aria-label="Close">✕</button>
+    <div id="compare-content"></div>
+  </div>
+</div>
+<div id="compare-scrim" class="drawer-scrim"></div>
 
 <footer class="site-footer">
   <p>
