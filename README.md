@@ -48,57 +48,98 @@ the page doesn't render after enabling it.
 
 ## What's in the database right now
 
-`data/methods.json` seeds **46 methods**, sourced from the
-[UniHarmony reference list](https://github.com/N-Nieto/UniHarmony/wiki/References)
-and grouped into eight families (the "Family" grouping):
+`data/methods.json` seeds **53 methods** across nine families (the
+"Family" grouping) — the original ComBat / Deep-learning / IQM / Normative /
+Interpolation / Federated / ICA / Optimal-transport groups, plus a
+**Classical Intensity Normalization** family (WhiteStripe, Nyúl–Udupa
+histogram matching) for the pre-"harmonization"-era baselines that most of
+the survey papers still cite and compare against. Color always encodes
+**Family**, no matter which "Group by" option is active.
 
-- **ComBat-based** (14) — ComBat, neuroComBat, ComBat-GAM, CovBat, LongComBat,
-  RAVEL, RELIEF, ComBatLS, OPNestedComBat, and related empirical-Bayes methods.
-- **Deep-learning-based** (20) — DeepHarmony, ImUnity, CycleGAN-based
-  approaches, MISPEL, disentanglement methods (CALAMITI, DISARM, DISARM++,
-  HACA3, Xcov), unlearning methods, diffusion-MRI harmonization tools, and more.
-- **IQM-based** (3) — NeuroHarmony, BARTharm, AutoComBat/ComScan — methods that
-  use image quality metrics instead of (or alongside) explicit scanner IDs.
-- **Normative Modeling** (1) — hierarchical Bayesian site-variation models.
-- **Interpolation-based** (2) — ISMI, ISI.
-- **Federated Learning-compatible** (3) — FedHarmony, Fed-ComBat, d-ComBat.
-- **ICA-based** (1) — ICA-DP.
-- **Optimal transport-based** (2) — OTDA, BOTDA.
+### Where this round's additions came from
 
-Color always encodes **Family**, no matter which "Group by" option is
-active, so you can see the family mix within a level or a year at a glance.
+Beyond the original UniHarmony-wiki seed list, this revision added methods
+found by checking the actual citation lists inside the survey papers you
+originally pointed at (particularly the "Applications of GANs in
+Neuroimaging" review and the related-work section of the IGUANe paper),
+each verified against its own DOI before being added — not just picked out
+of a citation list by title:
+
+- **WhiteStripe** (Shinohara et al., 2014) and **Nyúl–Udupa histogram
+  matching** (1999) — the two classical intensity-normalization baselines
+  that RAVEL and most image-level DL papers explicitly build on or compare
+  against, but which weren't in UniHarmony's tables (they predate the
+  "harmonization" framing and are usually cited as normalization baselines,
+  not harmonization methods per se).
+- **Scanner Invariant Representations** (Moyer et al., 2020) — adversarial
+  invariant-representation learning for diffusion MRI.
+- **Harmonization with Flow-Based Causal Inference** (Wang et al., MICCAI
+  2021) — normalizing-flow-based harmonization.
+- **Deep Generative (StarGAN-based) Harmonization** (Bashyam et al., 2021)
+  and **Cycle-Consistent GAN Harmonization** (Modanwal et al., 2020) —
+  two more GAN variants distinct from the CycleGAN/IGUANe/STGAN entries
+  already in the zoo.
+- **Disentangled Latent Space** (Dewey et al., MICCAI 2020) — the direct
+  precursor to CALAMITI, from the same lab.
+
+None of these five DL papers had a discoverable public code repo, so they're
+listed with `github: null` — code-free entries are still useful for the
+taxonomy, they just won't get GitHub stats.
+
+Two entries from the original UniHarmony seed also had incorrect metadata,
+now fixed: **BARTharm** and **Harmless** were tagged `image-level`; both
+actually operate on extracted features (image quality metrics and cortical-
+thickness ROIs, respectively), so they're `feature-level`. If you spot
+another one, that's exactly what `CONTRIBUTING.md` is for.
+
+### Other candidates surfaced but not yet added
+
+A few more names turned up in citation lists during this pass but weren't
+verified closely enough to add responsibly — **HarmoFL**, **DeepResBat**,
+**SiMix**, **"Harmonizing Flows"** (Beizaee et al.), a **disentangled
+latent energy-based style translation** framework, an **SSIM-guided
+disentanglement** method, a **graph-neural-network structural-connectome**
+harmonization approach, and an **unpaired multi-site latent-diffusion**
+method. These are good next PRs if you (or anyone) can pin down the exact
+paper and check it firsthand.
 
 ### Honest gaps — please help close these
 
-This seed list was built from the reference tables in a well-curated GitHub
-wiki plus the paper titles it links to — **not** from reading all eight
-survey papers cover to cover. That means:
-
-- **`paper_year` is verified (not guessed) for 23 of 46 entries** — found by
-  checking the actual journal/arXiv/bioRxiv listing for each paper. The rest
-  are `null` rather than estimated, because a wrong year is worse than a
-  missing one. The "Year (timeline)" view groups those into an "Year unknown"
-  column at the end. If you know a missing year, it's a very welcome PR.
-- **`abstract` and `citations` are `null` for almost every entry** for the
-  same reason.
-- **`stars` and `last_commit` are populated automatically**, not manually —
-  see [Keeping stats current](#keeping-github-stats-current) below.
-- The eight survey papers you originally pointed at (structural-MRI DL
-  survey, site-effects overview, cross-scanner comparison study,
-  statistical/DL review, radiomics harmonization strategies, systematic ML
-  review, acquisition/image/feature survey, disentangled representation-
-  learning overview) almost certainly describe more methods than are
-  captured here. Treat this as a solid, real starting taxonomy — not an
-  exhaustive one — and use `CONTRIBUTING.md` to extend it.
+- **`paper_year` is verified for 34 of 53 entries; `paper_url` for 21 of
+  53.** The rest are `null` rather than estimated — a wrong year is worse
+  than a missing one, and the Year view's "Year unknown" column exists
+  for exactly this reason.
+- The eight survey papers you originally listed (structural-MRI DL survey,
+  site-effects overview, cross-scanner comparison study, statistical/DL
+  review, radiomics harmonization strategies, systematic ML review,
+  acquisition/image/feature survey, disentangled representation-learning
+  overview) almost certainly describe more methods than are captured here —
+  this pass checked citation lists reachable from search, not a full
+  cover-to-cover read of all eight. Treat this as a solid, real, growing
+  taxonomy — not an exhaustive one.
 
 ## Keeping GitHub stats current
 
-`stars` and `last_commit` are **not** fetched by the website itself — the
-browser only ever does a `fetch()` of the already-committed
-`data/methods.json`. They're filled in by running
-`scripts/fetch_github_stats.py`, which is a separate, one-off Python script
-that calls the GitHub API and rewrites the JSON file. That's why a fresh
-`git clone` served locally shows `stars: null` until you either:
+The website itself never calls the GitHub API — the browser only ever does
+a `fetch()` of the already-committed `data/methods.json`. All GitHub-derived
+fields are filled in by `scripts/fetch_github_stats.py`, a separate script
+that calls the GitHub API and rewrites the JSON file:
+
+- **stars, forks, open issues**
+- **license** (SPDX id) and **repo topics**
+- **archived** flag (surfaced as a badge — a quiet signal that a method's
+  code may no longer be maintained even if it still works)
+- **repo creation date** and **first commit date** — the latter is what
+  the "Year (first commit)" view groups by, in place of the researched
+  paper year, since it's automatable and verifiable for every method with
+  code rather than depending on us finding and checking each publication
+- **last commit date**, from which the site computes "last maintained"
+  (e.g. "3 months ago") and an Active / Slowing / Stale badge, entirely in
+  the browser at render time — so that label never goes stale between data
+  refreshes even if the underlying date does
+
+That's why a fresh `git clone` served locally shows all of these as `null`
+until you either:
 
 - run `python3 scripts/fetch_github_stats.py` yourself once, or
 - push to GitHub and let the scheduled Action
@@ -106,10 +147,10 @@ that calls the GitHub API and rewrites the JSON file. That's why a fresh
   the result back, so the *deployed* site stays current automatically even
   though nothing runs at page-load time.
 
-Unauthenticated GitHub API calls are capped at 60/hour, which can get eaten
-up by other traffic sharing the same egress IP (this happened while building
-the seed data). Set a `GITHUB_TOKEN` env var locally, or rely on the Action
-(which gets one automatically), to avoid that.
+Unauthenticated GitHub API calls are capped at 60/hour, and each repo now
+costs 2 calls (repo info + first-commit lookup), so this ceiling matters
+sooner than it used to — set a `GITHUB_TOKEN` env var locally, or rely on
+the Action (which gets one automatically), to raise it to 5000/hour.
 
 ## Troubleshooting GitHub Pages
 

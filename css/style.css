@@ -304,6 +304,14 @@ select:focus, input[type="search"]:focus, button:focus-visible {
   white-space: nowrap;
 }
 
+.timeline-note {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--paper-dim);
+  margin: 14px 0 0;
+  opacity: 0.8;
+}
+
 .empty-state {
   position: absolute;
   inset: 0;
@@ -395,7 +403,7 @@ select:focus, input[type="search"]:focus, button:focus-visible {
 
 .spec-table {
   display: grid;
-  grid-template-columns: 110px 1fr;
+  grid-template-columns: 122px 1fr;
   row-gap: 10px;
   column-gap: 12px;
   font-size: 13.5px;
@@ -418,6 +426,34 @@ select:focus, input[type="search"]:focus, button:focus-visible {
   padding: 3px 9px;
   border-radius: 999px;
   border: 1px solid var(--line);
+  color: var(--paper-dim);
+}
+.chip-warning {
+  color: var(--rose);
+  border-color: var(--rose);
+}
+
+.repo-description {
+  font-size: 13.5px;
+  color: var(--paper-dim);
+  margin: -6px 0 16px;
+}
+
+.maint-badge {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 7px;
+  border-radius: 999px;
+  margin-left: 6px;
+}
+.maint-active { background: rgba(127,216,143,0.18); color: #7fd88f; }
+.maint-slowing { background: rgba(242,169,59,0.18); color: var(--phosphor); }
+.maint-stale { background: rgba(224,112,138,0.18); color: var(--rose); }
+.maint-date {
+  font-family: var(--font-mono);
+  font-size: 11px;
   color: var(--paper-dim);
 }
 
@@ -457,5 +493,5 @@ select:focus, input[type="search"]:focus, button:focus-visible {
   .controls { gap: 14px; }
   select, input[type="search"] { min-width: 140px; }
   .toggle-group { margin-left: 0; }
-  .spec-table { grid-template-columns: 92px 1fr; }
+  .spec-table { grid-template-columns: 104px 1fr; }
 }

@@ -1,8 +1,8 @@
 /* Harmonization Zoo — box map
  * Renders methods from data/methods.json as name-fitting boxes, either
  * grouped into flex-wrap sections (Level / Family) or laid out along a
- * horizontal year timeline. Color always encodes Family, regardless of
- * which grouping is active, so the family mix stays visible everywhere.
+ * horizontal timeline (Year of first commit, or GitHub stars). Color
+ * always encodes Family, regardless of which grouping is active.
  */
 
 const LEVEL_ORDER = ["feature-level", "image-level", "acquisition-level"];
@@ -13,9 +13,10 @@ const LEVEL_LABELS = {
 };
 
 // Fixed order + color per family, so the same family always reads as the
-// same color whether you're grouped by Level, Family, or Year.
+// same color whether you're grouped by Level, Family, Year, or Stars.
 const FAMILY_ORDER = [
   ["combat-family", "ComBat-based", "#f2a93b"],
+  ["classical-normalization", "Classical Intensity Normalization", "#c98f5e"],
   ["deep-learning", "Deep learning-based", "#5fc9c9"],
   ["iqm-based", "IQM-based", "#9c8cf0"],
   ["normative-modeling", "Normative Modeling", "#e0708a"],
@@ -26,6 +27,8 @@ const FAMILY_ORDER = [
 ];
 const FAMILY_COLOR = new Map(FAMILY_ORDER.map(([id, , color]) => [id, color]));
 const FAMILY_LABEL = new Map(FAMILY_ORDER.map(([id, label]) => [id, label]));
+
+const STAR_BUCKETS = ["0", "1–9", "10–49", "50–199", "200–999", "1000+"];
 
 const state = {
   data: [],
@@ -52,18 +55,6 @@ async function init() {
   render();
 }
 
-function buildFamilyLegend() {
-  const legend = document.getElementById("family-legend");
-  legend.innerHTML = "";
-  const present = new Set(state.data.map((d) => d.category));
-  FAMILY_ORDER.filter(([id]) => present.has(id)).forEach(([id, label, color]) => {
-    const item = document.createElement("span");
-    item.className = "legend-item";
-    item.innerHTML = `<span class="legend-swatch" style="background:${color}"></span>${label}`;
-    legend.appendChild(item);
-  });
-}
-
 function buildLevelToggles() {
   const wrap = document.getElementById("level-toggles");
   wrap.innerHTML = "";
@@ -86,6 +77,18 @@ function buildLevelToggles() {
       render();
     });
     wrap.appendChild(btn);
+  });
+}
+
+function buildFamilyLegend() {
+  const legend = document.getElementById("family-legend");
+  legend.innerHTML = "";
+  const present = new Set(state.data.map((d) => d.category));
+  FAMILY_ORDER.filter(([id]) => present.has(id)).forEach(([id, label, color]) => {
+    const item = document.createElement("span");
+    item.className = "legend-item";
+    item.innerHTML = `<span class="legend-swatch" style="background:${color}"></span>${label}`;
+    legend.appendChild(item);
   });
 }
 
@@ -136,7 +139,9 @@ function render() {
   if (methods.length === 0) return;
 
   if (state.groupBy === "year") {
-    stage.appendChild(renderTimeline(methods));
+    stage.appendChild(renderYearTimeline(methods));
+  } else if (state.groupBy === "stars") {
+    stage.appendChild(renderStarsTimeline(methods));
   } else {
     stage.appendChild(renderClusters(methods, state.groupBy));
   }
@@ -211,71 +216,144 @@ function renderClusters(methods, groupBy) {
   return wrap;
 }
 
-/* ---------------- Timeline view (Year) ---------------- */
+/* ---------------- Timeline scaffolding (shared by Year / Stars) ---------------- */
 
-function renderTimeline(methods) {
+function buildTimelineColumn(items, tickLabel, extraClass) {
+  const col = document.createElement("div");
+  col.className = "timeline-col" + (extraClass ? ` ${extraClass}` : "") + (items.length ? "" : " timeline-col-empty");
+
+  const boxes = document.createElement("div");
+  boxes.className = "timeline-boxes";
+  items
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .forEach((d) => boxes.appendChild(makeBox(d)));
+  col.appendChild(boxes);
+
+  const tick = document.createElement("div");
+  tick.className = "timeline-tick";
+  const label = document.createElement("span");
+  label.className = "timeline-year-label";
+  label.textContent = tickLabel;
+  tick.appendChild(label);
+  col.appendChild(tick);
+
+  return col;
+}
+
+/* ---------------- Timeline view (Year of first commit) ---------------- */
+
+// Prefers the repo's first-commit year (automatable, verifiable); falls
+// back to the researched paper year for entries where stats haven't been
+// fetched yet or there's no repo at all.
+function timelineYear(d) {
+  if (d.first_commit_date) return Number(d.first_commit_date.slice(0, 4));
+  if (d.paper_year) return d.paper_year;
+  return null;
+}
+
+function renderYearTimeline(methods) {
   const wrap = document.createElement("div");
   wrap.className = "timeline-wrap";
 
-  const known = methods.filter((d) => d.paper_year);
-  const unknown = methods.filter((d) => !d.paper_year);
+  const known = methods.filter((d) => timelineYear(d));
+  const unknown = methods.filter((d) => !timelineYear(d));
 
-  const minYear = known.length ? Math.min(...known.map((d) => d.paper_year)) : new Date().getFullYear();
+  const minYear = known.length ? Math.min(...known.map(timelineYear)) : new Date().getFullYear();
   const maxYear = new Date().getFullYear();
 
   const byYear = new Map();
   for (let y = minYear; y <= maxYear; y++) byYear.set(y, []);
-  known.forEach((d) => byYear.get(d.paper_year).push(d));
+  known.forEach((d) => byYear.get(timelineYear(d)).push(d));
 
   const track = document.createElement("div");
   track.className = "timeline-track";
 
   byYear.forEach((items, year) => {
-    const col = document.createElement("div");
-    col.className = "timeline-col" + (items.length ? "" : " timeline-col-empty");
-
-    const boxes = document.createElement("div");
-    boxes.className = "timeline-boxes";
-    items
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .forEach((d) => boxes.appendChild(makeBox(d)));
-    col.appendChild(boxes);
-
-    const tick = document.createElement("div");
-    tick.className = "timeline-tick";
-    const label = document.createElement("span");
-    label.className = "timeline-year-label";
-    label.textContent = year;
-    tick.appendChild(label);
-    col.appendChild(tick);
-
-    track.appendChild(col);
+    track.appendChild(buildTimelineColumn(items, String(year)));
   });
 
   if (unknown.length) {
-    const col = document.createElement("div");
-    col.className = "timeline-col timeline-col-unknown";
-    const boxes = document.createElement("div");
-    boxes.className = "timeline-boxes";
-    unknown
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .forEach((d) => boxes.appendChild(makeBox(d)));
-    col.appendChild(boxes);
-    const tick = document.createElement("div");
-    tick.className = "timeline-tick";
-    const label = document.createElement("span");
-    label.className = "timeline-year-label";
-    label.textContent = "Year unknown";
-    tick.appendChild(label);
-    col.appendChild(tick);
-    track.appendChild(col);
+    track.appendChild(buildTimelineColumn(unknown, "Year unknown", "timeline-col-unknown"));
   }
 
   wrap.appendChild(track);
+
+  const note = document.createElement("p");
+  note.className = "timeline-note";
+  note.textContent = "Year = the repo's first commit where available, else the paper's publication year.";
+  wrap.appendChild(note);
+
+  return wrap;
+}
+
+/* ---------------- Timeline view (GitHub stars) ---------------- */
+
+function starsBucket(stars) {
+  if (stars == null) return null;
+  if (stars === 0) return "0";
+  if (stars < 10) return "1–9";
+  if (stars < 50) return "10–49";
+  if (stars < 200) return "50–199";
+  if (stars < 1000) return "200–999";
+  return "1000+";
+}
+
+function renderStarsTimeline(methods) {
+  const wrap = document.createElement("div");
+  wrap.className = "timeline-wrap";
+
+  const known = methods.filter((d) => starsBucket(d.stars));
+  const unknown = methods.filter((d) => !starsBucket(d.stars));
+
+  const byBucket = new Map(STAR_BUCKETS.map((b) => [b, []]));
+  known.forEach((d) => byBucket.get(starsBucket(d.stars)).push(d));
+
+  const track = document.createElement("div");
+  track.className = "timeline-track";
+
+  byBucket.forEach((items, bucket) => {
+    track.appendChild(buildTimelineColumn(items, `${bucket} ★`));
+  });
+
+  if (unknown.length) {
+    track.appendChild(buildTimelineColumn(unknown, "Not fetched", "timeline-col-unknown"));
+  }
+
+  wrap.appendChild(track);
+
+  const note = document.createElement("p");
+  note.className = "timeline-note";
+  note.textContent = "Star counts are fetched from the GitHub API — see scripts/fetch_github_stats.py.";
+  wrap.appendChild(note);
+
   return wrap;
 }
 
 /* ---------------- Drawer ---------------- */
+
+function daysSince(dateStr) {
+  const then = new Date(`${dateStr}T00:00:00Z`).getTime();
+  return Math.floor((Date.now() - then) / 86400000);
+}
+
+function formatMaintenance(dateStr) {
+  if (!dateStr) return { text: "not fetched yet", status: null };
+  const days = daysSince(dateStr);
+  let text;
+  if (days < 1) text = "today";
+  else if (days < 30) text = `${days} day${days === 1 ? "" : "s"} ago`;
+  else if (days < 365) {
+    const months = Math.round(days / 30.44);
+    text = `${months} month${months === 1 ? "" : "s"} ago`;
+  } else {
+    const years = Math.round((days / 365.25) * 10) / 10;
+    text = `${years} year${years === 1 ? "" : "s"} ago`;
+  }
+  const status = days < 182 ? "active" : days < 730 ? "slowing" : "stale";
+  return { text, status, days };
+}
+
+const STATUS_LABEL = { active: "Active", slowing: "Slowing", stale: "Stale" };
 
 function openDrawer(d) {
   const drawer = document.getElementById("drawer");
@@ -284,16 +362,29 @@ function openDrawer(d) {
 
   const languages = (d.language || []).map((l) => `<span class="chip">${l}</span>`).join("") || `<span class="chip">unspecified</span>`;
   const tags = (d.tags || []).map((t) => `<span class="chip">${t}</span>`).join("");
+  const topics = (d.topics || []).map((t) => `<span class="chip">${t}</span>`).join("");
 
   const repoLink = d.github
     ? `<a href="https://github.com/${d.github}" target="_blank" rel="noopener">↗ ${d.github}</a>`
     : (d.other_url ? `<a href="${d.other_url}" target="_blank" rel="noopener">↗ Project page</a>` : "");
+  const paperLink = d.paper_url
+    ? `<a href="${d.paper_url}" target="_blank" rel="noopener">↗ Paper</a>` : "";
 
   const starsLine = d.stars != null ? `${d.stars.toLocaleString()} ★` : "not fetched yet";
-  const commitLine = d.last_commit || "not fetched yet";
+  const forksLine = d.forks != null ? d.forks.toLocaleString() : "not fetched yet";
+  const issuesLine = d.open_issues != null ? d.open_issues.toLocaleString() : "not fetched yet";
+  const licenseLine = d.license || (d.github ? "none / not fetched" : "—");
+  const firstCommitLine = d.first_commit_date || "not fetched yet";
+
+  const maint = formatMaintenance(d.last_commit);
+  const maintLine = d.github
+    ? `${maint.text}${maint.status ? ` <span class="maint-badge maint-${maint.status}">${STATUS_LABEL[maint.status]}</span>` : ""}${d.last_commit ? ` <span class="maint-date">(${d.last_commit})</span>` : ""}`
+    : "—";
+
+  const archivedBadge = d.archived ? `<span class="chip chip-warning">archived</span>` : "";
 
   const missingNote = (d.stars == null && d.github)
-    ? `<p class="no-data-note">Live GitHub stats haven't been fetched in this build — run <code>scripts/fetch_github_stats.py</code> (or the scheduled Action) to populate stars &amp; last commit.</p>`
+    ? `<p class="no-data-note">Live GitHub stats haven't been fetched in this build — run <code>scripts/fetch_github_stats.py</code> (or the scheduled Action) to populate this.</p>`
     : "";
   const noPaperNote = !d.paper_title
     ? `<p class="no-data-note">No paper is listed for this entry yet — if you know the reference, please contribute it.</p>`
@@ -301,23 +392,30 @@ function openDrawer(d) {
 
   content.innerHTML = `
     <div class="drawer-eyebrow" style="--eyebrow-color:${FAMILY_COLOR.get(d.category) || "#888"}">${d.category_label} · ${LEVEL_LABELS[d.level] || d.level}</div>
-    <h2>${d.name}</h2>
+    <h2>${d.name} ${archivedBadge}</h2>
     ${d.paper_title ? `<p class="paper-title">"${escapeHtml(d.paper_title)}"</p>` : ""}
     ${d.abstract ? `<p>${escapeHtml(d.abstract)}</p>` : ""}
+    ${d.repo_description ? `<p class="repo-description">${escapeHtml(d.repo_description)}</p>` : ""}
     ${noPaperNote}
 
     <dl class="spec-table">
-      <dt>Year</dt><dd>${d.paper_year || "—"}</dd>
+      <dt>Paper year</dt><dd>${d.paper_year || "—"}</dd>
+      <dt>First commit</dt><dd>${firstCommitLine}</dd>
+      <dt>Last maintained</dt><dd>${maintLine}</dd>
       <dt>Language</dt><dd><div class="chip-row">${languages}</div></dd>
       <dt>Stars</dt><dd>${starsLine}</dd>
-      <dt>Last commit</dt><dd>${commitLine}</dd>
+      <dt>Forks</dt><dd>${forksLine}</dd>
+      <dt>Open issues</dt><dd>${issuesLine}</dd>
+      <dt>License</dt><dd>${licenseLine}</dd>
       <dt>Citations</dt><dd>${d.citations != null ? d.citations : "—"}</dd>
       ${tags ? `<dt>Tags</dt><dd><div class="chip-row">${tags}</div></dd>` : ""}
+      ${topics ? `<dt>Repo topics</dt><dd><div class="chip-row">${topics}</div></dd>` : ""}
     </dl>
 
     ${missingNote}
 
     <div class="links">
+      ${paperLink}
       ${repoLink}
     </div>
   `;

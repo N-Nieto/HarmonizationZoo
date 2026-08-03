@@ -21,6 +21,7 @@ the repo.
   "tags": ["empirical-bayes", "longitudinal"],
   "paper_title": "Exact title of the paper",
   "paper_year": 2023,
+  "paper_url": "https://doi.org/10.xxxx/...",
   "abstract": null,
   "github": "owner/repo",
   "other_url": null,
@@ -49,12 +50,13 @@ the repo.
 | `level` | yes | `feature-level` (harmonizes extracted features/ROIs), `image-level` (harmonizes voxel data directly), or `acquisition-level` (harmonizes scanner protocol/sequence). |
 | `tags` | no | Free-form keywords (GAN, federated-learning, diffusion-MRI, …). These feed the search box. |
 | `paper_title` | no | Use the exact published title. Leave `null` if the method has no associated paper yet. |
-| `paper_year` | no | Publication year. **Please don't guess** — leave `null` if unsure rather than adding a wrong year. |
+| `paper_year` | no | Publication year. **Please don't guess** — leave `null` if unsure rather than adding a wrong year. Note: the "Year" view in the app groups by the repo's **first commit** where available, falling back to this field only when there's no repo (or stats haven't been fetched) — so this field is still worth filling in, but it's no longer the only source of a timeline date. |
+| `paper_url` | no | A link to the paper — DOI link preferred (`https://doi.org/...`), arXiv otherwise. Same rule as the year: leave `null` rather than guessing or linking to the wrong paper. |
 | `abstract` | no | Write **your own short paraphrase** (2–3 sentences) of what the method does — never paste the paper's actual abstract text verbatim; that's a copyright problem, not just a style preference. |
 | `github` | no | `"owner/repo"` only, not a full URL — the site builds the link. Leave `null` if there's no public repo. |
 | `other_url` | no | Use this instead of `github` when the implementation lives somewhere that isn't a GitHub repo (Zenodo, a lab wiki, ENIGMA, etc). |
 | `language` | no | Array of languages, primary one first. |
-| `citations`, `stars`, `last_commit`, `repo_description` | no | Leave these `null` — they're meant to be filled automatically, not by hand. See below. |
+| `citations`, `stars`, `forks`, `open_issues`, `license`, `topics`, `archived`, `repo_created_at`, `first_commit_date`, `last_commit`, `repo_description` | no | Leave these `null` — they're meant to be filled automatically by `scripts/fetch_github_stats.py` (GitHub-derived fields) or by hand only for `citations` if you have a real number, not by guessing. See below. |
 
 ## Keeping stats current
 
