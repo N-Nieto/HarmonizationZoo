@@ -685,6 +685,29 @@ const REC_STEPS = [
     },
   },
   {
+    key: "language",
+    legend: "Programming language",
+    help: "Any preference for the implementation's language? Methods with no public code are removed by any choice here.",
+    type: "pills",
+    // options are computed live from what's actually in the pool at render time — see renderStep's dynamicOptions
+    dynamicOptions(pool) {
+      const langs = new Set();
+      pool.forEach((d) => (d.language || []).forEach((l) => langs.add(l)));
+      return [["no-preference", "No preference"], ...Array.from(langs).sort().map((l) => [l, l])];
+    },
+    filter(pool, value) {
+      if (value === "no-preference") return { pool, message: null };
+      const after = pool.filter((d) => (d.language || []).includes(value));
+      const removed = pool.length - after.length;
+      return {
+        pool: after,
+        message: removed > 0
+          ? `Removed ${removed} method${removed === 1 ? "" : "s"} with no ${value} implementation.`
+          : null,
+      };
+    },
+  },
+  {
     key: "newSite",
     legend: "New, unseen site",
     help: "Will this be applied to a new site that wasn't part of the original harmonized batch?",
@@ -716,29 +739,6 @@ const REC_STEPS = [
         pool: after,
         message: removed > 0
           ? `Removed ${removed} method${removed === 1 ? "" : "s"} that require an explicit Site ID.`
-          : null,
-      };
-    },
-  },
-  {
-    key: "language",
-    legend: "Programming language",
-    help: "Any preference for the implementation's language? Methods with no public code are removed by any choice here.",
-    type: "pills",
-    // options are computed live from what's actually in the pool at render time — see renderStep's dynamicOptions
-    dynamicOptions(pool) {
-      const langs = new Set();
-      pool.forEach((d) => (d.language || []).forEach((l) => langs.add(l)));
-      return [["no-preference", "No preference"], ...Array.from(langs).sort().map((l) => [l, l])];
-    },
-    filter(pool, value) {
-      if (value === "no-preference") return { pool, message: null };
-      const after = pool.filter((d) => (d.language || []).includes(value));
-      const removed = pool.length - after.length;
-      return {
-        pool: after,
-        message: removed > 0
-          ? `Removed ${removed} method${removed === 1 ? "" : "s"} with no ${value} implementation.`
           : null,
       };
     },

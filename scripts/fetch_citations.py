@@ -184,10 +184,32 @@ def main():
             print(f"  {mid}: '{title}'")
         return
 
+    by_id = {m["id"]: m for m in methods}
+
     results = {}
     if doi_entries:
         print(f"\nBatch-fetching {len(doi_entries)} DOIs...")
         results.update(fetch_batch(doi_entries, verbose=args.verbose))
+
+        # A DOI lookup can legitimately come back empty even for a real,
+        # citable paper — most often because it's a very recently published
+        # journal version that Semantic Scholar hasn't indexed under that
+        # DOI yet, while an earlier arXiv preprint of the same paper often
+        # already has citations recorded against its own identifier. Retry
+        # those misses by title rather than treating "DOI not found" as
+        # "definitely uncited".
+        missed = [(mid, doi) for mid, doi in doi_entries if mid not in results]
+        if missed:
+            print(f"\n{len(missed)} DOI(s) not found — retrying by title "
+                  f"(covers papers indexed under a different identifier, e.g. an arXiv preprint):")
+            for mid, _doi in missed:
+                title = by_id[mid].get("paper_title")
+                if not title:
+                    continue
+                count = fetch_by_title(mid, title, verbose=args.verbose)
+                if count is not None:
+                    results[mid] = count
+                time.sleep(1.1)
 
     if title_only_entries:
         print(f"\nSearching by title for {len(title_only_entries)} entries...")

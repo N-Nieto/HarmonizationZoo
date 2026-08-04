@@ -67,7 +67,7 @@ the page doesn't render after enabling it.
 
 ## What's in the database right now
 
-`data/methods.json` seeds **54 methods** across nine families (the
+`data/methods.json` seeds **58 methods** across nine families (the
 "Family" grouping) — **Location/Scale Models (ComBat-family)** /
 Deep-learning / IQM / Normative Modeling / Interpolation / Federated / ICA /
 Optimal-transport, plus a **Classical Intensity Normalization** family
@@ -102,50 +102,51 @@ that's still how everyone refers to and searches for it.
 
 ### Where this round's additions came from
 
-Beyond the original UniHarmony-wiki seed list, this revision added methods
-found by checking the actual citation lists inside the survey papers you
-originally pointed at (particularly the "Applications of GANs in
-Neuroimaging" review and the related-work section of the IGUANe paper),
-each verified against its own DOI before being added — not just picked out
-of a citation list by title:
+Beyond the original UniHarmony-wiki seed list, later revisions added methods
+found by checking citation lists inside the survey papers and recent
+related-work sections, each verified against its own DOI before being added:
 
 - **WhiteStripe** (Shinohara et al., 2014) and **Nyúl–Udupa histogram
   matching** (1999) — the two classical intensity-normalization baselines
   that RAVEL and most image-level DL papers explicitly build on or compare
-  against, but which weren't in UniHarmony's tables (they predate the
-  "harmonization" framing and are usually cited as normalization baselines,
-  not harmonization methods per se).
-- **Scanner Invariant Representations** (Moyer et al., 2020) — adversarial
-  invariant-representation learning for diffusion MRI.
-- **Harmonization with Flow-Based Causal Inference** (Wang et al., MICCAI
-  2021) — normalizing-flow-based harmonization.
-- **Deep Generative (StarGAN-based) Harmonization** (Bashyam et al., 2021)
-  and **Cycle-Consistent GAN Harmonization** (Modanwal et al., 2020) —
-  two more GAN variants distinct from the CycleGAN/IGUANe/STGAN entries
-  already in the zoo.
-- **Disentangled Latent Space** (Dewey et al., MICCAI 2020) — the direct
-  precursor to CALAMITI, from the same lab.
+  against.
+- **Scanner Invariant Representations** (Moyer et al., 2020), **Harmonization
+  with Flow-Based Causal Inference** (Wang et al., 2021), **Deep Generative
+  (StarGAN-based) Harmonization** (Bashyam et al., 2021), **Cycle-Consistent
+  GAN Harmonization** (Modanwal et al., 2020), **Disentangled Latent Space**
+  (Dewey et al., 2020 — CALAMITI's precursor), and **DLEST** (2025).
+- **DeepResBat** (An et al., 2024) — a residual, covariate-aware deep
+  learning alternative to ComBat, benchmarked directly against ComBat and
+  CovBat on ADNI/AIBL/MACC.
+- **Harmonizing Flows** (Beizaee et al., 2025) — unsupervised, source-free
+  normalizing-flow harmonization.
+- **HarmoFL** (Jiang et al., AAAI 2022) — frequency-domain federated
+  harmonization; note this one is validated on general medical imaging
+  (COVID CT, retinal, etc.), not MRI-brain-specific, included because the
+  method is directly applicable and it's the clearest federated deep-learning
+  entry in the database.
+- **Dual-Projection ICA for fMRI** (Xu et al., 2023) — the functional-MRI
+  sibling of ICA-DP, from an overlapping author group, validated on
+  ABIDE-II.
 
-None of these five DL papers had a discoverable public code repo, so they're
-listed with `github: null` — code-free entries are still useful for the
-taxonomy, they just won't get GitHub stats.
-
-Two entries from the original UniHarmony seed also had incorrect metadata,
-now fixed: **BARTharm** and **Harmless** were tagged `image-level`; both
+Two entries from the original UniHarmony seed had incorrect metadata, now
+fixed: **BARTharm** and **Harmless** were tagged `image-level`; both
 actually operate on extracted features (image quality metrics and cortical-
-thickness ROIs, respectively), so they're `feature-level`. If you spot
-another one, that's exactly what `CONTRIBUTING.md` is for.
+thickness ROIs, respectively), so they're `feature-level`. **ICA-DP**'s
+publication year and link were unverified before this round — it's a very
+recent (2026) paper, now confirmed. If you spot another error, that's
+exactly what `CONTRIBUTING.md` is for.
 
 ### Other candidates surfaced but not yet added
 
-A few more names turned up in citation lists during this pass but weren't
-verified closely enough to add responsibly — **HarmoFL**, **DeepResBat**,
-**SiMix**, **"Harmonizing Flows"** (Beizaee et al.), a **disentangled
-latent energy-based style translation** framework, an **SSIM-guided
-disentanglement** method, a **graph-neural-network structural-connectome**
-harmonization approach, and an **unpaired multi-site latent-diffusion**
-method. These are good next PRs if you (or anyone) can pin down the exact
-paper and check it firsthand.
+A few more names turned up in citation lists but weren't verified closely
+enough to add responsibly — **SiMix**, an **SSIM-guided disentanglement**
+method, a **graph-neural-network structural-connectome** harmonization
+approach, an **unpaired multi-site latent-diffusion** method, and two
+independently-developed normalizing-flow methods referenced alongside
+Harmonizing Flows: **BlindHarmony** (Jeong et al., 2023) and
+**BlindHarmonyDiff**. These are good next PRs if you (or anyone) can pin
+down the exact paper and check it firsthand.
 
 ### Honest gaps — please help close these
 
@@ -225,10 +226,10 @@ submit button. Questions are asked in a fixed hierarchy (`REC_STEPS` in
 
 1. **Downstream analysis** — statistical vs. machine-learning
 2. **Harmonization level** — feature-level vs. image-level
-3. **New, unseen site?**
-4. **Site ID access?**
-5. **Programming language** — options are computed live from what's actually
+3. **Programming language** — options are computed live from what's actually
    left in the pool at that point, plus "No preference"
+4. **New, unseen site?**
+5. **Site ID access?**
 6. **Hardware (GPU)** — only asked at all if image-level methods that need a
    GPU (`needs_gpu: true`) are still in the running; otherwise skipped
    automatically
@@ -283,19 +284,23 @@ method behaves differently, override it there.
   (e.g. two implementations of the same paper) go in the `ALLOWED` set at
   the top of the script.
 - **`scripts/fetch_citations.py`** — fills in `citations` via the Semantic
-  Scholar API: a batch DOI lookup for entries with a DOI in `paper_url`, with
-  a per-DOI fallback if the batch call fails, and a title-search fallback
-  (accepted only above a similarity threshold) for entries with a
-  `paper_title` but no captured DOI. If it's still not returning anything for
-  you: I verified the ComBat DOI and the batch-endpoint request format
-  against Semantic Scholar's own docs while fixing this, so the request
-  itself should be correct — but I genuinely cannot run this script from this
-  project's build environment (`api.semanticscholar.org` isn't reachable
-  from there), so if it's still empty, run with `-v` and check what HTTP
-  status/body it's actually getting back (rate limiting, a not-yet-indexed
-  paper, and a network-level block all look different from each other, and
-  I can't tell which one you're hitting without seeing it). Not wired into
-  the scheduled Action.
+  Scholar API: a batch DOI lookup for entries with a DOI in `paper_url`, a
+  per-DOI fallback if the batch call fails, and a title-search fallback for
+  entries with a `paper_title` but no captured DOI **and** for any DOI that
+  comes back "not found." That last part matters more than it sounds: a DOI
+  can be entirely correct and still return nothing from Semantic Scholar if
+  it's a very recently published journal version they haven't indexed yet
+  under that identifier — while an earlier arXiv preprint of the same paper
+  often already has citations recorded. PrettYharmonize is a live example of
+  this (2026 journal DOI, likely-indexed 2024 arXiv preprint), which is why
+  the title-search retry was added specifically for DOI misses, not just for
+  DOI-less entries. I verified the ComBat DOI and the batch-endpoint request
+  format directly against Semantic Scholar's docs while debugging this — the
+  request itself was already correct — but I still can't execute this script
+  from this project's build environment (`api.semanticscholar.org` isn't
+  reachable from there), so if `citations` is still empty after a run, `-v`
+  will show you the actual HTTP status/body per entry rather than me
+  guessing further. Not wired into the scheduled Action.
 
 ## Project layout
 

@@ -204,6 +204,15 @@ METHODS = [
          method_type="deep-learning", level="image-level", tags=["disentanglement", "energy-based-model", "style-translation"],
          paper_title="Disentangled Latent Energy-Based Style Translation: An Image-Level Structural MRI Harmonization Framework",
          paper_year=2025, paper_url="https://arxiv.org/abs/2402.06875", github=None, language=[]),
+    dict(id="deepresbat", name="DeepResBat", category="deep-learning", method_type="deep-learning",
+         level="feature-level", tags=["residual", "covariate-aware", "cVAE", "ComBat-alternative"],
+         paper_title="DeepResBat: deep residual batch harmonization accounting for covariate distribution differences",
+         paper_year=2024, paper_url="https://doi.org/10.1016/j.media.2024.103354",
+         github="ThomasYeoLab/Standalone_An2024_DeepResBat", language=["Python"]),
+    dict(id="harmonizing-flows", name="Harmonizing Flows (Beizaee et al.)", category="deep-learning",
+         method_type="deep-learning", level="image-level", tags=["normalizing-flows", "unsupervised", "source-free"],
+         paper_title="Harmonizing flows: Leveraging normalizing flows for unsupervised and source-free MRI harmonization",
+         paper_year=2025, paper_url="https://doi.org/10.1016/j.media.2025.103483", github=None, language=[]),
 
     # ---------------- IQM-based ----------------
     dict(id="bartharm", name="BARTharm", category="iqm-based", method_type="statistical",
@@ -249,12 +258,21 @@ METHODS = [
          level="feature-level", tags=["federated-learning", "privacy-preserving", "distributed"],
          paper_title="Privacy-preserving harmonization via distributed ComBat",
          paper_year=None, paper_url=None, github="andy1764/Distributed-ComBat", language=["R", "Python"]),
+    dict(id="harmofl", name="HarmoFL", category="federated", method_type="deep-learning",
+         level="image-level", tags=["federated-learning", "frequency-domain", "medical-imaging-general"],
+         paper_title="HarmoFL: Harmonizing Local and Global Drifts in Federated Learning on Heterogeneous Medical Images",
+         paper_year=2022, paper_url="https://arxiv.org/abs/2112.10775", github="med-air/HarmoFL", language=["Python"]),
 
     # ---------------- ICA-based ----------------
     dict(id="ica-dp", name="ICA-DP", category="ica-based", method_type="statistical",
          level="image-level", tags=["ICA", "blind-source-separation", "dual-projection"],
          paper_title="Repeatability analysis of ICA-based harmonization for multi-site MRI data using dual projection models",
-         paper_year=None, paper_url=None, github="Yuxing-Hao/ICA-DP_Harmonization", language=["MATLAB"]),
+         paper_year=2026, paper_url="https://www.sciencedirect.com/science/article/pii/S1053811926000042",
+         github="Yuxing-Hao/ICA-DP_Harmonization", language=["MATLAB"]),
+    dict(id="ica-dp-fmri", name="Dual-Projection ICA for fMRI (Xu et al.)", category="ica-based", method_type="statistical",
+         level="image-level", tags=["ICA", "blind-source-separation", "dual-projection", "fMRI"],
+         paper_title="Harmonization of multi-site functional MRI data with dual-projection based ICA model",
+         paper_year=2023, paper_url="https://doi.org/10.3389/fnins.2023.1225606", github=None, language=[]),
 
     # ---------------- Optimal transport-based ----------------
     dict(id="otda", name="OTDA", category="optimal-transport", method_type="machine-learning",
@@ -309,6 +327,8 @@ VALIDATION_DATA = {
     "harmless": "ABCD",
     "ismi": "4 neuroimaging datasets, brain-age (N=2031)",
     "whitestripe": "AIBL, ADNI",
+    "deepresbat": "ADNI, AIBL, MACC (3 continents, N=2787)",
+    "ica-dp-fmri": "ABIDE-II",
 }
 
 # Data modality the method targets. "MRI (unspecified)" is used rather than
@@ -337,11 +357,13 @@ MODALITY = {
     "flow-causal-harmonization": "Structural MRI",
     "bashyam-stargan-harmonization": "Structural MRI",
     "modanwal-cyclegan": "Structural MRI", "dlest": "Structural MRI",
+    "deepresbat": "Structural MRI", "harmonizing-flows": "Structural MRI",
+    "harmofl": "Medical imaging (general, not MRI-brain-specific)",
     "bartharm": "Structural MRI", "neuroharmony": "Structural MRI",
     "autocombat": "Radiomics (CT/MRI)", "bayesian-normative": "Structural MRI",
     "ismi": "Structural MRI", "isi": "Structural MRI",
     "fedharmony": "Structural MRI", "fedcombat": "Structural MRI",
-    "d-combat": "Structural MRI", "ica-dp": "MRI (unspecified)",
+    "d-combat": "Structural MRI", "ica-dp": "Structural MRI", "ica-dp-fmri": "Functional MRI",
     "otda": "Modality-agnostic (general ML)", "botda": "EEG",
 }
 
