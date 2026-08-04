@@ -96,11 +96,12 @@ that to 5000/hour.
 
 ## Adding a new grouping dimension
 
-The eight "Group by" options are handled in `render()` in `js/app.js`:
-Level, Family, Data modality, Programming language, Validation data, and Implemented-in-UniHarmony
-all go through `renderClusters()` (flex-wrap sections); Year and GitHub
-stars go through `renderYearTimeline()` / `renderStarsTimeline()` (both
-built on the shared `buildTimelineColumn()` helper). Adding another
+The nine "Group by" options are handled in `render()` in `js/app.js`:
+Level, Family, Data modality, Programming language, Validation data, and
+Implemented-in-UniHarmony all go through `renderClusters()` (flex-wrap
+sections); Year, GitHub stars, and Citations go through
+`renderYearTimeline()` / `renderStarsTimeline()` / `renderCitationsTimeline()`
+(all built on the shared `buildTimelineColumn()` helper). Adding another
 cluster-style dimension means adding an `<option>` to the `#group-by`
 select in `index.html` and a branch in `renderClusters()`'s
 `groupFn`/`groupOrder`/`groupLabel` logic.

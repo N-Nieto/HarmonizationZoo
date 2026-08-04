@@ -409,10 +409,11 @@ def main():
         rec["also_implemented_in"] = ALSO_IMPLEMENTED_IN.get(rec["id"], [])
         rec["validation_data"] = VALIDATION_DATA.get(rec["id"], "Agnostic")
         rec["modality"] = MODALITY.get(rec["id"], "MRI (unspecified)")
+        rec["needs_gpu"] = rec["category"] in NEEDS_GPU_CATEGORIES
 
         compat = dict(CATEGORY_RECOMMEND_DEFAULTS[rec["category"]])
         compat.update(RECOMMEND_OVERRIDES.get(rec["id"], {}))
-        compat["needs_gpu"] = rec["category"] in NEEDS_GPU_CATEGORIES
+        compat["needs_gpu"] = rec["needs_gpu"]
         rec["recommend"] = compat
 
         out.append(rec)

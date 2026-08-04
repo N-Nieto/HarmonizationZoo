@@ -122,17 +122,24 @@ function bindControls() {
     if (e.key === "Escape") { closeDrawer(); closeComparePanel(); }
   });
 
-  document.getElementById("compare-toggle").addEventListener("click", () => {
-    state.compareMode = !state.compareMode;
-    const btn = document.getElementById("compare-toggle");
+  document.getElementById("compare-toggle").addEventListener("click", toggleCompareMode);
+}
+
+function toggleCompareMode() {
+  state.compareMode = !state.compareMode;
+  document.querySelectorAll(".compare-toggle-btn").forEach((btn) => {
     btn.classList.toggle("active", state.compareMode);
     btn.textContent = `Compare mode: ${state.compareMode ? "on" : "off"}`;
-    if (!state.compareMode) {
-      state.selectedIds.clear();
-      updateCompareBar();
-    }
-    render();
   });
+  if (!state.compareMode) {
+    state.selectedIds.clear();
+    updateCompareBar();
+  }
+  if (state.activeTab === "explore") {
+    render();
+  } else {
+    renderRecommenderTree();
+  }
 }
 
 function bindTabs() {
@@ -191,6 +198,8 @@ function render() {
     stage.appendChild(renderYearTimeline(methods));
   } else if (state.groupBy === "stars") {
     stage.appendChild(renderStarsTimeline(methods));
+  } else if (state.groupBy === "citations") {
+    stage.appendChild(renderCitationsTimeline(methods));
   } else {
     // level / category / data / uniharmony all use the flex-wrap cluster layout
     stage.appendChild(renderClusters(methods, state.groupBy));
@@ -423,6 +432,49 @@ function renderStarsTimeline(methods) {
   return wrap;
 }
 
+const CITATION_BUCKETS = ["0", "1–9", "10–49", "50–199", "200–999", "1000+"];
+
+function citationsBucket(citations) {
+  if (citations == null) return null;
+  if (citations === 0) return "0";
+  if (citations < 10) return "1–9";
+  if (citations < 50) return "10–49";
+  if (citations < 200) return "50–199";
+  if (citations < 1000) return "200–999";
+  return "1000+";
+}
+
+function renderCitationsTimeline(methods) {
+  const wrap = document.createElement("div");
+  wrap.className = "timeline-wrap";
+
+  const known = methods.filter((d) => citationsBucket(d.citations));
+  const unknown = methods.filter((d) => !citationsBucket(d.citations));
+
+  const byBucket = new Map(CITATION_BUCKETS.map((b) => [b, []]));
+  known.forEach((d) => byBucket.get(citationsBucket(d.citations)).push(d));
+
+  const track = document.createElement("div");
+  track.className = "timeline-track";
+
+  byBucket.forEach((items, bucket) => {
+    track.appendChild(buildTimelineColumn(items, `${bucket} cit.`));
+  });
+
+  if (unknown.length) {
+    track.appendChild(buildTimelineColumn(unknown, "Not fetched", "timeline-col-unknown"));
+  }
+
+  wrap.appendChild(track);
+
+  const note = document.createElement("p");
+  note.className = "timeline-note";
+  note.textContent = "Citation counts are fetched from Semantic Scholar — see scripts/fetch_citations.py (run manually, not on a schedule).";
+  wrap.appendChild(note);
+
+  return wrap;
+}
+
 /* ---------------- Drawer ---------------- */
 
 function daysSince(dateStr) {
@@ -594,21 +646,27 @@ function escapeHtml(s) {
 
 const recState = {
   task: null,          // "statistical" | "ml"
-  mlType: null,        // "classification_binary" | "classification_multiclass" | "regression"
   level: null,          // "feature-level" | "image-level"
   newSite: null,        // "yes" | "no"
   hasSiteId: null,      // "yes" | "no"
+  language: null,        // e.g. "Python" | "R" | ... | "no-preference"
   hasGpu: null,          // "yes" | "no"
   linear: null,          // "yes" | "no" | "unsure"
-  minPerSite: null,
-  totalN: null,
-  nClasses: null,
+  federated: null,        // "yes" | "no" — only asked when task === "ml"
 };
 
-// Steps after "task" (which is special-cased for its ML sub-question).
-// Each filter() receives the pool as narrowed by every earlier step, and
-// returns {pool, message}. message is only used once the step has an
-// answer; it renders directly above that step's own options.
+const REC_KEYS = ["task", "level", "newSite", "hasSiteId", "language", "hasGpu", "linear", "federated"];
+
+function resetRecommender() {
+  REC_KEYS.forEach((k) => { recState[k] = null; });
+  renderRecommenderTree();
+}
+
+// Steps after "task" (which is special-cased, since it has the ML-family
+// exclusion + PrettYharmonize note rather than a plain filter). Each
+// filter() receives the pool as narrowed by every earlier step, and
+// returns {pool, message}. message only renders once the step has an
+// answer, directly above that step's own options.
 const REC_STEPS = [
   {
     key: "level",
@@ -663,17 +721,40 @@ const REC_STEPS = [
     },
   },
   {
+    key: "language",
+    legend: "Programming language",
+    help: "Any preference for the implementation's language? Methods with no public code are removed by any choice here.",
+    type: "pills",
+    // options are computed live from what's actually in the pool at render time — see renderStep's dynamicOptions
+    dynamicOptions(pool) {
+      const langs = new Set();
+      pool.forEach((d) => (d.language || []).forEach((l) => langs.add(l)));
+      return [["no-preference", "No preference"], ...Array.from(langs).sort().map((l) => [l, l])];
+    },
+    filter(pool, value) {
+      if (value === "no-preference") return { pool, message: null };
+      const after = pool.filter((d) => (d.language || []).includes(value));
+      const removed = pool.length - after.length;
+      return {
+        pool: after,
+        message: removed > 0
+          ? `Removed ${removed} method${removed === 1 ? "" : "s"} with no ${value} implementation.`
+          : null,
+      };
+    },
+  },
+  {
     key: "hasGpu",
     legend: "Hardware",
     help: "Do you have access to a GPU? (Only asked when deep-learning, image-level methods are still in the running.)",
     type: "pills",
     options: [["yes", "Yes"], ["no", "No"]],
     visibleIf(pool, rs) {
-      return rs.level === "image-level" && pool.some((d) => d.method_type === "deep-learning");
+      return rs.level === "image-level" && pool.some((d) => d.needs_gpu);
     },
     filter(pool, value) {
       if (value !== "no") return { pool, message: null };
-      const after = pool.filter((d) => !(d.recommend && d.recommend.needs_gpu));
+      const after = pool.filter((d) => !d.needs_gpu);
       const removed = pool.length - after.length;
       return {
         pool: after,
@@ -702,18 +783,20 @@ const REC_STEPS = [
     },
   },
   {
-    key: "minPerSite",
-    legend: "Data quantity",
-    help: "Minimum samples per site. Total N and N classes below are shown for reference only — they don't currently filter results, since we don't have a verified per-method threshold for them.",
-    type: "quantity",
+    key: "federated",
+    legend: "Federated setup",
+    help: "Do you need a federated / distributed / privacy-preserving setup (raw data never leaves each site)?",
+    type: "pills",
+    options: [["yes", "Yes"], ["no", "No"]],
+    visibleIf(pool, rs) { return rs.task === "ml"; },
     filter(pool, value) {
-      if (value == null || value >= 15) return { pool, message: null };
-      const after = pool.filter((d) => d.recommend && d.recommend.low_n_friendly === true);
+      if (value !== "yes") return { pool, message: null };
+      const after = pool.filter((d) => d.category === "federated");
       const removed = pool.length - after.length;
       return {
         pool: after,
         message: removed > 0
-          ? `Removed ${removed} method${removed === 1 ? "" : "s"} not well-suited to very small per-site samples.`
+          ? `Kept only Federated-family methods — removed ${removed} that assume centralized data access.`
           : null,
       };
     },
@@ -724,18 +807,22 @@ function buildRecommender() {
   const root = document.getElementById("recommend-root");
   root.innerHTML = `
     <div class="recommend-wrap">
-      <p class="recommend-intro">
-        Answer each question and the method list on the right narrows live. These are
-        reasoned defaults per method family (documented in the README), not a paper-verified
-        fact for every one of the 54 methods — treat this as a shortlist to investigate, not
-        a final answer.
-      </p>
+      <div class="recommend-toolbar">
+        <p class="recommend-intro">
+          Answer each question and the method list on the right narrows live. These are
+          reasoned defaults per method family (documented in the README), not a paper-verified
+          fact for every one of the 54 methods — treat this as a shortlist to investigate, not
+          a final answer.
+        </p>
+        <button id="compare-toggle-rec" type="button" class="compare-toggle-btn">Compare mode: off</button>
+      </div>
       <div class="rec-columns">
         <div id="rec-tree" class="rec-tree"></div>
         <div id="rec-methods-panel" class="rec-methods-panel"></div>
       </div>
     </div>
   `;
+  document.getElementById("compare-toggle-rec").addEventListener("click", toggleCompareMode);
   renderRecommenderTree();
 }
 
@@ -748,7 +835,7 @@ function renderRecommenderTree() {
 
   pool = renderTaskStep(treeEl, pool);
   if (recState.task == null) {
-    renderMethodsPanel(methodsEl, pool, []);
+    renderMethodsPanel(methodsEl, pool);
     return;
   }
 
@@ -785,12 +872,20 @@ function renderRecommenderTree() {
     pool = nextPool;
 
     if (answer == null) {
-      renderMethodsPanel(methodsEl, pool, []);
+      renderMethodsPanel(methodsEl, pool);
       return;
     }
   }
 
-  renderMethodsPanel(methodsEl, pool, []);
+  // Every visible step has been answered — offer a reset.
+  const resetBtn = document.createElement("button");
+  resetBtn.type = "button";
+  resetBtn.id = "rec-reset";
+  resetBtn.textContent = "↺ Reset all questions";
+  resetBtn.addEventListener("click", resetRecommender);
+  treeEl.appendChild(resetBtn);
+
+  renderMethodsPanel(methodsEl, pool);
 }
 
 function renderTaskStep(container, pool) {
@@ -801,9 +896,6 @@ function renderTaskStep(container, pool) {
     <p class="rec-help">Will you use the harmonized data for statistical analysis or as input to a machine-learning model?</p>
     <div class="rec-step-message" id="rec-msg-task"></div>
     <div class="rec-options" id="rec-opts-task"></div>
-    <div class="rec-subquestion hidden" id="rec-mltype-wrap">
-      <div class="rec-options" id="rec-opts-mltype"></div>
-    </div>
   `;
   container.appendChild(fs);
 
@@ -815,29 +907,9 @@ function renderTaskStep(container, pool) {
     btn.textContent = label;
     btn.addEventListener("click", () => {
       recState.task = recState.task === value ? null : value;
-      if (recState.task !== "ml") recState.mlType = null;
       renderRecommenderTree();
     });
     optsWrap.appendChild(btn);
-  });
-
-  const mlWrap = fs.querySelector("#rec-mltype-wrap");
-  mlWrap.classList.toggle("hidden", recState.task !== "ml");
-  const mlOptsWrap = fs.querySelector("#rec-opts-mltype");
-  [
-    ["classification_binary", "Classification (binary)"],
-    ["classification_multiclass", "Classification (multiclass)"],
-    ["regression", "Regression"],
-  ].forEach(([value, label]) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "rec-pill" + (recState.mlType === value ? " active" : "");
-    btn.textContent = label;
-    btn.addEventListener("click", () => {
-      recState.mlType = recState.mlType === value ? null : value;
-      renderRecommenderTree();
-    });
-    mlOptsWrap.appendChild(btn);
   });
 
   return pool; // task's own filter is applied by the caller (needs the special-case note)
@@ -855,61 +927,31 @@ function renderStep(container, step, poolBefore, answer, message) {
   const fs = document.createElement("fieldset");
   fs.className = "rec-question";
 
-  if (step.type === "pills") {
-    fs.innerHTML = `
-      <legend>${step.legend}</legend>
-      <p class="rec-help">${step.help}</p>
-      <div class="rec-step-message"></div>
-      <div class="rec-options"></div>
-    `;
-    container.appendChild(fs);
+  fs.innerHTML = `
+    <legend>${step.legend}</legend>
+    <p class="rec-help">${step.help}</p>
+    <div class="rec-step-message"></div>
+    <div class="rec-options"></div>
+  `;
+  container.appendChild(fs);
 
-    if (message) {
-      fs.querySelector(".rec-step-message").innerHTML = `<p class="rec-excluded-note">✕ ${escapeHtml(message)}</p>`;
-    }
-
-    const optsWrap = fs.querySelector(".rec-options");
-    step.options.forEach(([value, label]) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "rec-pill" + (answer === value ? " active" : "");
-      btn.textContent = label;
-      btn.addEventListener("click", () => {
-        recState[step.key] = recState[step.key] === value ? null : value;
-        renderRecommenderTree();
-      });
-      optsWrap.appendChild(btn);
-    });
-  } else if (step.type === "quantity") {
-    fs.innerHTML = `
-      <legend>${step.legend}</legend>
-      <p class="rec-help">${step.help}</p>
-      <div class="rec-step-message"></div>
-      <div class="rec-numbers">
-        <label>Total N <input type="number" min="0" id="rn-totalN" value="${recState.totalN ?? ""}"></label>
-        <label>Total N classes <input type="number" min="0" id="rn-nClasses" value="${recState.nClasses ?? ""}"></label>
-        <label>Min samples per site <input type="number" min="0" id="rn-minPerSite" value="${recState.minPerSite ?? ""}"></label>
-      </div>
-    `;
-    container.appendChild(fs);
-
-    if (message) {
-      fs.querySelector(".rec-step-message").innerHTML = `<p class="rec-excluded-note">✕ ${escapeHtml(message)}</p>`;
-    }
-
-    fs.querySelector("#rn-totalN").addEventListener("change", (e) => {
-      recState.totalN = e.target.value ? Number(e.target.value) : null;
-      renderRecommenderTree();
-    });
-    fs.querySelector("#rn-nClasses").addEventListener("change", (e) => {
-      recState.nClasses = e.target.value ? Number(e.target.value) : null;
-      renderRecommenderTree();
-    });
-    fs.querySelector("#rn-minPerSite").addEventListener("change", (e) => {
-      recState.minPerSite = e.target.value ? Number(e.target.value) : null;
-      renderRecommenderTree();
-    });
+  if (message) {
+    fs.querySelector(".rec-step-message").innerHTML = `<p class="rec-excluded-note">✕ ${escapeHtml(message)}</p>`;
   }
+
+  const options = step.dynamicOptions ? step.dynamicOptions(poolBefore) : step.options;
+  const optsWrap = fs.querySelector(".rec-options");
+  options.forEach(([value, label]) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rec-pill" + (answer === value ? " active" : "");
+    btn.textContent = label;
+    btn.addEventListener("click", () => {
+      recState[step.key] = recState[step.key] === value ? null : value;
+      renderRecommenderTree();
+    });
+    optsWrap.appendChild(btn);
+  });
 
   return fs;
 }

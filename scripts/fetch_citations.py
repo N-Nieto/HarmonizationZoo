@@ -81,11 +81,20 @@ def doi_from_url(url):
     return m.group(1) if m else None
 
 
+def fetch_single(doi, verbose=False):
+    url = f"https://api.semanticscholar.org/graph/v1/paper/DOI:{urllib.parse.quote(doi, safe='')}?fields=title,citationCount"
+    data, status, err = _request(url, verbose=verbose)
+    if data is None:
+        return None, f"HTTP {status} — {err}"
+    return data.get("citationCount"), None
+
+
 def fetch_batch(doi_entries, verbose=False, retries=3):
     """doi_entries: list of (method_id, doi). Returns {method_id: citationCount}."""
     ids = [f"DOI:{doi}" for _, doi in doi_entries]
     payload = json.dumps({"ids": ids}).encode("utf-8")
 
+    data = None
     for attempt in range(retries):
         data, status, err = _request(BATCH_URL, data=payload, verbose=verbose)
         if status == 429:
@@ -95,13 +104,20 @@ def fetch_batch(doi_entries, verbose=False, retries=3):
             continue
         break
 
-    if data is None:
-        print(f"  ✗ batch request failed: HTTP {status} — {err}", file=sys.stderr)
-        return {}
-
-    if not isinstance(data, list) or len(data) != len(doi_entries):
-        print(f"  ✗ unexpected batch response shape: {data!r}", file=sys.stderr)
-        return {}
+    if data is None or not isinstance(data, list) or len(data) != len(doi_entries):
+        print(f"  ✗ batch request didn't return a usable result (HTTP {status}: {err}) — "
+              f"falling back to one-by-one lookups. This is slower but more likely to surface "
+              f"the actual per-DOI error.", file=sys.stderr)
+        out = {}
+        for method_id, doi in doi_entries:
+            count, err2 = fetch_single(doi, verbose=verbose)
+            if count is not None:
+                out[method_id] = count
+                print(f"  ✓ {method_id}: {count} citations")
+            else:
+                print(f"  ✗ {method_id} (DOI {doi}): {err2}", file=sys.stderr)
+            time.sleep(1.1)
+        return out
 
     out = {}
     for (method_id, doi), paper in zip(doi_entries, data):

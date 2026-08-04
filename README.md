@@ -9,7 +9,7 @@ intensity normalization, …).
 Methods are drawn as boxes sized to fit their full name (nothing gets
 truncated or overlapped), grouped however you pick from "Group by":
 **Harmonization level** (default), **Family**, **Data modality**, **Programming language**, **Year**
-(of the repo's first commit), **GitHub stars**, **Validation data** (the
+(of the repo's first commit), **GitHub stars**, **Citations**, **Validation data** (the
 dataset/cohort a method was mainly proposed or validated on), or
 **Implemented in UniHarmony**. Click a box for the paper title and link,
 level, language, GitHub stars/forks/issues/license, last-maintained status,
@@ -17,9 +17,11 @@ and more.
 
 Two other things live on the page:
 
-- **Compare mode** — toggle it on, click 2+ boxes to select them, then hit
-  "Compare" for a side-by-side table (family, level, modality, validation
-  data, stars, license, UniHarmony status, and more).
+- **Compare mode** — toggle it on (from either tab — it's shared state), click
+  2+ boxes to select them, then hit "Compare" for a side-by-side table
+  (family, level, modality, validation data, stars, license, UniHarmony
+  status, GPU/ML-compatibility, and more). Works the same way in the
+  "Which method?" results list as it does in Explore.
 - **"Which method?" tab** — a short questionnaire (downstream task, signal
   linearity, data quantity, new-site generalization, Site ID access,
   GPU access) that filters out genuinely incompatible methods and ranks the
@@ -214,30 +216,38 @@ If Pages shows a blank page after enabling it:
 
 ## How the "Which method?" recommender works
 
-It's a **live filter tree**, not a form-and-submit wizard: it starts by
-showing all 54 methods, and every answer immediately narrows the list on
-the right — no submit button. Questions are asked in a fixed hierarchy
-(`REC_STEPS` in `js/app.js`), each one only appearing once the previous one
-is answered:
+It's a **live filter tree** with a **compare mode** shared with Explore (the
+same toggle, same selection state — select methods from the recommender's
+results and hit Compare just like in Explore). It starts by showing all 54
+methods, and every answer immediately narrows the list on the right — no
+submit button. Questions are asked in a fixed hierarchy (`REC_STEPS` in
+`js/app.js`), each one only appearing once the previous one is answered:
 
-1. **Downstream analysis** — statistical vs. machine-learning (with a
-   classification/regression sub-question if ML)
+1. **Downstream analysis** — statistical vs. machine-learning
 2. **Harmonization level** — feature-level vs. image-level
 3. **New, unseen site?**
 4. **Site ID access?**
-5. **Hardware (GPU)** — only asked at all if image-level, deep-learning
-   methods are still in the running after step 4; otherwise it's skipped
+5. **Programming language** — options are computed live from what's actually
+   left in the pool at that point, plus "No preference"
+6. **Hardware (GPU)** — only asked at all if image-level methods that need a
+   GPU (`needs_gpu: true`) are still in the running; otherwise skipped
    automatically
-6. **Signal linearity assumption**
-7. **Data quantity** (min samples per site filters; total N / N classes are
-   shown for reference only — no verified per-method threshold for those yet)
+7. **Signal linearity assumption**
+8. **Federated setup** — only asked if the downstream task is
+   machine-learning; asked last
+
+Two questions from an earlier version were removed because they weren't
+actually filtering anything: the classification/regression ML sub-type, and
+a "data quantity" step (total N / N classes / min per site) — there's no
+verified per-method threshold backing those yet, so they were decoration,
+not signal. If/when there's real data to back a quantity-based filter,
+it's a natural thing to add back.
 
 Every question is a genuine filter (methods that don't fit are removed, not
 just re-ranked), and the elimination message for a question appears
-directly above that question's own options as soon as you answer it — e.g.
-picking "Machine learning" immediately shows "Removed 14 Location/Scale
-methods — ..." right above the task pills, and the right-hand list updates
-in the same moment. Changing an earlier answer re-derives everything below
+directly above that question's own options as soon as you answer it. Once
+every visible question has been answered, a **Reset** button appears at the
+bottom of the tree. Changing an earlier answer re-derives everything below
 it automatically.
 
 The one deliberate exception: **machine-learning task** excludes the whole
@@ -247,14 +257,21 @@ data leakage. PrettYharmonize is the one method in that family built
 specifically to avoid this; it's still excluded by the blanket rule, but a
 separate note calls it out rather than silently dropping it.
 
-The `recommend.*` compatibility fields (`requires_site_id`,
+`needs_gpu` is now a real top-level field on every method (previously it was
+only computed inline as "category === deep-learning"). It's still set the
+same way for now — every deep-learning-family method is `true`, everything
+else `false` — but having it as its own field means a future PR can override
+it per-method (e.g. a deep-learning method that only needs a GPU for
+training, not inference) without touching the family-level defaults.
+
+The rest of the `recommend.*` compatibility fields (`requires_site_id`,
 `generalizes_to_new_site`, `low_n_friendly`, `requires_linear_signal`,
-`ml_compatible`, `needs_gpu`) that drive all of this are set per-family in
-`scripts/build_seed.py`'s `CATEGORY_RECOMMEND_DEFAULTS`, with a handful of
-per-method overrides where there's a specific, citable reason to deviate
-(e.g. ComBat-GAM is explicitly a nonlinear/GAM extension). These are
-reasoned defaults, not an independently verified fact for all 54 methods —
-if you know a specific method behaves differently, override it there.
+`ml_compatible`) are set per-family in `scripts/build_seed.py`'s
+`CATEGORY_RECOMMEND_DEFAULTS`, with a handful of per-method overrides where
+there's a specific, citable reason to deviate (e.g. ComBat-GAM is explicitly
+a nonlinear/GAM extension). These are reasoned defaults, not an
+independently verified fact for all 54 methods — if you know a specific
+method behaves differently, override it there.
 
 ## Other maintainer tooling
 
@@ -266,18 +283,19 @@ if you know a specific method behaves differently, override it there.
   (e.g. two implementations of the same paper) go in the `ALLOWED` set at
   the top of the script.
 - **`scripts/fetch_citations.py`** — fills in `citations` via the Semantic
-  Scholar API. Uses the batch DOI-lookup endpoint for the 23 entries with a
-  DOI in `paper_url`, and falls back to a title-search lookup (accepted only
-  above a similarity threshold, to avoid attaching the wrong paper's count)
-  for the ~27 entries that have a `paper_title` but no captured DOI link —
-  that second path is new; the previous version of this script silently
-  skipped every entry without a `doi.org` link in `paper_url`, which is why
-  citations weren't showing up for methods that clearly had a paper. Not
-  wired into the scheduled Action and untested from this project's build
-  environment (`api.semanticscholar.org` isn't reachable from there) — run
-  with `-v` to see the raw API response per entry if it's still not working
-  for you, and `--dry-run` to see what it would look up without calling
-  anything.
+  Scholar API: a batch DOI lookup for entries with a DOI in `paper_url`, with
+  a per-DOI fallback if the batch call fails, and a title-search fallback
+  (accepted only above a similarity threshold) for entries with a
+  `paper_title` but no captured DOI. If it's still not returning anything for
+  you: I verified the ComBat DOI and the batch-endpoint request format
+  against Semantic Scholar's own docs while fixing this, so the request
+  itself should be correct — but I genuinely cannot run this script from this
+  project's build environment (`api.semanticscholar.org` isn't reachable
+  from there), so if it's still empty, run with `-v` and check what HTTP
+  status/body it's actually getting back (rate limiting, a not-yet-indexed
+  paper, and a network-level block all look different from each other, and
+  I can't tell which one you're hitting without seeing it). Not wired into
+  the scheduled Action.
 
 ## Project layout
 
