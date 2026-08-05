@@ -3,7 +3,12 @@ name: Refresh GitHub stats
 on:
   schedule:
     - cron: "17 4 * * 1"   # every Monday 04:17 UTC
-  workflow_dispatch: {}     # allow manual runs from the Actions tab
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Refetch every repo, ignoring the 30-day freshness window"
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths:
@@ -23,10 +28,16 @@ jobs:
         with:
           python-version: "3.12"
 
+      # The script itself skips any entry fetched within the last 30 days,
+      # so this can safely run on every push to data/methods.json without
+      # hammering the GitHub API for repos that haven't changed — new or
+      # previously-failed entries are always fetched regardless of that
+      # window. Use the "force" input (Actions tab → Run workflow) for a
+      # full refresh of everything.
       - name: Fetch live GitHub stats
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 scripts/fetch_github_stats.py
+        run: python3 scripts/fetch_github_stats.py ${{ inputs.force && '--force' || '' }}
 
       - name: Commit updated data
         run: |

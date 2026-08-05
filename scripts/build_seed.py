@@ -253,7 +253,8 @@ METHODS = [
     dict(id="fedcombat", name="Fed-ComBat", category="federated", method_type="statistical",
          level="feature-level", tags=["federated-learning", "empirical-bayes", "distributed"],
          paper_title="Fed-ComBat: A Generalized Federated Framework for Batch Effect Harmonization in Collaborative Studies",
-         paper_year=None, paper_url=None, github="greguig/fedcombat", language=["Python"]),
+         paper_year=None, paper_url=None, github=None,
+         other_url="https://gitlab.inria.fr/greguig/fedcombat", language=["Python"]),
     dict(id="d-combat", name="d-ComBat", category="federated", method_type="statistical",
          level="feature-level", tags=["federated-learning", "privacy-preserving", "distributed"],
          paper_title="Privacy-preserving harmonization via distributed ComBat",
@@ -282,7 +283,8 @@ METHODS = [
     dict(id="botda", name="BOTDA", category="optimal-transport", method_type="machine-learning",
          level="feature-level", tags=["optimal-transport", "domain-adaptation", "EEG"],
          paper_title="Transfer learning based on optimal transport for motor imagery brain-computer interfaces",
-         paper_year=None, paper_url=None, github=None, other_url="https://github.com/N-Nieto/UniHarmony", language=["Python"]),
+         paper_year=2021, paper_url="https://ieeexplore.ieee.org/document/9517009",
+         github="vpeterson/otda-mibci", language=["Python"]),
 ]
 
 CATEGORY_LABELS = {
@@ -403,6 +405,40 @@ RECOMMEND_OVERRIDES = {
 }
 NEEDS_GPU_CATEGORIES = {"deep-learning"}
 
+# Architecture backbone — set for every method_type == "deep-learning" entry
+# (not just image-level ones; a handful of feature-level DL methods here
+# have just as identifiable an architecture, e.g. an adversarial network).
+# Reasoned from each paper's own description, not fetched — there's no
+# reliable way to auto-detect "which GAN variant" from a repo the way
+# framework/pretrained-weights below can be.
+ARCHITECTURE_BACKBONE = {
+    "deepharmony": "CNN (U-Net-style)",
+    "imunity": "VAE-GAN",
+    "cyclegan-brainmri": "CycleGAN",
+    "mispel": "Autoencoder",
+    "harmless": "GAN (adversarial)",
+    "xcov-disentanglement": "Disentangled autoencoder",
+    "unlearning-mri": "Adversarial network",
+    "sfharmony": "Adversarial network",
+    "calamiti": "Disentangled VAE",
+    "dewey-disentangled-latent": "Disentangled VAE",
+    "murd": "GAN",
+    "stgan": "GAN (style transfer)",
+    "disarm": "GAN (disentanglement)",
+    "disarmpp": "GAN (disentanglement)",
+    "iguane": "CycleGAN",
+    "haca3": "Disentangled VAE",
+    "scanner-invariant-repr": "Adversarial autoencoder",
+    "flow-causal-harmonization": "Normalizing flow",
+    "bashyam-stargan-harmonization": "StarGAN",
+    "modanwal-cyclegan": "CycleGAN",
+    "dlest": "Energy-based model",
+    "deepresbat": "Conditional VAE + gradient-boosted trees",
+    "harmonizing-flows": "Normalizing flow",
+    "harmofl": "CNN (frequency-domain augmentation)",
+    "fedharmony": "Adversarial network",
+}
+
 
 def main():
     out = []
@@ -426,12 +462,23 @@ def main():
         rec["first_commit_date"] = None   # date of the repo's first commit — drives the Year view
         rec["last_commit"] = None
         rec["repo_description"] = None
+        rec["stats_fetched_at"] = None
         rec["category_label"] = CATEGORY_LABELS[rec["category"]]
         rec["in_uniharmony"] = rec["id"] in IN_UNIHARMONY
         rec["also_implemented_in"] = ALSO_IMPLEMENTED_IN.get(rec["id"], [])
         rec["validation_data"] = VALIDATION_DATA.get(rec["id"], "Agnostic")
         rec["modality"] = MODALITY.get(rec["id"], "MRI (unspecified)")
         rec["needs_gpu"] = rec["category"] in NEEDS_GPU_CATEGORIES
+
+        # Deep-learning-only metadata. architecture_backbone is curated here;
+        # framework / pretrained weights are left null and filled by
+        # scripts/fetch_github_stats.py, which can actually check a repo's
+        # dependency files and releases rather than us guessing.
+        is_dl = rec["method_type"] == "deep-learning"
+        rec["architecture_backbone"] = ARCHITECTURE_BACKBONE.get(rec["id"]) if is_dl else None
+        rec["framework"] = None
+        rec["has_pretrained_weights"] = None
+        rec["pretrained_weights_url"] = None
 
         compat = dict(CATEGORY_RECOMMEND_DEFAULTS[rec["category"]])
         compat.update(RECOMMEND_OVERRIDES.get(rec["id"], {}))

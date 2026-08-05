@@ -34,6 +34,19 @@ the repo.
   "in_uniharmony": false,
   "also_implemented_in": [],
   "modality": "Structural MRI",
+  "needs_gpu": false,
+  "architecture_backbone": null,
+  "framework": null,
+  "has_pretrained_weights": null,
+  "pretrained_weights_url": null,
+  "forks": null,
+  "open_issues": null,
+  "license": null,
+  "topics": null,
+  "archived": null,
+  "repo_created_at": null,
+  "first_commit_date": null,
+  "stats_fetched_at": null,
   "recommend": {
     "requires_site_id": true,
     "generalizes_to_new_site": false,
@@ -73,6 +86,10 @@ the repo.
 | `in_uniharmony` | no | `true` if the method has a working implementation in [UniHarmony](https://github.com/N-Nieto/UniHarmony), else `false`. |
 | `also_implemented_in` | no | Array of other toolkits/packages that also bundle this method (e.g. `["neuroHarmonize"]`), beyond its own dedicated repo. Empty array if none. |
 | `modality` | no | The data modality the method targets, e.g. `"Structural MRI"`, `"Diffusion MRI"`, `"Functional MRI"`, `"Omics/Proteomics"`, `"EEG"`. Use `"MRI (unspecified)"` rather than guessing if the paper doesn't clearly anchor to one. |
+| `needs_gpu` | no | `true` only for `method_type == "deep-learning"` entries. Drives the recommender's GPU question directly — not derived from `category` at render time anymore, so it can be overridden per method if a specific one only needs a GPU for training, not inference. |
+| `architecture_backbone` | no | Deep-learning entries only — the model family, e.g. `"CycleGAN"`, `"Disentangled VAE"`, `"Normalizing flow"`, `"StarGAN"`, `"U-Net"`. Hand-set from the paper's own description (see `ARCHITECTURE_BACKBONE` in `scripts/build_seed.py`) — there's no reliable way to auto-detect "which GAN variant" from a repo. `null` for non-deep-learning methods. |
+| `framework`, `has_pretrained_weights`, `pretrained_weights_url` | no | Deep-learning entries only. Leave `null` — these are auto-detected by `scripts/fetch_github_stats.py` (checks the repo's dependency files for `framework`, GitHub Releases for weight-file assets) or the on-demand "Fetch missing GitHub stats" button. Don't hand-set these; a `null` result means "not detected," not "confirmed absent." |
+| `forks`, `open_issues`, `license`, `topics`, `archived`, `repo_created_at`, `first_commit_date`, `stats_fetched_at` | no | Leave these `null` — auto-filled by `scripts/fetch_github_stats.py`. `stats_fetched_at` also drives that script's freshness check (skips re-fetching anything younger than 30 days), so leaving it `null` on a new entry guarantees it gets fetched on the very next run regardless of that window. |
 | `recommend` | no | Compatibility flags used by the "Which method?" tab — see [How the recommender works](README.md#how-the-which-method-recommender-works) in the README before setting these; they should reflect the method's actual design, not a guess. If omitted, a new entry won't show up in recommender results (it still appears in Explore). |
 
 ## Keeping stats current

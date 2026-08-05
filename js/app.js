@@ -57,6 +57,7 @@ async function init() {
   bindControls();
   bindTabs();
   bindCompareBar();
+  bindFetchStatsButton();
   buildRecommender();
   render();
 }
@@ -96,6 +97,74 @@ function buildFamilyLegend() {
     item.innerHTML = `<span class="legend-swatch" style="background:${color}"></span>${label}`;
     legend.appendChild(item);
   });
+}
+
+/* ---------------- On-demand GitHub stats (client-side, session-only) ----------------
+ * The scheduled Action + scripts/fetch_github_stats.py are the source of
+ * truth and persist back to data/methods.json. This button is a
+ * lightweight supplement for browsing between refreshes: it calls the
+ * public GitHub REST API directly from the browser (CORS-enabled for
+ * unauthenticated GET requests) for whichever methods are still missing
+ * stats, and updates the current session's view only. It does NOT write
+ * back to the repo — a page reload reverts to whatever's actually
+ * committed. Subject to GitHub's unauthenticated rate limit (60/hr per
+ * IP), so it only fetches what's missing, not everything.
+ */
+
+function bindFetchStatsButton() {
+  document.getElementById("fetch-stats-btn").addEventListener("click", fetchMissingGithubStats);
+}
+
+async function fetchMissingGithubStats() {
+  const btn = document.getElementById("fetch-stats-btn");
+  const status = document.getElementById("fetch-stats-status");
+  const targets = state.data.filter((d) => d.github && d.stars == null);
+
+  if (targets.length === 0) {
+    status.textContent = "Nothing missing — everything already has stats.";
+    return;
+  }
+
+  btn.disabled = true;
+  let done = 0, ok = 0, failed = 0;
+  status.textContent = `Fetching 0/${targets.length}…`;
+
+  for (const method of targets) {
+    try {
+      const resp = await fetch(`https://api.github.com/repos/${method.github}`, {
+        headers: { Accept: "application/vnd.github+json" },
+      });
+      if (resp.status === 403) {
+        status.textContent = `Rate limited by GitHub after ${ok} of ${targets.length} — try again in a bit, or use scripts/fetch_github_stats.py with a token.`;
+        break;
+      }
+      if (!resp.ok) {
+        failed++;
+      } else {
+        const repo = await resp.json();
+        method.stars = repo.stargazers_count;
+        method.forks = repo.forks_count;
+        method.open_issues = repo.open_issues_count;
+        method.license = repo.license ? repo.license.spdx_id : null;
+        method.topics = repo.topics || [];
+        method.archived = repo.archived || false;
+        method.repo_created_at = repo.created_at ? repo.created_at.split("T")[0] : null;
+        method.last_commit = repo.pushed_at ? repo.pushed_at.split("T")[0] : null;
+        method.repo_description = repo.description;
+        method._fetched_this_session = true; // first_commit_date is intentionally not fetched here — see module note
+        ok++;
+      }
+    } catch (e) {
+      failed++;
+    }
+    done++;
+    status.textContent = `Fetching ${done}/${targets.length}…`;
+  }
+
+  btn.disabled = false;
+  status.textContent = `Done: ${ok} fetched${failed ? `, ${failed} failed` : ""} this session (not saved — re-run scripts/fetch_github_stats.py to persist).`;
+  render();
+  if (state.activeTab === "recommend") renderRecommenderTree();
 }
 
 function bindControls() {
@@ -535,8 +604,21 @@ function openDrawer(d) {
   const alsoIn = (d.also_implemented_in || []);
   const alsoInLine = alsoIn.length ? ` · also in ${alsoIn.join(", ")}` : "";
 
+  const isDL = d.method_type === "deep-learning";
+  const frameworkLine = d.framework || (d.github ? "not fetched yet" : "—");
+  const weightsLine = d.has_pretrained_weights === true
+    ? `Yes <a href="${d.pretrained_weights_url}" target="_blank" rel="noopener" class="inline-link">↗ weights</a>`
+    : d.has_pretrained_weights === false
+      ? "No"
+      : (d.github ? "not fetched yet" : "—");
+  const dlRows = isDL ? `
+      <dt>Architecture</dt><dd>${d.architecture_backbone ? escapeHtml(d.architecture_backbone) : "—"}</dd>
+      <dt>Framework</dt><dd>${escapeHtml(frameworkLine)}</dd>
+      <dt>Pretrained weights</dt><dd>${weightsLine}</dd>
+  ` : "";
+
   const missingNote = (d.stars == null && d.github)
-    ? `<p class="no-data-note">Live GitHub stats haven't been fetched in this build — run <code>scripts/fetch_github_stats.py</code> (or the scheduled Action) to populate this.</p>`
+    ? `<p class="no-data-note">Live GitHub stats haven't been fetched in this build — use the "⟳ Fetch missing GitHub stats" button at the top of the page for a session-only preview, or run <code>scripts/fetch_github_stats.py</code> (or the scheduled Action) to actually save it.</p>`
     : "";
   const noPaperNote = !d.paper_title
     ? `<p class="no-data-note">No paper is listed for this entry yet — if you know the reference, please contribute it.</p>`
@@ -557,6 +639,7 @@ function openDrawer(d) {
       <dt>Validation data</dt><dd>${escapeHtml(d.validation_data || "Agnostic")}</dd>
       <dt>UniHarmony</dt><dd>${uniharmonyLine}${alsoInLine}</dd>
       <dt>Language</dt><dd><div class="chip-row">${languages}</div></dd>
+      ${dlRows}
       <dt>Stars</dt><dd>${starsLine}</dd>
       <dt>Forks</dt><dd>${forksLine}</dd>
       <dt>Open issues</dt><dd>${issuesLine}</dd>
@@ -568,8 +651,7 @@ function openDrawer(d) {
 
     ${missingNote}
 
-    <div class="links">
-      ${paperLink}
+    <div class="links">      ${paperLink}
       ${repoLink}
     </div>
   `;
@@ -842,19 +924,14 @@ function renderRecommenderTree() {
   const excludedNotes = [];
   if (recState.task === "ml") {
     const before = pool.length;
-    pool = pool.filter((d) => d.category !== "combat-family");
-    if (pool.length < before) {
+    pool = pool.filter((d) => d.category !== "combat-family" || (d.recommend && d.recommend.ml_compatible === true));
+    const removed = before - pool.length;
+    if (removed > 0) {
       excludedNotes.push(
-        `Removed ${before - pool.length} Location/Scale (ComBat-family) methods — the covariate they need ` +
-        `to fit the harmonization model is typically the same variable you're trying to predict, causing data leakage.`
-      );
-    }
-    const pretty = state.data.find((d) => d.id === "prettyharmonize");
-    if (pretty) {
-      excludedNotes.push(
-        `Note: PrettYharmonize is a Location/Scale method built specifically to be leakage-free in ML ` +
-        `pipelines. It's excluded above by that same rule, but if you want ComBat-style harmonization for ` +
-        `an ML pipeline specifically, it's worth a direct look.`
+        `Removed ${removed} Location/Scale (ComBat-family) method${removed === 1 ? "" : "s"} — the covariate they ` +
+        `need to fit the harmonization model is typically the same variable you're trying to predict, causing data ` +
+        `leakage. PrettYharmonize is the one exception: it's a Location/Scale method built specifically to be ` +
+        `leakage-free in ML pipelines, so it's still in the list below.`
       );
     }
   }

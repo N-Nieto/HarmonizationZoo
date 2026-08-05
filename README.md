@@ -148,6 +148,19 @@ Harmonizing Flows: **BlindHarmony** (Jeong et al., 2023) and
 **BlindHarmonyDiff**. These are good next PRs if you (or anyone) can pin
 down the exact paper and check it firsthand.
 
+### Two real bugs, not just missing data
+
+- **BOTDA** had no dedicated repo captured — fixed with the correct one
+  (`vpeterson/otda-mibci`), which also gave a verified year and paper link.
+- **Fed-ComBat** was never populating GitHub stats, and the reason wasn't a
+  fetch-script bug: its `github` field pointed at `greguig/fedcombat`, but
+  that project is actually hosted on **GitLab**
+  (`gitlab.inria.fr/greguig/fedcombat`), not GitHub — `api.github.com` was
+  never going to resolve it. Moved to `other_url`, which is exactly the
+  field that exists for this case. If another entry silently shows "not
+  fetched" after a run, this is the first thing worth checking — a wrong or
+  non-GitHub host, not a scraper problem.
+
 ### Honest gaps — please help close these
 
 - **`paper_year` is verified for 34 of 53 entries; `paper_url` for 21 of
@@ -165,10 +178,10 @@ down the exact paper and check it firsthand.
 
 ## Keeping GitHub stats current
 
-The website itself never calls the GitHub API — the browser only ever does
-a `fetch()` of the already-committed `data/methods.json`. All GitHub-derived
-fields are filled in by `scripts/fetch_github_stats.py`, a separate script
-that calls the GitHub API and rewrites the JSON file:
+The website itself never calls the GitHub API on page load — the browser
+only ever does a `fetch()` of the already-committed `data/methods.json`.
+All GitHub-derived fields are filled in by `scripts/fetch_github_stats.py`,
+a separate script that calls the GitHub API and rewrites the JSON file:
 
 - **stars, forks, open issues**
 - **license** (SPDX id) and **repo topics**
@@ -182,20 +195,63 @@ that calls the GitHub API and rewrites the JSON file:
   (e.g. "3 months ago") and an Active / Slowing / Stale badge, entirely in
   the browser at render time — so that label never goes stale between data
   refreshes even if the underlying date does
+- for `method_type == "deep-learning"` entries only: **framework**
+  (PyTorch / TensorFlow, auto-detected by fetching the repo's own
+  `requirements.txt` / `environment.yml` / `setup.py` / `pyproject.toml`
+  and checking which one is mentioned) and **pretrained weights**
+  (auto-detected by checking GitHub Releases for an asset that looks like a
+  weights file — `.pth`, `.pt`, `.h5`, `.ckpt`, `.safetensors`, etc.). Both
+  are best-effort: a `null`/"not detected" result means the check didn't
+  find evidence, not that it's confirmed absent — e.g. a repo that only
+  `import`s torch in source files without ever listing it in a dependency
+  file would be missed.
+- **`architecture_backbone`** (VAE, GAN, CycleGAN, StarGAN, Normalizing
+  Flow, Disentangled VAE, U-Net, etc.) is the one deep-learning field that
+  *isn't* fetched — there's no reliable way to auto-detect "which GAN
+  variant" from a repo the way framework/weights can be, so it's hand-set
+  per method in `scripts/build_seed.py`'s `ARCHITECTURE_BACKBONE` dict.
 
-That's why a fresh `git clone` served locally shows all of these as `null`
-until you either:
+### Smart refresh — not everything, every time
 
-- run `python3 scripts/fetch_github_stats.py` yourself once, or
-- push to GitHub and let the scheduled Action
-  (`.github/workflows/refresh-stats.yml`) do it — it runs weekly and commits
-  the result back, so the *deployed* site stays current automatically even
-  though nothing runs at page-load time.
+Each entry now carries its own `stats_fetched_at` timestamp. A normal run
+of `fetch_github_stats.py` **skips any entry fetched within the last 30
+days** — there's no need to re-hit the API for 50+ repos every time
+someone pushes a small data fix. Anything that's never been fetched (a
+brand-new method, or one whose last fetch failed) is always fetched
+regardless of that window, so a newly-added method never has to wait a
+month for its first stats. `--force` ignores the window and refetches
+everyone; `--ids combat,ravel` fetches just specific entries.
 
-Unauthenticated GitHub API calls are capped at 60/hour, and each repo now
-costs 2 calls (repo info + first-commit lookup), so this ceiling matters
-sooner than it used to — set a `GITHUB_TOKEN` env var locally, or rely on
-the Action (which gets one automatically), to raise it to 5000/hour.
+This means the scheduled Action (`.github/workflows/refresh-stats.yml`)
+can safely keep running on every push to `data/methods.json` *and* weekly
+on a cron, without wastefully re-fetching repos that haven't changed. Use
+the "force" checkbox when triggering it manually from the Actions tab for
+a full refresh.
+
+### On-demand stats from the page itself
+
+The **"⟳ Fetch missing GitHub stats"** button in the header calls the
+public GitHub REST API directly from your browser (it's CORS-enabled for
+unauthenticated GET requests) for whichever methods are currently missing
+stats, and updates the page for your current session. This is a
+convenience for browsing between scheduled refreshes — **it does not write
+back to the repo**; reloading the page reverts to whatever's actually
+committed in `data/methods.json`. It's also subject to GitHub's
+unauthenticated rate limit (60 requests/hour per IP), so it only fetches
+what's missing, not everything, and stops with a clear message if it gets
+rate-limited. For anything you want to actually persist, run
+`scripts/fetch_github_stats.py` (or let the Action do it) instead.
+
+That's why a fresh `git clone` served locally shows all of the above as
+`null` until you either run the script yourself once, use the on-demand
+button for a quick look, or push to GitHub and let the scheduled Action do
+it for real.
+
+Unauthenticated GitHub API calls are capped at 60/hour, and a deep-learning
+repo now costs up to 4 calls (repo info, first-commit lookup, dependency
+file, releases), so this ceiling matters quickly — set a `GITHUB_TOKEN` env
+var locally, or rely on the Action (which gets one automatically), to raise
+it to 5000/hour.
 
 ## Troubleshooting GitHub Pages
 
@@ -252,11 +308,11 @@ bottom of the tree. Changing an earlier answer re-derives everything below
 it automatically.
 
 The one deliberate exception: **machine-learning task** excludes the whole
-Location/Scale (ComBat-family) — their harmonization model needs the same
-covariate you're usually trying to predict as an ML target, which causes
-data leakage. PrettYharmonize is the one method in that family built
-specifically to avoid this; it's still excluded by the blanket rule, but a
-separate note calls it out rather than silently dropping it.
+Location/Scale (ComBat-family) except **PrettYharmonize**, which survives
+the filter — it's the one method in that family built specifically to be
+leakage-free in ML pipelines (`recommend.ml_compatible: true` overrides the
+family default), so it's the only Location/Scale method that shows up in
+ML-task results.
 
 `needs_gpu` is now a real top-level field on every method (previously it was
 only computed inline as "category === deep-learning"). It's still set the
