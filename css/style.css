@@ -505,6 +505,201 @@ select:focus, input[type="search"]:focus, button:focus-visible {
   margin-top: 4px;
 }
 
+/* ---------- Add a model tab ---------- */
+.addmodel-wrap {
+  padding: 30px clamp(18px, 4vw, 48px) 90px;
+  max-width: 720px;
+}
+.addmodel-intro {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--paper-dim);
+  margin: 0 0 30px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+.addmodel-intro code {
+  font-family: var(--font-mono);
+  color: var(--phosphor);
+  background: none;
+}
+
+.addmodel-section {
+  margin-bottom: 30px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--line);
+}
+.addmodel-section h3 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  margin: 0 0 16px;
+}
+.addmodel-section-note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--paper-dim);
+  font-weight: 400;
+}
+
+.addmodel-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.addmodel-field > span {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--paper-dim);
+}
+.addmodel-field input[type="text"],
+.addmodel-field input[type="url"],
+.addmodel-field input[type="number"],
+.addmodel-field select {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--paper);
+  padding: 10px 12px;
+  border-radius: 7px;
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+.addmodel-field-hidden { display: none; }
+
+.addmodel-fetch-status {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--cyan);
+  min-height: 16px;
+}
+
+.addmodel-submit-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+#am-generate {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  padding: 11px 22px;
+  border-radius: 8px;
+  border: none;
+  background: var(--phosphor);
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 500;
+}
+.addmodel-validation-msg {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--rose);
+}
+
+.addmodel-output.hidden { display: none; }
+.addmodel-output h3 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  margin: 0 0 12px;
+}
+.addmodel-json {
+  background: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--paper-dim);
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.addmodel-output-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+.addmodel-output-actions button {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 9px 16px;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--paper);
+  cursor: pointer;
+}
+#am-submit-github { border-color: var(--phosphor); color: var(--phosphor); }
+.addmodel-output-note {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--paper-dim);
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+/* ---------- Home tab ---------- */
+.home-wrap {
+  padding: 60px clamp(18px, 4vw, 48px) 80px;
+  max-width: 920px;
+}
+.home-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 700;
+  margin: 0 0 20px;
+  line-height: 1.15;
+}
+.home-lede {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--paper-dim);
+  max-width: 700px;
+  margin: 0 0 44px;
+}
+.home-lede strong { color: var(--paper); font-weight: 600; }
+
+.home-cta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+@media (max-width: 760px) { .home-cta-grid { grid-template-columns: 1fr; } }
+
+.home-cta {
+  text-align: left;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 22px 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.home-cta:hover { border-color: var(--phosphor); transform: translateY(-2px); }
+.home-cta-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--phosphor);
+}
+.home-cta-desc {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--paper-dim);
+}
+
+.home-footnote {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--paper-dim);
+}
+
 /* ---------- Tabs ---------- */
 .tab-nav {
   display: flex;

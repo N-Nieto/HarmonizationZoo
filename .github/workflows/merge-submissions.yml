@@ -1,0 +1,34 @@
+name: Merge submitted methods
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/submissions/*.json"
+
+permissions:
+  contents: write
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fold submissions into methods.json
+        run: python3 scripts/merge_submissions.py
+
+      - name: Check for duplicates
+        run: python3 scripts/check_duplicates.py --ci
+
+      - name: Commit result
+        run: |
+          git config user.name "harmonization-zoo-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/methods.json data/submissions/
+          git diff --cached --quiet || git commit -m "chore: merge submitted method(s) into the database"
+          git push

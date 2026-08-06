@@ -390,8 +390,11 @@ CATEGORY_RECOMMEND_DEFAULTS = {
 # Per-method overrides where there's a clear, specific reason to deviate
 # from the family default (cited inline).
 RECOMMEND_OVERRIDES = {
-    # Explicitly a nonlinear (GAM) extension of ComBat's location-scale model.
-    "combat-gam": dict(requires_linear_signal=False, generalizes_to_new_site=True),
+    # Explicitly a nonlinear (GAM) extension of ComBat's location-scale model —
+    # but like standard ComBat, it still needs the full target batch known at
+    # fit time; it can't be applied to a genuinely new, unseen site without
+    # refitting, so it does NOT get a generalizes_to_new_site override.
+    "combat-gam": dict(requires_linear_signal=False),
     # Title is literally "...from unseen scanners"; IQM-based so no site ID needed.
     "neuroharmony": dict(generalizes_to_new_site=True),
     # "Source-Free Domain Adaptation" — designed to not need source-site data at deployment.
@@ -487,15 +490,33 @@ def main():
 
         out.append(rec)
 
+    # Non-destructive: this script only owns the ids in METHODS above. Any
+    # other entries already in methods.json — most importantly, methods
+    # merged in from data/submissions/ via scripts/merge_submissions.py —
+    # are preserved as-is rather than being wiped out by a full rebuild.
+    # Re-running this script to fix a typo in one seeded entry should never
+    # silently delete a community contribution.
+    seed_ids = {rec["id"] for rec in out}
+    preserved = []
+    existing_path = "data/methods.json"
+    if os.path.exists(existing_path):
+        with open(existing_path) as f:
+            existing = json.load(f)
+        preserved = [m for m in existing.get("methods", []) if m.get("id") not in seed_ids]
+        if preserved:
+            print(f"Preserving {len(preserved)} externally-added method(s) not managed by this script: "
+                  f"{', '.join(m['id'] for m in preserved)}")
+
     os.makedirs("data", exist_ok=True)
     with open("data/methods.json", "w") as f:
-        json.dump({"generated_by": "build_seed.py", "methods": out}, f, indent=2)
-    print(f"Wrote {len(out)} methods to data/methods.json")
-    have_year = sum(1 for m in out if m["paper_year"])
-    have_url = sum(1 for m in out if m["paper_url"])
-    have_repo = sum(1 for m in out if m["github"])
-    have_data = sum(1 for m in out if m["validation_data"] != "Agnostic")
-    in_uh = sum(1 for m in out if m["in_uniharmony"])
+        json.dump({"generated_by": "build_seed.py", "methods": out + preserved}, f, indent=2)
+    print(f"Wrote {len(out) + len(preserved)} methods to data/methods.json ({len(out)} from the seed script, {len(preserved)} preserved)")
+    out = out + preserved  # so the summary stats below cover everyone
+    have_year = sum(1 for m in out if m.get("paper_year"))
+    have_url = sum(1 for m in out if m.get("paper_url"))
+    have_repo = sum(1 for m in out if m.get("github"))
+    have_data = sum(1 for m in out if m.get("validation_data", "Agnostic") != "Agnostic")
+    in_uh = sum(1 for m in out if m.get("in_uniharmony"))
     print(f"{have_year}/{len(out)} have a verified publication year")
     print(f"{have_url}/{len(out)} have a verified paper link")
     print(f"{have_repo}/{len(out)} have a GitHub repo (eligible for auto-fetched stats)")

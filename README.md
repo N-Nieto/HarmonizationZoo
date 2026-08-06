@@ -6,14 +6,27 @@ statistical methods, deep-learning approaches, and everything in between
 (federated, IQM-based, normative modeling, optimal transport, classical
 intensity normalization, …).
 
-Methods are drawn as boxes sized to fit their full name (nothing gets
-truncated or overlapped), grouped however you pick from "Group by":
-**Harmonization level** (default), **Family**, **Data modality**, **Programming language**, **Year**
-(of the repo's first commit), **GitHub stars**, **Citations**, **Validation data** (the
-dataset/cohort a method was mainly proposed or validated on), or
-**Implemented in UniHarmony**. Click a box for the paper title and link,
-level, language, GitHub stars/forks/issues/license, last-maintained status,
-and more.
+The site has four tabs:
+
+- **Home** — what this is, and three big buttons into the other three tabs.
+- **Explore** — methods drawn as boxes sized to fit their full name (nothing
+  gets truncated or overlapped), grouped however you pick from "Group by":
+  **Harmonization level** (default), **Family**, **Data modality**,
+  **Programming language**, **Year** (of the repo's first commit),
+  **GitHub stars**, **Citations**, **Validation data** (the dataset/cohort a
+  method was mainly proposed or validated on), or **Implemented in
+  UniHarmony**. Click a box for the paper title and link, level, language,
+  architecture/framework/pretrained-weights (deep-learning methods), GitHub
+  stars/forks/issues/license, last-maintained status, and more.
+- **Which method?** — a short questionnaire (downstream task, harmonization
+  level, programming language, new-site generalization, Site ID access,
+  hardware, signal linearity, federated setup) that filters the method list
+  live as you answer, explaining exactly what got removed and why at each
+  step.
+- **Add a model** — a form for proposing a new method, which turns into a
+  real GitHub pull request in a couple of clicks. See
+  [Adding a method through the site](#adding-a-method-through-the-site)
+  below.
 
 Two other things live on the page:
 
@@ -22,14 +35,15 @@ Two other things live on the page:
   (family, level, modality, validation data, stars, license, UniHarmony
   status, GPU/ML-compatibility, and more). Works the same way in the
   "Which method?" results list as it does in Explore.
-- **"Which method?" tab** — a short questionnaire (downstream task, signal
-  linearity, data quantity, new-site generalization, Site ID access,
-  GPU access) that filters out genuinely incompatible methods and ranks the
-  rest with visible reasons, rather than just listing everything.
+- **"⟳ Fetch missing GitHub stats" button** — an on-demand, session-only
+  preview of stats for whatever's currently missing them (see
+  [Keeping GitHub stats current](#keeping-github-stats-current)).
 
 The whole thing is one static site with one JSON file as its database, so
-it's built to grow: adding a method is a two-minute JSON edit and a pull
-request (see [`CONTRIBUTING.md`](CONTRIBUTING.md)).
+it's built to grow: adding a method is either a two-minute JSON edit and a
+pull request, or filling in the "Add a model" form on the site itself (see
+[`CONTRIBUTING.md`](CONTRIBUTING.md) and
+[Adding a method through the site](#adding-a-method-through-the-site) below).
 
 **No framework, no build step, no backend, no external JS dependencies.**
 Plain HTML/CSS/vanilla JS, so it can be served as-is from GitHub Pages.
@@ -160,11 +174,15 @@ down the exact paper and check it firsthand.
   field that exists for this case. If another entry silently shows "not
   fetched" after a run, this is the first thing worth checking — a wrong or
   non-GitHub host, not a scraper problem.
+- **ComBat-GAM** had an incorrect `generalizes_to_new_site: true` override
+  in the recommender data — it can't actually be applied to a genuinely new,
+  unseen site without refitting, same limitation as standard ComBat. Fixed
+  to the family default (`false`).
 
 ### Honest gaps — please help close these
 
-- **`paper_year` is verified for 34 of 53 entries; `paper_url` for 21 of
-  53.** The rest are `null` rather than estimated — a wrong year is worse
+- **`paper_year` is verified for 43 of 58 entries; `paper_url` for 32 of
+  58.** The rest are `null` rather than estimated — a wrong year is worse
   than a missing one, and the Year view's "Year unknown" column exists
   for exactly this reason.
 - The eight survey papers you originally listed (structural-MRI DL survey,
@@ -253,6 +271,57 @@ file, releases), so this ceiling matters quickly — set a `GITHUB_TOKEN` env
 var locally, or rely on the Action (which gets one automatically), to raise
 it to 5000/hour.
 
+## Adding a method through the site
+
+The "Add a model" tab is a full form — only the name, paper link, and
+source code link are required, everything else (family, level, modality,
+language, architecture, framework, and every "Which method?" compatibility
+question as a toggle) is optional. Pasting a `github.com/owner/repo` link
+into the source code field triggers a live preview fetch (stars, primary
+language, license) using the same on-demand, browser-side GitHub call as
+the "Fetch missing GitHub stats" button — GitLab and other links are noted
+but not auto-fetched.
+
+**This is a static site with no backend to write to**, so "Generate
+submission" doesn't call an API — it builds the full JSON entry client-side
+and opens a pre-filled GitHub page for a new file at
+`data/submissions/<id>.json`. What happens next depends on whether you have
+write access to the repo: collaborators can commit it directly; everyone
+else gets GitHub's standard "fork this repo and open a pull request" flow
+automatically, with no extra setup needed. Either way, the change lands as
+a real, reviewable diff — never a direct, unreviewed write to the live
+database.
+
+From there:
+
+1. A maintainer reviews and merges the PR into `main`.
+2. `.github/workflows/merge-submissions.yml` runs
+   `scripts/merge_submissions.py`, which folds every file under
+   `data/submissions/` into `data/methods.json` (light validation — required
+   fields present, no id collision — since a human already reviewed the
+   PR) and deletes the submission files.
+3. The stats-refresh Action picks up the newly-added method on its next
+   run — a never-before-fetched entry always gets fetched regardless of the
+   30-day freshness window (see above), so a brand-new method doesn't have
+   to wait a month for its stars/license/etc.
+4. GitHub Pages rebuilds automatically on the push from step 2. **You'll
+   need to reload the site after that finishes** to see the new method —
+   there's no live-push mechanism to an already-open tab.
+
+One honest caveat: by default, GitHub Actions' built-in `GITHUB_TOKEN`
+doesn't trigger *other* workflows when it pushes — so the push in step 2
+won't automatically kick off the stats-refresh Action in step 3 unless the
+repo is set up with a personal access token instead of the default token
+for that job. Until/unless that's configured, trigger the stats-refresh
+Action manually from the Actions tab after merging a submission, or just
+wait for its weekly schedule.
+
+`scripts/build_seed.py` is non-destructive with respect to this pipeline:
+re-running it (e.g. to fix a typo in one of the originally-seeded entries)
+preserves any method already in `data/methods.json` that isn't one of its
+own hardcoded entries, rather than wiping the file back to just the seed
+list. Community-submitted methods survive a seed rebuild.
+
 ## Troubleshooting GitHub Pages
 
 If Pages shows a blank page after enabling it:
@@ -275,7 +344,7 @@ If Pages shows a blank page after enabling it:
 
 It's a **live filter tree** with a **compare mode** shared with Explore (the
 same toggle, same selection state — select methods from the recommender's
-results and hit Compare just like in Explore). It starts by showing all 54
+results and hit Compare just like in Explore). It starts by showing all 58
 methods, and every answer immediately narrows the list on the right — no
 submit button. Questions are asked in a fixed hierarchy (`REC_STEPS` in
 `js/app.js`), each one only appearing once the previous one is answered:
@@ -289,7 +358,10 @@ submit button. Questions are asked in a fixed hierarchy (`REC_STEPS` in
 6. **Hardware (GPU)** — only asked at all if image-level methods that need a
    GPU (`needs_gpu: true`) are still in the running; otherwise skipped
    automatically
-7. **Signal linearity assumption**
+7. **Signal linearity assumption** — only asked for feature-level methods;
+   skipped for image-level ones, since "is the biological signal linear in
+   these covariates" isn't a meaningful question for a method that operates
+   directly on raw images rather than a fitted covariate model
 8. **Federated setup** — only asked if the downstream task is
    machine-learning; asked last
 
@@ -361,16 +433,19 @@ method behaves differently, override it there.
 ## Project layout
 
 ```
-index.html                    the whole page (Explore tab + Which-method? tab)
+index.html                    the whole page (Home / Explore / Which-method? / Add-a-model tabs)
 css/style.css                 styling
-js/app.js                     data loading, box layout, filters, compare mode, recommender, detail drawer
+js/app.js                     data loading, box layout, filters, compare mode, recommender, add-model form, detail drawer
 data/methods.json             the database — edit this to add/change methods
-scripts/build_seed.py         (re)generates methods.json from the source tables — provenance only
-scripts/fetch_github_stats.py enriches methods.json with live stars / first-commit / last-commit / etc from the GitHub API
+data/submissions/             pending method submissions land here as data/submissions/<id>.json, awaiting merge
+scripts/build_seed.py         (re)generates the seed portion of methods.json — non-destructive, preserves other entries
+scripts/fetch_github_stats.py enriches methods.json with live stars / first-commit / last-commit / framework / etc from the GitHub API
 scripts/fetch_citations.py    optional: fills in citation counts via Semantic Scholar (run manually)
 scripts/check_duplicates.py   flags likely-duplicate entries; run in CI on every PR
-.github/workflows/refresh-stats.yml       runs fetch_github_stats.py weekly and commits the result
+scripts/merge_submissions.py  folds data/submissions/*.json into methods.json after a submission PR is merged
+.github/workflows/refresh-stats.yml       runs fetch_github_stats.py weekly + on push to methods.json, and commits the result
 .github/workflows/check-duplicates.yml    runs check_duplicates.py on PRs touching the database
+.github/workflows/merge-submissions.yml   runs merge_submissions.py on push to data/submissions/
 CONTRIBUTING.md               schema reference + how to add a method
 ```
 

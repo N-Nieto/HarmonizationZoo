@@ -38,7 +38,7 @@ const state = {
   fontSize: 13,
   compareMode: false,
   selectedIds: new Set(),
-  activeTab: "explore",
+  activeTab: "home",
 };
 
 async function init() {
@@ -59,6 +59,8 @@ async function init() {
   bindCompareBar();
   bindFetchStatsButton();
   buildRecommender();
+  buildHomeTab();
+  buildAddModelTab();
   render();
 }
 
@@ -98,6 +100,418 @@ function buildFamilyLegend() {
     legend.appendChild(item);
   });
 }
+
+/* ---------------- Home tab ---------------- */
+
+function buildHomeTab() {
+  const root = document.getElementById("home-root");
+  const familyCount = new Set(state.data.map((d) => d.category)).size;
+
+  root.innerHTML = `
+    <div class="home-wrap">
+      <h2 class="home-title">A field guide to MRI harmonization methods</h2>
+      <p class="home-lede">
+        Harmonization Zoo maps out <strong>${state.data.length} methods</strong> for
+        harmonizing multi-site / multi-scanner MRI data across
+        <strong>${familyCount} families</strong> — from classical location/scale
+        statistics (ComBat and its relatives) through deep-learning image-to-image
+        translation, federated setups, and everything in between. It's one static
+        page with one JSON file as its database, kept in sync with GitHub for stars,
+        activity, and licensing, and built to grow — anyone can propose a new method.
+      </p>
+
+      <div class="home-cta-grid">
+        <button type="button" class="home-cta" data-tab="explore">
+          <span class="home-cta-title">Explore →</span>
+          <span class="home-cta-desc">Browse every method as a map, grouped by family, level, modality,
+            language, year, stars, citations, validation data, or UniHarmony availability.
+            Compare methods side by side.</span>
+        </button>
+        <button type="button" class="home-cta" data-tab="recommend">
+          <span class="home-cta-title">Which method? →</span>
+          <span class="home-cta-desc">Answer a short set of questions about your task, data, and
+            constraints. The list narrows live, with an explanation for every method
+            that gets removed.</span>
+        </button>
+        <button type="button" class="home-cta" data-tab="add">
+          <span class="home-cta-title">Add a model →</span>
+          <span class="home-cta-desc">Know a method that's missing? Fill in a short form — paper link
+            and source code link required, everything else optional — and submit it
+            as a real GitHub contribution in a couple of clicks.</span>
+        </button>
+      </div>
+
+      <p class="home-footnote">
+        Built and maintained as an open, editable reference — see
+        <a href="https://github.com/N-Nieto/HarmonizationZoo" target="_blank" rel="noopener">the repo</a>
+        for the full data model and contribution guide.
+      </p>
+    </div>
+  `;
+
+  root.querySelectorAll(".home-cta").forEach((btn) => {
+    btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+  });
+}
+
+/* ---------------- Add a model tab ---------------- */
+
+const MODALITY_OPTIONS = [
+  "Structural MRI", "Diffusion MRI", "Functional MRI", "Radiomics (CT/MRI)",
+  "Omics/Proteomics", "EEG", "Medical imaging (general, not MRI-brain-specific)",
+  "Modality-agnostic (general ML)", "Acquisition (modality-agnostic)", "MRI (unspecified)", "Other",
+];
+const ARCHITECTURE_OPTIONS = [
+  "VAE", "GAN", "CycleGAN", "StarGAN", "VAE-GAN", "Disentangled VAE",
+  "Autoencoder", "Adversarial network", "Adversarial autoencoder",
+  "Normalizing flow", "Energy-based model", "U-Net (CNN)", "Transformer",
+  "Diffusion model", "Other",
+];
+
+const addModelState = {
+  name: "", paperUrl: "", codeUrl: "", paperYear: "",
+  category: "combat-family", level: "feature-level", methodType: "statistical",
+  modality: "", modalityOther: "", language: "", tags: "", validationData: "",
+  architecture: "", architectureOther: "", framework: "",
+  hasPretrainedWeights: null, pretrainedWeightsUrl: "",
+  requiresSiteId: null, generalizesToNewSite: null, lowNFriendly: null,
+  requiresLinearSignal: null, mlCompatible: null, needsGpu: null,
+  inUniharmony: null, alsoImplementedIn: "",
+  fetchedRepo: null,
+};
+
+function buildAddModelTab() {
+  const root = document.getElementById("add-model-root");
+  root.innerHTML = `
+    <div class="addmodel-wrap">
+      <p class="addmodel-intro">
+        Know a harmonization method that's missing? Fill in what you know — only the
+        name, paper link, and source code link are required, everything else is
+        optional and helps but isn't a blocker. Submitting doesn't touch the live
+        database directly (this is a static site with no backend to write to) — it
+        opens a pre-filled GitHub page proposing a new file under
+        <code>data/submissions/</code>, which becomes a real pull request. Once merged,
+        an Action automatically folds it into the main database and refreshes GitHub
+        stats — the site rebuilds and you'll need to reload after that finishes.
+      </p>
+
+      <div class="addmodel-section">
+        <h3>Required</h3>
+        <label class="addmodel-field">
+          <span>Method name*</span>
+          <input type="text" id="am-name" placeholder="e.g. My Harmonization Method">
+        </label>
+        <label class="addmodel-field">
+          <span>Paper link*</span>
+          <input type="url" id="am-paper" placeholder="https://doi.org/... or arXiv link">
+        </label>
+        <label class="addmodel-field">
+          <span>Source code link* (GitHub or GitLab)</span>
+          <input type="url" id="am-code" placeholder="https://github.com/owner/repo">
+        </label>
+        <div id="am-fetch-status" class="addmodel-fetch-status"></div>
+      </div>
+
+      <div class="addmodel-section">
+        <h3>Classification</h3>
+        <label class="addmodel-field">
+          <span>Family</span>
+          <select id="am-category"></select>
+        </label>
+        <div class="addmodel-field">
+          <span>Harmonization level</span>
+          <div class="rec-options" id="am-level"></div>
+        </div>
+        <label class="addmodel-field">
+          <span>Method type</span>
+          <select id="am-methodtype">
+            <option value="statistical">Statistical</option>
+            <option value="deep-learning">Deep learning</option>
+            <option value="machine-learning">Machine learning</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+        <label class="addmodel-field">
+          <span>Data modality</span>
+          <select id="am-modality"></select>
+        </label>
+        <label class="addmodel-field addmodel-field-hidden" id="am-modality-other-wrap">
+          <span>Modality (other)</span>
+          <input type="text" id="am-modality-other" placeholder="describe it">
+        </label>
+        <label class="addmodel-field">
+          <span>Programming language(s)</span>
+          <input type="text" id="am-language" placeholder="Python, R, MATLAB…">
+        </label>
+      </div>
+
+      <div class="addmodel-section" id="am-dl-section">
+        <h3>Deep learning specifics</h3>
+        <label class="addmodel-field">
+          <span>Architecture backbone</span>
+          <select id="am-architecture"></select>
+        </label>
+        <label class="addmodel-field addmodel-field-hidden" id="am-architecture-other-wrap">
+          <span>Architecture (other)</span>
+          <input type="text" id="am-architecture-other" placeholder="describe it">
+        </label>
+        <label class="addmodel-field">
+          <span>Framework</span>
+          <input type="text" id="am-framework" placeholder="PyTorch, TensorFlow…">
+        </label>
+        <div class="addmodel-field">
+          <span>Needs a GPU?</span>
+          <div class="rec-options" id="am-needsgpu"></div>
+        </div>
+        <div class="addmodel-field">
+          <span>Pretrained weights available?</span>
+          <div class="rec-options" id="am-weights"></div>
+        </div>
+        <label class="addmodel-field addmodel-field-hidden" id="am-weightsurl-wrap">
+          <span>Weights link</span>
+          <input type="url" id="am-weightsurl" placeholder="https://…">
+        </label>
+      </div>
+
+      <div class="addmodel-section">
+        <h3>Compatibility <span class="addmodel-section-note">(used by the "Which method?" tab — leave anything unsure blank)</span></h3>
+        <div class="addmodel-field"><span>Requires a Site ID?</span><div class="rec-options" id="am-sitereq"></div></div>
+        <div class="addmodel-field"><span>Generalizes to a new, unseen site?</span><div class="rec-options" id="am-newsite"></div></div>
+        <div class="addmodel-field"><span>Works well with small per-site N?</span><div class="rec-options" id="am-lown"></div></div>
+        <div class="addmodel-field" id="am-linear-wrap"><span>Assumes a linear biological signal?</span><div class="rec-options" id="am-linear"></div></div>
+        <div class="addmodel-field"><span>Safe to use ahead of an ML pipeline (no leakage)?</span><div class="rec-options" id="am-mlok"></div></div>
+      </div>
+
+      <div class="addmodel-section">
+        <h3>Extra</h3>
+        <label class="addmodel-field">
+          <span>Publication year</span>
+          <input type="number" id="am-year" min="1990" max="2100">
+        </label>
+        <label class="addmodel-field">
+          <span>Validation data</span>
+          <input type="text" id="am-data" placeholder="Agnostic, or e.g. ADNI, ABCD…">
+        </label>
+        <label class="addmodel-field">
+          <span>Tags</span>
+          <input type="text" id="am-tags" placeholder="comma, separated, tags">
+        </label>
+        <div class="addmodel-field"><span>Implemented in UniHarmony?</span><div class="rec-options" id="am-uniharmony"></div></div>
+        <label class="addmodel-field">
+          <span>Also implemented in (other toolkits)</span>
+          <input type="text" id="am-alsoin" placeholder="e.g. neuroHarmonize">
+        </label>
+      </div>
+
+      <div class="addmodel-submit-row">
+        <button type="button" id="am-generate">Generate submission</button>
+        <span id="am-validation-msg" class="addmodel-validation-msg"></span>
+      </div>
+
+      <div id="am-output" class="addmodel-output hidden">
+        <h3>Preview</h3>
+        <pre id="am-json-preview" class="addmodel-json"></pre>
+        <div class="addmodel-output-actions">
+          <button type="button" id="am-submit-github">↗ Open GitHub to submit</button>
+          <button type="button" id="am-copy-json">Copy JSON</button>
+        </div>
+        <p class="addmodel-output-note">
+          Opens a new tab with this file pre-filled. If you're not a repo collaborator,
+          GitHub automatically forks the repo and proposes this as a pull request when
+          you click "Propose new file" — you don't need write access.
+        </p>
+      </div>
+    </div>
+  `;
+
+  populateSelect("am-category", FAMILY_ORDER.map(([id, label]) => [id, label]), addModelState.category);
+  populateSelect("am-modality", MODALITY_OPTIONS.map((m) => [m, m]), "");
+  populateSelect("am-architecture", ARCHITECTURE_OPTIONS.map((a) => [a, a]), "");
+
+  makeToggleGroup("am-level", [["feature-level", "Feature-level"], ["image-level", "Image-level"], ["acquisition-level", "Acquisition-level"]], addModelState, "level");
+  makeToggleGroup("am-needsgpu", [["yes", "Yes"], ["no", "No"]], addModelState, "needsGpu");
+  makeToggleGroup("am-weights", [["yes", "Yes"], ["no", "No"]], addModelState, "hasPretrainedWeights", () => {
+    document.getElementById("am-weightsurl-wrap").classList.toggle("addmodel-field-hidden", addModelState.hasPretrainedWeights !== "yes");
+  });
+  makeToggleGroup("am-sitereq", [["yes", "Yes"], ["no", "No"]], addModelState, "requiresSiteId");
+  makeToggleGroup("am-newsite", [["yes", "Yes"], ["no", "No"]], addModelState, "generalizesToNewSite");
+  makeToggleGroup("am-lown", [["yes", "Yes"], ["no", "No"]], addModelState, "lowNFriendly");
+  makeToggleGroup("am-linear", [["yes", "Yes"], ["no", "No"], ["na", "N/A"]], addModelState, "requiresLinearSignal");
+  makeToggleGroup("am-mlok", [["yes", "Yes"], ["no", "No"]], addModelState, "mlCompatible");
+  makeToggleGroup("am-uniharmony", [["yes", "Yes"], ["no", "No"]], addModelState, "inUniharmony");
+
+  document.getElementById("am-modality").addEventListener("change", (e) => {
+    document.getElementById("am-modality-other-wrap").classList.toggle("addmodel-field-hidden", e.target.value !== "Other");
+  });
+  document.getElementById("am-architecture").addEventListener("change", (e) => {
+    document.getElementById("am-architecture-other-wrap").classList.toggle("addmodel-field-hidden", e.target.value !== "Other");
+  });
+  document.getElementById("am-methodtype").addEventListener("change", (e) => {
+    document.getElementById("am-dl-section").classList.toggle("addmodel-field-hidden", e.target.value !== "deep-learning");
+    document.getElementById("am-linear-wrap").classList.toggle("addmodel-field-hidden", e.target.value === "deep-learning" && addModelState.level === "image-level");
+  });
+  document.getElementById("am-level").addEventListener("click", () => {
+    document.getElementById("am-linear-wrap").classList.toggle("addmodel-field-hidden", addModelState.level === "image-level");
+  });
+  document.getElementById("am-dl-section").classList.toggle("addmodel-field-hidden", addModelState.methodType !== "deep-learning");
+
+  document.getElementById("am-code").addEventListener("change", (e) => fetchRepoPreview(e.target.value));
+  document.getElementById("am-generate").addEventListener("click", generateSubmission);
+  document.getElementById("am-copy-json").addEventListener("click", () => {
+    navigator.clipboard.writeText(document.getElementById("am-json-preview").textContent);
+  });
+}
+
+function populateSelect(id, options, defaultValue) {
+  const sel = document.getElementById(id);
+  sel.innerHTML = `<option value="">— select —</option>` + options.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
+  if (defaultValue) sel.value = defaultValue;
+}
+
+function makeToggleGroup(containerId, options, targetState, key, onChange) {
+  const wrap = document.getElementById(containerId);
+  wrap.innerHTML = "";
+  options.forEach(([value, label]) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rec-pill";
+    btn.textContent = label;
+    btn.addEventListener("click", () => {
+      targetState[key] = targetState[key] === value ? null : value;
+      wrap.querySelectorAll(".rec-pill").forEach((b) => b.classList.remove("active"));
+      if (targetState[key] === value) btn.classList.add("active");
+      if (onChange) onChange();
+    });
+    wrap.appendChild(btn);
+  });
+}
+
+async function fetchRepoPreview(url) {
+  const status = document.getElementById("am-fetch-status");
+  const m = url.match(/^https?:\/\/github\.com\/([^\/]+)\/([^\/]+?)\/?$/);
+  if (!m) {
+    status.textContent = url.includes("gitlab.com") || url.includes("gitlab.")
+      ? "GitLab link noted — auto-fetch only works for github.com links, that's fine, just fill in language/etc. manually."
+      : "";
+    addModelState.fetchedRepo = null;
+    return;
+  }
+  const repo = `${m[1]}/${m[2]}`;
+  status.textContent = `Fetching ${repo}…`;
+  try {
+    const resp = await fetch(`https://api.github.com/repos/${repo}`, { headers: { Accept: "application/vnd.github+json" } });
+    if (!resp.ok) {
+      status.textContent = resp.status === 403 ? "Rate limited by GitHub — fill in details manually." : `Repo not found (HTTP ${resp.status}) — check the link.`;
+      return;
+    }
+    const data = await resp.json();
+    addModelState.fetchedRepo = repo;
+    status.textContent = `✓ Found: ${data.stargazers_count} ★, ${data.language || "language unknown"}, ${data.license ? data.license.spdx_id : "no license"}${data.archived ? " (archived)" : ""}`;
+    if (data.language && !document.getElementById("am-language").value) {
+      document.getElementById("am-language").value = data.language;
+    }
+  } catch (e) {
+    status.textContent = "Couldn't reach GitHub from here — fill in details manually.";
+  }
+}
+
+function slugify(name) {
+  return name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60) || "new-method";
+}
+
+function toBool(v) {
+  if (v === "yes") return true;
+  if (v === "no") return false;
+  return null; // covers null and "na"
+}
+
+function generateSubmission() {
+  const name = document.getElementById("am-name").value.trim();
+  const paperUrl = document.getElementById("am-paper").value.trim();
+  const codeUrl = document.getElementById("am-code").value.trim();
+  const msg = document.getElementById("am-validation-msg");
+
+  if (!name || !paperUrl || !codeUrl) {
+    msg.textContent = "Name, paper link, and source code link are all required.";
+    return;
+  }
+  msg.textContent = "";
+
+  const category = document.getElementById("am-category").value || "deep-learning";
+  const level = addModelState.level || "feature-level";
+  const methodType = document.getElementById("am-methodtype").value;
+  let modality = document.getElementById("am-modality").value;
+  if (modality === "Other") modality = document.getElementById("am-modality-other").value.trim() || "MRI (unspecified)";
+  const language = document.getElementById("am-language").value.split(",").map((s) => s.trim()).filter(Boolean);
+  const tags = document.getElementById("am-tags").value.split(",").map((s) => s.trim()).filter(Boolean);
+  const validationData = document.getElementById("am-data").value.trim() || "Agnostic";
+  const yearVal = document.getElementById("am-year").value;
+  const alsoIn = document.getElementById("am-alsoin").value.split(",").map((s) => s.trim()).filter(Boolean);
+
+  const isGithub = /^https?:\/\/github\.com\//.test(codeUrl);
+  let architecture = null, framework = null;
+  if (methodType === "deep-learning") {
+    architecture = document.getElementById("am-architecture").value;
+    if (architecture === "Other") architecture = document.getElementById("am-architecture-other").value.trim() || null;
+    framework = document.getElementById("am-framework").value.trim() || null;
+  }
+
+  const id = slugify(name);
+  const familyLabel = (FAMILY_ORDER.find(([fid]) => fid === category) || [, category])[1];
+
+  const entry = {
+    id,
+    name,
+    category,
+    category_label: familyLabel,
+    method_type: methodType,
+    level,
+    tags,
+    paper_title: null,
+    paper_year: yearVal ? Number(yearVal) : null,
+    paper_url: paperUrl,
+    abstract: null,
+    github: isGithub ? codeUrl.replace(/^https?:\/\/github\.com\//, "").replace(/\/$/, "") : null,
+    other_url: isGithub ? null : codeUrl,
+    language,
+    citations: null,
+    stars: null, forks: null, open_issues: null, license: null, topics: null,
+    archived: null, repo_created_at: null, first_commit_date: null,
+    last_commit: null, repo_description: null, stats_fetched_at: null,
+    validation_data: validationData,
+    modality: modality || "MRI (unspecified)",
+    in_uniharmony: toBool(addModelState.inUniharmony) === true,
+    also_implemented_in: alsoIn,
+    needs_gpu: methodType === "deep-learning" ? (toBool(addModelState.needsGpu) ?? true) : false,
+    architecture_backbone: architecture,
+    framework,
+    has_pretrained_weights: toBool(addModelState.hasPretrainedWeights),
+    pretrained_weights_url: toBool(addModelState.hasPretrainedWeights) ? (document.getElementById("am-weightsurl").value.trim() || null) : null,
+    recommend: {
+      requires_site_id: toBool(addModelState.requiresSiteId) ?? true,
+      generalizes_to_new_site: toBool(addModelState.generalizesToNewSite) ?? false,
+      low_n_friendly: toBool(addModelState.lowNFriendly) ?? false,
+      requires_linear_signal: addModelState.requiresLinearSignal === "na" ? null : toBool(addModelState.requiresLinearSignal),
+      ml_compatible: toBool(addModelState.mlCompatible) ?? (category !== "combat-family"),
+      needs_gpu: methodType === "deep-learning" ? (toBool(addModelState.needsGpu) ?? true) : false,
+    },
+    _submitted_via: "add-a-model form",
+    _submitted_at: new Date().toISOString(),
+  };
+
+  const json = JSON.stringify(entry, null, 2);
+  document.getElementById("am-json-preview").textContent = json;
+  document.getElementById("am-output").classList.remove("hidden");
+
+  document.getElementById("am-submit-github").onclick = () => {
+    const filename = `data/submissions/${id}.json`;
+    const url = `https://github.com/N-Nieto/HarmonizationZoo/new/main?filename=${encodeURIComponent(filename)}&value=${encodeURIComponent(json)}`;
+    window.open(url, "_blank");
+  };
+
+  document.getElementById("am-output").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 
 /* ---------------- On-demand GitHub stats (client-side, session-only) ----------------
  * The scheduled Action + scripts/fetch_github_stats.py are the source of
@@ -206,21 +620,24 @@ function toggleCompareMode() {
   }
   if (state.activeTab === "explore") {
     render();
-  } else {
+  } else if (state.activeTab === "recommend") {
     renderRecommenderTree();
   }
 }
 
 function bindTabs() {
   document.querySelectorAll(".tab-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.activeTab = btn.dataset.tab;
-      document.querySelectorAll(".tab-btn").forEach((b) => b.classList.toggle("active", b === btn));
-      document.querySelectorAll(".tab-panel").forEach((p) => {
-        p.classList.toggle("active", p.id === `tab-${state.activeTab}`);
-      });
-    });
+    btn.addEventListener("click", () => switchTab(btn.dataset.tab));
   });
+}
+
+function switchTab(tab) {
+  state.activeTab = tab;
+  document.querySelectorAll(".tab-btn").forEach((b) => b.classList.toggle("active", b.dataset.tab === tab));
+  document.querySelectorAll(".tab-panel").forEach((p) => {
+    p.classList.toggle("active", p.id === `tab-${tab}`);
+  });
+  window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
 }
 
 function bindCompareBar() {
@@ -852,6 +1269,7 @@ const REC_STEPS = [
     help: "Can you assume your biological signal is linear (in the covariates you'd harmonize for)?",
     type: "pills",
     options: [["yes", "Yes"], ["no", "No"], ["unsure", "Not sure"]],
+    visibleIf(pool, rs) { return rs.level !== "image-level"; },
     filter(pool, value) {
       if (value !== "no") return { pool, message: null };
       const after = pool.filter((d) => !(d.recommend && d.recommend.requires_linear_signal === true));

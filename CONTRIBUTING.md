@@ -1,11 +1,23 @@
 # Contributing to Harmonization Zoo
 
 The whole site is driven by one file: [`data/methods.json`](data/methods.json).
-There's no build step and no database — add a method by editing that file and
-opening a pull request. GitHub's web editor is enough; you don't need to clone
-the repo.
+There's no build step and no database — add a method either of two ways:
 
-## Add a method in ~2 minutes
+- **Use the "Add a model" tab on the site itself.** It's a form (paper link
+  and source code link required, everything else optional), with a live
+  GitHub preview and a "Generate submission" button that opens a pre-filled
+  GitHub page proposing a new file under `data/submissions/`. If you're not
+  a repo collaborator, GitHub automatically forks the repo and opens this
+  as a pull request for you — no git needed. A maintainer reviews it, and
+  once merged, an Action folds it into `data/methods.json` automatically.
+  This is the easiest path if you don't want to think about the schema
+  below at all.
+- **Edit `data/methods.json` directly** and open a pull request — GitHub's
+  web editor is enough, you don't need to clone the repo. Better if you
+  want full control over every field, or you're fixing an existing entry
+  rather than adding a new one.
+
+## Add a method in ~2 minutes (direct edit)
 
 1. Open `data/methods.json`.
 2. Copy this block and fill it in (delete any comments — JSON doesn't allow them):

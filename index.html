@@ -37,12 +37,18 @@
 </header>
 
 <nav class="tab-nav" aria-label="Sections">
-  <button class="tab-btn active" data-tab="explore" type="button">Explore</button>
+  <button class="tab-btn active" data-tab="home" type="button">Home</button>
+  <button class="tab-btn" data-tab="explore" type="button">Explore</button>
   <button class="tab-btn" data-tab="recommend" type="button">Which method?</button>
+  <button class="tab-btn" data-tab="add" type="button">Add a model</button>
 </nav>
 
 <main>
-  <section id="tab-explore" class="tab-panel active">
+  <section id="tab-home" class="tab-panel active">
+    <div id="home-root"><!-- populated by JS --></div>
+  </section>
+
+  <section id="tab-explore" class="tab-panel">
     <section class="controls" aria-label="Filters">
       <div class="control-group">
         <label for="group-by">Group by</label>
@@ -92,6 +98,10 @@
 
   <section id="tab-recommend" class="tab-panel">
     <div id="recommend-root"><!-- populated by JS --></div>
+  </section>
+
+  <section id="tab-add" class="tab-panel">
+    <div id="add-model-root"><!-- populated by JS --></div>
   </section>
 </main>
 
