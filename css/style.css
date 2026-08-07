@@ -66,7 +66,20 @@ a:hover { color: var(--phosphor); }
   flex-wrap: wrap;
 }
 
-.brand { display: flex; align-items: center; gap: 14px; }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 8px;
+  transition: opacity 0.15s;
+}
+.brand:hover { opacity: 0.85; }
+.brand:focus-visible { outline: 2px solid var(--phosphor); outline-offset: 4px; }
 .brand-mark { flex-shrink: 0; filter: drop-shadow(0 0 8px rgba(242,169,59,0.35)); }
 
 .brand h1 {
@@ -158,11 +171,6 @@ select:focus, input[type="search"]:focus, button:focus-visible {
 
 .search-group input { min-width: 220px; }
 
-#font-size {
-  width: 140px;
-  accent-color: var(--phosphor);
-}
-
 .toggle-group {
   display: flex;
   flex-direction: row;
@@ -188,18 +196,40 @@ select:focus, input[type="search"]:focus, button:focus-visible {
   font-weight: 500;
 }
 
+.legend-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px clamp(18px, 4vw, 48px);
+  border-bottom: 1px solid var(--line);
+}
 .family-legend {
   display: flex;
   flex-wrap: wrap;
   gap: 14px 20px;
-  padding: 14px clamp(18px, 4vw, 48px);
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--paper-dim);
-  border-bottom: 1px solid var(--line);
+  flex: 1;
 }
 .legend-item { display: flex; align-items: center; gap: 6px; }
 .legend-swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+.label-size-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--paper-dim);
+  cursor: pointer;
+}
+.label-size-control input[type="range"] {
+  width: 90px;
+  accent-color: var(--phosphor);
+}
 
 /* ---------- Stage ---------- */
 .stage-wrap {
@@ -700,6 +730,13 @@ select:focus, input[type="search"]:focus, button:focus-visible {
   color: var(--paper-dim);
 }
 
+.loading-placeholder {
+  padding: 80px clamp(18px, 4vw, 48px);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--paper-dim);
+}
+
 /* ---------- Tabs ---------- */
 .tab-nav {
   display: flex;
@@ -975,4 +1012,5 @@ select:focus, input[type="search"]:focus, button:focus-visible {
   select, input[type="search"] { min-width: 140px; }
   .toggle-group { margin-left: 0; }
   .spec-table { grid-template-columns: 104px 1fr; }
+  .legend-row { flex-wrap: wrap; }
 }

@@ -1,0 +1,9 @@
+# Every path in this repo requires review from a code owner before merging,
+# when combined with a branch protection rule / ruleset that has
+# "Require review from Code Owners" enabled — see README.md's
+# "Repository protection" section for the exact setup steps.
+#
+# Update this to whoever should be reviewing PRs (add more usernames/teams
+# separated by spaces to require any-of-them, or list multiple lines to
+# scope different paths to different reviewers).
+* @N-Nieto

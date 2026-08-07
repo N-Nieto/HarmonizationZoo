@@ -9,6 +9,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: merge-submissions
+  cancel-in-progress: false  # never cancel a merge mid-write
+
 jobs:
   merge:
     runs-on: ubuntu-latest

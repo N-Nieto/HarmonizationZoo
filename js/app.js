@@ -42,8 +42,19 @@ const state = {
 };
 
 async function init() {
-  const res = await fetch("data/methods.json");
-  const json = await res.json();
+  let json;
+  try {
+    const res = await fetch("data/methods.json");
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    json = await res.json();
+  } catch (e) {
+    document.getElementById("home-root").innerHTML = `
+      <div class="loading-placeholder">
+        Couldn't load the database (${escapeHtml(String(e.message || e))}). Try reloading —
+        if this keeps happening, data/methods.json may be missing or malformed.
+      </div>`;
+    return;
+  }
 
   state.data = json.methods.map((d) => ({
     ...d,
@@ -58,6 +69,7 @@ async function init() {
   bindTabs();
   bindCompareBar();
   bindFetchStatsButton();
+  document.getElementById("brand-home-link").addEventListener("click", () => switchTab("home"));
   buildRecommender();
   buildHomeTab();
   buildAddModelTab();
@@ -590,10 +602,10 @@ function bindControls() {
     state.fontSize = Number(e.target.value);
     document.getElementById("stage").style.setProperty("--label-size", `${state.fontSize}px`);
   });
-  document.getElementById("search").addEventListener("input", (e) => {
+  document.getElementById("search").addEventListener("input", debounce((e) => {
     state.search = e.target.value.trim().toLowerCase();
     render();
-  });
+  }, 120));
   document.getElementById("clear-search-btn").addEventListener("click", () => {
     document.getElementById("search").value = "";
     state.search = "";
@@ -1139,6 +1151,14 @@ function escapeHtml(s) {
   const div = document.createElement("div");
   div.textContent = s;
   return div.innerHTML;
+}
+
+function debounce(fn, ms) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), ms);
+  };
 }
 
 /* ---------------- "Which method?" recommender (live filter tree) ---------------- */

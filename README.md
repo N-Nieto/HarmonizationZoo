@@ -322,6 +322,34 @@ preserves any method already in `data/methods.json` that isn't one of its
 own hardcoded entries, rather than wiping the file back to just the seed
 list. Community-submitted methods survive a seed rebuild.
 
+## Repository protection
+
+Every PR — from the "Add a model" form or otherwise — should require
+approval from a core team member before it can merge. GitHub calls this a
+**ruleset** (the modern replacement for classic branch protection rules).
+This repo includes [`.github/CODEOWNERS`](.github/CODEOWNERS), which is a
+prerequisite for one specific option below; the ruleset itself has to be
+turned on in the repo's settings, since that's account-level configuration
+this codebase can't set for you:
+
+1. **Settings → Rules → Rulesets → New ruleset → New branch ruleset.**
+2. **Target branches**: add `main` (or use the default branch pattern).
+3. Under **Branch rules**, enable **Require a pull request before
+   merging**, and set **Required approvals** to at least `1`.
+4. Still under that same rule, enable **Require review from Code Owners**
+   — this is what makes `.github/CODEOWNERS` matter; without it, that file
+   is just documentation. Edit `.github/CODEOWNERS` first to list the
+   actual reviewer(s) — it currently just has a placeholder.
+5. Optionally enable **Dismiss stale pull request approvals when new
+   commits are pushed**, so an approved PR can't be silently amended after
+   the fact.
+6. Set **Enforcement status** to `Active` and save.
+
+With this on, every PR — including ones the merge-submissions pipeline
+above depends on — needs a code owner's explicit approval before it can be
+merged, regardless of who opened it or whether other checks (like the
+duplicate-detection Action) pass.
+
 ## Troubleshooting GitHub Pages
 
 If Pages shows a blank page after enabling it:
@@ -339,6 +367,40 @@ If Pages shows a blank page after enabling it:
    aggressively for a minute or two after a push).
 5. Check the **Actions** tab for a failed "pages build and deployment" run —
    it'll show the actual build error if there is one.
+
+### "The job is queued" and never runs
+
+This is a different symptom from a blank page — it means Pages hasn't
+built at all yet, not that it built wrong. In rough order of likelihood:
+
+1. **Check which deployment method Pages is using.** Settings → Pages →
+   Source. If it's set to **"GitHub Actions"** rather than **"Deploy from a
+   branch"**, Pages builds run as an Actions job and share the same runner
+   queue and concurrency limits as every other workflow in this repo
+   (`refresh-stats.yml`, `check-duplicates.yml`, `merge-submissions.yml`).
+   If several of those are running or queued at once — e.g. right after a
+   burst of pushes — the Pages job can genuinely sit behind them. Switching
+   to **"Deploy from a branch"** (what this README otherwise assumes and
+   recommends) puts Pages builds on GitHub's own separate, managed
+   pipeline instead, decoupled from this repo's custom workflows entirely
+   — this is the single most effective fix if you're seeing this.
+2. **Concurrency limits.** All three custom workflows now declare a
+   `concurrency:` group with `cancel-in-progress: true` (except
+   `merge-submissions.yml`, which never cancels mid-write), so repeated
+   pushes cancel and replace their own superseded runs instead of queuing
+   up behind each other. If Pages is still on the Actions-based deployment
+   method, this reduces — but doesn't eliminate — contention for the
+   shared runner pool.
+3. **Check github.com's own status.** [githubstatus.com](https://www.githubstatus.com/)
+   shows active incidents, including ones specifically affecting Actions or
+   Pages — this is unusual traffic on GitHub's end, not something in the
+   repo, and it does happen.
+4. **Actions minutes quota** is very unlikely to be the cause here — public
+   repos get unlimited Actions minutes. This only matters for private repos
+   on the free tier.
+5. If a job is stuck queued for a long time, cancel it from the Actions tab
+   and manually re-trigger (`workflow_dispatch` on any of the custom
+   workflows, or a no-op push) rather than waiting indefinitely.
 
 ## How the "Which method?" recommender works
 
@@ -399,7 +461,7 @@ The rest of the `recommend.*` compatibility fields (`requires_site_id`,
 `CATEGORY_RECOMMEND_DEFAULTS`, with a handful of per-method overrides where
 there's a specific, citable reason to deviate (e.g. ComBat-GAM is explicitly
 a nonlinear/GAM extension). These are reasoned defaults, not an
-independently verified fact for all 54 methods — if you know a specific
+independently verified fact for all 58 methods — if you know a specific
 method behaves differently, override it there.
 
 ## Other maintainer tooling
@@ -446,6 +508,7 @@ scripts/merge_submissions.py  folds data/submissions/*.json into methods.json af
 .github/workflows/refresh-stats.yml       runs fetch_github_stats.py weekly + on push to methods.json, and commits the result
 .github/workflows/check-duplicates.yml    runs check_duplicates.py on PRs touching the database
 .github/workflows/merge-submissions.yml   runs merge_submissions.py on push to data/submissions/
+.github/CODEOWNERS             required-reviewer list for the branch ruleset — see "Repository protection"
 CONTRIBUTING.md               schema reference + how to add a method
 ```
 

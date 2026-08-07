@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Harmonization Zoo — a field guide to MRI harmonization methods</title>
 <meta name="description" content="An interactive, contributor-editable map of statistical and deep-learning methods for harmonizing multi-site MRI data.">
+<meta name="theme-color" content="#0a0e13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='18' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.55'/%3E%3Ccircle cx='20' cy='20' r='12' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.75'/%3E%3Ccircle cx='20' cy='20' r='5.5' fill='%23f2a93b'/%3E%3C/svg%3E">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Harmonization Zoo — a field guide to MRI harmonization methods">
+<meta property="og:description" content="An interactive, contributor-editable map of statistical and deep-learning methods for harmonizing multi-site MRI data.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Harmonization Zoo">
+<meta name="twitter:description" content="An interactive, contributor-editable map of MRI harmonization methods.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -15,7 +25,7 @@
 <div class="scanlines" aria-hidden="true"></div>
 
 <header class="site-header">
-  <div class="brand">
+  <button class="brand" id="brand-home-link" type="button" aria-label="Go to Home">
     <span class="brand-mark" aria-hidden="true">
       <svg viewBox="0 0 40 40" width="34" height="34">
         <circle cx="20" cy="20" r="18" fill="none" stroke="var(--phosphor)" stroke-width="1.4" opacity="0.55"/>
@@ -27,7 +37,7 @@
       <h1>Harmonization <em>Zoo</em></h1>
       <p class="tagline">a field guide to multi-site MRI harmonization methods</p>
     </div>
-  </div>
+  </button>
   <div class="header-meta">
     <span id="method-count">— methods</span>
     <button id="fetch-stats-btn" type="button" class="fetch-stats-btn" title="Fetches missing GitHub stats live from your browser, for this session only — doesn't change the underlying data file.">⟳ Fetch missing GitHub stats</button>
@@ -45,7 +55,9 @@
 
 <main>
   <section id="tab-home" class="tab-panel active">
-    <div id="home-root"><!-- populated by JS --></div>
+    <div id="home-root">
+      <div class="loading-placeholder">Loading the zoo…</div>
+    </div>
   </section>
 
   <section id="tab-explore" class="tab-panel">
@@ -65,11 +77,6 @@
         </select>
       </div>
 
-      <div class="control-group">
-        <label for="font-size">Label size</label>
-        <input id="font-size" type="range" min="10" max="18" step="1" value="13">
-      </div>
-
       <div class="control-group search-group">
         <label for="search">Search</label>
         <input id="search" type="search" placeholder="method, tag, language…" autocomplete="off">
@@ -85,7 +92,13 @@
       </div>
     </section>
 
-    <div id="family-legend" class="family-legend" aria-label="Family color legend"></div>
+    <div class="legend-row">
+      <div id="family-legend" class="family-legend" aria-label="Family color legend"></div>
+      <label class="label-size-control" for="font-size">
+        <span>Aa</span>
+        <input id="font-size" type="range" min="10" max="18" step="1" value="13" title="Label size">
+      </label>
+    </div>
 
     <section class="stage-wrap">
       <div id="stage" aria-label="Map of harmonization methods"></div>

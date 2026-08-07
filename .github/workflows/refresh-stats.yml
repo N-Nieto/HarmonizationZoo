@@ -18,6 +18,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: refresh-stats
+  cancel-in-progress: true
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
