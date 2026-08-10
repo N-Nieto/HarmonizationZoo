@@ -32,6 +32,7 @@ const STAR_BUCKETS = ["0", "1–9", "10–49", "50–199", "200–999", "1000+"]
 
 const state = {
   data: [],
+  toolboxes: [],
   groupBy: "level",
   search: "",
   activeLevels: new Set(LEVEL_ORDER),
@@ -60,6 +61,14 @@ async function init() {
     ...d,
     primary_language: d.language && d.language.length ? d.language[0] : "Unspecified",
   }));
+  state.dbStatsFetchedAt = json.stats_fetched_at || null;
+
+  try {
+    const tbRes = await fetch("data/toolboxes.json");
+    state.toolboxes = tbRes.ok ? (await tbRes.json()).toolboxes : [];
+  } catch (e) {
+    state.toolboxes = []; // supplementary data — the rest of the site works fine without it
+  }
 
   document.getElementById("method-count").textContent = `${state.data.length} methods`;
 
@@ -72,8 +81,27 @@ async function init() {
   document.getElementById("brand-home-link").addEventListener("click", () => switchTab("home"));
   buildRecommender();
   buildHomeTab();
+  buildToolboxesTab();
   buildAddModelTab();
   render();
+
+  // Deep links: #explore / #recommend / #add / #home select a tab on load
+  // and respond to back/forward; ?method=<id> opens that method's drawer
+  // directly (from Explore) so a specific method can be shared as a URL.
+  switchTab(initialTabFromUrl(), { pushHistory: false });
+  window.addEventListener("popstate", (e) => {
+    switchTab((e.state && e.state.tab) || initialTabFromUrl(), { pushHistory: false });
+  });
+
+  const params = new URLSearchParams(location.search);
+  const wantedMethod = params.get("method");
+  if (wantedMethod) {
+    const match = state.data.find((d) => d.id === wantedMethod);
+    if (match) {
+      switchTab("explore", { pushHistory: false });
+      openDrawer(match);
+    }
+  }
 }
 
 function buildLevelToggles() {
@@ -115,6 +143,20 @@ function buildFamilyLegend() {
 
 /* ---------------- Home tab ---------------- */
 
+function dbFreshnessText() {
+  if (!state.dbStatsFetchedAt) {
+    return `GitHub stats haven't been synced for this build yet.`;
+  }
+  const then = new Date(state.dbStatsFetchedAt).getTime();
+  const days = Math.floor((Date.now() - then) / 86400000);
+  let rel;
+  if (days < 1) rel = "today";
+  else if (days === 1) rel = "yesterday";
+  else if (days < 14) rel = `${days} days ago`;
+  else rel = `on ${state.dbStatsFetchedAt.split("T")[0]}`;
+  return `GitHub stats across the database were last synced ${rel}.`;
+}
+
 function buildHomeTab() {
   const root = document.getElementById("home-root");
   const familyCount = new Set(state.data.map((d) => d.category)).size;
@@ -136,7 +178,7 @@ function buildHomeTab() {
         <button type="button" class="home-cta" data-tab="explore">
           <span class="home-cta-title">Explore →</span>
           <span class="home-cta-desc">Browse every method as a map, grouped by family, level, modality,
-            language, year, stars, citations, validation data, or UniHarmony availability.
+            language, year, stars, citations, validation data, or toolbox.
             Compare methods side by side.</span>
         </button>
         <button type="button" class="home-cta" data-tab="recommend">
@@ -144,6 +186,12 @@ function buildHomeTab() {
           <span class="home-cta-desc">Answer a short set of questions about your task, data, and
             constraints. The list narrows live, with an explanation for every method
             that gets removed.</span>
+        </button>
+        <button type="button" class="home-cta" data-tab="toolboxes">
+          <span class="home-cta-title">Toolboxes →</span>
+          <span class="home-cta-desc">Several methods aren't standalone repos — they're bundled inside
+            larger packages (UniHarmony, neuroHarmonize, ComBatFamily, …). See what's
+            implemented where, in which language.</span>
         </button>
         <button type="button" class="home-cta" data-tab="add">
           <span class="home-cta-title">Add a model →</span>
@@ -157,6 +205,7 @@ function buildHomeTab() {
         Built and maintained as an open, editable reference — see
         <a href="https://github.com/N-Nieto/HarmonizationZoo" target="_blank" rel="noopener">the repo</a>
         for the full data model and contribution guide.
+        ${dbFreshnessText()}
       </p>
     </div>
   `;
@@ -191,6 +240,68 @@ const addModelState = {
   inUniharmony: null, alsoImplementedIn: "",
   fetchedRepo: null,
 };
+
+/* ---------------- Toolboxes tab ---------------- */
+
+function buildToolboxesTab() {
+  const root = document.getElementById("toolboxes-root");
+
+  if (state.toolboxes.length === 0) {
+    root.innerHTML = `<div class="loading-placeholder">No toolbox data available.</div>`;
+    return;
+  }
+
+  const cards = state.toolboxes.map((tb) => {
+    const methods = tb.methods
+      .map((id) => state.data.find((d) => d.id === id))
+      .filter(Boolean);
+
+    const methodChips = methods.map((m) => `
+      <button type="button" class="toolbox-method-chip" data-id="${m.id}" style="--box-color:${FAMILY_COLOR.get(m.category) || "#888"}">
+        ${escapeHtml(m.name)}
+      </button>
+    `).join("");
+
+    const langChips = (tb.language || []).map((l) => `<span class="chip">${escapeHtml(l)}</span>`).join("");
+
+    return `
+      <div class="toolbox-card">
+        <div class="toolbox-card-header">
+          <h3>${escapeHtml(tb.name)}</h3>
+          <a href="${tb.url}" target="_blank" rel="noopener" class="toolbox-link">↗ ${tb.url.replace(/^https?:\/\//, "")}</a>
+        </div>
+        <div class="chip-row">${langChips}</div>
+        <p class="toolbox-desc">${escapeHtml(tb.description)}</p>
+        <p class="toolbox-methods-label">Implements ${methods.length} method${methods.length === 1 ? "" : "s"} in this database:</p>
+        <div class="toolbox-methods">${methodChips}</div>
+      </div>
+    `;
+  }).join("");
+
+  root.innerHTML = `
+    <div class="toolboxes-wrap">
+      <p class="toolboxes-intro">
+        Some methods aren't distributed as their own standalone repo — they're bundled inside
+        a larger package alongside several others. That's why you'll sometimes see the same
+        GitHub link on more than one method's page: it's the same shared implementation, not
+        a data error. This page lists each such toolbox, what it actually implements, and in
+        which language — the individual method pages still link to their own canonical
+        repo/paper where one exists independently.
+      </p>
+      <div class="toolbox-grid">${cards}</div>
+    </div>
+  `;
+
+  root.querySelectorAll(".toolbox-method-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const method = state.data.find((d) => d.id === chip.dataset.id);
+      if (method) {
+        switchTab("explore");
+        openDrawer(method);
+      }
+    });
+  });
+}
 
 function buildAddModelTab() {
   const root = document.getElementById("add-model-root");
@@ -387,11 +498,12 @@ function makeToggleGroup(containerId, options, targetState, key, onChange) {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "rec-pill";
+    btn.setAttribute("aria-pressed", "false");
     btn.textContent = label;
     btn.addEventListener("click", () => {
       targetState[key] = targetState[key] === value ? null : value;
-      wrap.querySelectorAll(".rec-pill").forEach((b) => b.classList.remove("active"));
-      if (targetState[key] === value) btn.classList.add("active");
+      wrap.querySelectorAll(".rec-pill").forEach((b) => { b.classList.remove("active"); b.setAttribute("aria-pressed", "false"); });
+      if (targetState[key] === value) { btn.classList.add("active"); btn.setAttribute("aria-pressed", "true"); }
       if (onChange) onChange();
     });
     wrap.appendChild(btn);
@@ -525,72 +637,146 @@ function generateSubmission() {
 }
 
 
-/* ---------------- On-demand GitHub stats (client-side, session-only) ----------------
- * The scheduled Action + scripts/fetch_github_stats.py are the source of
- * truth and persist back to data/methods.json. This button is a
- * lightweight supplement for browsing between refreshes: it calls the
- * public GitHub REST API directly from the browser (CORS-enabled for
- * unauthenticated GET requests) for whichever methods are still missing
- * stats, and updates the current session's view only. It does NOT write
- * back to the repo — a page reload reverts to whatever's actually
- * committed. Subject to GitHub's unauthenticated rate limit (60/hr per
- * IP), so it only fetches what's missing, not everything.
+/* ---------------- On-demand data fetch (client-side, session-only) + PR flow ----------------
+ * The scheduled Actions + scripts/fetch_github_stats.py / fetch_citations.py
+ * are the source of truth and persist back to data/methods.json. The
+ * "Fetch missing data" button is a lightweight supplement for browsing
+ * between refreshes: it calls the GitHub REST API (CORS-enabled for
+ * unauthenticated GET) and the Semantic Scholar Graph API (also
+ * CORS-enabled for GET) directly from the browser, for whichever methods
+ * are still missing stats or citations, and updates the current session's
+ * view only — a page reload reverts to whatever's actually committed.
+ *
+ * What gets fetched this session is tracked in sessionUpdates, keyed by
+ * method id. "Open PR with fetched data" turns that into a small JSON file
+ * under data/submissions-stats/<id>.json and opens GitHub's pre-filled
+ * new-file page for it — same pattern as the "Add a model" tab. A
+ * maintainer merges the PR, and scripts/merge_stats_updates.py (run by
+ * .github/workflows/merge-stats-updates.yml) folds each file's fields into
+ * the matching entry in methods.json for real.
  */
 
-function bindFetchStatsButton() {
-  document.getElementById("fetch-stats-btn").addEventListener("click", fetchMissingGithubStats);
+const sessionUpdates = {}; // { [method_id]: { field: value, ... } }
+
+function recordSessionUpdate(id, fields) {
+  sessionUpdates[id] = { ...(sessionUpdates[id] || {}), ...fields };
+  document.getElementById("fetch-pr-btn").classList.toggle("hidden", Object.keys(sessionUpdates).length === 0);
 }
 
-async function fetchMissingGithubStats() {
+function doiFromUrl(url) {
+  if (!url) return null;
+  const m = url.match(/doi\.org\/(.+)$/);
+  return m ? m[1] : null;
+}
+
+function bindFetchStatsButton() {
+  document.getElementById("fetch-stats-btn").addEventListener("click", fetchMissingData);
+  document.getElementById("fetch-pr-btn").addEventListener("click", openStatsUpdatePR);
+}
+
+async function fetchMissingData() {
   const btn = document.getElementById("fetch-stats-btn");
   const status = document.getElementById("fetch-stats-status");
-  const targets = state.data.filter((d) => d.github && d.stars == null);
 
-  if (targets.length === 0) {
-    status.textContent = "Nothing missing — everything already has stats.";
+  const statsTargets = state.data.filter((d) => d.github && d.stars == null);
+  const citationTargets = state.data.filter((d) => d.citations == null && doiFromUrl(d.paper_url));
+  const total = statsTargets.length + citationTargets.length;
+
+  if (total === 0) {
+    status.textContent = "Nothing missing — everything already has stats and citations.";
     return;
   }
 
   btn.disabled = true;
-  let done = 0, ok = 0, failed = 0;
-  status.textContent = `Fetching 0/${targets.length}…`;
+  let done = 0, statsOk = 0, statsFailed = 0, citeOk = 0, citeFailed = 0, citeBlocked = false;
 
-  for (const method of targets) {
+  for (const method of statsTargets) {
+    status.textContent = `GitHub stats: ${done}/${total}…`;
     try {
       const resp = await fetch(`https://api.github.com/repos/${method.github}`, {
         headers: { Accept: "application/vnd.github+json" },
       });
       if (resp.status === 403) {
-        status.textContent = `Rate limited by GitHub after ${ok} of ${targets.length} — try again in a bit, or use scripts/fetch_github_stats.py with a token.`;
+        status.textContent = `Rate limited by GitHub after ${statsOk} — try again later, or use scripts/fetch_github_stats.py with a token.`;
         break;
       }
       if (!resp.ok) {
-        failed++;
+        statsFailed++;
       } else {
         const repo = await resp.json();
-        method.stars = repo.stargazers_count;
-        method.forks = repo.forks_count;
-        method.open_issues = repo.open_issues_count;
-        method.license = repo.license ? repo.license.spdx_id : null;
-        method.topics = repo.topics || [];
-        method.archived = repo.archived || false;
-        method.repo_created_at = repo.created_at ? repo.created_at.split("T")[0] : null;
-        method.last_commit = repo.pushed_at ? repo.pushed_at.split("T")[0] : null;
-        method.repo_description = repo.description;
-        method._fetched_this_session = true; // first_commit_date is intentionally not fetched here — see module note
-        ok++;
+        const fields = {
+          stars: repo.stargazers_count,
+          forks: repo.forks_count,
+          open_issues: repo.open_issues_count,
+          license: repo.license ? repo.license.spdx_id : null,
+          topics: repo.topics || [],
+          archived: repo.archived || false,
+          repo_created_at: repo.created_at ? repo.created_at.split("T")[0] : null,
+          last_commit: repo.pushed_at ? repo.pushed_at.split("T")[0] : null,
+          repo_description: repo.description,
+        };
+        Object.assign(method, fields);
+        recordSessionUpdate(method.id, fields);
+        statsOk++;
       }
     } catch (e) {
-      failed++;
+      statsFailed++;
     }
     done++;
-    status.textContent = `Fetching ${done}/${targets.length}…`;
+  }
+
+  for (const method of citationTargets) {
+    status.textContent = `Citations: ${done}/${total}…`;
+    const doi = doiFromUrl(method.paper_url);
+    try {
+      const resp = await fetch(`https://api.semanticscholar.org/graph/v1/paper/DOI:${encodeURIComponent(doi)}?fields=citationCount`);
+      if (!resp.ok) {
+        // A 404 here just means "not indexed under this DOI yet" (common for
+        // very recent papers) — not necessarily an error worth stopping for.
+        citeFailed++;
+      } else {
+        const paper = await resp.json();
+        if (paper.citationCount != null) {
+          method.citations = paper.citationCount;
+          recordSessionUpdate(method.id, { citations: paper.citationCount });
+          citeOk++;
+        } else {
+          citeFailed++;
+        }
+      }
+    } catch (e) {
+      // Most likely a CORS or network-level block, not a 404 — Semantic
+      // Scholar's own docs don't guarantee CORS support the way GitHub's
+      // does, so this is a real possible outcome, not just rate limiting.
+      citeBlocked = true;
+      break;
+    }
+    done++;
   }
 
   btn.disabled = false;
-  status.textContent = `Done: ${ok} fetched${failed ? `, ${failed} failed` : ""} this session (not saved — re-run scripts/fetch_github_stats.py to persist).`;
+  const parts = [];
+  if (statsTargets.length) parts.push(`${statsOk}/${statsTargets.length} GitHub stats`);
+  if (citationTargets.length) {
+    parts.push(citeBlocked
+      ? `citations blocked (Semantic Scholar unreachable from the browser — try scripts/fetch_citations.py instead)`
+      : `${citeOk}/${citationTargets.length} citations`);
+  }
+  status.textContent = `Fetched ${parts.join(", ")} this session. ` +
+    (Object.keys(sessionUpdates).length ? `Use "Open PR with fetched data" to save it.` : "Nothing new to save.");
+
   render();
   if (state.activeTab === "recommend") renderRecommenderTree();
+}
+
+function openStatsUpdatePR() {
+  const ids = Object.keys(sessionUpdates);
+  if (ids.length === 0) return;
+
+  const filename = `data/submissions-stats/${Date.now()}.json`;
+  const payload = JSON.stringify({ updates: sessionUpdates, fetched_at: new Date().toISOString() }, null, 2);
+  const url = `https://github.com/N-Nieto/HarmonizationZoo/new/main?filename=${encodeURIComponent(filename)}&value=${encodeURIComponent(payload)}`;
+  window.open(url, "_blank");
 }
 
 function bindControls() {
@@ -643,13 +829,27 @@ function bindTabs() {
   });
 }
 
-function switchTab(tab) {
+function switchTab(tab, { pushHistory = true } = {}) {
   state.activeTab = tab;
-  document.querySelectorAll(".tab-btn").forEach((b) => b.classList.toggle("active", b.dataset.tab === tab));
+  document.querySelectorAll(".tab-btn").forEach((b) => {
+    const isActive = b.dataset.tab === tab;
+    b.classList.toggle("active", isActive);
+    b.setAttribute("aria-selected", String(isActive));
+  });
   document.querySelectorAll(".tab-panel").forEach((p) => {
     p.classList.toggle("active", p.id === `tab-${tab}`);
   });
+  if (pushHistory && location.hash.slice(1) !== tab) {
+    history.pushState({ tab }, "", `#${tab}`);
+  }
   window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+}
+
+const VALID_TABS = ["home", "explore", "recommend", "toolboxes", "add"];
+
+function initialTabFromUrl() {
+  const fromHash = location.hash.slice(1);
+  return VALID_TABS.includes(fromHash) ? fromHash : "home";
 }
 
 function bindCompareBar() {
@@ -753,16 +953,16 @@ function renderClusters(methods, groupBy) {
   const wrap = document.createElement("div");
   wrap.className = "cluster-wrap";
 
+  if (groupBy === "toolbox") {
+    return renderToolboxClusters(methods, wrap);
+  }
+
   let groupFn, groupOrder, groupLabel;
 
   if (groupBy === "category") {
     groupFn = (d) => d.category;
     groupOrder = FAMILY_ORDER.map(([id]) => id);
     groupLabel = (id) => FAMILY_LABEL.get(id) || id;
-  } else if (groupBy === "uniharmony") {
-    groupFn = (d) => (d.in_uniharmony ? "yes" : "no");
-    groupOrder = ["yes", "no"];
-    groupLabel = (id) => (id === "yes" ? "Implemented in UniHarmony" : "Not (yet) in UniHarmony");
   } else if (groupBy === "modality") {
     groupFn = (d) => d.modality || "MRI (unspecified)";
     const present = Array.from(new Set(methods.map(groupFn)));
@@ -813,6 +1013,50 @@ function renderClusters(methods, groupBy) {
 
     wrap.appendChild(section);
   });
+
+  return wrap;
+}
+
+function renderToolboxClusters(methods, wrap) {
+  const visibleIds = new Set(methods.map((d) => d.id));
+  const claimed = new Set();
+
+  state.toolboxes.forEach((tb) => {
+    const items = tb.methods
+      .map((id) => methods.find((d) => d.id === id))
+      .filter(Boolean);
+    items.forEach((d) => claimed.add(d.id));
+    if (items.length === 0) return;
+
+    const section = document.createElement("section");
+    section.className = "cluster-section";
+    const header = document.createElement("h3");
+    header.className = "cluster-heading";
+    header.innerHTML = `${escapeHtml(tb.name)} <span class="cluster-count">${items.length}</span>`;
+    section.appendChild(header);
+
+    const flow = document.createElement("div");
+    flow.className = "box-flow";
+    items.sort((a, b) => a.name.localeCompare(b.name)).forEach((d) => flow.appendChild(makeBox(d)));
+    section.appendChild(flow);
+    wrap.appendChild(section);
+  });
+
+  const standalone = methods.filter((d) => visibleIds.has(d.id) && !claimed.has(d.id));
+  if (standalone.length > 0) {
+    const section = document.createElement("section");
+    section.className = "cluster-section";
+    const header = document.createElement("h3");
+    header.className = "cluster-heading";
+    header.innerHTML = `Standalone (not bundled in a toolbox) <span class="cluster-count">${standalone.length}</span>`;
+    section.appendChild(header);
+
+    const flow = document.createElement("div");
+    flow.className = "box-flow";
+    standalone.sort((a, b) => a.name.localeCompare(b.name)).forEach((d) => flow.appendChild(makeBox(d)));
+    section.appendChild(flow);
+    wrap.appendChild(section);
+  }
 
   return wrap;
 }
@@ -1027,11 +1271,10 @@ function openDrawer(d) {
 
   const archivedBadge = d.archived ? `<span class="chip chip-warning">archived</span>` : "";
 
-  const uniharmonyLine = d.in_uniharmony
-    ? `Yes <a href="https://github.com/N-Nieto/UniHarmony" target="_blank" rel="noopener" class="inline-link">↗</a>`
-    : "No";
-  const alsoIn = (d.also_implemented_in || []);
-  const alsoInLine = alsoIn.length ? ` · also in ${alsoIn.join(", ")}` : "";
+  const memberToolboxes = state.toolboxes.filter((tb) => tb.methods.includes(d.id));
+  const toolboxLine = memberToolboxes.length
+    ? memberToolboxes.map((tb) => `<a href="${tb.url}" target="_blank" rel="noopener" class="inline-link">${escapeHtml(tb.name)} ↗</a>`).join(", ")
+    : "Not bundled in a toolbox — see Explore → Group by Toolbox for what's available.";
 
   const isDL = d.method_type === "deep-learning";
   const frameworkLine = d.framework || (d.github ? "not fetched yet" : "—");
@@ -1047,7 +1290,7 @@ function openDrawer(d) {
   ` : "";
 
   const missingNote = (d.stars == null && d.github)
-    ? `<p class="no-data-note">Live GitHub stats haven't been fetched in this build — use the "⟳ Fetch missing GitHub stats" button at the top of the page for a session-only preview, or run <code>scripts/fetch_github_stats.py</code> (or the scheduled Action) to actually save it.</p>`
+    ? `<p class="no-data-note">Live GitHub stats haven't been fetched in this build — use the "⟳ Fetch missing data" button at the top of the page for a session-only preview, or run <code>scripts/fetch_github_stats.py</code> (or the scheduled Action) to actually save it.</p>`
     : "";
   const noPaperNote = !d.paper_title
     ? `<p class="no-data-note">No paper is listed for this entry yet — if you know the reference, please contribute it.</p>`
@@ -1066,7 +1309,7 @@ function openDrawer(d) {
       <dt>First commit</dt><dd>${firstCommitLine}</dd>
       <dt>Last maintained</dt><dd>${maintLine}</dd>
       <dt>Validation data</dt><dd>${escapeHtml(d.validation_data || "Agnostic")}</dd>
-      <dt>UniHarmony</dt><dd>${uniharmonyLine}${alsoInLine}</dd>
+      <dt>Toolboxes</dt><dd>${toolboxLine}</dd>
       <dt>Language</dt><dd><div class="chip-row">${languages}</div></dd>
       ${dlRows}
       <dt>Stars</dt><dd>${starsLine}</dd>
@@ -1082,12 +1325,21 @@ function openDrawer(d) {
 
     <div class="links">      ${paperLink}
       ${repoLink}
+      <button type="button" id="drawer-copy-link" class="drawer-share-btn">⧉ Copy link to this method</button>
     </div>
   `;
 
   drawer.classList.add("open");
   scrim.classList.add("open");
   drawer.setAttribute("aria-hidden", "false");
+
+  document.getElementById("drawer-copy-link").addEventListener("click", (e) => {
+    const shareUrl = `${location.origin}${location.pathname}?method=${encodeURIComponent(d.id)}#explore`;
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      e.target.textContent = "✓ Copied";
+      setTimeout(() => { e.target.textContent = "⧉ Copy link to this method"; }, 1600);
+    });
+  });
 }
 
 function closeDrawer() {
@@ -1110,7 +1362,10 @@ const COMPARE_ROWS = [
   ["Stars", (d) => (d.stars != null ? d.stars.toLocaleString() : "not fetched yet")],
   ["License", (d) => d.license || "—"],
   ["Language", (d) => (d.language || []).join(", ") || "—"],
-  ["UniHarmony", (d) => (d.in_uniharmony ? "Yes" : "No")],
+  ["Toolboxes", (d) => {
+    const names = state.toolboxes.filter((tb) => tb.methods.includes(d.id)).map((tb) => tb.name);
+    return names.length ? names.join(", ") : "Standalone";
+  }],
   ["GPU needed", (d) => (d.recommend && d.recommend.needs_gpu ? "Yes" : "No")],
   ["ML-compatible", (d) => (d.recommend && d.recommend.ml_compatible ? "Yes" : "No")],
 ];
@@ -1331,8 +1586,8 @@ function buildRecommender() {
         <p class="recommend-intro">
           Answer each question and the method list on the right narrows live. These are
           reasoned defaults per method family (documented in the README), not a paper-verified
-          fact for every one of the 54 methods — treat this as a shortlist to investigate, not
-          a final answer.
+          fact for every one of the ${state.data.length} methods — treat this as a shortlist to
+          investigate, not a final answer.
         </p>
         <button id="compare-toggle-rec" type="button" class="compare-toggle-btn">Compare mode: off</button>
       </div>
@@ -1419,6 +1674,7 @@ function renderTaskStep(container, pool) {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "rec-pill" + (recState.task === value ? " active" : "");
+    btn.setAttribute("aria-pressed", String(recState.task === value));
     btn.textContent = label;
     btn.addEventListener("click", () => {
       recState.task = recState.task === value ? null : value;
@@ -1460,6 +1716,7 @@ function renderStep(container, step, poolBefore, answer, message) {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "rec-pill" + (answer === value ? " active" : "");
+    btn.setAttribute("aria-pressed", String(answer === value));
     btn.textContent = label;
     btn.addEventListener("click", () => {
       recState[step.key] = recState[step.key] === value ? null : value;

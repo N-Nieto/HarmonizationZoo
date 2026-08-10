@@ -1,0 +1,44 @@
+{
+  "toolboxes": [
+    {
+      "id": "uniharmony",
+      "name": "UniHarmony",
+      "url": "https://github.com/N-Nieto/UniHarmony",
+      "language": ["Python"],
+      "description": "A unified Python package bundling ComBat and several of its extensions alongside interpolation- and optimal-transport-based harmonization methods behind one consistent interface.",
+      "methods": ["combat", "neurocombat", "combat-gam", "harmonizer", "covbat", "prettyharmonize", "pycombat", "ismi", "isi", "otda", "botda"]
+    },
+    {
+      "id": "neuroharmonize",
+      "name": "neuroHarmonize",
+      "url": "https://github.com/rpomponio/neuroHarmonize",
+      "language": ["Python"],
+      "description": "Python package built around ComBat-GAM (nonlinear covariate modeling via generalized additive models), also bundling standard neuroComBat and CovBat as selectable harmonization options.",
+      "methods": ["neurocombat", "combat-gam", "covbat"]
+    },
+    {
+      "id": "combatfamily-r",
+      "name": "ComBatFamily (R)",
+      "url": "https://github.com/andy1764/ComBatFamily",
+      "language": ["R"],
+      "description": "R package unifying ComBat and its location/scale extensions (CovBat, ComBatLS) under one modeling framework and a consistent API, rather than three separate scripts.",
+      "methods": ["combat", "covbat", "combatls"]
+    },
+    {
+      "id": "intensity-normalization-toolbox",
+      "name": "Intensity Normalization",
+      "url": "https://github.com/jcreinhold/intensity-normalization",
+      "language": ["Python"],
+      "description": "General-purpose Python toolbox for MR image intensity normalization, bundling several classical (pre-ComBat-era) algorithms — including WhiteStripe, Nyúl–Udupa histogram matching, and a RAVEL-style approach — behind one CLI/API. This is why those methods' pages link to the same repo: it's the same shared implementation, not a data error.",
+      "methods": ["whitestripe", "nyul", "ravel"]
+    },
+    {
+      "id": "neuroharm-kit",
+      "name": "NeuroHarm-kit",
+      "url": "https://github.com/barna-hache/NeuroHarm-kit",
+      "language": ["Python", "Shell"],
+      "description": "Dockerized, open-source framework that unifies end-to-end execution of five deep-learning harmonization methods behind one CLI, bundling pretrained weights for all of them so nothing needs to be trained or fine-tuned from scratch.",
+      "methods": ["stgan", "haca3", "murd", "iguane", "disarmpp"]
+    }
+  ]
+}

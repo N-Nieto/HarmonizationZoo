@@ -6,23 +6,28 @@ statistical methods, deep-learning approaches, and everything in between
 (federated, IQM-based, normative modeling, optimal transport, classical
 intensity normalization, …).
 
-The site has four tabs:
+The site has five tabs:
 
-- **Home** — what this is, and three big buttons into the other three tabs.
+The site has five tabs:
+
+- **Home** — what this is, and four big buttons into the other four tabs.
 - **Explore** — methods drawn as boxes sized to fit their full name (nothing
   gets truncated or overlapped), grouped however you pick from "Group by":
   **Harmonization level** (default), **Family**, **Data modality**,
   **Programming language**, **Year** (of the repo's first commit),
   **GitHub stars**, **Citations**, **Validation data** (the dataset/cohort a
-  method was mainly proposed or validated on), or **Implemented in
-  UniHarmony**. Click a box for the paper title and link, level, language,
-  architecture/framework/pretrained-weights (deep-learning methods), GitHub
-  stars/forks/issues/license, last-maintained status, and more.
+  method was mainly proposed or validated on), or **Toolbox** (which
+  package(s), if any, bundle this method alongside others — see
+  [Toolboxes](#toolboxes) below). Click a box for the paper title and link,
+  level, language, architecture/framework/pretrained-weights (deep-learning
+  methods), GitHub stars/forks/issues/license, last-maintained status, and
+  more.
 - **Which method?** — a short questionnaire (downstream task, harmonization
   level, programming language, new-site generalization, Site ID access,
   hardware, signal linearity, federated setup) that filters the method list
   live as you answer, explaining exactly what got removed and why at each
   step.
+- **Toolboxes** — see [Toolboxes](#toolboxes) below.
 - **Add a model** — a form for proposing a new method, which turns into a
   real GitHub pull request in a couple of clicks. See
   [Adding a method through the site](#adding-a-method-through-the-site)
@@ -35,9 +40,16 @@ Two other things live on the page:
   (family, level, modality, validation data, stars, license, UniHarmony
   status, GPU/ML-compatibility, and more). Works the same way in the
   "Which method?" results list as it does in Explore.
-- **"⟳ Fetch missing GitHub stats" button** — an on-demand, session-only
-  preview of stats for whatever's currently missing them (see
+- **"⟳ Fetch missing data" button** — an on-demand, session-only preview of
+  GitHub stats and citations for whatever's currently missing them, with
+  an "Open PR with fetched data" follow-up to make it permanent (see
   [Keeping GitHub stats current](#keeping-github-stats-current)).
+
+Every tab is a real, bookmarkable URL (`#explore`, `#recommend`, `#add`,
+`#home` — back/forward navigates between them), and every method has a
+shareable direct link: open its drawer and hit "⧉ Copy link to this
+method" for a URL that opens straight to that method's detail panel
+(`?method=<id>#explore`).
 
 The whole thing is one static site with one JSON file as its database, so
 it's built to grow: adding a method is either a two-minute JSON edit and a
@@ -81,7 +93,7 @@ the page doesn't render after enabling it.
 
 ## What's in the database right now
 
-`data/methods.json` seeds **58 methods** across nine families (the
+`data/methods.json` seeds **70 methods** across nine families (the
 "Family" grouping) — **Location/Scale Models (ComBat-family)** /
 Deep-learning / IQM / Normative Modeling / Interpolation / Federated / ICA /
 Optimal-transport, plus a **Classical Intensity Normalization** family
@@ -103,16 +115,14 @@ that's still how everyone refers to and searches for it.
   been researched yet, default to **"Agnostic"** rather than `null` — that's
   a real, useful category here (it tells you the method wasn't built or
   tuned around one specific cohort), not a placeholder for missing data.
-  Currently 11 of 53 entries have a specific, verified dataset; the rest are
+  Currently 14 of 70 entries have a specific, verified dataset; the rest are
   "Agnostic" and worth digging into if you know the paper.
-- **Implemented in UniHarmony** — a new `in_uniharmony` boolean, splitting
-  the zoo into what's already usable through
-  [UniHarmony](https://github.com/N-Nieto/UniHarmony) today (11 methods:
-  ComBat, neuroComBat, ComBat-GAM, harmonizer, CovBat, PrettYharmonize,
-  pycombat, Inter-Site SMOTE, Intra-Site Interpolation, OTDA, BOTDA) versus
-  everything else. A separate `also_implemented_in` array tracks other
-  bundling toolkits — e.g. neuroComBat and CovBat are also available inside
-  neuroHarmonize, alongside its own native ComBat-GAM.
+- **Toolbox membership** — which package(s), if any, bundle a method
+  alongside several others (UniHarmony, neuroHarmonize, ComBatFamily (R),
+  Intensity Normalization, NeuroHarm-kit, currently) is tracked in a
+  separate registry, `data/toolboxes.json`, rather than as a field on each
+  method. See [Toolboxes](#toolboxes) below for why, and for what's in
+  each one.
 
 ### Where this round's additions came from
 
@@ -142,6 +152,39 @@ related-work sections, each verified against its own DOI before being added:
 - **Dual-Projection ICA for fMRI** (Xu et al., 2023) — the functional-MRI
   sibling of ICA-DP, from an overlapping author group, validated on
   ABIDE-II.
+- **SiMix** (Xu et al., NeuroImage 2024) — domain generalization for
+  brain MRI harmonization via cross-site training-image mixing plus
+  test-time perturbation; explicitly designed and validated for
+  generalizing to a genuinely unseen site.
+- **SSIMH** (Guan et al., MLMI 2022) — a fast, non-learning, spectrum-
+  swapping image-level method; notable as one of the only *statistical*
+  (not deep-learning) image-level entries in the database, validated on ABCD.
+- **Conditioned Diffusion Autoencoder Harmonization** (Scholz et al.,
+  MICCAI 2025) and **Style-Guided Latent Diffusion** (MICCAI 2025) — two
+  2025 diffusion-model approaches to image-level harmonization, reflecting
+  where the field has moved most recently.
+- **Attention-Guided Deep Domain Adaptation** (Guan et al., 2021) —
+  feature-level domain adaptation aimed at downstream disease
+  classification rather than harmonization for its own sake.
+- **BlindHarmony** (Jeong et al., ICCV 2023) and **BlindHarmonyDiff**
+  (2025) — a normalizing-flow, then diffusion-based, pair of methods built
+  around "blind" harmonization: trained only on target-domain data, applied
+  to genuinely unseen source domains by construction.
+- **TgtFreeHarmony** (Kim, Mun et al., 2026) — goes a step further than
+  "blind": needs neither source nor target domain data shared between
+  sites at all, aimed at deployments where cross-institution data sharing
+  itself is the blocker. Very recent (2026) and has real, working code
+  (`SNU-LIST/TgtFreeHarmony`).
+- **GNN Structural Connectome Harmonization** (2025) and **Structural
+  Connectivity Harmonization via Distribution Matching** (Human Brain
+  Mapping, 2025) — the first two entries in the database that harmonize
+  structural *connectomes* (diffusion-MRI-derived connectivity matrices)
+  rather than voxel images or ROI-level scalar features; a genuinely
+  different `modality` value from everything else here.
+- **SSIM-Guided Disentanglement** (Caldera et al., 2025) and **DIST-CLIP**
+  (2025) — two more late-2025 image-level disentanglement approaches,
+  the latter notable for CLIP-based text-guided harmonization and
+  zero-shot generalization to an external cohort (OASIS-3).
 
 Two entries from the original UniHarmony seed had incorrect metadata, now
 fixed: **BARTharm** and **Harmless** were tagged `image-level`; both
@@ -153,14 +196,11 @@ exactly what `CONTRIBUTING.md` is for.
 
 ### Other candidates surfaced but not yet added
 
-A few more names turned up in citation lists but weren't verified closely
-enough to add responsibly — **SiMix**, an **SSIM-guided disentanglement**
-method, a **graph-neural-network structural-connectome** harmonization
-approach, an **unpaired multi-site latent-diffusion** method, and two
-independently-developed normalizing-flow methods referenced alongside
-Harmonizing Flows: **BlindHarmony** (Jeong et al., 2023) and
-**BlindHarmonyDiff**. These are good next PRs if you (or anyone) can pin
-down the exact paper and check it firsthand.
+Nothing outstanding right now — the two candidates previously listed here
+(SSIM-guided disentanglement, GNN structural-connectome harmonization)
+were both tracked down and verified this round; see the additions above.
+This section is where the next round of "found in a citation list, not
+yet checked firsthand" candidates will go.
 
 ### Two real bugs, not just missing data
 
@@ -181,8 +221,8 @@ down the exact paper and check it firsthand.
 
 ### Honest gaps — please help close these
 
-- **`paper_year` is verified for 43 of 58 entries; `paper_url` for 32 of
-  58.** The rest are `null` rather than estimated — a wrong year is worse
+- **`paper_year` is verified for 55 of 70 entries; `paper_url` for 43 of
+  70.** The rest are `null` rather than estimated — a wrong year is worse
   than a missing one, and the Year view's "Year unknown" column exists
   for exactly this reason.
 - The eight survey papers you originally listed (structural-MRI DL survey,
@@ -246,30 +286,102 @@ on a cron, without wastefully re-fetching repos that haven't changed. Use
 the "force" checkbox when triggering it manually from the Actions tab for
 a full refresh.
 
-### On-demand stats from the page itself
+### On-demand data from the page itself, and turning it into a real PR
 
-The **"⟳ Fetch missing GitHub stats"** button in the header calls the
-public GitHub REST API directly from your browser (it's CORS-enabled for
-unauthenticated GET requests) for whichever methods are currently missing
-stats, and updates the page for your current session. This is a
-convenience for browsing between scheduled refreshes — **it does not write
-back to the repo**; reloading the page reverts to whatever's actually
-committed in `data/methods.json`. It's also subject to GitHub's
-unauthenticated rate limit (60 requests/hour per IP), so it only fetches
-what's missing, not everything, and stops with a clear message if it gets
-rate-limited. For anything you want to actually persist, run
-`scripts/fetch_github_stats.py` (or let the Action do it) instead.
+The **"⟳ Fetch missing data"** button in the header now covers two things,
+sequentially:
+
+- **GitHub stats** — calls the public GitHub REST API directly from your
+  browser (CORS-enabled for unauthenticated GET requests) for whichever
+  methods are missing them.
+- **Citations** — calls the Semantic Scholar Graph API directly from your
+  browser for whichever methods have a DOI in `paper_url` but no
+  `citations` yet.
+
+**On the citations problem specifically**: if this has genuinely never
+worked for you, the most likely explanation is that **Semantic Scholar's
+API doesn't support cross-origin browser requests the way GitHub's does**
+— GitHub explicitly documents CORS support for its REST API; Semantic
+Scholar's docs make no such guarantee. If that's the case, the button will
+now say so directly ("citations blocked — Semantic Scholar unreachable
+from the browser") instead of silently doing nothing, which is the
+difference between a real diagnosis and another guess. If it's *not*
+blocked, it should now genuinely fetch citations live from any browser —
+worth trying again before falling back to the script. Either way,
+`scripts/fetch_citations.py` calls the same API from a plain Python
+process, which was never subject to a browser's CORS restrictions in the
+first place — if the browser button reports being blocked, the script is
+the actual workaround, not a redundant alternative.
+
+Both of these are session-only — reloading the page reverts to whatever's
+actually committed. **"↗ Open PR with fetched data"** (appears once
+something's been fetched) is what makes it permanent: it bundles exactly
+what was fetched this session into `data/submissions-stats/<timestamp>.json`
+and opens GitHub's pre-filled new-file page for it, the same
+fork-and-PR flow as "Add a model". A maintainer reviews and merges it, and
+`.github/workflows/merge-stats-updates.yml` runs
+`scripts/merge_stats_updates.py`, which applies each field to the matching
+method by id (an explicit field allowlist — a stats update can't smuggle
+in a change to a method's name or category) and stamps that entry's
+`stats_fetched_at` so the scheduled refresh doesn't immediately re-fetch
+it as stale.
+
+Both on-demand fetches are subject to their respective API's
+unauthenticated rate limits (GitHub: 60 requests/hour per IP; Semantic
+Scholar: no published browser-specific limit, but assume it's not
+generous), so they only fetch what's missing, not everything, and stop
+with a clear message if rate-limited. For a full, scheduled refresh of
+everything, `scripts/fetch_github_stats.py` / `scripts/fetch_citations.py`
+(or the Actions that run them) remain the source of truth.
 
 That's why a fresh `git clone` served locally shows all of the above as
-`null` until you either run the script yourself once, use the on-demand
-button for a quick look, or push to GitHub and let the scheduled Action do
-it for real.
+`null` until you either run a script yourself once, use the on-demand
+button for a session-only look (optionally turning it into a real PR), or
+push to GitHub and let the scheduled Actions do it for real.
 
 Unauthenticated GitHub API calls are capped at 60/hour, and a deep-learning
 repo now costs up to 4 calls (repo info, first-commit lookup, dependency
 file, releases), so this ceiling matters quickly — set a `GITHUB_TOKEN` env
 var locally, or rely on the Action (which gets one automatically), to raise
 it to 5000/hour.
+
+## Toolboxes
+
+Several methods aren't distributed as their own standalone repo — they're
+one option among several bundled inside a larger package. This is why
+you'll sometimes see the exact same GitHub link on more than one method's
+page: e.g. WhiteStripe, Nyúl–Udupa histogram matching, and RAVEL-in-Python
+all point at `jcreinhold/intensity-normalization`, because that's the same
+shared toolbox implementing all three, not three separate copies of the
+same link by mistake. Similarly, `andy1764/ComBatFamily` (R) implements
+ComBat, CovBat, and ComBatLS as one package rather than three scripts, and
+`N-Nieto/UniHarmony` bundles eleven methods across three different
+statistical families.
+
+`data/toolboxes.json` is a small, separate registry for this — each entry
+has an `id`, `name`, `url`, `language` array, a human-written `description`,
+and a `methods` array of method ids it implements. It's intentionally kept
+separate from `data/methods.json`: a method's own `github`/`other_url`
+field still points at its **canonical, original** implementation (the
+repo from the paper itself, where one exists independently); the toolbox
+registry is *additional* information about *other* places the same
+algorithm is also available; a method can legitimately appear in more than
+one toolbox's `methods` list (neuroComBat, for instance, is in both
+UniHarmony and neuroHarmonize).
+
+The **Toolboxes tab** renders this registry directly — one card per
+toolbox, with its description, languages, and every method it implements
+as a clickable chip that opens that method's Explore drawer. The Explore
+tab's **"Group by: Toolbox"** option renders the same underlying data as
+clustered sections instead, with a "Standalone (not bundled in a toolbox)"
+group for the ~70% of the database that isn't in any toolbox — because a
+method can belong to more than one toolbox, it can legitimately appear in
+more than one section there, unlike every other grouping dimension on the
+site.
+
+Adding a new toolbox is a small, direct edit to `data/toolboxes.json` — no
+form for this yet (it's rare enough, and touches the source-of-truth
+registry directly enough, that a plain PR is the right weight for it).
 
 ## Adding a method through the site
 
@@ -279,7 +391,7 @@ language, architecture, framework, and every "Which method?" compatibility
 question as a toggle) is optional. Pasting a `github.com/owner/repo` link
 into the source code field triggers a live preview fetch (stars, primary
 language, license) using the same on-demand, browser-side GitHub call as
-the "Fetch missing GitHub stats" button — GitLab and other links are noted
+the "Fetch missing data" button — GitLab and other links are noted
 but not auto-fetched.
 
 **This is a static site with no backend to write to**, so "Generate
@@ -371,36 +483,35 @@ If Pages shows a blank page after enabling it:
 ### "The job is queued" and never runs
 
 This is a different symptom from a blank page — it means Pages hasn't
-built at all yet, not that it built wrong. In rough order of likelihood:
+built at all yet, not that it built wrong. With **"Deploy from a branch"**
+(confirmed as this repo's setup, not the alternative Actions-based
+deployment), the build runs on GitHub's own managed pipeline, entirely
+separate from any of this repo's custom workflows — so this isn't
+something the repo's Actions setup can cause or fix. In rough order of
+likelihood:
 
-1. **Check which deployment method Pages is using.** Settings → Pages →
-   Source. If it's set to **"GitHub Actions"** rather than **"Deploy from a
-   branch"**, Pages builds run as an Actions job and share the same runner
-   queue and concurrency limits as every other workflow in this repo
-   (`refresh-stats.yml`, `check-duplicates.yml`, `merge-submissions.yml`).
-   If several of those are running or queued at once — e.g. right after a
-   burst of pushes — the Pages job can genuinely sit behind them. Switching
-   to **"Deploy from a branch"** (what this README otherwise assumes and
-   recommends) puts Pages builds on GitHub's own separate, managed
-   pipeline instead, decoupled from this repo's custom workflows entirely
-   — this is the single most effective fix if you're seeing this.
-2. **Concurrency limits.** All three custom workflows now declare a
-   `concurrency:` group with `cancel-in-progress: true` (except
-   `merge-submissions.yml`, which never cancels mid-write), so repeated
-   pushes cancel and replace their own superseded runs instead of queuing
-   up behind each other. If Pages is still on the Actions-based deployment
-   method, this reduces — but doesn't eliminate — contention for the
-   shared runner pool.
-3. **Check github.com's own status.** [githubstatus.com](https://www.githubstatus.com/)
-   shows active incidents, including ones specifically affecting Actions or
-   Pages — this is unusual traffic on GitHub's end, not something in the
-   repo, and it does happen.
-4. **Actions minutes quota** is very unlikely to be the cause here — public
-   repos get unlimited Actions minutes. This only matters for private repos
-   on the free tier.
-5. If a job is stuck queued for a long time, cancel it from the Actions tab
-   and manually re-trigger (`workflow_dispatch` on any of the custom
-   workflows, or a no-op push) rather than waiting indefinitely.
+1. **GitHub Pages has a documented soft limit of ~10 builds per hour.**
+   Pushing to `main` repeatedly in a short window (common while actively
+   iterating on the site) can queue builds faster than that limit clears —
+   they'll usually catch up within the hour rather than being lost, so if
+   you've been pushing a lot, this is the most likely explanation and the
+   fix is just to wait a bit.
+2. **A stuck/wedged deployment is a known, sometimes GitHub-side issue**,
+   not unique to this repo — there are open GitHub Community discussions
+   describing a deployment sitting in "queued" for many hours with no
+   error, where re-running or cancelling from the UI doesn't help and
+   toggling Pages' source off and back on doesn't clear it either. If a
+   build has been queued for an unusually long time (well over the normal
+   ~1–20 minutes), that's the likely explanation, not a repo
+   misconfiguration.
+3. **Check GitHub's own status page** —
+   [githubstatus.com](https://www.githubstatus.com/) shows active
+   incidents, including ones specifically affecting Pages — this is
+   unusual traffic/an incident on GitHub's end, not something in the repo.
+4. If it's still stuck after a while: try a trivial no-op push to `main`
+   to trigger a fresh build attempt, or as a last resort, open a support
+   ticket with GitHub — the community reports above indicate this
+   sometimes needs GitHub staff to manually clear.
 
 ## How the "Which method?" recommender works
 
@@ -461,7 +572,7 @@ The rest of the `recommend.*` compatibility fields (`requires_site_id`,
 `CATEGORY_RECOMMEND_DEFAULTS`, with a handful of per-method overrides where
 there's a specific, citable reason to deviate (e.g. ComBat-GAM is explicitly
 a nonlinear/GAM extension). These are reasoned defaults, not an
-independently verified fact for all 58 methods — if you know a specific
+independently verified fact for all 70 methods — if you know a specific
 method behaves differently, override it there.
 
 ## Other maintainer tooling
@@ -499,15 +610,19 @@ index.html                    the whole page (Home / Explore / Which-method? / A
 css/style.css                 styling
 js/app.js                     data loading, box layout, filters, compare mode, recommender, add-model form, detail drawer
 data/methods.json             the database — edit this to add/change methods
+data/toolboxes.json           registry of packages bundling multiple methods — see "Toolboxes"
 data/submissions/             pending method submissions land here as data/submissions/<id>.json, awaiting merge
+data/submissions-stats/       pending GitHub-stats/citation updates from the "Open PR with fetched data" button, awaiting merge
 scripts/build_seed.py         (re)generates the seed portion of methods.json — non-destructive, preserves other entries
 scripts/fetch_github_stats.py enriches methods.json with live stars / first-commit / last-commit / framework / etc from the GitHub API
 scripts/fetch_citations.py    optional: fills in citation counts via Semantic Scholar (run manually)
 scripts/check_duplicates.py   flags likely-duplicate entries; run in CI on every PR
 scripts/merge_submissions.py  folds data/submissions/*.json into methods.json after a submission PR is merged
+scripts/merge_stats_updates.py folds data/submissions-stats/*.json field updates into methods.json after that PR is merged
 .github/workflows/refresh-stats.yml       runs fetch_github_stats.py weekly + on push to methods.json, and commits the result
 .github/workflows/check-duplicates.yml    runs check_duplicates.py on PRs touching the database
 .github/workflows/merge-submissions.yml   runs merge_submissions.py on push to data/submissions/
+.github/workflows/merge-stats-updates.yml runs merge_stats_updates.py on push to data/submissions-stats/
 .github/CODEOWNERS             required-reviewer list for the branch ruleset — see "Repository protection"
 CONTRIBUTING.md               schema reference + how to add a method
 ```

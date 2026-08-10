@@ -95,12 +95,11 @@ There's no build step and no database — add a method either of two ways:
 | `language` | no | Array of languages, primary one first. |
 | `citations`, `stars`, `forks`, `open_issues`, `license`, `topics`, `archived`, `repo_created_at`, `first_commit_date`, `last_commit`, `repo_description` | no | Leave these `null` — they're meant to be filled automatically by `scripts/fetch_github_stats.py` (GitHub-derived fields) or by hand only for `citations` if you have a real number, not by guessing. See below. |
 | `validation_data` | no | The dataset/cohort the method was mainly proposed or validated on (e.g. `"ENIGMA consortium"`, `"ABCD"`). If the paper doesn't anchor to one specific dataset — evaluated across several with no clear primary one, or you just don't know — use the literal string `"Agnostic"` (this is the default; it's a real category here, not a stand-in for missing data). |
-| `in_uniharmony` | no | `true` if the method has a working implementation in [UniHarmony](https://github.com/N-Nieto/UniHarmony), else `false`. |
-| `also_implemented_in` | no | Array of other toolkits/packages that also bundle this method (e.g. `["neuroHarmonize"]`), beyond its own dedicated repo. Empty array if none. |
+| `in_uniharmony`, `also_implemented_in` | no | Legacy fields, kept for backward compatibility but no longer rendered anywhere on the site — toolbox membership is now driven entirely by `data/toolboxes.json` (see "Toolboxes" in the README). If you're adding a method that belongs in an existing toolbox, add its id to that toolbox's `methods` array in `data/toolboxes.json` instead of setting these. |
 | `modality` | no | The data modality the method targets, e.g. `"Structural MRI"`, `"Diffusion MRI"`, `"Functional MRI"`, `"Omics/Proteomics"`, `"EEG"`. Use `"MRI (unspecified)"` rather than guessing if the paper doesn't clearly anchor to one. |
 | `needs_gpu` | no | `true` only for `method_type == "deep-learning"` entries. Drives the recommender's GPU question directly — not derived from `category` at render time anymore, so it can be overridden per method if a specific one only needs a GPU for training, not inference. |
 | `architecture_backbone` | no | Deep-learning entries only — the model family, e.g. `"CycleGAN"`, `"Disentangled VAE"`, `"Normalizing flow"`, `"StarGAN"`, `"U-Net"`. Hand-set from the paper's own description (see `ARCHITECTURE_BACKBONE` in `scripts/build_seed.py`) — there's no reliable way to auto-detect "which GAN variant" from a repo. `null` for non-deep-learning methods. |
-| `framework`, `has_pretrained_weights`, `pretrained_weights_url` | no | Deep-learning entries only. Leave `null` — these are auto-detected by `scripts/fetch_github_stats.py` (checks the repo's dependency files for `framework`, GitHub Releases for weight-file assets) or the on-demand "Fetch missing GitHub stats" button. Don't hand-set these; a `null` result means "not detected," not "confirmed absent." |
+| `framework`, `has_pretrained_weights`, `pretrained_weights_url` | no | Deep-learning entries only. Leave `null` — these are auto-detected by `scripts/fetch_github_stats.py` (checks the repo's dependency files for `framework`, GitHub Releases for weight-file assets) or the on-demand "Fetch missing data" button. Don't hand-set these; a `null` result means "not detected," not "confirmed absent." |
 | `forks`, `open_issues`, `license`, `topics`, `archived`, `repo_created_at`, `first_commit_date`, `stats_fetched_at` | no | Leave these `null` — auto-filled by `scripts/fetch_github_stats.py`. `stats_fetched_at` also drives that script's freshness check (skips re-fetching anything younger than 30 days), so leaving it `null` on a new entry guarantees it gets fetched on the very next run regardless of that window. |
 | `recommend` | no | Compatibility flags used by the "Which method?" tab — see [How the recommender works](README.md#how-the-which-method-recommender-works) in the README before setting these; they should reflect the method's actual design, not a guess. If omitted, a new entry won't show up in recommender results (it still appears in Explore). |
 
@@ -127,10 +126,12 @@ that to 5000/hour.
 
 The nine "Group by" options are handled in `render()` in `js/app.js`:
 Level, Family, Data modality, Programming language, Validation data, and
-Implemented-in-UniHarmony all go through `renderClusters()` (flex-wrap
-sections); Year, GitHub stars, and Citations go through
-`renderYearTimeline()` / `renderStarsTimeline()` / `renderCitationsTimeline()`
-(all built on the shared `buildTimelineColumn()` helper). Adding another
+Toolbox all go through `renderClusters()` (flex-wrap sections — Toolbox is
+a special case there, `renderToolboxClusters()`, since a method can belong
+to more than one toolbox at once, unlike every other dimension); Year,
+GitHub stars, and Citations go through `renderYearTimeline()` /
+`renderStarsTimeline()` / `renderCitationsTimeline()` (all built on the
+shared `buildTimelineColumn()` helper). Adding another single-membership
 cluster-style dimension means adding an `<option>` to the `#group-by`
 select in `index.html` and a branch in `renderClusters()`'s
 `groupFn`/`groupOrder`/`groupLabel` logic.

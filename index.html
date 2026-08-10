@@ -40,17 +40,19 @@
   </button>
   <div class="header-meta">
     <span id="method-count">— methods</span>
-    <button id="fetch-stats-btn" type="button" class="fetch-stats-btn" title="Fetches missing GitHub stats live from your browser, for this session only — doesn't change the underlying data file.">⟳ Fetch missing GitHub stats</button>
+    <button id="fetch-stats-btn" type="button" class="fetch-stats-btn" title="Fetches missing GitHub stats and citation counts live from your browser, for this session only — doesn't change the underlying data file until you open a PR with it.">⟳ Fetch missing data</button>
+    <button id="fetch-pr-btn" type="button" class="fetch-stats-btn hidden" title="Opens a pre-filled GitHub page proposing everything fetched this session as a real update.">↗ Open PR with fetched data</button>
     <span id="fetch-stats-status" class="fetch-stats-status"></span>
     <a href="https://github.com/N-Nieto/HarmonizationZoo" id="repo-link" target="_blank" rel="noopener">View on GitHub ↗</a>
   </div>
 </header>
 
-<nav class="tab-nav" aria-label="Sections">
-  <button class="tab-btn active" data-tab="home" type="button">Home</button>
-  <button class="tab-btn" data-tab="explore" type="button">Explore</button>
-  <button class="tab-btn" data-tab="recommend" type="button">Which method?</button>
-  <button class="tab-btn" data-tab="add" type="button">Add a model</button>
+<nav class="tab-nav" aria-label="Sections" role="tablist">
+  <button class="tab-btn active" data-tab="home" type="button" role="tab" aria-selected="true">Home</button>
+  <button class="tab-btn" data-tab="explore" type="button" role="tab" aria-selected="false">Explore</button>
+  <button class="tab-btn" data-tab="recommend" type="button" role="tab" aria-selected="false">Which method?</button>
+  <button class="tab-btn" data-tab="toolboxes" type="button" role="tab" aria-selected="false">Toolboxes</button>
+  <button class="tab-btn" data-tab="add" type="button" role="tab" aria-selected="false">Add a model</button>
 </nav>
 
 <main>
@@ -73,7 +75,7 @@
           <option value="stars">GitHub stars</option>
           <option value="citations">Citations</option>
           <option value="data">Validation data</option>
-          <option value="uniharmony">Implemented in UniHarmony</option>
+          <option value="toolbox">Toolbox</option>
         </select>
       </div>
 
@@ -95,7 +97,7 @@
     <div class="legend-row">
       <div id="family-legend" class="family-legend" aria-label="Family color legend"></div>
       <label class="label-size-control" for="font-size">
-        <span>Aa</span>
+        <span>Font size</span>
         <input id="font-size" type="range" min="10" max="18" step="1" value="13" title="Label size">
       </label>
     </div>
@@ -111,6 +113,10 @@
 
   <section id="tab-recommend" class="tab-panel">
     <div id="recommend-root"><!-- populated by JS --></div>
+  </section>
+
+  <section id="tab-toolboxes" class="tab-panel">
+    <div id="toolboxes-root"><!-- populated by JS --></div>
   </section>
 
   <section id="tab-add" class="tab-panel">

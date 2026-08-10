@@ -1,0 +1,38 @@
+name: Merge stats updates
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/submissions-stats/*.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: merge-stats-updates
+  cancel-in-progress: false  # never cancel a merge mid-write
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fold stats updates into methods.json
+        run: python3 scripts/merge_stats_updates.py
+
+      - name: Check for duplicates
+        run: python3 scripts/check_duplicates.py --ci
+
+      - name: Commit result
+        run: |
+          git config user.name "harmonization-zoo-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/methods.json data/submissions-stats/
+          git diff --cached --quiet || git commit -m "chore: apply fetched stats/citations update(s)"
+          git push
