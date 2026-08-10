@@ -37,13 +37,14 @@ Two other things live on the page:
 
 - **Compare mode** — toggle it on (from either tab — it's shared state), click
   2+ boxes to select them, then hit "Compare" for a side-by-side table
-  (family, level, modality, validation data, stars, license, UniHarmony
-  status, GPU/ML-compatibility, and more). Works the same way in the
+  (family, level, modality, validation data, stars, license, toolbox
+  membership, GPU/ML-compatibility, and more). Works the same way in the
   "Which method?" results list as it does in Explore.
-- **"⟳ Fetch missing data" button** — an on-demand, session-only preview of
-  GitHub stats and citations for whatever's currently missing them, with
-  an "Open PR with fetched data" follow-up to make it permanent (see
-  [Keeping GitHub stats current](#keeping-github-stats-current)).
+- **"⟳ Fetch missing GitHub stats" button** — an on-demand, session-only
+  preview of GitHub stats for whatever's currently missing them, with an
+  "Open PR with fetched data" follow-up to make it permanent (see
+  [Keeping GitHub stats current](#keeping-github-stats-current)). Citations
+  are handled separately by a scheduled job, not this button — see below.
 
 Every tab is a real, bookmarkable URL (`#explore`, `#recommend`, `#add`,
 `#home` — back/forward navigates between them), and every method has a
@@ -93,7 +94,7 @@ the page doesn't render after enabling it.
 
 ## What's in the database right now
 
-`data/methods.json` seeds **70 methods** across nine families (the
+`data/methods.json` seeds **71 methods** across nine families (the
 "Family" grouping) — **Location/Scale Models (ComBat-family)** /
 Deep-learning / IQM / Normative Modeling / Interpolation / Federated / ICA /
 Optimal-transport, plus a **Classical Intensity Normalization** family
@@ -115,11 +116,11 @@ that's still how everyone refers to and searches for it.
   been researched yet, default to **"Agnostic"** rather than `null` — that's
   a real, useful category here (it tells you the method wasn't built or
   tuned around one specific cohort), not a placeholder for missing data.
-  Currently 14 of 70 entries have a specific, verified dataset; the rest are
+  Currently 15 of 71 entries have a specific, verified dataset; the rest are
   "Agnostic" and worth digging into if you know the paper.
 - **Toolbox membership** — which package(s), if any, bundle a method
-  alongside several others (UniHarmony, neuroHarmonize, ComBatFamily (R),
-  Intensity Normalization, NeuroHarm-kit, currently) is tracked in a
+  alongside several others (UniHarmony, ComBatFamily (R), Intensity
+  Normalization, NeuroHarm-kit, currently) is tracked in a
   separate registry, `data/toolboxes.json`, rather than as a field on each
   method. See [Toolboxes](#toolboxes) below for why, and for what's in
   each one.
@@ -221,8 +222,8 @@ yet checked firsthand" candidates will go.
 
 ### Honest gaps — please help close these
 
-- **`paper_year` is verified for 55 of 70 entries; `paper_url` for 43 of
-  70.** The rest are `null` rather than estimated — a wrong year is worse
+- **`paper_year` is verified for 56 of 71 entries; `paper_url` for 44 of
+  71.** The rest are `null` rather than estimated — a wrong year is worse
   than a missing one, and the Year view's "Year unknown" column exists
   for exactly this reason.
 - The eight survey papers you originally listed (structural-MRI DL survey,
@@ -286,39 +287,17 @@ on a cron, without wastefully re-fetching repos that haven't changed. Use
 the "force" checkbox when triggering it manually from the Actions tab for
 a full refresh.
 
-### On-demand data from the page itself, and turning it into a real PR
+### On-demand GitHub stats from the page itself, and turning it into a real PR
 
-The **"⟳ Fetch missing data"** button in the header now covers two things,
-sequentially:
-
-- **GitHub stats** — calls the public GitHub REST API directly from your
-  browser (CORS-enabled for unauthenticated GET requests) for whichever
-  methods are missing them.
-- **Citations** — calls the Semantic Scholar Graph API directly from your
-  browser for whichever methods have a DOI in `paper_url` but no
-  `citations` yet.
-
-**On the citations problem specifically**: if this has genuinely never
-worked for you, the most likely explanation is that **Semantic Scholar's
-API doesn't support cross-origin browser requests the way GitHub's does**
-— GitHub explicitly documents CORS support for its REST API; Semantic
-Scholar's docs make no such guarantee. If that's the case, the button will
-now say so directly ("citations blocked — Semantic Scholar unreachable
-from the browser") instead of silently doing nothing, which is the
-difference between a real diagnosis and another guess. If it's *not*
-blocked, it should now genuinely fetch citations live from any browser —
-worth trying again before falling back to the script. Either way,
-`scripts/fetch_citations.py` calls the same API from a plain Python
-process, which was never subject to a browser's CORS restrictions in the
-first place — if the browser button reports being blocked, the script is
-the actual workaround, not a redundant alternative.
-
-Both of these are session-only — reloading the page reverts to whatever's
-actually committed. **"↗ Open PR with fetched data"** (appears once
-something's been fetched) is what makes it permanent: it bundles exactly
-what was fetched this session into `data/submissions-stats/<timestamp>.json`
-and opens GitHub's pre-filled new-file page for it, the same
-fork-and-PR flow as "Add a model". A maintainer reviews and merges it, and
+The **"⟳ Fetch missing GitHub stats"** button in the header calls the
+public GitHub REST API directly from your browser (CORS-enabled for
+unauthenticated GET requests) for whichever methods are missing stats,
+and updates the page for that session only — reloading reverts to
+whatever's actually committed. **"↗ Open PR with fetched data"** (appears
+once something's been fetched) is what makes it permanent: it bundles
+exactly what was fetched into `data/submissions-stats/<timestamp>.json`
+and opens GitHub's pre-filled new-file page for it, the same fork-and-PR
+flow as "Add a model". A maintainer reviews and merges it, and
 `.github/workflows/merge-stats-updates.yml` runs
 `scripts/merge_stats_updates.py`, which applies each field to the matching
 method by id (an explicit field allowlist — a stats update can't smuggle
@@ -326,13 +305,24 @@ in a change to a method's name or category) and stamps that entry's
 `stats_fetched_at` so the scheduled refresh doesn't immediately re-fetch
 it as stale.
 
-Both on-demand fetches are subject to their respective API's
-unauthenticated rate limits (GitHub: 60 requests/hour per IP; Semantic
-Scholar: no published browser-specific limit, but assume it's not
-generous), so they only fetch what's missing, not everything, and stop
-with a clear message if rate-limited. For a full, scheduled refresh of
-everything, `scripts/fetch_github_stats.py` / `scripts/fetch_citations.py`
-(or the Actions that run them) remain the source of truth.
+**Citations are handled differently, on purpose**: this button doesn't
+attempt them at all. It's confirmed — not just suspected — that Semantic
+Scholar's API doesn't support cross-origin browser requests the way
+GitHub's does, so a browser-side attempt fails every single time
+regardless of how it's written; there's no point spending a round trip on
+something guaranteed to fail. Instead,
+`.github/workflows/refresh-citations.yml` runs `scripts/fetch_citations.py`
+server-side on a schedule (monthly, since citation counts change slowly) —
+a plain Python process was never subject to that browser restriction in
+the first place. Trigger it manually from the Actions tab for an
+immediate refresh instead of waiting for the schedule.
+
+The on-demand GitHub fetch is subject to GitHub's unauthenticated rate
+limit (60 requests/hour per IP), so it only fetches what's missing, not
+everything, and stops with a clear message if rate-limited. For a full,
+scheduled refresh of everything, `scripts/fetch_github_stats.py` /
+`scripts/fetch_citations.py` (or the Actions that run them) remain the
+source of truth.
 
 That's why a fresh `git clone` served locally shows all of the above as
 `null` until you either run a script yourself once, use the on-demand
@@ -366,8 +356,8 @@ field still points at its **canonical, original** implementation (the
 repo from the paper itself, where one exists independently); the toolbox
 registry is *additional* information about *other* places the same
 algorithm is also available; a method can legitimately appear in more than
-one toolbox's `methods` list (neuroComBat, for instance, is in both
-UniHarmony and neuroHarmonize).
+one toolbox's `methods` list (ComBat and ComBat-GAM, for instance, are
+each in both UniHarmony and ComBatFamily (R)).
 
 The **Toolboxes tab** renders this registry directly — one card per
 toolbox, with its description, languages, and every method it implements
@@ -391,7 +381,7 @@ language, architecture, framework, and every "Which method?" compatibility
 question as a toggle) is optional. Pasting a `github.com/owner/repo` link
 into the source code field triggers a live preview fetch (stars, primary
 language, license) using the same on-demand, browser-side GitHub call as
-the "Fetch missing data" button — GitLab and other links are noted
+the "Fetch missing GitHub stats" button — GitLab and other links are noted
 but not auto-fetched.
 
 **This is a static site with no backend to write to**, so "Generate
@@ -572,7 +562,7 @@ The rest of the `recommend.*` compatibility fields (`requires_site_id`,
 `CATEGORY_RECOMMEND_DEFAULTS`, with a handful of per-method overrides where
 there's a specific, citable reason to deviate (e.g. ComBat-GAM is explicitly
 a nonlinear/GAM extension). These are reasoned defaults, not an
-independently verified fact for all 70 methods — if you know a specific
+independently verified fact for all 71 methods — if you know a specific
 method behaves differently, override it there.
 
 ## Other maintainer tooling
@@ -620,6 +610,7 @@ scripts/check_duplicates.py   flags likely-duplicate entries; run in CI on every
 scripts/merge_submissions.py  folds data/submissions/*.json into methods.json after a submission PR is merged
 scripts/merge_stats_updates.py folds data/submissions-stats/*.json field updates into methods.json after that PR is merged
 .github/workflows/refresh-stats.yml       runs fetch_github_stats.py weekly + on push to methods.json, and commits the result
+.github/workflows/refresh-citations.yml   runs fetch_citations.py monthly (server-side — not subject to the browser CORS block)
 .github/workflows/check-duplicates.yml    runs check_duplicates.py on PRs touching the database
 .github/workflows/merge-submissions.yml   runs merge_submissions.py on push to data/submissions/
 .github/workflows/merge-stats-updates.yml runs merge_stats_updates.py on push to data/submissions-stats/

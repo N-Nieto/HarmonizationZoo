@@ -76,6 +76,11 @@ METHODS = [
          level="feature-level", tags=["empirical-bayes", "location-scale"],
          paper_title="ComBatLS: A location- and scale-preserving method for multi-site image harmonization",
          paper_year=2024, paper_url=None, github="andy1764/ComBatFamily", language=["R"]),
+    dict(id="robust-combat", name="Robust-ComBat", category="combat-family", method_type="machine-learning",
+         level="feature-level", tags=["outlier-robust", "MLP", "diffusion-MRI", "pathology-aware"],
+         paper_title=None,
+         paper_year=2026, paper_url="https://arxiv.org/abs/2603.17968",
+         github="scil-vital/ComBat-Robust", language=["Python"]),
     dict(id="opnestedcombat", name="OPNestedComBat", category="combat-family", method_type="statistical",
          level="feature-level", tags=["empirical-bayes", "radiomics", "nested"],
          paper_title="Improved generalized ComBat methods for harmonization of radiomic features",
@@ -361,11 +366,11 @@ IN_UNIHARMONY = {
     "prettyharmonize", "pycombat", "ismi", "isi", "otda", "botda",
 }
 
-# Other toolkits/packages that also bundle a given method, beyond its own repo.
-ALSO_IMPLEMENTED_IN = {
-    "neurocombat": ["neuroHarmonize"],
-    "covbat": ["neuroHarmonize"],
-}
+# Legacy field, no longer rendered anywhere — toolbox membership now lives
+# entirely in data/toolboxes.json (see "Toolboxes" in the README). Left
+# empty rather than removed outright, since the field itself is kept for
+# backward compatibility.
+ALSO_IMPLEMENTED_IN = {}
 
 # Primary validation cohort/dataset, where the paper is clearly anchored to
 # one (or a named, bounded set) rather than "whatever was on hand". Default
@@ -386,6 +391,7 @@ VALIDATION_DATA = {
     "whitestripe": "AIBL, ADNI",
     "deepresbat": "ADNI, AIBL, MACC (3 continents, N=2787)",
     "ica-dp-fmri": "ABIDE-II",
+    "robust-combat": "7 neurological conditions, multi-site cohorts (up to 80% pathological)",
     "ssimh": "ABCD (phantom subjects, T1/T2-weighted)",
 }
 
@@ -398,6 +404,7 @@ MODALITY = {
     "pycombat": "Structural MRI", "longcombat": "Structural MRI",
     "ravel": "Structural MRI", "relief": "Diffusion MRI",
     "combat-mega": "Structural MRI", "combatls": "Structural MRI",
+    "robust-combat": "Diffusion MRI",
     "opnestedcombat": "Radiomics (CT/MRI)", "harmonizr": "Omics/Proteomics",
     "whitestripe": "Structural MRI", "nyul": "Structural MRI",
     "deepharmony": "Structural MRI", "imunity": "Structural MRI",

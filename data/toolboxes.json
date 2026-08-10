@@ -9,20 +9,12 @@
       "methods": ["combat", "neurocombat", "combat-gam", "harmonizer", "covbat", "prettyharmonize", "pycombat", "ismi", "isi", "otda", "botda"]
     },
     {
-      "id": "neuroharmonize",
-      "name": "neuroHarmonize",
-      "url": "https://github.com/rpomponio/neuroHarmonize",
-      "language": ["Python"],
-      "description": "Python package built around ComBat-GAM (nonlinear covariate modeling via generalized additive models), also bundling standard neuroComBat and CovBat as selectable harmonization options.",
-      "methods": ["neurocombat", "combat-gam", "covbat"]
-    },
-    {
       "id": "combatfamily-r",
       "name": "ComBatFamily (R)",
       "url": "https://github.com/andy1764/ComBatFamily",
       "language": ["R"],
-      "description": "R package unifying ComBat and its location/scale extensions (CovBat, ComBatLS) under one modeling framework and a consistent API, rather than three separate scripts.",
-      "methods": ["combat", "covbat", "combatls"]
+      "description": "R package unifying ComBat and its extensions under one modeling framework and a consistent API: ComBat (Johnson et al., 2007), ComBat-GAM (Pomponio et al., 2020), Longitudinal ComBat (Beer et al., 2020), Robust ComBat (work-in-progress), and ComBatLS (Gardner et al., preprint).",
+      "methods": ["combat", "combat-gam", "longcombat", "robust-combat", "combatls"]
     },
     {
       "id": "intensity-normalization-toolbox",

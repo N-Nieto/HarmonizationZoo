@@ -190,7 +190,7 @@ function buildHomeTab() {
         <button type="button" class="home-cta" data-tab="toolboxes">
           <span class="home-cta-title">Toolboxes →</span>
           <span class="home-cta-desc">Several methods aren't standalone repos — they're bundled inside
-            larger packages (UniHarmony, neuroHarmonize, ComBatFamily, …). See what's
+            larger packages (UniHarmony, ComBatFamily, NeuroHarm-kit, …). See what's
             implemented where, in which language.</span>
         </button>
         <button type="button" class="home-cta" data-tab="add">
@@ -422,7 +422,7 @@ function buildAddModelTab() {
         <div class="addmodel-field"><span>Implemented in UniHarmony?</span><div class="rec-options" id="am-uniharmony"></div></div>
         <label class="addmodel-field">
           <span>Also implemented in (other toolkits)</span>
-          <input type="text" id="am-alsoin" placeholder="e.g. neuroHarmonize">
+          <input type="text" id="am-alsoin" placeholder="e.g. UniHarmony">
         </label>
       </div>
 
@@ -640,12 +640,17 @@ function generateSubmission() {
 /* ---------------- On-demand data fetch (client-side, session-only) + PR flow ----------------
  * The scheduled Actions + scripts/fetch_github_stats.py / fetch_citations.py
  * are the source of truth and persist back to data/methods.json. The
- * "Fetch missing data" button is a lightweight supplement for browsing
- * between refreshes: it calls the GitHub REST API (CORS-enabled for
- * unauthenticated GET) and the Semantic Scholar Graph API (also
- * CORS-enabled for GET) directly from the browser, for whichever methods
- * are still missing stats or citations, and updates the current session's
- * view only — a page reload reverts to whatever's actually committed.
+ * "⟳ Fetch missing GitHub stats" button is a lightweight, session-only
+ * supplement for browsing between refreshes: it calls the GitHub REST API
+ * (CORS-enabled for unauthenticated GET) directly from the browser for
+ * whichever methods are still missing stats.
+ *
+ * Citations are NOT fetched here — confirmed (not just suspected) that
+ * Semantic Scholar's API doesn't support cross-origin browser requests the
+ * way GitHub's does, so a browser-side attempt fails every time regardless
+ * of how it's written. .github/workflows/refresh-citations.yml runs
+ * scripts/fetch_citations.py server-side on a schedule instead, which was
+ * never subject to that restriction.
  *
  * What gets fetched this session is tracked in sessionUpdates, keyed by
  * method id. "Open PR with fetched data" turns that into a small JSON file
@@ -679,19 +684,22 @@ async function fetchMissingData() {
   const status = document.getElementById("fetch-stats-status");
 
   const statsTargets = state.data.filter((d) => d.github && d.stars == null);
-  const citationTargets = state.data.filter((d) => d.citations == null && doiFromUrl(d.paper_url));
-  const total = statsTargets.length + citationTargets.length;
+  const citationsMissing = state.data.filter((d) => d.citations == null && doiFromUrl(d.paper_url)).length;
 
-  if (total === 0) {
-    status.textContent = "Nothing missing — everything already has stats and citations.";
+  if (statsTargets.length === 0) {
+    status.textContent = citationsMissing
+      ? `GitHub stats are all up to date. Citations (${citationsMissing} missing) aren't fetchable from the ` +
+        `browser — Semantic Scholar doesn't support cross-origin requests the way GitHub does. They're refreshed ` +
+        `by a scheduled job instead (see .github/workflows/refresh-citations.yml).`
+      : "Nothing missing — everything already has stats and citations.";
     return;
   }
 
   btn.disabled = true;
-  let done = 0, statsOk = 0, statsFailed = 0, citeOk = 0, citeFailed = 0, citeBlocked = false;
+  let done = 0, statsOk = 0, statsFailed = 0;
 
   for (const method of statsTargets) {
-    status.textContent = `GitHub stats: ${done}/${total}…`;
+    status.textContent = `GitHub stats: ${done}/${statsTargets.length}…`;
     try {
       const resp = await fetch(`https://api.github.com/repos/${method.github}`, {
         headers: { Accept: "application/vnd.github+json" },
@@ -725,45 +733,12 @@ async function fetchMissingData() {
     done++;
   }
 
-  for (const method of citationTargets) {
-    status.textContent = `Citations: ${done}/${total}…`;
-    const doi = doiFromUrl(method.paper_url);
-    try {
-      const resp = await fetch(`https://api.semanticscholar.org/graph/v1/paper/DOI:${encodeURIComponent(doi)}?fields=citationCount`);
-      if (!resp.ok) {
-        // A 404 here just means "not indexed under this DOI yet" (common for
-        // very recent papers) — not necessarily an error worth stopping for.
-        citeFailed++;
-      } else {
-        const paper = await resp.json();
-        if (paper.citationCount != null) {
-          method.citations = paper.citationCount;
-          recordSessionUpdate(method.id, { citations: paper.citationCount });
-          citeOk++;
-        } else {
-          citeFailed++;
-        }
-      }
-    } catch (e) {
-      // Most likely a CORS or network-level block, not a 404 — Semantic
-      // Scholar's own docs don't guarantee CORS support the way GitHub's
-      // does, so this is a real possible outcome, not just rate limiting.
-      citeBlocked = true;
-      break;
-    }
-    done++;
-  }
-
   btn.disabled = false;
-  const parts = [];
-  if (statsTargets.length) parts.push(`${statsOk}/${statsTargets.length} GitHub stats`);
-  if (citationTargets.length) {
-    parts.push(citeBlocked
-      ? `citations blocked (Semantic Scholar unreachable from the browser — try scripts/fetch_citations.py instead)`
-      : `${citeOk}/${citationTargets.length} citations`);
-  }
-  status.textContent = `Fetched ${parts.join(", ")} this session. ` +
-    (Object.keys(sessionUpdates).length ? `Use "Open PR with fetched data" to save it.` : "Nothing new to save.");
+  const citationsNote = citationsMissing
+    ? ` Citations (${citationsMissing} missing) aren't browser-fetchable — see .github/workflows/refresh-citations.yml.`
+    : "";
+  status.textContent = `Fetched ${statsOk}/${statsTargets.length} GitHub stats this session.${citationsNote} ` +
+    (Object.keys(sessionUpdates).length ? `Use "Open PR with fetched data" to save it.` : "");
 
   render();
   if (state.activeTab === "recommend") renderRecommenderTree();
@@ -1290,7 +1265,7 @@ function openDrawer(d) {
   ` : "";
 
   const missingNote = (d.stars == null && d.github)
-    ? `<p class="no-data-note">Live GitHub stats haven't been fetched in this build — use the "⟳ Fetch missing data" button at the top of the page for a session-only preview, or run <code>scripts/fetch_github_stats.py</code> (or the scheduled Action) to actually save it.</p>`
+    ? `<p class="no-data-note">Live GitHub stats haven't been fetched in this build — use the "⟳ Fetch missing GitHub stats" button at the top of the page for a session-only preview, or run <code>scripts/fetch_github_stats.py</code> (or the scheduled Action) to actually save it.</p>`
     : "";
   const noPaperNote = !d.paper_title
     ? `<p class="no-data-note">No paper is listed for this entry yet — if you know the reference, please contribute it.</p>`

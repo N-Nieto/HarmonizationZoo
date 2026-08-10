@@ -40,7 +40,7 @@
   </button>
   <div class="header-meta">
     <span id="method-count">— methods</span>
-    <button id="fetch-stats-btn" type="button" class="fetch-stats-btn" title="Fetches missing GitHub stats and citation counts live from your browser, for this session only — doesn't change the underlying data file until you open a PR with it.">⟳ Fetch missing data</button>
+    <button id="fetch-stats-btn" type="button" class="fetch-stats-btn" title="Fetches missing GitHub stats live from your browser, for this session only — doesn't change the underlying data file until you open a PR with it. Citations aren't browser-fetchable (Semantic Scholar doesn't support cross-origin requests); those are refreshed by a scheduled job instead.">⟳ Fetch missing GitHub stats</button>
     <button id="fetch-pr-btn" type="button" class="fetch-stats-btn hidden" title="Opens a pre-filled GitHub page proposing everything fetched this session as a real update.">↗ Open PR with fetched data</button>
     <span id="fetch-stats-status" class="fetch-stats-status"></span>
     <a href="https://github.com/N-Nieto/HarmonizationZoo" id="repo-link" target="_blank" rel="noopener">View on GitHub ↗</a>
@@ -94,14 +94,6 @@
       </div>
     </section>
 
-    <div class="legend-row">
-      <div id="family-legend" class="family-legend" aria-label="Family color legend"></div>
-      <label class="label-size-control" for="font-size">
-        <span>Font size</span>
-        <input id="font-size" type="range" min="10" max="18" step="1" value="13" title="Label size">
-      </label>
-    </div>
-
     <section class="stage-wrap">
       <div id="stage" aria-label="Map of harmonization methods"></div>
       <div id="empty-state" class="empty-state hidden">
@@ -109,6 +101,14 @@
         <button id="clear-search-btn">Clear search</button>
       </div>
     </section>
+
+    <div class="legend-row">
+      <div id="family-legend" class="family-legend" aria-label="Family color legend"></div>
+      <label class="label-size-control" for="font-size">
+        <span>Font size</span>
+        <input id="font-size" type="range" min="10" max="18" step="1" value="13" title="Label size">
+      </label>
+    </div>
   </section>
 
   <section id="tab-recommend" class="tab-panel">

@@ -1,0 +1,42 @@
+name: Refresh citations
+
+on:
+  schedule:
+    - cron: "37 5 1 * *"   # 1st of each month, 05:37 UTC — citation counts change slowly
+  workflow_dispatch: {}     # allow manual runs from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-citations
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # This is the actual fix for citations never populating from the
+      # on-demand browser button: Semantic Scholar doesn't support
+      # cross-origin browser requests the way GitHub's API does, so that
+      # button can never fetch citations no matter how it's written. A
+      # plain server-side Python process (this job) was never subject to
+      # that restriction in the first place.
+      - name: Fetch citation counts
+        env:
+          S2_API_KEY: ${{ secrets.S2_API_KEY }}
+        run: python3 scripts/fetch_citations.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "harmonization-zoo-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/methods.json
+          git diff --cached --quiet || git commit -m "chore: refresh citation counts"
+          git push
