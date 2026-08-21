@@ -124,16 +124,16 @@ that to 5000/hour.
 
 ## Adding a new grouping dimension
 
-The nine "Group by" options are handled in `render()` in `js/app.js`:
-Level, Family, Data modality, Programming language, Validation data, and
-Toolbox all go through `renderClusters()` (flex-wrap sections — Toolbox is
-a special case there, `renderToolboxClusters()`, since a method can belong
-to more than one toolbox at once, unlike every other dimension); Year,
-GitHub stars, and Citations go through `renderYearTimeline()` /
-`renderStarsTimeline()` / `renderCitationsTimeline()` (all built on the
-shared `buildTimelineColumn()` helper). Adding another single-membership
-cluster-style dimension means adding an `<option>` to the `#group-by`
-select in `index.html` and a branch in `renderClusters()`'s
+The ten "Group by" options are handled in `render()` in `js/app.js`:
+Level, Family, Data modality, Programming language, Validation data,
+Toolbox, and Maintenance all go through `renderClusters()` (flex-wrap
+sections — Toolbox is a special case there, `renderToolboxClusters()`,
+since a method can belong to more than one toolbox at once, unlike every
+other dimension); Year, GitHub stars, and Citations go through
+`renderYearTimeline()` / `renderStarsTimeline()` / `renderCitationsTimeline()`
+(all built on the shared `buildTimelineColumn()` helper). Adding another
+single-membership cluster-style dimension means adding an `<option>` to
+the `#group-by` select in `index.html` and a branch in `renderClusters()`'s
 `groupFn`/`groupOrder`/`groupLabel` logic.
 
 ## Regenerating the seed file from scratch

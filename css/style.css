@@ -986,18 +986,25 @@ select:focus, input[type="search"]:focus, button:focus-visible {
 }
 .recommend-toolbar .compare-toggle-btn { flex-shrink: 0; }
 
-#rec-reset {
+.rec-actions-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+#rec-reset, #rec-share {
   font-family: var(--font-mono);
   font-size: 13px;
   padding: 10px 18px;
   border-radius: 8px;
   border: 1px solid var(--line);
   background: var(--panel);
-  color: var(--phosphor);
   cursor: pointer;
-  margin-top: 4px;
 }
+#rec-reset { color: var(--phosphor); }
 #rec-reset:hover { border-color: var(--phosphor); }
+#rec-share { color: var(--cyan); }
+#rec-share:hover { border-color: var(--cyan); }
 
 .rec-columns {
   display: grid;

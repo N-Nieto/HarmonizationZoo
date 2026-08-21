@@ -43,10 +43,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/fetch_github_stats.py ${{ inputs.force && '--force' || '' }}
 
-      - name: Commit updated data
-        run: |
-          git config user.name "harmonization-zoo-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add data/methods.json
-          git diff --cached --quiet || git commit -m "chore: refresh GitHub stats"
-          git push
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: refresh GitHub stats"
+          title: "chore: refresh GitHub stats"
+          body: |
+            Automated update from `scripts/fetch_github_stats.py`
+            (`.github/workflows/refresh-stats.yml`). Opened as a PR rather
+            than pushed directly, since a direct push would be silently
+            rejected if branch protection requires review for every change
+            to `main` — see "Repository protection" in `MAINTAINERS.md`.
+          branch: bot/refresh-stats
+          delete-branch: true
+          labels: automated

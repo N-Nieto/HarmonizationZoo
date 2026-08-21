@@ -79,6 +79,7 @@ async function init() {
   bindCompareBar();
   bindFetchStatsButton();
   document.getElementById("brand-home-link").addEventListener("click", () => switchTab("home"));
+  const hasSharedRecommendation = loadRecommendationFromUrl();
   buildRecommender();
   buildHomeTab();
   buildToolboxesTab();
@@ -87,8 +88,9 @@ async function init() {
 
   // Deep links: #explore / #recommend / #add / #home select a tab on load
   // and respond to back/forward; ?method=<id> opens that method's drawer
-  // directly (from Explore) so a specific method can be shared as a URL.
-  switchTab(initialTabFromUrl(), { pushHistory: false });
+  // directly (from Explore); ?rec=key:value,key:value pre-fills the
+  // "Which method?" tree from a shared recommendation link.
+  switchTab(hasSharedRecommendation ? "recommend" : initialTabFromUrl(), { pushHistory: false });
   window.addEventListener("popstate", (e) => {
     switchTab((e.state && e.state.tab) || initialTabFromUrl(), { pushHistory: false });
   });
@@ -948,6 +950,20 @@ function renderClusters(methods, groupBy) {
     const present = Array.from(new Set(methods.map(groupFn)));
     groupOrder = present.sort();
     groupLabel = (id) => id;
+  } else if (groupBy === "maintenance") {
+    groupFn = (d) => {
+      if (!d.github) return "no-repo";
+      const status = formatMaintenance(d.last_commit).status;
+      return status || "not-fetched";
+    };
+    groupOrder = ["active", "slowing", "stale", "not-fetched", "no-repo"];
+    groupLabel = (id) => ({
+      active: "Active (commit within 6 months)",
+      slowing: "Slowing (6 months – 2 years)",
+      stale: "Stale (2+ years since last commit)",
+      "not-fetched": "Not fetched yet",
+      "no-repo": "No GitHub repo",
+    }[id] || id);
   } else if (groupBy === "data") {
     groupFn = (d) => d.validation_data || "Agnostic";
     // Agnostic last; everything else alphabetical, so named cohorts stand out.
@@ -1622,15 +1638,52 @@ function renderRecommenderTree() {
     }
   }
 
-  // Every visible step has been answered — offer a reset.
+  // Every visible step has been answered — offer a reset, and a way to
+  // share this exact combination of answers.
+  const actionsRow = document.createElement("div");
+  actionsRow.className = "rec-actions-row";
+
   const resetBtn = document.createElement("button");
   resetBtn.type = "button";
   resetBtn.id = "rec-reset";
   resetBtn.textContent = "↺ Reset all questions";
   resetBtn.addEventListener("click", resetRecommender);
-  treeEl.appendChild(resetBtn);
+  actionsRow.appendChild(resetBtn);
+
+  const shareBtn = document.createElement("button");
+  shareBtn.type = "button";
+  shareBtn.id = "rec-share";
+  shareBtn.textContent = "⧉ Share recommendation";
+  shareBtn.addEventListener("click", () => {
+    navigator.clipboard.writeText(shareableRecommendationUrl()).then(() => {
+      shareBtn.textContent = "✓ Link copied";
+      setTimeout(() => { shareBtn.textContent = "⧉ Share recommendation"; }, 1600);
+    });
+  });
+  actionsRow.appendChild(shareBtn);
+
+  treeEl.appendChild(actionsRow);
 
   renderMethodsPanel(methodsEl, pool);
+}
+
+function shareableRecommendationUrl() {
+  const parts = REC_KEYS
+    .filter((k) => recState[k] != null)
+    .map((k) => `${k}:${recState[k]}`);
+  const params = new URLSearchParams({ rec: parts.join(",") });
+  return `${location.origin}${location.pathname}?${params.toString()}#recommend`;
+}
+
+function loadRecommendationFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const raw = params.get("rec");
+  if (!raw) return false;
+  raw.split(",").forEach((pair) => {
+    const [key, value] = pair.split(":");
+    if (REC_KEYS.includes(key) && value) recState[key] = value;
+  });
+  return true;
 }
 
 function renderTaskStep(container, pool) {

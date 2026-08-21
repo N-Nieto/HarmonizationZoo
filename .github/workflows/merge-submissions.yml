@@ -29,10 +29,19 @@ jobs:
       - name: Check for duplicates
         run: python3 scripts/check_duplicates.py --ci
 
-      - name: Commit result
-        run: |
-          git config user.name "harmonization-zoo-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add data/methods.json data/submissions/
-          git diff --cached --quiet || git commit -m "chore: merge submitted method(s) into the database"
-          git push
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: merge submitted method(s) into the database"
+          title: "chore: merge submitted method(s) into the database"
+          body: |
+            Automated merge from `scripts/merge_submissions.py`
+            (`.github/workflows/merge-submissions.yml`), folding
+            `data/submissions/*.json` into `data/methods.json`. Opened as a
+            PR rather than pushed directly, since a direct push would be
+            silently rejected if branch protection requires review for
+            every change to `main` — see "Repository protection" in
+            `MAINTAINERS.md`.
+          branch: bot/merge-submissions
+          delete-branch: true
+          labels: automated

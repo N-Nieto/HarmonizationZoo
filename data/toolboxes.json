@@ -21,8 +21,8 @@
       "name": "Intensity Normalization",
       "url": "https://github.com/jcreinhold/intensity-normalization",
       "language": ["Python"],
-      "description": "General-purpose Python toolbox for MR image intensity normalization, bundling several classical (pre-ComBat-era) algorithms — including WhiteStripe, Nyúl–Udupa histogram matching, and a RAVEL-style approach — behind one CLI/API. This is why those methods' pages link to the same repo: it's the same shared implementation, not a data error.",
-      "methods": ["whitestripe", "nyul", "ravel"]
+      "description": "General-purpose Python toolbox for MR image intensity normalization, splitting methods into two kinds: individual methods (Z-score, FCM, KDE, WhiteStripe — plain functions of one image, no fitting step) and population methods (Nyúl–Udupa, LSQ, RAVEL — learn a transform from a set of images, save it, then apply it to new scans). Also bundles supporting tools not modeled as separate entries here: tissue membership maps, histogram plotting for validation, N4 bias-field preprocessing, and ANTs-based co-registration. This is why several of those methods' pages link to the same repo: it's the same shared implementation, not a data error.",
+      "methods": ["whitestripe", "nyul", "ravel", "zscore-normalization", "fcm-normalization", "kde-normalization", "lsq-normalization"]
     },
     {
       "id": "neuroharm-kit",

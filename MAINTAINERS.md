@@ -8,7 +8,7 @@ debugging the pipelines, or changing how they work.
 
 ## What's in the database right now
 
-`data/methods.json` seeds **71 methods** across nine families (the
+`data/methods.json` seeds **75 methods** across nine families (the
 "Family" grouping) — **Location/Scale Models (ComBat-family)** /
 Deep-learning / IQM / Normative Modeling / Interpolation / Federated / ICA /
 Optimal-transport, plus a **Classical Intensity Normalization** family
@@ -21,7 +21,7 @@ just "ComBat-based" because that's the actual statistical model class
 RELIEF, etc. all belong to — "ComBat-family" is kept alongside it since
 that's still how everyone refers to and searches for it.
 
-### Two more grouping dimensions
+### Grouping dimensions worth knowing about
 
 - **Validation data** — the dataset/cohort a method was mainly proposed or
   validated on (e.g. ENIGMA, ABCD, the iSTAGING consortium), stored in a new
@@ -30,7 +30,7 @@ that's still how everyone refers to and searches for it.
   been researched yet, default to **"Agnostic"** rather than `null` — that's
   a real, useful category here (it tells you the method wasn't built or
   tuned around one specific cohort), not a placeholder for missing data.
-  Currently 15 of 71 entries have a specific, verified dataset; the rest are
+  Currently 15 of 75 entries have a specific, verified dataset; the rest are
   "Agnostic" and worth digging into if you know the paper.
 - **Toolbox membership** — which package(s), if any, bundle a method
   alongside several others (UniHarmony, ComBatFamily (R), Intensity
@@ -38,6 +38,11 @@ that's still how everyone refers to and searches for it.
   separate registry, `data/toolboxes.json`, rather than as a field on each
   method. See [Toolboxes](#toolboxes) below for why, and for what's in
   each one.
+- **Maintenance (last commit)** — buckets methods into Active (commit
+  within 6 months), Slowing (6 months–2 years), Stale (2+ years), Not
+  fetched yet, or No GitHub repo. Reuses the same `formatMaintenance()`
+  status logic that powers the drawer's Active/Slowing/Stale badge, just
+  as a grouping instead of a per-method label.
 
 ### Where this round's additions came from
 
@@ -133,6 +138,22 @@ yet checked firsthand" candidates will go.
   in the recommender data — it can't actually be applied to a genuinely new,
   unseen site without refitting, same limitation as standard ComBat. Fixed
   to the family default (`false`).
+- **RAVEL** was categorized as `combat-family` (Location/Scale Models), but
+  it doesn't actually use ComBat's empirical-Bayes location/scale model —
+  it's a control-region-based voxel intensity normalization method, the
+  same kind of technique as WhiteStripe and Nyúl–Udupa. It was only ever
+  grouped with ComBat because of shared authorship lineage (Fortin et al.),
+  not shared methodology. Reclassified to `classical-normalization`.
+- **neuroHarmonize** was listed as a toolbox bundling neuroComBat, ComBat-GAM,
+  and CovBat — this was wrong; it only implements ComBat-GAM (that's the
+  method it's the reference implementation *of*, not a bundle of several).
+  Removed from `data/toolboxes.json` entirely, and a matching (also wrong)
+  `also_implemented_in` claim was cleared from `scripts/build_seed.py`.
+- **The scheduled Actions were pushing directly to `main`**, which a
+  branch-protection ruleset silently rejects — see
+  ["This is why scheduled updates open PRs, not direct commits"](#this-is-why-scheduled-updates-open-prs-not-direct-commits)
+  under Repository protection. This is very likely why citations appeared
+  to never update even after the citations Action was added and ran.
 
 ### Honest gaps — please help close these
 
@@ -254,13 +275,17 @@ it to 5000/hour.
 Several methods aren't distributed as their own standalone repo — they're
 one option among several bundled inside a larger package. This is why
 you'll sometimes see the exact same GitHub link on more than one method's
-page: e.g. WhiteStripe, Nyúl–Udupa histogram matching, and RAVEL-in-Python
-all point at `jcreinhold/intensity-normalization`, because that's the same
-shared toolbox implementing all three, not three separate copies of the
-same link by mistake. Similarly, `andy1764/ComBatFamily` (R) implements
-ComBat, CovBat, and ComBatLS as one package rather than three scripts, and
-`N-Nieto/UniHarmony` bundles eleven methods across three different
-statistical families.
+page: Nyúl–Udupa histogram matching, Z-score, FCM, KDE, and LSQ
+normalization all point at `jcreinhold/intensity-normalization`, because
+none of them has an independent repo of its own — that's the same shared
+toolbox implementing all five, not five separate copies of the same link
+by mistake. (WhiteStripe and RAVEL, by contrast, *do* have their own
+independent repos as their canonical implementation, and are only
+additionally listed as available via that same toolbox — see the
+`methods` array below.) Similarly, `andy1764/ComBatFamily` (R) implements
+ComBat, ComBat-GAM, Longitudinal ComBat, Robust-ComBat, and ComBatLS as one
+package rather than five scripts, and `N-Nieto/UniHarmony` bundles eleven
+methods across three different statistical families.
 
 `data/toolboxes.json` is a small, separate registry for this — each entry
 has an `id`, `name`, `url`, `language` array, a human-written `description`,
@@ -366,6 +391,23 @@ above depends on — needs a code owner's explicit approval before it can be
 merged, regardless of who opened it or whether other checks (like the
 duplicate-detection Action) pass.
 
+### This is why scheduled updates open PRs, not direct commits
+
+All four automation workflows (`refresh-stats.yml`, `refresh-citations.yml`,
+`merge-submissions.yml`, `merge-stats-updates.yml`) open a pull request via
+[`peter-evans/create-pull-request`](https://github.com/peter-evans/create-pull-request)
+rather than committing straight to `main`. This isn't just tidiness — if
+the ruleset above is active, a direct `git push` to `main` from a workflow
+is **silently rejected** by GitHub (protected branch, no error surfaced
+anywhere obvious), which looks exactly like "the automation just isn't
+working" from the outside. This was a real bug in an earlier version of
+these workflows: they used to `git push` directly, which is very likely
+why citations (and possibly stats) appeared to never update even after
+the workflow ran successfully and fetched real data — the fetch worked,
+the commit worked, only the final push silently failed. If you ever add
+another workflow that writes to `data/`, give it the same PR-based
+pattern, not a direct push.
+
 ## Troubleshooting GitHub Pages
 
 If Pages shows a blank page after enabling it:
@@ -421,7 +463,7 @@ likelihood:
 
 It's a **live filter tree** with a **compare mode** shared with Explore (the
 same toggle, same selection state — select methods from the recommender's
-results and hit Compare just like in Explore). It starts by showing all 71
+results and hit Compare just like in Explore). It starts by showing all 75
 methods, and every answer immediately narrows the list on the right — no
 submit button. Questions are asked in a fixed hierarchy (`REC_STEPS` in
 `js/app.js`), each one only appearing once the previous one is answered:
@@ -452,9 +494,15 @@ it's a natural thing to add back.
 Every question is a genuine filter (methods that don't fit are removed, not
 just re-ranked), and the elimination message for a question appears
 directly above that question's own options as soon as you answer it. Once
-every visible question has been answered, a **Reset** button appears at the
-bottom of the tree. Changing an earlier answer re-derives everything below
-it automatically.
+every visible question has been answered, a **Reset** button and a
+**Share recommendation** button appear at the bottom of the tree. Share
+encodes every non-null `recState` key as `?rec=key:value,key:value,...#recommend`
+(see `shareableRecommendationUrl()` / `loadRecommendationFromUrl()` in
+`js/app.js`) and copies it to the clipboard — opening that link pre-fills
+the exact same answers and jumps straight to the Which-method tab, so a
+specific recommendation (not just a specific method, which the drawer's
+own share link already covers) is shareable too. Changing an earlier
+answer re-derives everything below it automatically.
 
 The one deliberate exception: **machine-learning task** excludes the whole
 Location/Scale (ComBat-family) except **PrettYharmonize**, which survives
@@ -476,7 +524,7 @@ The rest of the `recommend.*` compatibility fields (`requires_site_id`,
 `CATEGORY_RECOMMEND_DEFAULTS`, with a handful of per-method overrides where
 there's a specific, citable reason to deviate (e.g. ComBat-GAM is explicitly
 a nonlinear/GAM extension). These are reasoned defaults, not an
-independently verified fact for all 71 methods — if you know a specific
+independently verified fact for all 75 methods — if you know a specific
 method behaves differently, override it there.
 
 ## Other maintainer tooling
