@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: merge-submissions
@@ -45,3 +46,4 @@ jobs:
           branch: bot/merge-submissions
           delete-branch: true
           labels: automated
+          author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"

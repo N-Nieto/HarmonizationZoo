@@ -509,6 +509,7 @@ select:focus, input[type="search"]:focus, button:focus-visible {
 .maint-active { background: rgba(127,216,143,0.18); color: #7fd88f; }
 .maint-slowing { background: rgba(242,169,59,0.18); color: var(--phosphor); }
 .maint-stale { background: rgba(224,112,138,0.18); color: var(--rose); }
+.maint-toolbox { background: rgba(95,201,201,0.18); color: var(--cyan); }
 .maint-date {
   font-family: var(--font-mono);
   font-size: 11px;

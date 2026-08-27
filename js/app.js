@@ -952,16 +952,17 @@ function renderClusters(methods, groupBy) {
     groupLabel = (id) => id;
   } else if (groupBy === "maintenance") {
     groupFn = (d) => {
-      if (!d.github) return "no-repo";
+      if (!d.github) return isToolboxMember(d.id) ? "toolbox-maintained" : "no-repo";
       const status = formatMaintenance(d.last_commit).status;
       return status || "not-fetched";
     };
-    groupOrder = ["active", "slowing", "stale", "not-fetched", "no-repo"];
+    groupOrder = ["active", "slowing", "stale", "not-fetched", "toolbox-maintained", "no-repo"];
     groupLabel = (id) => ({
       active: "Active (commit within 6 months)",
       slowing: "Slowing (6 months – 2 years)",
       stale: "Stale (2+ years since last commit)",
       "not-fetched": "Not fetched yet",
+      "toolbox-maintained": "Maintained as part of a Toolbox",
       "no-repo": "No GitHub repo",
     }[id] || id);
   } else if (groupBy === "data") {
@@ -1215,6 +1216,10 @@ function daysSince(dateStr) {
   return Math.floor((Date.now() - then) / 86400000);
 }
 
+function isToolboxMember(methodId) {
+  return state.toolboxes.some((tb) => tb.methods.includes(methodId));
+}
+
 function formatMaintenance(dateStr) {
   if (!dateStr) return { text: "not fetched yet", status: null };
   const days = daysSince(dateStr);
@@ -1256,9 +1261,16 @@ function openDrawer(d) {
   const firstCommitLine = d.first_commit_date || "not fetched yet";
 
   const maint = formatMaintenance(d.last_commit);
-  const maintLine = d.github
-    ? `${maint.text}${maint.status ? ` <span class="maint-badge maint-${maint.status}">${STATUS_LABEL[maint.status]}</span>` : ""}${d.last_commit ? ` <span class="maint-date">(${d.last_commit})</span>` : ""}`
-    : "—";
+  let maintLine;
+  if (d.github) {
+    maintLine = `${maint.text}${maint.status ? ` <span class="maint-badge maint-${maint.status}">${STATUS_LABEL[maint.status]}</span>` : ""}${d.last_commit ? ` <span class="maint-date">(${d.last_commit})</span>` : ""}`;
+  } else {
+    const memberOf = state.toolboxes.filter((tb) => tb.methods.includes(d.id));
+    maintLine = memberOf.length
+      ? `<span class="maint-badge maint-toolbox">Maintained as part of a Toolbox</span> — ` +
+        memberOf.map((tb) => `<a href="${tb.url}" target="_blank" rel="noopener" class="inline-link">${escapeHtml(tb.name)} ↗</a>`).join(", ")
+      : "—";
+  }
 
   const archivedBadge = d.archived ? `<span class="chip chip-warning">archived</span>` : "";
 

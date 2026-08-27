@@ -408,6 +408,36 @@ the commit worked, only the final push silently failed. If you ever add
 another workflow that writes to `data/`, give it the same PR-based
 pattern, not a direct push.
 
+### PR creation needs permission at *two* separate layers
+
+Opening a PR from a workflow (as above) failed for a while even after
+switching to `create-pull-request`, with `Error: Resource not accessible
+by integration` right at the "Create or update the pull request" step —
+the branch itself pushed fine, only the actual PR-creation API call was
+rejected. Confirmed from a real Actions run log, not a guess. Two separate
+things both have to allow this, and either one alone isn't enough:
+
+1. **The workflow's own `permissions:` block** needs `pull-requests: write`
+   in addition to `contents: write`. All four workflows have this now —
+   if you add a fifth workflow that creates PRs, it needs both too.
+2. **A repo-level setting** — Settings → Actions → General → "Workflow
+   permissions" → check **"Allow GitHub Actions to create and approve pull
+   requests"** → Save. This is off by default on many repos/orgs, and even
+   with #1 done correctly in every workflow file, PR creation still fails
+   with the same error until this is turned on. This is a manual,
+   one-time repo setting — nothing in the workflow YAML can enable it.
+
+If PR creation ever starts failing again with that same error, check both
+of these before assuming the workflow logic itself is wrong.
+
+One more detail visible in that same log: without an explicit `author:`
+input, `create-pull-request` attributes the commit to whoever (or
+whatever) triggered the run — a manual `workflow_dispatch` run showed up
+authored by the human who clicked "Run workflow", not the bot. All four
+workflows now pin `author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"`
+explicitly, matching `committer`, so automated updates are never
+attributed to whichever person happened to trigger a manual run.
+
 ## Troubleshooting GitHub Pages
 
 If Pages shows a blank page after enabling it:
