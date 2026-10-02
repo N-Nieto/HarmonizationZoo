@@ -1123,3 +1123,60 @@ select:focus, input[type="search"]:focus, button:focus-visible {
   .spec-table { grid-template-columns: 104px 1fr; }
   .legend-row { flex-wrap: wrap; }
 }
+
+
+/* ---------- View toggle + table view ---------- */
+.view-toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.view-btn {
+  font-family: var(--font-mono); font-size: 12.5px; padding: 8px 14px;
+  background: var(--panel); color: var(--paper-dim); border: 0; cursor: pointer;
+}
+.view-btn + .view-btn { border-left: 1px solid var(--line); }
+.view-btn:hover { color: var(--paper); }
+.view-btn.active { background: var(--phosphor); color: var(--ink); }
+
+.table-wrap { width: 100%; }
+.tbl-caption { font-family: var(--font-mono); font-size: 12px; color: var(--paper-dim); margin: 0 0 10px; }
+.table-scroll {
+  width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--panel); -webkit-overflow-scrolling: touch;
+}
+.methods-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.methods-table thead th {
+  position: sticky; top: 0; z-index: 1; background: var(--panel-raised);
+  border-bottom: 1px solid var(--line); text-align: left; padding: 0; white-space: nowrap;
+}
+.methods-table thead th button {
+  all: unset; box-sizing: border-box; display: flex; align-items: center; gap: 6px; width: 100%;
+  padding: 10px 12px; cursor: pointer; font-family: var(--font-mono); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--paper-dim);
+}
+.methods-table thead th.tbl-num button { justify-content: flex-end; }
+.methods-table thead th button:hover, .methods-table thead th[aria-sort="ascending"] button,
+.methods-table thead th[aria-sort="descending"] button { color: var(--phosphor); }
+.methods-table thead th button:focus-visible { outline: 2px solid var(--phosphor); outline-offset: -2px; }
+.tbl-arrow { font-size: 9px; min-width: 9px; }
+.methods-table tbody th, .methods-table tbody td {
+  padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left;
+}
+.methods-table tbody th { font-weight: 500; color: var(--paper); min-width: 200px; }
+.methods-table td.tbl-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.methods-table td { color: var(--paper-dim); }
+.methods-table tbody tr { cursor: pointer; }
+.methods-table tbody tr:hover { background: var(--panel-raised); }
+.methods-table tbody tr:focus-visible { outline: 2px solid var(--phosphor); outline-offset: -2px; }
+.methods-table tbody tr.selected { background: rgba(95,201,201,0.14); }
+.methods-table tbody tr:last-child th, .methods-table tbody tr:last-child td { border-bottom: 0; }
+.methods-table .maint-badge { margin-left: 0; }
+.tbl-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 8px; vertical-align: 1px; }
+.tbl-muted { color: var(--paper-dim); opacity: 0.75; font-size: 12px; }
+.methods-table td:nth-child(2), .methods-table td:nth-child(3) { white-space: nowrap; }
+/* keep the method name visible while scrolling sideways on narrow screens */
+.methods-table tbody th, .methods-table thead th:first-child { position: sticky; left: 0; background: var(--panel); }
+.methods-table thead th:first-child { z-index: 2; background: var(--panel-raised); }
+.methods-table tbody tr:hover th { background: var(--panel-raised); }
+.methods-table tbody tr.selected th { background: #17282d; }
+@media (max-width: 760px) {
+  .methods-table tbody th { min-width: 150px; max-width: 170px; }
+  .methods-table { font-size: 13px; }
+}

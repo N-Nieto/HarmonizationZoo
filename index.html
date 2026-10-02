@@ -65,6 +65,14 @@
   <section id="tab-explore" class="tab-panel">
     <section class="controls" aria-label="Filters">
       <div class="control-group">
+        <label id="view-label">View</label>
+        <div class="view-toggle" role="group" aria-labelledby="view-label">
+          <button type="button" class="view-btn active" data-view="map" aria-pressed="true">Map</button>
+          <button type="button" class="view-btn" data-view="table" aria-pressed="false">Table</button>
+        </div>
+      </div>
+
+      <div class="control-group" id="group-by-group">
         <label for="group-by">Group by</label>
         <select id="group-by">
           <option value="level" selected>Harmonization level</option>
@@ -82,12 +90,17 @@
 
       <div class="control-group search-group">
         <label for="search">Search</label>
-        <input id="search" type="search" placeholder="method, tag, language…" autocomplete="off">
+        <input id="search" type="search" placeholder="method, tag, author, venue…" autocomplete="off">
       </div>
 
       <div class="control-group">
         <label for="compare-toggle">&nbsp;</label>
         <button id="compare-toggle" type="button" class="compare-toggle-btn">Compare mode: off</button>
+      </div>
+
+      <div class="control-group hidden" id="csv-group">
+        <label for="csv-btn">&nbsp;</label>
+        <button id="csv-btn" type="button" class="compare-toggle-btn" title="Download the rows currently shown, in the current sort order">⇩ Download CSV</button>
       </div>
 
       <div class="control-group toggle-group" id="level-toggles" aria-label="Filter by level">

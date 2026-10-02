@@ -41,6 +41,8 @@ const state = {
   compareMode: false,
   selectedIds: new Set(),
   activeTab: "home",
+  view: "map",
+  sort: { key: "citations", dir: "desc" },
 };
 
 async function init() {
@@ -782,6 +784,30 @@ function bindControls() {
   });
 
   document.getElementById("compare-toggle").addEventListener("click", toggleCompareMode);
+
+  document.querySelectorAll(".view-btn").forEach((btn) => {
+    btn.addEventListener("click", () => setView(btn.dataset.view));
+  });
+  document.getElementById("csv-btn").addEventListener("click", downloadTableCsv);
+  const initialView = new URLSearchParams(location.search).get("view");
+  if (initialView === "table") setView("table", { silent: true });
+}
+
+function setView(view, { silent = false } = {}) {
+  state.view = view === "table" ? "table" : "map";
+  document.querySelectorAll(".view-btn").forEach((b) => {
+    const on = b.dataset.view === state.view;
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-pressed", String(on));
+  });
+  const isTable = state.view === "table";
+  document.getElementById("group-by-group").classList.toggle("hidden", isTable);
+  document.getElementById("csv-group").classList.toggle("hidden", !isTable);
+  document.querySelector(".legend-row").classList.toggle("hidden", isTable);
+  const url = new URL(location.href);
+  if (isTable) url.searchParams.set("view", "table"); else url.searchParams.delete("view");
+  history.replaceState(history.state, "", url);
+  if (!silent) render();
 }
 
 function toggleCompareMode() {
@@ -854,8 +880,9 @@ function visibleMethods() {
     if (!state.activeLevels.has(d.level)) return false;
     if (!state.search) return true;
     const haystack = [
-      d.name, d.category_label, d.method_type, d.level,
-      ...(d.tags || []), ...(d.language || []),
+      d.name, d.category_label, d.method_type, d.level, d.venue || "",
+      ...(d.tags || []), ...(d.language || []), ...(d.authors || []),
+      ...(d.modalities_tested || []),
     ].join(" ").toLowerCase();
     return haystack.includes(state.search);
   });
@@ -869,6 +896,11 @@ function render() {
   const methods = visibleMethods();
   document.getElementById("empty-state").classList.toggle("hidden", methods.length > 0);
   if (methods.length === 0) return;
+
+  if (state.view === "table") {
+    stage.appendChild(renderTable(methods));
+    return;
+  }
 
   if (state.groupBy === "year") {
     stage.appendChild(renderYearTimeline(methods));
@@ -923,6 +955,153 @@ function makeBox(d) {
     }
   });
   return box;
+}
+
+/* ---------------- Table view ---------------- */
+
+// Each column: key, header label, how to get a sortable value, how to render a cell.
+// Numeric columns sort descending first; missing values always sort last.
+// Compact family names for the table, where the full legend labels would wrap.
+const FAMILY_SHORT = {
+  "combat-family": "ComBat-family", "classical-normalization": "Classical normalization",
+  "deep-learning": "Deep learning", "iqm-based": "IQM-based", "normative-modeling": "Normative modeling",
+  "interpolation-based": "Interpolation", "federated": "Federated", "ica-based": "ICA",
+  "optimal-transport": "Optimal transport", "acquisition-protocol": "Acquisition",
+};
+const familyShort = (d) => FAMILY_SHORT[d.category] || FAMILY_LABEL.get(d.category) || d.category_label || "";
+
+const TABLE_COLUMNS = [
+  { key: "name", label: "Method", type: "text", value: (d) => d.name,
+    cell: (d) => `<span class="tbl-dot" style="background:${FAMILY_COLOR.get(d.category) || "#888"}"></span>${escapeHtml(d.name)}` },
+  { key: "family", label: "Family", type: "text", value: familyShort,
+    cell: (d) => `<span title="${escapeHtml(FAMILY_LABEL.get(d.category) || "")}">${escapeHtml(familyShort(d) || "—")}</span>` },
+  { key: "level", label: "Level", type: "text", value: (d) => LEVEL_LABELS[d.level] || d.level,
+    cell: (d) => escapeHtml((LEVEL_LABELS[d.level] || d.level || "—").replace("-level", "")) },
+  { key: "year", label: "Year", type: "num", value: (d) => d.paper_year ?? null,
+    cell: (d) => (d.paper_year ? String(d.paper_year) : "—") },
+  { key: "citations", label: "Citations", type: "num", value: (d) => d.citations ?? null,
+    cell: (d) => (d.citations != null ? d.citations.toLocaleString() : "—") },
+  { key: "stars", label: "Stars", type: "num", value: (d) => d.stars ?? null,
+    cell: (d) => (d.stars != null ? d.stars.toLocaleString() : (d.github ? "—" : `<span class="tbl-muted">no repo</span>`)) },
+  { key: "maintenance", label: "Last commit", type: "num",
+    // sort by recency: more recent = larger number
+    value: (d) => (d.last_commit ? -daysSince(d.last_commit) : null),
+    cell: (d) => {
+      if (!d.last_commit) {
+        return isToolboxMember(d.id) && !d.github ? `<span class="maint-badge maint-toolbox">toolbox</span>` : "—";
+      }
+      const m = formatMaintenance(d.last_commit);
+      return `<span class="maint-badge maint-${m.status}">${STATUS_LABEL[m.status]}</span> <span class="tbl-muted">${escapeHtml(d.last_commit)}</span>`;
+    } },
+  { key: "language", label: "Language", type: "text", value: (d) => (d.language && d.language[0]) || "",
+    cell: (d) => escapeHtml((d.language || []).join(", ") || "—") },
+  { key: "venue", label: "Published in", type: "text", value: (d) => d.venue || "",
+    cell: (d) => escapeHtml(d.venue || "—") },
+  { key: "license", label: "License", type: "text", value: (d) => d.license || "",
+    cell: (d) => escapeHtml(d.license && d.license !== "NOASSERTION" ? d.license : (d.license ? "other" : "—")) },
+];
+
+function sortedForTable(methods) {
+  const col = TABLE_COLUMNS.find((c) => c.key === state.sort.key) || TABLE_COLUMNS[0];
+  const dir = state.sort.dir === "asc" ? 1 : -1;
+  return [...methods].sort((a, b) => {
+    const va = col.value(a), vb = col.value(b);
+    const emptyA = va == null || va === "", emptyB = vb == null || vb === "";
+    if (emptyA && emptyB) return a.name.localeCompare(b.name);
+    if (emptyA) return 1;   // missing values always last, whichever direction
+    if (emptyB) return -1;
+    const cmp = col.type === "num" ? va - vb : String(va).localeCompare(String(vb), undefined, { sensitivity: "base" });
+    return cmp * dir || a.name.localeCompare(b.name);
+  });
+}
+
+function renderTable(methods) {
+  const wrap = document.createElement("div");
+  wrap.className = "table-wrap";
+  const rows = sortedForTable(methods);
+
+  const head = TABLE_COLUMNS.map((c) => {
+    const active = state.sort.key === c.key;
+    const aria = active ? (state.sort.dir === "asc" ? "ascending" : "descending") : "none";
+    const arrow = active ? (state.sort.dir === "asc" ? "▲" : "▼") : "";
+    return `<th scope="col" class="tbl-${c.type}" aria-sort="${aria}"><button type="button" data-sort="${c.key}">${c.label}<span class="tbl-arrow">${arrow}</span></button></th>`;
+  }).join("");
+
+  const body = rows.map((d) => {
+    const selected = state.compareMode && state.selectedIds.has(d.id);
+    const cells = TABLE_COLUMNS.map((c, i) =>
+      i === 0 ? `<th scope="row">${c.cell(d)}</th>` : `<td class="tbl-${c.type}">${c.cell(d)}</td>`).join("");
+    return `<tr tabindex="0" data-id="${escapeHtml(d.id)}" class="${selected ? "selected" : ""}">${cells}</tr>`;
+  }).join("");
+
+  wrap.innerHTML = `
+    <p class="tbl-caption">${rows.length} method${rows.length === 1 ? "" : "s"} · click a column to sort · click a row for details${state.compareMode ? " (compare mode: click rows to select)" : ""}</p>
+    <div class="table-scroll">
+      <table class="methods-table">
+        <thead><tr>${head}</tr></thead>
+        <tbody>${body}</tbody>
+      </table>
+    </div>`;
+
+  wrap.querySelectorAll("th button[data-sort]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.sort;
+      const col = TABLE_COLUMNS.find((c) => c.key === key);
+      if (state.sort.key === key) {
+        state.sort.dir = state.sort.dir === "asc" ? "desc" : "asc";
+      } else {
+        state.sort = { key, dir: col.type === "num" ? "desc" : "asc" };
+      }
+      render();
+    });
+  });
+
+  const byId = new Map(state.data.map((d) => [d.id, d]));
+  wrap.querySelectorAll("tbody tr").forEach((tr) => {
+    const d = byId.get(tr.dataset.id);
+    const activate = () => {
+      if (state.compareMode) {
+        if (state.selectedIds.has(d.id)) state.selectedIds.delete(d.id); else state.selectedIds.add(d.id);
+        tr.classList.toggle("selected", state.selectedIds.has(d.id));
+        updateCompareBar();
+      } else {
+        openDrawer(d);
+      }
+    };
+    tr.addEventListener("click", activate);
+    tr.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(); }
+    });
+  });
+  return wrap;
+}
+
+function csvCell(v) {
+  if (v == null) return "";
+  const s = Array.isArray(v) ? v.join("; ") : String(v);
+  return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+function downloadTableCsv() {
+  const rows = sortedForTable(visibleMethods());
+  const fields = [
+    ["id", (d) => d.id], ["name", (d) => d.name], ["family", (d) => FAMILY_LABEL.get(d.category) || d.category],
+    ["level", (d) => d.level], ["method_type", (d) => d.method_type], ["paper_year", (d) => d.paper_year],
+    ["paper_title", (d) => d.paper_title], ["venue", (d) => d.venue], ["doi", (d) => d.doi], ["paper_url", (d) => d.paper_url],
+    ["citations", (d) => d.citations], ["github", (d) => (d.github ? `https://github.com/${d.github}` : d.other_url)],
+    ["stars", (d) => d.stars], ["forks", (d) => d.forks], ["last_commit", (d) => d.last_commit],
+    ["license", (d) => d.license], ["language", (d) => d.language], ["modalities_tested", (d) => d.modalities_tested],
+  ];
+  const lines = [fields.map(([k]) => k).join(",")]
+    .concat(rows.map((d) => fields.map(([, get]) => csvCell(get(d))).join(",")));
+  const blob = new Blob(["﻿" + lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `harmonization-zoo-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
 /* ---------------- Cluster view (Level / Family) ---------------- */
