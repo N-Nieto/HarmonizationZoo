@@ -77,7 +77,9 @@
         "fMRI",
         "CT",
         "radiomics",
-        "EEG"
+        "EEG",
+        "PET",
+        "MEG"
       ],
       "modalities_verified": true,
       "entry_type": "method",
@@ -121,6 +123,18 @@
           "title": "ComBat models for harmonization of resting-state EEG features in multisite studies",
           "year": 2024,
           "doi": "10.1016/j.clinph.2024.09.019"
+        },
+        {
+          "modality": "PET",
+          "title": "A guide to ComBat harmonization of imaging biomarkers in multicenter studies",
+          "year": 2022,
+          "doi": "10.2967/jnumed.121.262464"
+        },
+        {
+          "modality": "MEG",
+          "title": "Multi-site harmonization for magnetoencephalography spectral power data",
+          "year": 2026,
+          "doi": "10.1162/imag.a.1099"
         }
       ]
     },
@@ -278,7 +292,11 @@
         "sMRI"
       ],
       "modalities_tested": [
-        "sMRI"
+        "sMRI",
+        "dMRI",
+        "fMRI",
+        "EEG",
+        "MEG"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -286,7 +304,32 @@
       "extends": [
         "combat"
       ],
-      "evidence": []
+      "evidence": [
+        {
+          "modality": "dMRI",
+          "title": "Lifespan reference curves for harmonizing multi-site regional brain white matter metrics from diffusion MRI",
+          "year": 2025,
+          "doi": "10.1038/s41597-025-05028-2"
+        },
+        {
+          "modality": "fMRI",
+          "title": "Flexible nonlinear modeling reveals age-related differences in resting-state functional brain connectivity in autistic males from childhood to mid-adulthood",
+          "year": 2025,
+          "doi": "10.1186/s13229-025-00657-1"
+        },
+        {
+          "modality": "EEG",
+          "title": "ComBat models for harmonization of resting-state EEG features in multisite studies",
+          "year": 2024,
+          "doi": "10.1016/j.clinph.2024.09.019"
+        },
+        {
+          "modality": "MEG",
+          "title": "Multi-site harmonization for magnetoencephalography spectral power data",
+          "year": 2026,
+          "doi": "10.1162/imag.a.1099"
+        }
+      ]
     },
     {
       "id": "harmonizer",
@@ -435,7 +478,12 @@
         "sMRI"
       ],
       "modalities_tested": [
-        "sMRI"
+        "sMRI",
+        "fMRI",
+        "connectome",
+        "MEG",
+        "radiomics",
+        "PET"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -443,7 +491,38 @@
       "extends": [
         "combat"
       ],
-      "evidence": []
+      "evidence": [
+        {
+          "modality": "fMRI",
+          "title": "Comprehensive evaluation of harmonization on functional brain imaging for multisite data-fusion",
+          "year": 2023,
+          "doi": "10.1016/j.neuroimage.2023.120089"
+        },
+        {
+          "modality": "connectome",
+          "title": "Harmonization of structural brain connectivity through distribution matching",
+          "year": 2025,
+          "doi": "10.1002/hbm.70257"
+        },
+        {
+          "modality": "MEG",
+          "title": "Multi-site harmonization for magnetoencephalography spectral power data",
+          "year": 2026,
+          "doi": "10.1162/imag.a.1099"
+        },
+        {
+          "modality": "radiomics",
+          "title": "The impact of the novel CovBat harmonization method on enhancing radiomics feature stability and machine learning model performance: a multi-center, multi-device study",
+          "year": 2025,
+          "doi": "10.1016/j.ejrad.2025.111956"
+        },
+        {
+          "modality": "PET",
+          "title": "Residual conditional variational autoencoder for multi-center PET/CT radiomic feature harmonization with integrated modeling of batch effects and clinical covariates",
+          "year": 2026,
+          "doi": "10.1007/s10278-026-01934-y"
+        }
+      ]
     },
     {
       "id": "prettyharmonize",
@@ -660,7 +739,10 @@
         "sMRI"
       ],
       "modalities_tested": [
-        "sMRI"
+        "sMRI",
+        "dMRI",
+        "PET",
+        "radiomics"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -668,7 +750,26 @@
       "extends": [
         "combat"
       ],
-      "evidence": []
+      "evidence": [
+        {
+          "modality": "dMRI",
+          "title": "Harmonization of multi-site diffusion tensor imaging data for cervical and thoracic spinal cord at 1.5 T and 3 T using longitudinal ComBat",
+          "year": 2023,
+          "doi": "10.1038/s41598-023-46465-6"
+        },
+        {
+          "modality": "PET",
+          "title": "Evaluation of ComBat harmonization for reducing across-tracer differences in regional amyloid PET analyses",
+          "year": 2024,
+          "doi": "10.1002/hbm.70068"
+        },
+        {
+          "modality": "radiomics",
+          "title": "Leveraging hand-crafted radiomics on multicenter FLAIR MRI for predicting disability worsening in people with multiple sclerosis",
+          "year": 2025,
+          "doi": "10.3389/fnins.2025.1610401"
+        }
+      ]
     },
     {
       "id": "relief",
@@ -1051,7 +1152,9 @@
       ],
       "modalities_tested": [
         "CT",
-        "radiomics"
+        "radiomics",
+        "EEG",
+        "sMRI"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -1059,7 +1162,20 @@
       "extends": [
         "nested-gmm-combat"
       ],
-      "evidence": []
+      "evidence": [
+        {
+          "modality": "EEG",
+          "title": "ComBat models for harmonization of resting-state EEG features in multisite studies",
+          "year": 2024,
+          "doi": "10.1016/j.clinph.2024.09.019"
+        },
+        {
+          "modality": "sMRI",
+          "title": "Multi-cohort, multi-sequence harmonisation for cerebrovascular brain age",
+          "year": 2025,
+          "doi": "10.1162/imag.a.964"
+        }
+      ]
     },
     {
       "id": "harmonizr",
@@ -1201,13 +1317,21 @@
         "sMRI"
       ],
       "modalities_tested": [
-        "sMRI"
+        "sMRI",
+        "radiomics"
       ],
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [
+        {
+          "modality": "radiomics",
+          "title": "Standardization of brain MR images across machines and protocols: bridging the gap for MRI-based radiomics",
+          "year": 2020,
+          "doi": "10.1038/s41598-020-69298-z"
+        }
+      ]
     },
     {
       "id": "nyul",
@@ -1274,13 +1398,21 @@
         "sMRI"
       ],
       "modalities_tested": [
-        "sMRI"
+        "sMRI",
+        "radiomics"
       ],
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [
+        {
+          "modality": "radiomics",
+          "title": "Standardization of brain MR images across machines and protocols: bridging the gap for MRI-based radiomics",
+          "year": 2020,
+          "doi": "10.1038/s41598-020-69298-z"
+        }
+      ]
     },
     {
       "id": "ravel",
@@ -5999,7 +6131,8 @@
       ],
       "modalities_tested": [
         "CT",
-        "radiomics"
+        "radiomics",
+        "EEG"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -6007,7 +6140,14 @@
       "extends": [
         "combat"
       ],
-      "evidence": []
+      "evidence": [
+        {
+          "modality": "EEG",
+          "title": "ComBat models for harmonization of resting-state EEG features in multisite studies",
+          "year": 2024,
+          "doi": "10.1016/j.clinph.2024.09.019"
+        }
+      ]
     },
     {
       "id": "rish",
@@ -6158,13 +6298,28 @@
         "sMRI"
       ],
       "modalities_tested": [
-        "sMRI"
+        "sMRI",
+        "dMRI",
+        "MEG"
       ],
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [
+        {
+          "modality": "dMRI",
+          "title": "Multi-site normative modeling of diffusion tensor imaging metrics using hierarchical Bayesian regression",
+          "year": 2022,
+          "doi": "10.1007/978-3-031-16431-6_20"
+        },
+        {
+          "modality": "MEG",
+          "title": "Normative modeling of MEG brain oscillations across the human lifespan",
+          "year": 2026,
+          "doi": "10.1038/s42003-026-09825-2"
+        }
+      ]
     },
     {
       "id": "synthsr",

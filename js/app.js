@@ -2060,6 +2060,7 @@ function openDrawer(d) {
       ${d.venue ? `<dt>Published in</dt><dd>${escapeHtml(d.venue)}</dd>` : ""}
       ${d.authors && d.authors.length ? `<dt>Authors</dt><dd>${escapeHtml(d.authors.slice(0, 3).join(", "))}${d.n_authors > 3 ? " et al." : ""}</dd>` : ""}
       ${d.modalities_tested && d.modalities_tested.length ? `<dt>Tested on</dt><dd><div class="chip-row">${d.modalities_tested.map((x) => `<span class="chip">${escapeHtml(x)}</span>`).join("")}</div></dd>` : ""}
+      ${(d.evidence || []).length ? `<dt>Evidence</dt><dd><ul class="evidence-list">${d.evidence.map((ev) => `<li><span class="chip">${escapeHtml(MODALITY_FACET_LABEL[ev.modality] || ev.modality)}</span> ${extLink(ev.doi ? `https://doi.org/${ev.doi}` : ev.url, `${escapeHtml(ev.title || "paper")}${ev.year ? ` (${escapeHtml(ev.year)})` : ""}`, "inline-link")}</li>`).join("")}</ul></dd>` : ""}
       <dt>First commit</dt><dd>${escapeHtml(firstCommitLine)}</dd>
       <dt>Last maintained</dt><dd>${maintLine}</dd>
       <dt>Validation data</dt><dd>${escapeHtml(d.validation_data || "Agnostic")}</dd>
