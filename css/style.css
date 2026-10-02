@@ -1180,3 +1180,26 @@ select:focus, input[type="search"]:focus, button:focus-visible {
   .methods-table tbody th { min-width: 150px; max-width: 170px; }
   .methods-table { font-size: 13px; }
 }
+
+/* ---------- Lineage view ---------- */
+.lineage-wrap { width: 100%; }
+.lineage-legend { display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: center; font-size: 12.5px; color: var(--paper-dim); margin: 0 0 12px; }
+.lineage-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.lin-legend-note { flex-basis: 100%; font-size: 12px; opacity: 0.85; }
+.lineage-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); -webkit-overflow-scrolling: touch; }
+.lineage-svg { display: block; width: 100%; min-width: 900px; height: auto; font-family: var(--font-body); }
+.lin-grid line { stroke: var(--line); stroke-width: 1; }
+.lin-grid text { fill: var(--paper-dim); font-family: var(--font-mono); font-size: 11px; }
+.lin-edge { fill: none; stroke: var(--paper-dim); stroke-opacity: 0.55; stroke-width: 1.5; }
+.lin-implements { stroke-dasharray: 4 4; }
+.lin-node { cursor: pointer; outline: none; }
+.lin-node text { fill: var(--paper); font-size: 13px; }
+.lin-node .lin-meta { fill: var(--paper-dim); font-family: var(--font-mono); font-size: 11px; }
+.lin-node:focus-visible circle { stroke: var(--paper); stroke-width: 3; }
+.lin-node.filtered-out { opacity: 0.28; }
+.lin-node.selected text { fill: var(--cyan); text-decoration: underline; }
+.lineage-svg.has-focus .lin-node:not(.on) { opacity: 0.25; }
+.lineage-svg.has-focus .lin-edge:not(.on) { stroke-opacity: 0.12; }
+.lineage-svg .lin-edge.on { stroke: var(--phosphor); stroke-opacity: 1; stroke-width: 2; }
+.lineage-others { margin-top: 18px; }
+.lineage-others summary { cursor: pointer; font-family: var(--font-mono); font-size: 12.5px; color: var(--paper-dim); margin-bottom: 12px; }

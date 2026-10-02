@@ -20,7 +20,10 @@ file as its database — so it's built to grow.
   modality, language, year, stars, citations, validation data, or toolbox,
   search, and compare side-by-side. Switch to **Table** view to sort by
   citations, stars, last commit, year or venue, and download the current
-  rows as CSV (`?view=table#explore` links straight to it).
+  rows as CSV (`?view=table#explore` links straight to it). **Lineage**
+  view draws the family tree of methods (which builds on which) over
+  publication years, from the `extends` / `implements` fields
+  (`?view=lineage#explore`).
 - **Which method?** — answer a few questions about your task and
   constraints; the method list narrows live, with a reason given for
   everything removed.

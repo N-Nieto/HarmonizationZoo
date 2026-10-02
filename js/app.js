@@ -790,22 +790,24 @@ function bindControls() {
   });
   document.getElementById("csv-btn").addEventListener("click", downloadTableCsv);
   const initialView = new URLSearchParams(location.search).get("view");
-  if (initialView === "table") setView("table", { silent: true });
+  if (initialView === "table" || initialView === "lineage") setView(initialView, { silent: true });
 }
 
 function setView(view, { silent = false } = {}) {
-  state.view = view === "table" ? "table" : "map";
+  state.view = ["table", "lineage"].includes(view) ? view : "map";
   document.querySelectorAll(".view-btn").forEach((b) => {
     const on = b.dataset.view === state.view;
     b.classList.toggle("active", on);
     b.setAttribute("aria-pressed", String(on));
   });
   const isTable = state.view === "table";
-  document.getElementById("group-by-group").classList.toggle("hidden", isTable);
+  const isMap = state.view === "map";
+  document.getElementById("group-by-group").classList.toggle("hidden", !isMap);
   document.getElementById("csv-group").classList.toggle("hidden", !isTable);
   document.querySelector(".legend-row").classList.toggle("hidden", isTable);
+  document.querySelector(".label-size-control").classList.toggle("hidden", !isMap);
   const url = new URL(location.href);
-  if (isTable) url.searchParams.set("view", "table"); else url.searchParams.delete("view");
+  if (!isMap) url.searchParams.set("view", state.view); else url.searchParams.delete("view");
   history.replaceState(history.state, "", url);
   if (!silent) render();
 }
@@ -901,6 +903,10 @@ function render() {
     stage.appendChild(renderTable(methods));
     return;
   }
+  if (state.view === "lineage") {
+    stage.appendChild(renderLineage(methods));
+    return;
+  }
 
   if (state.groupBy === "year") {
     stage.appendChild(renderYearTimeline(methods));
@@ -955,6 +961,208 @@ function makeBox(d) {
     }
   });
   return box;
+}
+
+/* ---------------- Lineage view ---------------- */
+// A family tree of methods drawn from the `extends` / `implements` fields:
+// x = publication year, one row per method, each child under its parent.
+// Search and level filters dim non-matching nodes instead of removing them,
+// so the tree never breaks apart.
+
+const SVG_NS = "http://www.w3.org/2000/svg";
+function svgEl(tag, attrs = {}) {
+  const el = document.createElementNS(SVG_NS, tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+
+function lineageYear(d, byId, seen = new Set()) {
+  if (d.paper_year) return d.paper_year;
+  if (d.first_commit_date) return Number(d.first_commit_date.slice(0, 4));
+  if (seen.has(d.id)) return null;
+  seen.add(d.id);
+  const parentId = d.implements || (d.extends || [])[0];
+  return parentId && byId.has(parentId) ? lineageYear(byId.get(parentId), byId, seen) : null;
+}
+
+function buildLineageForest() {
+  const byId = new Map(state.data.map((d) => [d.id, d]));
+  const parentsOf = new Map(); // id -> [{id, kind}]
+  const childrenOf = new Map(); // primary-parent id -> [child]
+  state.data.forEach((d) => {
+    const ps = [];
+    (d.extends || []).forEach((p) => byId.has(p) && ps.push({ id: p, kind: "extends" }));
+    if (d.implements && byId.has(d.implements)) ps.push({ id: d.implements, kind: "implements" });
+    if (ps.length) parentsOf.set(d.id, ps);
+  });
+  const year = (d) => lineageYear(d, byId) ?? 9999;
+  // Primary parent = the most recent one (Fed-ComBat sits under d-ComBat, with a second link to ComBat).
+  const primary = new Map();
+  parentsOf.forEach((ps, id) => {
+    const best = [...ps].sort((a, b) => year(byId.get(b.id)) - year(byId.get(a.id)))[0];
+    primary.set(id, best);
+    if (!childrenOf.has(best.id)) childrenOf.set(best.id, []);
+    childrenOf.get(best.id).push(byId.get(id));
+  });
+  const inLineage = new Set([...parentsOf.keys(), ...[...parentsOf.values()].flat().map((p) => p.id)]);
+  const roots = state.data.filter((d) => inLineage.has(d.id) && !primary.has(d.id));
+  const subtreeSize = (d) => 1 + (childrenOf.get(d.id) || []).reduce((n, c) => n + subtreeSize(c), 0);
+  roots.sort((a, b) => subtreeSize(b) - subtreeSize(a) || year(a) - year(b));
+
+  const rows = []; // {d, depth, tree}
+  roots.forEach((r, tree) => {
+    const walk = (d, depth) => {
+      rows.push({ d, depth, tree });
+      (childrenOf.get(d.id) || [])
+        .sort((a, b) => year(a) - year(b) || a.name.localeCompare(b.name))
+        .forEach((c) => walk(c, depth + 1));
+    };
+    walk(r, 0);
+  });
+  const others = state.data.filter((d) => !inLineage.has(d.id));
+  return { byId, rows, parentsOf, primary, others, year: (d) => lineageYear(d, byId) };
+}
+
+function renderLineage(visible) {
+  const visibleIds = new Set(visible.map((d) => d.id));
+  const { byId, rows, parentsOf, others, year } = buildLineageForest();
+  const wrap = document.createElement("div");
+  wrap.className = "lineage-wrap";
+
+  const years = rows.map((r) => year(r.d)).filter(Boolean);
+  const y0 = Math.min(...years), y1 = Math.max(...years);
+  const left = 24, labelRoom = 300, rowH = 30, topPad = 44, treeGap = 18;
+  const width = 1100, plotW = width - left - labelRoom;
+  const xOf = (yr) => left + ((yr - y0) / Math.max(1, y1 - y0)) * plotW;
+
+  let cursor = topPad;
+  let lastTree = -1;
+  const pos = new Map();
+  rows.forEach((r) => {
+    if (r.tree !== lastTree && lastTree !== -1) cursor += treeGap;
+    lastTree = r.tree;
+    pos.set(r.d.id, { x: xOf(year(r.d) ?? y0), y: cursor });
+    cursor += rowH;
+  });
+  const height = cursor + 10;
+
+  const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, class: "lineage-svg", role: "img",
+    "aria-label": "Lineage of harmonization methods: which method builds on which, by publication year" });
+
+  // year grid
+  const grid = svgEl("g", { class: "lin-grid" });
+  for (let yr = y0; yr <= y1; yr++) {
+    const x = xOf(yr);
+    grid.appendChild(svgEl("line", { x1: x, x2: x, y1: 28, y2: height - 6 }));
+    const t = svgEl("text", { x, y: 18, "text-anchor": "middle" });
+    t.textContent = String(yr);
+    grid.appendChild(t);
+  }
+  svg.appendChild(grid);
+
+  // edges (parent -> child), drawn first so nodes sit on top
+  const edges = svgEl("g", { class: "lin-edges" });
+  const edgeEls = [];
+  parentsOf.forEach((ps, childId) => {
+    ps.forEach((p) => {
+      const a = pos.get(p.id), b = pos.get(childId);
+      if (!a || !b) return;
+      const midX = Math.max(a.x + 10, b.x - 14);
+      const path = svgEl("path", {
+        d: `M${a.x},${a.y} C${a.x},${b.y} ${midX - 20},${b.y} ${b.x},${b.y}`,
+        class: `lin-edge lin-${p.kind}`,
+      });
+      path.dataset.from = p.id;
+      path.dataset.to = childId;
+      edges.appendChild(path);
+      edgeEls.push(path);
+    });
+  });
+  svg.appendChild(edges);
+
+  // nodes
+  const nodes = svgEl("g", { class: "lin-nodes" });
+  const nodeEls = new Map();
+  rows.forEach(({ d }) => {
+    const { x, y } = pos.get(d.id);
+    const g = svgEl("g", { class: "lin-node", transform: `translate(${x},${y})`, tabindex: "0", role: "button" });
+    g.dataset.id = d.id;
+    if (!visibleIds.has(d.id)) g.classList.add("filtered-out");
+    const color = FAMILY_COLOR.get(d.category) || "#888";
+    g.appendChild(svgEl("circle", { r: d.implements ? 4.5 : 6.5, fill: d.implements ? "var(--ink)" : color, stroke: color, "stroke-width": 2 }));
+    const label = svgEl("text", { x: 12, y: 4.5 });
+    label.textContent = d.name;
+    const yr = year(d);
+    const meta = svgEl("tspan", { class: "lin-meta", dx: 8 });
+    meta.textContent = [yr, typeof d.citations === "number" ? `${d.citations.toLocaleString()} cit.` : null, d.implements ? "implementation" : null]
+      .filter(Boolean).join(" · ");
+    label.appendChild(meta);
+    g.appendChild(label);
+    const title = svgEl("title");
+    title.textContent = `${d.name} — click for details`;
+    g.appendChild(title);
+    const open = () => {
+      if (state.compareMode) {
+        if (state.selectedIds.has(d.id)) state.selectedIds.delete(d.id); else state.selectedIds.add(d.id);
+        g.classList.toggle("selected", state.selectedIds.has(d.id));
+        updateCompareBar();
+      } else {
+        openDrawer(d);
+      }
+    };
+    g.addEventListener("click", open);
+    g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+    g.addEventListener("mouseenter", () => highlight(d.id));
+    g.addEventListener("focus", () => highlight(d.id));
+    g.addEventListener("mouseleave", () => highlight(null));
+    g.addEventListener("blur", () => highlight(null));
+    if (state.compareMode && state.selectedIds.has(d.id)) g.classList.add("selected");
+    nodes.appendChild(g);
+    nodeEls.set(d.id, g);
+  });
+  svg.appendChild(nodes);
+
+  // hover: light up the whole ancestry + descendants of a node
+  const childIds = new Map();
+  parentsOf.forEach((ps, c) => ps.forEach((p) => { if (!childIds.has(p.id)) childIds.set(p.id, []); childIds.get(p.id).push(c); }));
+  function related(id) {
+    const out = new Set([id]);
+    const up = [id], down = [id];
+    while (up.length) (parentsOf.get(up.pop()) || []).forEach((p) => { if (!out.has(p.id)) { out.add(p.id); up.push(p.id); } });
+    while (down.length) (childIds.get(down.pop()) || []).forEach((c) => { if (!out.has(c)) { out.add(c); down.push(c); } });
+    return out;
+  }
+  function highlight(id) {
+    svg.classList.toggle("has-focus", !!id);
+    const rel = id ? related(id) : null;
+    nodeEls.forEach((el, nid) => el.classList.toggle("on", !!rel && rel.has(nid)));
+    edgeEls.forEach((el) => el.classList.toggle("on", !!rel && rel.has(el.dataset.from) && rel.has(el.dataset.to)));
+  }
+
+  const n = rows.length;
+  wrap.innerHTML = `
+    <p class="tbl-caption">${n} methods with a recorded lineage · ${rows.filter((r) => r.depth === 0).length} roots · hover to trace a branch, click for details</p>
+    <div class="lineage-legend">
+      <span><svg width="34" height="10" aria-hidden="true"><line x1="0" y1="5" x2="34" y2="5" class="lin-edge lin-extends"/></svg>builds on</span>
+      <span><svg width="34" height="10" aria-hidden="true"><line x1="0" y1="5" x2="34" y2="5" class="lin-edge lin-implements"/></svg>implementation of</span>
+      <span class="lin-legend-note">Lineage comes from each entry's <code>extends</code> / <code>implements</code> fields. Know a missing link? Report it on the method's page.</span>
+    </div>`;
+  const scroller = document.createElement("div");
+  scroller.className = "lineage-scroll";
+  scroller.appendChild(svg);
+  wrap.appendChild(scroller);
+
+  if (others.length) {
+    const rest = document.createElement("details");
+    rest.className = "lineage-others";
+    rest.innerHTML = `<summary>${others.length} methods with no recorded lineage yet</summary>`;
+    const flow = document.createElement("div");
+    flow.className = "box-flow";
+    others.filter((d) => visibleIds.has(d.id)).forEach((d) => flow.appendChild(makeBox(d)));
+    rest.appendChild(flow);
+    wrap.appendChild(rest);
+  }
+  return wrap;
 }
 
 /* ---------------- Table view ---------------- */
