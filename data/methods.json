@@ -451,7 +451,7 @@
       "doi": null,
       "arxiv_id": null,
       "authors": [
-        "Nicolás Nieto",
+        "Nicol\u00e1s Nieto",
         "Simon B. Eickhoff",
         "Christian Jung",
         "Martin Reuter",
@@ -753,7 +753,7 @@
         "Eduard Vieta",
         "Russell T. Shinohara",
         "Peter Kochunov",
-        "Yann Quidé",
+        "Yann Quid\u00e9",
         "Melissa J. Green"
       ],
       "n_authors": 100,
@@ -1152,7 +1152,7 @@
     },
     {
       "id": "nyul",
-      "name": "Nyúl–Udupa Histogram Matching",
+      "name": "Ny\u00fal\u2013Udupa Histogram Matching",
       "category": "classical-normalization",
       "method_type": "statistical",
       "level": "image-level",
@@ -1205,7 +1205,7 @@
       "doi": "10.1002/(SICI)1522-2594(199912)42:6<1072::AID-MRM11>3.0.CO;2-M",
       "arxiv_id": null,
       "authors": [
-        "László G. Nyúl",
+        "L\u00e1szl\u00f3 G. Ny\u00fal",
         "Jayaram K. Udupa"
       ],
       "n_authors": 2,
@@ -2212,7 +2212,7 @@
         "ml_compatible": null,
         "needs_gpu": false
       },
-      "needs_review": "Repo HarmonizedMRI/Harmonized_fMRI returns 404; assumed renamed to HarmonizedMRI/Functional — please confirm.",
+      "needs_review": "Repo HarmonizedMRI/Harmonized_fMRI returns 404; assumed renamed to HarmonizedMRI/Functional \u2014 please confirm.",
       "doi": null,
       "arxiv_id": null,
       "authors": null,
@@ -4273,10 +4273,10 @@
       "authors": [
         "Jagruti Patel",
         "Thomas A. W. Bolton",
-        "Mikkel Schöttner",
+        "Mikkel Sch\u00f6ttner",
         "Anjali Tarun",
-        "Sébastien Tourbier",
-        "Yasser Alemán-Gómez"
+        "S\u00e9bastien Tourbier",
+        "Yasser Alem\u00e1n-G\u00f3mez"
       ],
       "n_authors": 8,
       "venue": "arXiv",
@@ -4562,7 +4562,7 @@
       "arxiv_id": null,
       "authors": [
         "Emma Prevot",
-        "Dieter A. Häring",
+        "Dieter A. H\u00e4ring",
         "Laura Gaetano",
         "Russell T. Shinohara",
         "Chris C. Holmes",
@@ -4719,9 +4719,9 @@
       "doi": "10.1038/s41598-022-16609-1",
       "arxiv_id": null,
       "authors": [
-        "Alexandre Carré",
+        "Alexandre Carr\u00e9",
         "Enzo Battistella",
-        "Stéphane Niyoteka",
+        "St\u00e9phane Niyoteka",
         "Roger Sun",
         "Eric Deutsch",
         "Charlotte Robert"
@@ -4874,7 +4874,7 @@
       "doi": "10.1007/s44248-026-00100-7",
       "arxiv_id": null,
       "authors": [
-        "Nicolás Nieto",
+        "Nicol\u00e1s Nieto",
         "Aditi Asati",
         "Kshitij Jadhav",
         "Kaustubh R. Patil"
@@ -5090,7 +5090,7 @@
       "authors": [
         "Santiago Silva",
         "Marco Lorenzi",
-        "André Altmann",
+        "Andr\u00e9 Altmann",
         "Neil P. Oxtoby"
       ],
       "n_authors": 4,
@@ -5321,7 +5321,7 @@
         "Yongjie Zhu",
         "Chenwei Yan",
         "Huanjie Li",
-        "Tommi Kärkkäinen",
+        "Tommi K\u00e4rkk\u00e4inen",
         "Fengyu Cong"
       ],
       "n_authors": 6,
@@ -5396,7 +5396,7 @@
         "Yuxing Hao",
         "Yunge Zhang",
         "Dongyue Zhou",
-        "Tommi Kärkkäinen",
+        "Tommi K\u00e4rkk\u00e4inen",
         "Lisa D. Nickerson"
       ],
       "n_authors": 8,
@@ -5468,7 +5468,7 @@
       "arxiv_id": null,
       "authors": [
         "Nicolas Courty",
-        "Rémi Flamary",
+        "R\u00e9mi Flamary",
         "Devis Tuia",
         "Alain Rakotomamonjy"
       ],
@@ -5542,7 +5542,7 @@
       "arxiv_id": null,
       "authors": [
         "Victoria Peterson",
-        "Nicolás Nieto",
+        "Nicol\u00e1s Nieto",
         "Dominik Wyser",
         "Olivier Lambercy",
         "Roger Gassert",
@@ -5565,6 +5565,6 @@
       ]
     }
   ],
-  "stats_fetched_at": "2026-10-02T13:09:50Z",
+  "stats_fetched_at": "2026-10-02T13:18:03Z",
   "schema_version": 2
 }
