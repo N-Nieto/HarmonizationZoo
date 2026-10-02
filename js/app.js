@@ -2196,179 +2196,246 @@ function debounce(fn, ms) {
   };
 }
 
-/* ---------------- "Which method?" recommender (live filter tree) ---------------- */
+/* ---------------- "Which method?" recommender (guided, ranked) ---------------- */
+// Questions follow the order a harmonization expert would ask them:
+//   1. What data?  2. In what form?  3. For what analysis?  4. What study design?
+//   5–9. Sites, sample size, covariates, paired scans, data sharing.
+//   10–13. Practical constraints (hardware, pretrained models, language, maintenance).
+// Two kinds of question:
+//   • hard filters remove methods that cannot work (each removal is explained);
+//   • soft preferences keep everything but re-rank, adding a ✓ reason or a ⚠ caution.
+// Every question can be skipped. Remaining methods are ranked by how well they fit
+// your answers, then by evidence (citations) and maintenance.
 
-const recState = {
-  task: null,          // "statistical" | "ml"
-  level: null,          // "feature-level" | "image-level"
-  newSite: null,        // "yes" | "no"
-  hasSiteId: null,      // "yes" | "no"
-  language: null,        // e.g. "Python" | "R" | ... | "no-preference"
-  hasGpu: null,          // "yes" | "no"
-  linear: null,          // "yes" | "no" | "unsure"
-  federated: null,        // "yes" | "no" — only asked when task === "ml"
-};
+const recState = {};
+const REC_STEPS = [];
+const REC_SKIP = "skip";
 
-const REC_KEYS = ["task", "level", "newSite", "hasSiteId", "language", "hasGpu", "linear", "federated"];
+function recFamilyIsFederated(d) {
+  return d.category === "federated" || (d.tags || []).includes("federated-capable");
+}
+function recHasPretrained(d) {
+  if (d.has_pretrained_weights === true) return true;
+  return state.toolboxes.some((tb) => tb.id === "neuroharm-kit" && tb.methods.includes(d.id));
+}
+function recMaintained(d) {
+  if (d.last_commit) return formatMaintenance(d.last_commit).status !== "stale";
+  return isToolboxMember(d.id);
+}
+const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+
+REC_STEPS.push(
+  {
+    key: "modality", group: "Your data", legend: "What kind of data are you harmonizing?",
+    help: "Methods designed for your modality rank first; methods only validated on it (via a published evaluation) are kept but flagged.",
+    dynamicOptions(pool) {
+      const counts = new Map();
+      pool.forEach((d) => (d.modalities_tested || []).forEach((m) => counts.set(m, (counts.get(m) || 0) + 1)));
+      const order = ["sMRI", "dMRI", "fMRI", "connectome", "EEG", "MEG", "PET", "CT", "radiomics", "omics", "histopathology"];
+      return order.filter((m) => counts.has(m)).map((m) => [m, `${MODALITY_FACET_LABEL[m] || m}`]);
+    },
+    apply(pool, v, ctx) {
+      const agnostic = (d) => (d.modalities_proposed || []).some((m) => m === "general" || m === "general-imaging");
+      const after = pool.filter((d) => (d.modalities_tested || []).includes(v) || agnostic(d));
+      after.forEach((d) => {
+        const label = MODALITY_FACET_LABEL[v] || v;
+        if ((d.modalities_proposed || []).includes(v)) ctx.boost(d, 3, `Designed for ${label}`);
+        else if ((d.modalities_tested || []).includes(v)) {
+          ctx.boost(d, 1.5, `Validated on ${label}`);
+          ctx.caution(d, `Not originally designed for ${label}; see the evidence paper on its page`);
+        } else {
+          ctx.caution(d, "Modality-agnostic method; not specifically validated on this data");
+        }
+      });
+      return { pool: after, message: `Kept ${plural(after.length, "method")} designed for, validated on, or agnostic to ${MODALITY_FACET_LABEL[v] || v}; removed ${pool.length - after.length}.` };
+    },
+  },
+  {
+    key: "level", group: "Your data", legend: "What exactly will you harmonize?",
+    help: "This is the biggest split between method families.",
+    options: [
+      ["feature-level", "Derived features (ROI volumes, cortical thickness, connectivity, radiomic or EEG features)"],
+      ["image-level", "Images or raw signals (voxels, time series)"],
+      ["acquisition-level", "Nothing yet: I'm planning data collection"],
+    ],
+    apply(pool, v) {
+      const after = pool.filter((d) => d.level === v);
+      const what = { "feature-level": "feature-level", "image-level": "image-level", "acquisition-level": "acquisition/protocol" }[v];
+      return { pool: after, message: pool.length > after.length ? `Kept ${what} methods; removed ${pool.length - after.length} working at a different level.` : null };
+    },
+  },
+  {
+    key: "task", group: "Your analysis", legend: "What will you do with the harmonized data?",
+    help: "In prediction pipelines, harmonization must be fitted on training data only. Methods that need the outcome as a covariate leak it into the test set.",
+    visibleIf: (pool, rs) => rs.level !== "acquisition-level",
+    options: [["statistical", "Statistical analysis (group differences, associations)"], ["ml", "Machine-learning prediction"]],
+    apply(pool, v, ctx) {
+      if (v !== "ml") return { pool, message: null };
+      const after = pool.filter((d) => !(d.recommend && d.recommend.ml_compatible === false));
+      after.forEach((d) => { if (d.category === "combat-family") ctx.boost(d, 1, "Leakage-safe in ML pipelines"); });
+      const removed = pool.length - after.length;
+      return { pool: after, message: removed ? `Removed ${plural(removed, "method")} (mostly ComBat-family) that use covariates, often your prediction target, to fit the model. That leaks test information. Leakage-safe variants such as PrettYharmonize stay.` : null };
+    },
+  },
+  {
+    key: "design", group: "Your study", legend: "Is your study cross-sectional or longitudinal?",
+    help: "With repeated scans of the same people, methods that model within-subject correlation are preferred.",
+    visibleIf: (pool, rs) => rs.level !== "acquisition-level",
+    options: [["cross", "Cross-sectional (one scan per person)"], ["longitudinal", "Longitudinal (repeated scans)"]],
+    soft: true,
+    apply(pool, v, ctx) {
+      if (v !== "longitudinal") return { pool, message: null };
+      pool.forEach((d) => {
+        if (d.recommend && d.recommend.longitudinal === true) ctx.boost(d, 3, "Models repeated measures");
+        else ctx.caution(d, "Treats repeated scans as independent observations");
+      });
+      return { pool, message: "Kept every method; those that model repeated measures now rank first." };
+    },
+  },
+  {
+    key: "newSite", group: "Your study", legend: "Will new sites or scanners need harmonizing later?",
+    help: "For example, applying a trained classifier to data from a hospital that wasn't in your training set.",
+    visibleIf: (pool, rs) => rs.level !== "acquisition-level",
+    options: [["yes", "Yes, unseen sites will come later"], ["no", "No, all sites are known now"]],
+    apply(pool, v, ctx) {
+      if (v !== "yes") return { pool, message: null };
+      const after = pool.filter((d) => d.recommend && d.recommend.generalizes_to_new_site === true);
+      after.forEach((d) => ctx.boost(d, 1, "Can be applied to unseen sites"));
+      const removed = pool.length - after.length;
+      return { pool: after, message: removed ? `Removed ${plural(removed, "method")} that must be refitted with every site present.` : null };
+    },
+  },
+  {
+    key: "hasSiteId", group: "Your study", legend: "Do you know which site or scanner each sample came from?",
+    help: "Most methods need a batch label. Some (IQM-based, blind or reference-free) infer it.",
+    visibleIf: (pool, rs) => rs.level !== "acquisition-level",
+    options: [["yes", "Yes"], ["no", "No or only partially"]],
+    apply(pool, v) {
+      if (v !== "no") return { pool, message: null };
+      const after = pool.filter((d) => d.recommend && d.recommend.requires_site_id === false);
+      return { pool: after, message: pool.length > after.length ? `Removed ${plural(pool.length - after.length, "method")} that need a site label for every sample.` : null };
+    },
+  },
+  {
+    key: "sampleSize", group: "Your study", legend: "How large is your smallest site?",
+    help: "Site effects are estimated per site; very small sites make those estimates unstable.",
+    visibleIf: (pool, rs) => rs.level !== "acquisition-level",
+    options: [["small", "Fewer than ~30 samples"], ["large", "30 or more"]],
+    soft: true,
+    apply(pool, v, ctx) {
+      if (v !== "small") return { pool, message: null };
+      pool.forEach((d) => {
+        if (d.recommend && d.recommend.low_n_friendly === true) ctx.boost(d, 2, "Works with small sites");
+        else ctx.caution(d, "May be unstable with very small sites");
+      });
+      return { pool, message: "Kept every method; those robust to small sites now rank first." };
+    },
+  },
+  {
+    key: "nonlinear", group: "Your study", legend: "Do your biological covariates have nonlinear effects?",
+    help: "For example, age across the lifespan. Linear-only models then misattribute part of the biology to site.",
+    visibleIf: (pool, rs) => rs.level === "feature-level" && pool.some((d) => d.recommend && d.recommend.requires_linear_signal === true),
+    options: [["yes", "Yes (e.g. wide age range)"], ["no", "No, roughly linear"]],
+    apply(pool, v) {
+      if (v !== "yes") return { pool, message: null };
+      const after = pool.filter((d) => !(d.recommend && d.recommend.requires_linear_signal === true));
+      return { pool: after, message: pool.length > after.length ? `Removed ${plural(pool.length - after.length, "method")} that assume linear covariate effects.` : null };
+    },
+  },
+  {
+    key: "paired", group: "Your study", legend: "Do you have the same subjects scanned at several sites?",
+    help: "Traveling subjects or paired scans. A few methods need them for training.",
+    visibleIf: (pool, rs) => rs.level !== "acquisition-level" && pool.some((d) => d.recommend && d.recommend.requires_paired_data === true),
+    options: [["yes", "Yes"], ["no", "No"]],
+    apply(pool, v, ctx) {
+      if (v === "yes") {
+        pool.forEach((d) => { if (d.recommend && d.recommend.requires_paired_data === true) ctx.boost(d, 1, "Uses your paired scans"); });
+        return { pool, message: null };
+      }
+      const after = pool.filter((d) => !(d.recommend && d.recommend.requires_paired_data === true));
+      return { pool: after, message: pool.length > after.length ? `Removed ${plural(pool.length - after.length, "method")} that need paired or traveling-subject scans.` : null };
+    },
+  },
+  {
+    key: "pooling", group: "Your study", legend: "Can all sites' data be pooled in one place?",
+    help: "If data can't leave each site (privacy, regulation), you need a federated or distributed method.",
+    visibleIf: (pool, rs) => rs.level !== "acquisition-level",
+    options: [["yes", "Yes, data can be centralized"], ["no", "No, data must stay at each site"]],
+    apply(pool, v, ctx) {
+      if (v !== "no") return { pool, message: null };
+      const after = pool.filter(recFamilyIsFederated);
+      after.forEach((d) => ctx.boost(d, 1, "Works without pooling data"));
+      return { pool: after, message: pool.length > after.length ? `Kept only federated or distributed methods; removed ${pool.length - after.length} that need centralized data.` : null };
+    },
+  },
+  {
+    key: "hasGpu", group: "Practical", legend: "Do you have access to a GPU?",
+    help: "Asked only because deep-learning methods are still in the list.",
+    visibleIf: (pool) => pool.some((d) => d.needs_gpu),
+    options: [["yes", "Yes"], ["no", "No, CPU only"]],
+    apply(pool, v) {
+      if (v !== "no") return { pool, message: null };
+      const after = pool.filter((d) => !d.needs_gpu);
+      return { pool: after, message: pool.length > after.length ? `Removed ${plural(pool.length - after.length, "method")} that need a GPU to be practical.` : null };
+    },
+  },
+  {
+    key: "pretrained", group: "Practical", legend: "Do you need something that works without training?",
+    help: "Pretrained models (or bundles like NeuroHarm-kit) can be applied directly.",
+    visibleIf: (pool) => pool.some(recHasPretrained),
+    options: [["yes", "Yes, prefer ready-to-use models"], ["no", "No, I can train"]],
+    soft: true,
+    apply(pool, v, ctx) {
+      if (v !== "yes") return { pool, message: null };
+      pool.forEach((d) => { if (recHasPretrained(d)) ctx.boost(d, 2, "Pretrained weights available"); else if (d.method_type === "deep-learning") ctx.caution(d, "You'd need to train it on your data"); });
+      return { pool, message: "Kept every method; ready-to-use models now rank first." };
+    },
+  },
+  {
+    key: "language", group: "Practical", legend: "Which language should the implementation be in?",
+    help: "Choosing one removes methods without public code in that language.",
+    dynamicOptions(pool) {
+      const langs = new Map();
+      pool.forEach((d) => (d.language || []).forEach((l) => langs.set(l, (langs.get(l) || 0) + 1)));
+      return [...langs.entries()].sort((a, b) => b[1] - a[1]).map(([l]) => [l, l]);
+    },
+    apply(pool, v) {
+      const after = pool.filter((d) => (d.language || []).includes(v));
+      return { pool: after, message: pool.length > after.length ? `Removed ${plural(pool.length - after.length, "method")} with no ${v} implementation.` : null };
+    },
+  },
+  {
+    key: "maintained", group: "Practical", legend: "Do you need actively maintained code?",
+    help: "\"Maintained\" means a commit in the last 2 years, or upkeep through a toolbox.",
+    options: [["yes", "Yes, maintained code only"], ["no", "No, I can work with older code"]],
+    apply(pool, v) {
+      if (v !== "yes") return { pool, message: null };
+      const after = pool.filter(recMaintained);
+      return { pool: after, message: pool.length > after.length ? `Removed ${plural(pool.length - after.length, "method")} with no maintained code.` : null };
+    },
+  },
+);
+const REC_KEYS = REC_STEPS.map((s) => s.key);
+// Old share links used different keys/values; map them onto the new questions.
+const REC_LEGACY = { linear: (v) => ["nonlinear", v === "no" ? "yes" : v === "yes" ? "no" : REC_SKIP],
+  federated: (v) => ["pooling", v === "yes" ? "no" : "yes"] };
 
 function resetRecommender() {
-  REC_KEYS.forEach((k) => { recState[k] = null; });
+  REC_KEYS.forEach((k) => { delete recState[k]; });
   renderRecommenderTree();
 }
-
-// Steps after "task" (which is special-cased, since it has the ML-family
-// exclusion + PrettYharmonize note rather than a plain filter). Each
-// filter() receives the pool as narrowed by every earlier step, and
-// returns {pool, message}. message only renders once the step has an
-// answer, directly above that step's own options.
-const REC_STEPS = [
-  {
-    key: "level",
-    legend: "Harmonization level",
-    help: "Does this need to operate on extracted features (ROI volumes, cortical thickness, radiomics, …) or directly on images?",
-    type: "pills",
-    options: [["feature-level", "Feature-level"], ["image-level", "Image-level"]],
-    filter(pool, value) {
-      const after = pool.filter((d) => d.level === value);
-      const removed = pool.length - after.length;
-      const label = value === "feature-level" ? "feature-level" : "image-level";
-      return {
-        pool: after,
-        message: removed > 0 ? `Kept only ${label} methods — removed ${removed} operating at a different level.` : null,
-      };
-    },
-  },
-  {
-    key: "language",
-    legend: "Programming language",
-    help: "Any preference for the implementation's language? Methods with no public code are removed by any choice here.",
-    type: "pills",
-    // options are computed live from what's actually in the pool at render time — see renderStep's dynamicOptions
-    dynamicOptions(pool) {
-      const langs = new Set();
-      pool.forEach((d) => (d.language || []).forEach((l) => langs.add(l)));
-      return [["no-preference", "No preference"], ...Array.from(langs).sort().map((l) => [l, l])];
-    },
-    filter(pool, value) {
-      if (value === "no-preference") return { pool, message: null };
-      const after = pool.filter((d) => (d.language || []).includes(value));
-      const removed = pool.length - after.length;
-      return {
-        pool: after,
-        message: removed > 0
-          ? `Removed ${removed} method${removed === 1 ? "" : "s"} with no ${value} implementation.`
-          : null,
-      };
-    },
-  },
-  {
-    key: "newSite",
-    legend: "New, unseen site",
-    help: "Will this be applied to a new site that wasn't part of the original harmonized batch?",
-    type: "pills",
-    options: [["yes", "Yes"], ["no", "No"]],
-    filter(pool, value) {
-      if (value !== "yes") return { pool, message: null };
-      const after = pool.filter((d) => d.recommend && d.recommend.generalizes_to_new_site === true);
-      const removed = pool.length - after.length;
-      return {
-        pool: after,
-        message: removed > 0
-          ? `Removed ${removed} method${removed === 1 ? "" : "s"} that assume a fixed, known batch of sites rather than generalizing to a new one.`
-          : null,
-      };
-    },
-  },
-  {
-    key: "hasSiteId",
-    legend: "Site ID",
-    help: "Do you have access to the Site ID? IQM-based methods can be applied without knowing site membership.",
-    type: "pills",
-    options: [["yes", "Yes"], ["no", "No"]],
-    filter(pool, value) {
-      if (value !== "no") return { pool, message: null };
-      const after = pool.filter((d) => d.recommend && d.recommend.requires_site_id === false);
-      const removed = pool.length - after.length;
-      return {
-        pool: after,
-        message: removed > 0
-          ? `Removed ${removed} method${removed === 1 ? "" : "s"} that require an explicit Site ID.`
-          : null,
-      };
-    },
-  },
-  {
-    key: "hasGpu",
-    legend: "Hardware",
-    help: "Do you have access to a GPU? (Only asked when deep-learning, image-level methods are still in the running.)",
-    type: "pills",
-    options: [["yes", "Yes"], ["no", "No"]],
-    visibleIf(pool, rs) {
-      return rs.level === "image-level" && pool.some((d) => d.needs_gpu);
-    },
-    filter(pool, value) {
-      if (value !== "no") return { pool, message: null };
-      const after = pool.filter((d) => !d.needs_gpu);
-      const removed = pool.length - after.length;
-      return {
-        pool: after,
-        message: removed > 0
-          ? `Removed ${removed} deep-learning method${removed === 1 ? "" : "s"} that need a GPU to be practical.`
-          : null,
-      };
-    },
-  },
-  {
-    key: "linear",
-    legend: "Signal assumptions",
-    help: "Can you assume your biological signal is linear (in the covariates you'd harmonize for)?",
-    type: "pills",
-    options: [["yes", "Yes"], ["no", "No"], ["unsure", "Not sure"]],
-    visibleIf(pool, rs) { return rs.level !== "image-level"; },
-    filter(pool, value) {
-      if (value !== "no") return { pool, message: null };
-      const after = pool.filter((d) => !(d.recommend && d.recommend.requires_linear_signal === true));
-      const removed = pool.length - after.length;
-      return {
-        pool: after,
-        message: removed > 0
-          ? `Removed ${removed} method${removed === 1 ? "" : "s"} that assume a linear signal.`
-          : null,
-      };
-    },
-  },
-  {
-    key: "federated",
-    legend: "Federated setup",
-    help: "Do you need a federated / distributed / privacy-preserving setup (raw data never leaves each site)?",
-    type: "pills",
-    options: [["yes", "Yes"], ["no", "No"]],
-    visibleIf(pool, rs) { return rs.task === "ml"; },
-    filter(pool, value) {
-      if (value !== "yes") return { pool, message: null };
-      const after = pool.filter((d) => d.category === "federated");
-      const removed = pool.length - after.length;
-      return {
-        pool: after,
-        message: removed > 0
-          ? `Kept only Federated-family methods — removed ${removed} that assume centralized data access.`
-          : null,
-      };
-    },
-  },
-];
 
 function buildRecommender() {
   const root = document.getElementById("recommend-root");
   root.innerHTML = `
     <div class="recommend-wrap">
       <div class="recommend-toolbar">
-        <p class="recommend-intro">
-          Answer each question and the method list on the right narrows live. These are
-          reasoned defaults per method family (documented in the README), not a paper-verified
-          fact for every one of the ${state.data.length} methods — treat this as a shortlist to
-          investigate, not a final answer.
-        </p>
+        <div class="recommend-intro">
+          <p>Answer as many questions as you like: each one narrows or re-ranks the list on the right.
+          <strong>Filters</strong> remove methods that can't work for you (each removal is explained);
+          <strong>preferences</strong> only re-rank. Skip any question you're unsure about.</p>
+          <p class="rec-intro-note">Answers rely on per-method flags and published evidence in the database. Treat the result as a shortlist to read about, not a verdict.</p>
+        </div>
         <button id="compare-toggle-rec" type="button" class="compare-toggle-btn">Compare mode: off</button>
       </div>
       <div class="rec-columns">
@@ -2381,183 +2448,233 @@ function buildRecommender() {
   renderRecommenderTree();
 }
 
+function recContext() {
+  const boosts = new Map(), cautions = new Map();
+  return {
+    boosts, cautions,
+    boost(d, pts, why) { if (!boosts.has(d.id)) boosts.set(d.id, []); boosts.get(d.id).push({ pts, why }); },
+    caution(d, why) { if (!cautions.has(d.id)) cautions.set(d.id, []); cautions.get(d.id).push(why); },
+  };
+}
+
 function renderRecommenderTree() {
   const treeEl = document.getElementById("rec-tree");
   const methodsEl = document.getElementById("rec-methods-panel");
   treeEl.innerHTML = "";
-
   let pool = state.data.slice();
-
-  pool = renderTaskStep(treeEl, pool);
-  if (recState.task == null) {
-    renderMethodsPanel(methodsEl, pool);
-    return;
-  }
-
-  const excludedNotes = [];
-  if (recState.task === "ml") {
-    const before = pool.length;
-    pool = pool.filter((d) => d.category !== "combat-family" || (d.recommend && d.recommend.ml_compatible === true));
-    const removed = before - pool.length;
-    if (removed > 0) {
-      excludedNotes.push(
-        `Removed ${removed} Location/Scale (ComBat-family) method${removed === 1 ? "" : "s"} — the covariate they ` +
-        `need to fit the harmonization model is typically the same variable you're trying to predict, causing data ` +
-        `leakage. PrettYharmonize is the one exception: it's a Location/Scale method built specifically to be ` +
-        `leakage-free in ML pipelines, so it's still in the list below.`
-      );
-    }
-  }
-  renderTaskExcludedNotes(treeEl, excludedNotes);
+  const ctx = recContext();
+  const visibleSteps = [];
+  let current = null;
+  let lastGroup = null;
 
   for (const step of REC_STEPS) {
     if (step.visibleIf && !step.visibleIf(pool, recState)) continue;
-
+    visibleSteps.push(step);
     const answer = recState[step.key];
-    const { pool: nextPool, message } = answer != null
-      ? step.filter(pool, answer)
-      : { pool, message: null };
-
-    renderStep(treeEl, step, pool, answer, message);
-    pool = nextPool;
-
-    if (answer == null) {
-      renderMethodsPanel(methodsEl, pool);
-      return;
+    let message = null;
+    if (answer != null && answer !== REC_SKIP) {
+      const res = step.apply(pool, answer, ctx);
+      pool = res.pool;
+      message = res.message;
     }
+    if (step.group !== lastGroup) {
+      const h = document.createElement("h3");
+      h.className = "rec-group";
+      h.textContent = step.group;
+      treeEl.appendChild(h);
+      lastGroup = step.group;
+    }
+    renderStep(treeEl, step, answer, message, visibleSteps.length);
+    if (answer == null) { current = step; break; }
   }
 
-  // Every visible step has been answered — offer a reset, and a way to
-  // share this exact combination of answers.
+  const answered = REC_KEYS.filter((k) => recState[k] != null).length;
   const actionsRow = document.createElement("div");
   actionsRow.className = "rec-actions-row";
-
-  const resetBtn = document.createElement("button");
-  resetBtn.type = "button";
-  resetBtn.id = "rec-reset";
-  resetBtn.textContent = "↺ Reset all questions";
-  resetBtn.addEventListener("click", resetRecommender);
-  actionsRow.appendChild(resetBtn);
-
-  const shareBtn = document.createElement("button");
-  shareBtn.type = "button";
-  shareBtn.id = "rec-share";
-  shareBtn.textContent = "⧉ Share recommendation";
-  shareBtn.addEventListener("click", () => {
-    navigator.clipboard.writeText(shareableRecommendationUrl()).then(() => {
-      shareBtn.textContent = "✓ Link copied";
-      setTimeout(() => { shareBtn.textContent = "⧉ Share recommendation"; }, 1600);
+  if (answered) {
+    const resetBtn = document.createElement("button");
+    resetBtn.type = "button";
+    resetBtn.id = "rec-reset";
+    resetBtn.textContent = "↺ Start over";
+    resetBtn.addEventListener("click", resetRecommender);
+    actionsRow.appendChild(resetBtn);
+    const shareBtn = document.createElement("button");
+    shareBtn.type = "button";
+    shareBtn.id = "rec-share";
+    shareBtn.textContent = "⧉ Share these answers";
+    shareBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText(shareableRecommendationUrl()).then(() => {
+        shareBtn.textContent = "✓ Link copied";
+        setTimeout(() => { shareBtn.textContent = "⧉ Share these answers"; }, 1600);
+      });
     });
-  });
-  actionsRow.appendChild(shareBtn);
-
+    actionsRow.appendChild(shareBtn);
+  }
+  if (!current) {
+    const done = document.createElement("p");
+    done.className = "rec-done";
+    done.textContent = "All questions answered. Click a method for details, or switch on compare mode to put a few side by side.";
+    treeEl.appendChild(done);
+  }
   treeEl.appendChild(actionsRow);
-
-  renderMethodsPanel(methodsEl, pool);
+  renderMethodsPanel(methodsEl, pool, ctx, !current);
 }
 
 function shareableRecommendationUrl() {
-  const parts = REC_KEYS
-    .filter((k) => recState[k] != null)
-    .map((k) => `${k}:${recState[k]}`);
+  const parts = REC_KEYS.filter((k) => recState[k] != null).map((k) => `${k}:${recState[k]}`);
   const params = new URLSearchParams({ rec: parts.join(",") });
   return `${location.origin}${location.pathname}?${params.toString()}#recommend`;
 }
 
 function loadRecommendationFromUrl() {
-  const params = new URLSearchParams(location.search);
-  const raw = params.get("rec");
+  const raw = new URLSearchParams(location.search).get("rec");
   if (!raw) return false;
   raw.split(",").forEach((pair) => {
-    const [key, value] = pair.split(":");
+    const i = pair.indexOf(":");
+    if (i < 1) return;
+    let key = pair.slice(0, i), value = pair.slice(i + 1);
+    if (REC_LEGACY[key]) [key, value] = REC_LEGACY[key](value);
+    if (key === "language" && value === "no-preference") value = REC_SKIP;
     if (REC_KEYS.includes(key) && value) recState[key] = value;
   });
+  // Questions before the last shared answer that weren't answered count as skipped,
+  // so the whole shared path is applied instead of stopping at the first gap.
+  const last = Math.max(-1, ...REC_KEYS.map((k, i) => (recState[k] != null ? i : -1)));
+  REC_KEYS.slice(0, last).forEach((k) => { if (recState[k] == null) recState[k] = REC_SKIP; });
   return true;
 }
 
-function renderTaskStep(container, pool) {
+function renderStep(container, step, answer, message, number) {
   const fs = document.createElement("fieldset");
-  fs.className = "rec-question";
+  fs.className = "rec-question" + (answer == null ? " current" : " answered");
   fs.innerHTML = `
-    <legend>Downstream analysis</legend>
-    <p class="rec-help">Will you use the harmonized data for statistical analysis or as input to a machine-learning model?</p>
-    <div class="rec-step-message" id="rec-msg-task"></div>
-    <div class="rec-options" id="rec-opts-task"></div>
-  `;
-  container.appendChild(fs);
-
-  const optsWrap = fs.querySelector("#rec-opts-task");
-  [["statistical", "Statistical analysis"], ["ml", "Machine learning prediction"]].forEach(([value, label]) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "rec-pill" + (recState.task === value ? " active" : "");
-    btn.setAttribute("aria-pressed", String(recState.task === value));
-    btn.textContent = label;
-    btn.addEventListener("click", () => {
-      recState.task = recState.task === value ? null : value;
-      renderRecommenderTree();
-    });
-    optsWrap.appendChild(btn);
-  });
-
-  return pool; // task's own filter is applied by the caller (needs the special-case note)
-}
-
-function renderTaskExcludedNotes(container, notes) {
-  if (!notes.length) return;
-  const msgHost = document.getElementById("rec-msg-task");
-  msgHost.innerHTML = notes
-    .map((n, i) => `<p class="${i === 0 ? "rec-excluded-note" : "rec-special-note"}">${i === 0 ? "✕ " : ""}${escapeHtml(n)}</p>`)
-    .join("");
-}
-
-function renderStep(container, step, poolBefore, answer, message) {
-  const fs = document.createElement("fieldset");
-  fs.className = "rec-question";
-
-  fs.innerHTML = `
-    <legend>${step.legend}</legend>
-    <p class="rec-help">${step.help}</p>
+    <legend><span class="rec-num">${number}</span>${escapeHtml(step.legend)}${step.soft ? ' <span class="rec-kind">preference</span>' : ""}</legend>
+    <p class="rec-help">${escapeHtml(step.help)}</p>
     <div class="rec-step-message"></div>
     <div class="rec-options"></div>
   `;
   container.appendChild(fs);
-
   if (message) {
-    fs.querySelector(".rec-step-message").innerHTML = `<p class="rec-excluded-note">✕ ${escapeHtml(message)}</p>`;
+    fs.querySelector(".rec-step-message").innerHTML = `<p class="${step.soft ? "rec-special-note" : "rec-excluded-note"}">${step.soft ? "Re-ranked:" : "✕"} ${escapeHtml(message)}</p>`;
   }
-
-  const options = step.dynamicOptions ? step.dynamicOptions(poolBefore) : step.options;
+  const options = (step.dynamicOptions ? step.dynamicOptions(recPoolBefore(step)) : step.options).concat([[REC_SKIP, "Skip / not sure"]]);
   const optsWrap = fs.querySelector(".rec-options");
   options.forEach(([value, label]) => {
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "rec-pill" + (answer === value ? " active" : "");
+    btn.className = "rec-pill" + (answer === value ? " active" : "") + (value === REC_SKIP ? " rec-skip" : "");
     btn.setAttribute("aria-pressed", String(answer === value));
     btn.textContent = label;
     btn.addEventListener("click", () => {
-      recState[step.key] = recState[step.key] === value ? null : value;
+      if (recState[step.key] === value) delete recState[step.key]; else recState[step.key] = value;
+      // changing an earlier answer can hide later questions; drop answers that no longer apply
       renderRecommenderTree();
     });
     optsWrap.appendChild(btn);
   });
-
-  return fs;
 }
 
-function renderMethodsPanel(container, pool) {
-  container.innerHTML = `<h3 class="rec-methods-heading">${pool.length} method${pool.length === 1 ? "" : "s"} remaining</h3>`;
+// pool as it stands right before `step` (for dynamic options like modality/language)
+function recPoolBefore(target) {
+  let pool = state.data.slice();
+  const ctx = recContext();
+  for (const step of REC_STEPS) {
+    if (step === target) return pool;
+    if (step.visibleIf && !step.visibleIf(pool, recState)) continue;
+    const a = recState[step.key];
+    if (a != null && a !== REC_SKIP) pool = step.apply(pool, a, ctx).pool;
+  }
+  return pool;
+}
+
+function recScore(d, ctx) {
+  const fit = (ctx.boosts.get(d.id) || []).reduce((s, b) => s + b.pts, 0);
+  const evidence = typeof d.citations === "number" ? Math.log10(d.citations + 1) * 0.8 : 0;
+  let upkeep = 0;
+  if (d.last_commit) upkeep = { active: 1.2, slowing: 0.6, stale: 0 }[formatMaintenance(d.last_commit).status];
+  else if (isToolboxMember(d.id)) upkeep = 0.8;
+  const code = d.github || d.other_url || isToolboxMember(d.id) ? 0.5 : 0;
+  return { total: fit + evidence + upkeep + code, fit };
+}
+
+function renderMethodsPanel(container, pool, ctx = recContext(), finished = false) {
+  container.innerHTML = "";
+  const head = document.createElement("h3");
+  head.className = "rec-methods-heading";
+  head.textContent = `${plural(pool.length, "method")} ${finished ? "match" : "still in the running"}`;
+  container.appendChild(head);
   if (pool.length === 0) {
-    container.innerHTML += `<p class="rec-excluded-note">Nothing satisfies every answer so far — try relaxing the most recent one.</p>`;
+    container.insertAdjacentHTML("beforeend", `<p class="rec-excluded-note">Nothing satisfies every answer. Try "Skip / not sure" on the most recent filter.</p>`);
     return;
   }
-  const flow = document.createElement("div");
-  flow.className = "box-flow";
-  pool
-    .slice()
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .forEach((d) => flow.appendChild(makeBox(d)));
-  container.appendChild(flow);
+  // A caution shared by every remaining method says nothing about the choice between
+  // them — show it once above the list instead of on every card.
+  const shared = [...new Set(pool.flatMap((d) => ctx.cautions.get(d.id) || []))]
+    .filter((c) => pool.every((d) => (ctx.cautions.get(d.id) || []).includes(c)));
+  if (shared.length) {
+    pool.forEach((d) => ctx.cautions.set(d.id, (ctx.cautions.get(d.id) || []).filter((c) => !shared.includes(c))));
+    container.insertAdjacentHTML("beforeend", `<ul class="rec-caution rec-shared">${shared.map((c) => `<li>⚠ Applies to all of these: ${escapeHtml(c.charAt(0).toLowerCase() + c.slice(1))}</li>`).join("")}</ul>`);
+  }
+  const ranked = pool.map((d) => ({ d, ...recScore(d, ctx) })).sort((a, b) => b.total - a.total || a.d.name.localeCompare(b.d.name));
+  const top = ranked.slice(0, 8);
+  const rest = ranked.slice(8);
+  const list = document.createElement("ol");
+  list.className = "rec-ranked";
+  top.forEach(({ d }, i) => list.appendChild(recCard(d, ctx, i + 1)));
+  container.appendChild(list);
+  if (rest.length) {
+    const more = document.createElement("details");
+    more.className = "rec-more";
+    more.innerHTML = `<summary>${plural(rest.length, "more method")} in the running</summary>`;
+    const flow = document.createElement("div");
+    flow.className = "box-flow";
+    rest.forEach(({ d }) => flow.appendChild(makeBox(d)));
+    more.appendChild(flow);
+    container.appendChild(more);
+  }
+  const how = document.createElement("p");
+  how.className = "rec-how";
+  how.textContent = "Ranked by how well each method fits your answers, then by citations and code maintenance.";
+  container.appendChild(how);
+}
+
+function recCard(d, ctx, rank) {
+  const li = document.createElement("li");
+  li.className = "rec-card" + (state.compareMode && state.selectedIds.has(d.id) ? " selected" : "");
+  li.tabIndex = 0;
+  li.setAttribute("role", "button");
+  const reasons = (ctx.boosts.get(d.id) || []).map((b) => b.why);
+  const cautions = ctx.cautions.get(d.id) || [];
+  const maint = d.last_commit ? formatMaintenance(d.last_commit) : null;
+  const meta = [
+    d.paper_year ? String(d.paper_year) : null,
+    typeof d.citations === "number" ? `${d.citations.toLocaleString()} citations` : null,
+    (d.language || []).join(", ") || null,
+  ].filter(Boolean).map(escapeHtml).join(" · ");
+  li.innerHTML = `
+    <div class="rec-card-head">
+      <span class="rec-rank">${rank}</span>
+      <span class="tbl-dot" style="background:${FAMILY_COLOR.get(d.category) || "#888"}"></span>
+      <strong>${escapeHtml(d.name)}</strong>
+      ${maint ? `<span class="maint-badge maint-${maint.status}">${STATUS_LABEL[maint.status]}</span>` : (isToolboxMember(d.id) ? `<span class="maint-badge maint-toolbox">toolbox</span>` : "")}
+    </div>
+    <p class="rec-card-meta">${escapeHtml(familyShort(d))}${meta ? ` · ${meta}` : ""}</p>
+    ${reasons.length ? `<ul class="rec-why">${reasons.map((r) => `<li>✓ ${escapeHtml(r)}</li>`).join("")}</ul>` : ""}
+    ${cautions.length ? `<ul class="rec-caution">${cautions.map((r) => `<li>⚠ ${escapeHtml(r)}</li>`).join("")}</ul>` : ""}
+    <a class="rec-card-link" href="methods/${encodeURIComponent(d.id)}/">Full page &amp; BibTeX →</a>`;
+  const activate = (e) => {
+    if (e.target.closest("a")) return;
+    if (state.compareMode) {
+      if (state.selectedIds.has(d.id)) state.selectedIds.delete(d.id); else state.selectedIds.add(d.id);
+      li.classList.toggle("selected", state.selectedIds.has(d.id));
+      updateCompareBar();
+    } else {
+      openDrawer(d);
+    }
+  };
+  li.addEventListener("click", activate);
+  li.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(e); } });
+  return li;
 }
 
 

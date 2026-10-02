@@ -51,7 +51,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -194,7 +196,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -271,7 +275,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": false,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -379,7 +385,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -457,7 +465,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -572,7 +582,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -651,7 +663,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": null,
       "arxiv_id": null,
@@ -718,7 +732,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": true,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -819,7 +835,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -896,7 +914,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -972,9 +992,11 @@
         "requires_site_id": true,
         "generalizes_to_new_site": false,
         "low_n_friendly": false,
-        "requires_linear_signal": true,
+        "requires_linear_signal": false,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -1054,7 +1076,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -1129,7 +1153,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -1225,7 +1251,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": null,
       "arxiv_id": null,
@@ -1296,7 +1324,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -1381,7 +1411,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -1472,7 +1504,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -1548,7 +1582,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": null,
       "arxiv_id": null,
@@ -1617,7 +1653,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": null,
       "arxiv_id": null,
@@ -1685,7 +1723,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": null,
       "arxiv_id": null,
@@ -1752,7 +1792,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": null,
       "arxiv_id": null,
@@ -1817,7 +1859,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": true
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -1891,7 +1935,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -1964,7 +2010,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -2041,7 +2089,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": true
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -2116,7 +2166,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -2191,7 +2243,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": null,
       "arxiv_id": null,
@@ -2265,7 +2319,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -2339,7 +2395,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -2415,7 +2473,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": null,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "needs_review": "Repo HarmonizedMRI/Harmonized_fMRI returns 404; assumed renamed to HarmonizedMRI/Functional — please confirm.",
       "doi": null,
@@ -2489,7 +2549,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -2569,7 +2631,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -2644,7 +2708,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": null,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": null,
       "arxiv_id": null,
@@ -2722,7 +2788,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -2797,7 +2865,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -2873,7 +2943,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -2949,7 +3021,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -3022,7 +3096,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -3099,7 +3175,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -3176,7 +3254,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -3255,7 +3335,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": "10.1016/j.media.2024.103388",
       "arxiv_id": null,
@@ -3326,7 +3408,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -3403,7 +3487,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -3475,7 +3561,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -3547,7 +3635,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -3621,7 +3711,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -3694,7 +3786,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -3774,7 +3868,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -3849,7 +3945,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -3924,7 +4022,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -3999,7 +4099,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -4073,7 +4175,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": null,
       "arxiv_id": null,
@@ -4139,7 +4243,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": null,
       "arxiv_id": null,
@@ -4205,7 +4311,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -4280,7 +4388,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -4353,7 +4463,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": null,
       "arxiv_id": "2505.00133",
@@ -4423,7 +4535,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -4499,7 +4613,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -4576,7 +4692,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -4650,7 +4768,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": "10.3389/frai.2026.1813948",
       "arxiv_id": null,
@@ -4717,7 +4837,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": true
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -4793,7 +4915,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -4870,7 +4994,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -4953,7 +5079,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -5033,7 +5161,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -5112,7 +5242,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -5185,7 +5317,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "doi": null,
       "arxiv_id": null,
@@ -5253,7 +5387,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -5325,11 +5461,13 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": true,
-        "low_n_friendly": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
         "requires_linear_signal": null,
-        "ml_compatible": true,
-        "needs_gpu": false
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -5404,11 +5542,13 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": true,
-        "low_n_friendly": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
         "requires_linear_signal": null,
-        "ml_compatible": true,
-        "needs_gpu": false
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -5486,7 +5626,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T18:36:28Z",
@@ -5561,7 +5703,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -5637,7 +5781,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -5713,7 +5859,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -5788,7 +5936,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -5869,7 +6019,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T18:36:28Z",
@@ -5949,7 +6101,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T18:36:28Z",
@@ -6027,7 +6181,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": false,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T18:36:28Z",
@@ -6108,7 +6264,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": false,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T18:36:28Z",
@@ -6199,7 +6357,9 @@
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T18:36:28Z",
@@ -6277,7 +6437,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T18:36:28Z",
@@ -6371,7 +6533,9 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T18:36:28Z",

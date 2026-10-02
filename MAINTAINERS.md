@@ -491,71 +491,64 @@ likelihood:
 
 ## How the "Which method?" recommender works
 
-It's a **live filter tree** with a **compare mode** shared with Explore (the
-same toggle, same selection state — select methods from the recommender's
-results and hit Compare just like in Explore). It starts by showing all 75
-methods, and every answer immediately narrows the list on the right — no
-submit button. Questions are asked in a fixed hierarchy (`REC_STEPS` in
-`js/app.js`), each one only appearing once the previous one is answered:
+A **guided, ranked shortlist** (`REC_STEPS` in `js/app.js`). Questions appear
+one at a time, in the order a harmonization expert would ask them, grouped
+into four blocks:
 
-1. **Downstream analysis** — statistical vs. machine-learning
-2. **Harmonization level** — feature-level vs. image-level
-3. **Programming language** — options are computed live from what's actually
-   left in the pool at that point, plus "No preference"
-4. **New, unseen site?**
-5. **Site ID access?**
-6. **Hardware (GPU)** — only asked at all if image-level methods that need a
-   GPU (`needs_gpu: true`) are still in the running; otherwise skipped
-   automatically
-7. **Signal linearity assumption** — only asked for feature-level methods;
-   skipped for image-level ones, since "is the biological signal linear in
-   these covariates" isn't a meaningful question for a method that operates
-   directly on raw images rather than a fitted covariate model
-8. **Federated setup** — only asked if the downstream task is
-   machine-learning; asked last
+| # | Group | Question | Kind | Uses |
+|---|---|---|---|---|
+| 1 | Your data | What kind of data? (sMRI, dMRI, fMRI, EEG, MEG, PET, CT, radiomics, omics…) | filter | `modalities_tested`, `modalities_proposed` |
+| 2 | Your data | Features, images/raw signals, or still planning acquisition? | filter | `level` |
+| 3 | Your analysis | Statistical analysis or ML prediction? | filter | `recommend.ml_compatible` (leakage) |
+| 4 | Your study | Cross-sectional or longitudinal? | preference | `recommend.longitudinal` |
+| 5 | Your study | Will unseen sites need harmonizing later? | filter | `recommend.generalizes_to_new_site` |
+| 6 | Your study | Do you know each sample's site/scanner? | filter | `recommend.requires_site_id` |
+| 7 | Your study | Is the smallest site < ~30 samples? | preference | `recommend.low_n_friendly` |
+| 8 | Your study | Nonlinear covariate effects? (feature-level only) | filter | `recommend.requires_linear_signal` |
+| 9 | Your study | Same subjects scanned at several sites? (only if such methods remain) | filter | `recommend.requires_paired_data` |
+| 10 | Your study | Can data be pooled centrally? | filter | federated category or `federated-capable` tag |
+| 11 | Practical | GPU available? (only if GPU methods remain) | filter | `needs_gpu` |
+| 12 | Practical | Need a pretrained, ready-to-use model? | preference | `has_pretrained_weights`, NeuroHarm-kit membership |
+| 13 | Practical | Implementation language (options computed from what's left) | filter | `language` |
+| 14 | Practical | Maintained code only? | filter | last commit < 2 years, or toolbox |
 
-Two questions from an earlier version were removed because they weren't
-actually filtering anything: the classification/regression ML sub-type, and
-a "data quantity" step (total N / N classes / min per site) — there's no
-verified per-method threshold backing those yet, so they were decoration,
-not signal. If/when there's real data to back a quantity-based filter,
-it's a natural thing to add back.
+Why this order: the data you have (1–2) and what you'll do with it (3) are
+the decisions that rule out whole families, so they come first; study design
+(4–10) narrows within families; practical constraints (11–14) come last
+because they're preferences people can often relax. "Planning acquisition"
+skips straight to the practical block.
 
-Every question is a genuine filter (methods that don't fit are removed, not
-just re-ranked), and the elimination message for a question appears
-directly above that question's own options as soon as you answer it. Once
-every visible question has been answered, a **Reset** button and a
-**Share recommendation** button appear at the bottom of the tree. Share
-encodes every non-null `recState` key as `?rec=key:value,key:value,...#recommend`
-(see `shareableRecommendationUrl()` / `loadRecommendationFromUrl()` in
-`js/app.js`) and copies it to the clipboard — opening that link pre-fills
-the exact same answers and jumps straight to the Which-method tab, so a
-specific recommendation (not just a specific method, which the drawer's
-own share link already covers) is shareable too. Changing an earlier
-answer re-derives everything below it automatically.
+**Filters vs. preferences.** A filter removes methods that cannot work and
+explains each removal above that question. A preference keeps every method
+but re-ranks: matching methods get a ✓ reason, the rest a ⚠ caution. Every
+question has **Skip / not sure**, which applies no filter.
 
-The one deliberate exception: **machine-learning task** excludes the whole
-Location/Scale (ComBat-family) except **PrettYharmonize**, which survives
-the filter — it's the one method in that family built specifically to be
-leakage-free in ML pipelines (`recommend.ml_compatible: true` overrides the
-family default), so it's the only Location/Scale method that shows up in
-ML-task results.
+**Ranking.** Each remaining method scores fit points from your answers
+(e.g. +3 designed for your modality, +1.5 only validated on it, +3 models
+repeated measures, +2 small-site robust or pretrained), plus evidence
+(0.8 × log10(citations + 1)) and upkeep (Active +1.2, Slowing +0.6, toolbox
++0.8, public code +0.5). The top 8 show as cards with their reasons and
+cautions; the rest are collapsed below. A caution shared by every remaining
+method is shown once above the list instead of on every card.
 
-`needs_gpu` is now a real top-level field on every method (previously it was
-only computed inline as "category === deep-learning"). It's still set the
-same way for now — every deep-learning-family method is `true`, everything
-else `false` — but having it as its own field means a future PR can override
-it per-method (e.g. a deep-learning method that only needs a GPU for
-training, not inference) without touching the family-level defaults.
+**ML leakage rule.** Choosing ML removes every method with
+`recommend.ml_compatible: false` (ComBat-family methods that fit on the
+covariates you'd predict, plus d-ComBat / Fed-ComBat). PrettYharmonize is
+the leakage-safe exception and stays.
 
-The rest of the `recommend.*` compatibility fields (`requires_site_id`,
-`generalizes_to_new_site`, `low_n_friendly`, `requires_linear_signal`,
-`ml_compatible`) are set per-family in `scripts/build_seed.py`'s
-`CATEGORY_RECOMMEND_DEFAULTS`, with a handful of per-method overrides where
-there's a specific, citable reason to deviate (e.g. ComBat-GAM is explicitly
-a nonlinear/GAM extension). These are reasoned defaults, not an
-independently verified fact for all 75 methods — if you know a specific
-method behaves differently, override it there.
+**Sharing.** "Share these answers" encodes the answers as
+`?rec=key:value,…#recommend`. Questions before the last shared answer that
+weren't answered are treated as skipped, and links from the previous
+version (`linear`, `federated`, `language:no-preference`) are mapped onto
+the new questions.
+
+The `recommend.*` flags are reasoned per-family defaults plus per-method
+overrides where there's a specific reason (ComBat-GAM/ComBatLS model
+nonlinear covariates; LongComBat models repeated measures; MISPEL and
+DeepHarmony need paired scans; d-ComBat/Fed-ComBat are not leakage-safe and
+must be refitted for new sites). If you know a method behaves differently,
+fix its flag in `data/methods.json`. Every filter's explanation tells users
+exactly which assumption removed a method, so wrong flags are easy to spot.
 
 ## Other maintainer tooling
 

@@ -1278,3 +1278,47 @@ select:focus, input[type="search"]:focus, button:focus-visible {
 .imp-note { font-size: 12.5px; color: var(--paper-dim); margin: 10px 0 0; max-width: 820px; }
 .evidence-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
 .evidence-list .chip { margin-right: 4px; }
+
+/* ---------- Which method? (guided, ranked) ---------- */
+.recommend-intro p { margin: 0 0 6px; }
+.rec-intro-note { font-size: 12.5px; color: var(--paper-dim); }
+.rec-group {
+  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--phosphor); margin: 18px 0 8px; font-weight: 500;
+}
+.rec-group:first-child { margin-top: 0; }
+.rec-question.answered { opacity: 0.85; }
+.rec-question.answered .rec-help { display: none; }
+.rec-question.current { border-color: var(--phosphor-dim); }
+.rec-num {
+  display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-right: 8px;
+  border-radius: 50%; background: var(--panel-raised); border: 1px solid var(--line);
+  font-family: var(--font-mono); font-size: 11px; color: var(--paper-dim); vertical-align: 1px;
+}
+.rec-question.current .rec-num { background: var(--phosphor); color: var(--ink); border-color: var(--phosphor); }
+.rec-kind {
+  font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--cyan); border: 1px solid rgba(95,201,201,0.4); border-radius: 999px; padding: 1px 6px; margin-left: 6px; vertical-align: 2px;
+}
+.rec-pill.rec-skip { border-style: dashed; color: var(--paper-dim); }
+.rec-pill.rec-skip.active { background: var(--panel-raised); color: var(--paper); border-color: var(--paper-dim); }
+.rec-done { font-size: 13px; color: var(--paper-dim); margin: 6px 0 12px; }
+.rec-ranked { list-style: none; margin: 0 0 14px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.rec-card {
+  background: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; cursor: pointer;
+}
+.rec-card:hover, .rec-card:focus-visible { border-color: var(--phosphor-dim); outline: none; }
+.rec-card.selected { border-color: var(--cyan); box-shadow: 0 0 0 1px var(--cyan); }
+.rec-card-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.rec-card-head .tbl-dot { margin-right: 0; }
+.rec-card-head strong { font-size: 14.5px; }
+.rec-card-head .maint-badge { margin-left: auto; }
+.rec-rank { font-family: var(--font-mono); font-size: 12px; color: var(--paper-dim); min-width: 14px; }
+.rec-card-meta { margin: 4px 0 6px; font-size: 12.5px; color: var(--paper-dim); }
+.rec-why, .rec-caution { list-style: none; margin: 4px 0 0; padding: 0; font-size: 12.5px; display: flex; flex-direction: column; gap: 2px; }
+.rec-why { color: #7fd88f; }
+.rec-caution { color: var(--phosphor); }
+.rec-card-link { display: inline-block; margin-top: 8px; font-family: var(--font-mono); font-size: 12px; }
+.rec-more summary { cursor: pointer; font-family: var(--font-mono); font-size: 12.5px; color: var(--paper-dim); margin: 6px 0 10px; }
+.rec-how { font-size: 12px; color: var(--paper-dim); margin: 12px 0 0; }
+.rec-shared { margin: 0 0 12px; padding: 8px 10px; border: 1px solid rgba(242,169,59,0.35); border-radius: 8px; }
