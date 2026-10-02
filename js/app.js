@@ -24,6 +24,7 @@ const FAMILY_ORDER = [
   ["federated", "Federated Learning-compatible", "#6fa8dc"],
   ["ica-based", "ICA-based", "#e0a8f0"],
   ["optimal-transport", "Optimal transport-based", "#d8c26a"],
+  ["acquisition-protocol", "Acquisition / Protocol Harmonization", "#a3b1c2"],
 ];
 const FAMILY_COLOR = new Map(FAMILY_ORDER.map(([id, , color]) => [id, color]));
 const FAMILY_LABEL = new Map(FAMILY_ORDER.map(([id, label]) => [id, label]));
@@ -1309,6 +1310,9 @@ function openDrawer(d) {
 
     <dl class="spec-table">
       <dt>Paper year</dt><dd>${d.paper_year || "—"}</dd>
+      ${d.venue ? `<dt>Published in</dt><dd>${escapeHtml(d.venue)}</dd>` : ""}
+      ${d.authors && d.authors.length ? `<dt>Authors</dt><dd>${escapeHtml(d.authors.slice(0, 3).join(", "))}${d.n_authors > 3 ? " et al." : ""}</dd>` : ""}
+      ${d.modalities_tested && d.modalities_tested.length ? `<dt>Tested on</dt><dd><div class="chip-row">${d.modalities_tested.map((x) => `<span class="chip">${escapeHtml(x)}</span>`).join("")}</div></dd>` : ""}
       <dt>First commit</dt><dd>${firstCommitLine}</dd>
       <dt>Last maintained</dt><dd>${maintLine}</dd>
       <dt>Validation data</dt><dd>${escapeHtml(d.validation_data || "Agnostic")}</dd>

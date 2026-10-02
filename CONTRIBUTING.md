@@ -81,7 +81,7 @@ There's no build step and no database — add a method either of two ways:
 |---|---|---|
 | `id` | yes | Lowercase, hyphenated, unique. Used as the box's key — don't change an existing one. |
 | `name` | yes | Shown on the box and in the detail panel. |
-| `category` | yes | One of `combat-family`, `deep-learning`, `iqm-based`, `normative-modeling`, `interpolation-based`, `federated`, `ica-based`, `optimal-transport`, or propose a new one — add it to `FAMILY_ORDER` in `js/app.js` (id, label, color) so it gets a legend entry and a color. |
+| `category` | yes | One of `combat-family`, `classical-normalization`, `deep-learning`, `iqm-based`, `normative-modeling`, `interpolation-based`, `federated`, `ica-based`, `optimal-transport`, `acquisition-protocol`, or propose a new one — add it to `FAMILY_ORDER` in `js/app.js` (id, label, color) so it gets a legend entry and a color. |
 | `category_label` | yes | Human-readable version of `category`, shown as a cluster label. |
 | `method_type` | yes | `statistical`, `deep-learning`, `machine-learning`, or `other`. |
 | `level` | yes | `feature-level` (harmonizes extracted features/ROIs), `image-level` (harmonizes voxel data directly), or `acquisition-level` (harmonizes scanner protocol/sequence). |
@@ -101,6 +101,16 @@ There's no build step and no database — add a method either of two ways:
 | `architecture_backbone` | no | Deep-learning entries only — the model family, e.g. `"CycleGAN"`, `"Disentangled VAE"`, `"Normalizing flow"`, `"StarGAN"`, `"U-Net"`. Hand-set from the paper's own description (see `ARCHITECTURE_BACKBONE` in `scripts/build_seed.py`) — there's no reliable way to auto-detect "which GAN variant" from a repo. `null` for non-deep-learning methods. |
 | `framework`, `has_pretrained_weights`, `pretrained_weights_url` | no | Deep-learning entries only. Leave `null` — these are auto-detected by `scripts/fetch_github_stats.py` (checks the repo's dependency files for `framework`, GitHub Releases for weight-file assets) or the on-demand "Fetch missing GitHub stats" button. Don't hand-set these; a `null` result means "not detected," not "confirmed absent." |
 | `forks`, `open_issues`, `license`, `topics`, `archived`, `repo_created_at`, `first_commit_date`, `stats_fetched_at` | no | Leave these `null` — auto-filled by `scripts/fetch_github_stats.py`. `stats_fetched_at` also drives that script's freshness check (skips re-fetching anything younger than 30 days), so leaving it `null` on a new entry guarantees it gets fetched on the very next run regardless of that window. |
+| `entry_type` | no | `method` (default), `implementation` (a code package for a method listed elsewhere — set `implements`), `toolbox`, or `protocol` (acquisition-side harmonization). |
+| `implements` | no | For `entry_type: "implementation"` only: the `id` of the method this package implements (e.g. `neurocombat` → `combat`). |
+| `extends` | no | Array of method `id`s this method builds on (e.g. ComBatLS → `["combat-gam"]`). Drives the lineage view; leave `[]` if it's a new approach. |
+| `modalities_proposed` | no | Array from the controlled list `sMRI`, `dMRI`, `fMRI`, `connectome`, `EEG`, `MEG`, `PET`, `CT`, `radiomics`, `omics`, `histopathology`, `general-imaging`, `general`, `MRI-acquisition` — what the method was designed for. |
+| `modalities_tested` | no | Same list — every modality the method has been validated on, including ones beyond the original paper. This is what the modality filter uses, so an MRI method later validated on EEG appears under EEG. |
+| `modalities_verified` | no | `true` once someone has checked both modality lists against the paper(s). Auto-seeded entries start as `false`. |
+| `doi`, `arxiv_id` | no | Derived from `paper_url`; used for citation lookup. |
+| `authors`, `n_authors`, `venue`, `publication_type` | no | Bibliographic metadata (first six authors, journal/conference, `article` / `conference-paper` / `preprint` / …). Filled from OpenAlex; fix by hand if wrong. |
+| `citations_source`, `citations_fetched_at` | no | Where and when `citations` came from (`openalex` or `semantic-scholar`). |
+| `needs_review` | no | Free-text note for maintainers when an entry has an unresolved data question; remove once resolved. |
 | `recommend` | no | Compatibility flags used by the "Which method?" tab — see [How the recommender works](MAINTAINERS.md#how-the-which-method-recommender-works) in `MAINTAINERS.md` before setting these; they should reflect the method's actual design, not a guess. If omitted, a new entry won't show up in recommender results (it still appears in Explore). |
 
 ## Keeping stats current
