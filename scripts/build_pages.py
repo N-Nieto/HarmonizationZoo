@@ -174,6 +174,19 @@ def chips(items, labels=None):
         f'<span class="chip">{esc((labels or {}).get(x, x))}</span>' for x in items) + "</div>"
 
 
+def evidence_html(evidence):
+    """Papers showing the method validated on a given modality."""
+    items = []
+    for ev in evidence or []:
+        url = f"https://doi.org/{ev['doi']}" if ev.get("doi") else safe_url(ev.get("url"))
+        if not url:
+            continue
+        label = MODALITY_LABEL.get(ev.get("modality"), ev.get("modality"))
+        year = f" ({esc(ev['year'])})" if ev.get("year") else ""
+        items.append(f'<li><span class="chip">{esc(label)}</span> <a href="{esc(url)}" rel="noopener noreferrer">{esc(ev.get("title") or url)}</a>{year}</li>')
+    return f'<ul class="mp-evidence">{"".join(items)}</ul>' if items else ""
+
+
 def method_link(other):
     return f'<a href="../{esc(other["id"])}/">{esc(other["name"])}</a>'
 
@@ -286,6 +299,7 @@ def render_page(m, by_id, extended_by, toolboxes, today):
         row("Method type", esc(m.get("method_type", "").replace("-", " "))),
         row("Proposed for", chips(m.get("modalities_proposed"), MODALITY_LABEL)),
         row("Tested on", chips(m.get("modalities_tested"), MODALITY_LABEL)),
+        row("Evidence", evidence_html(m.get("evidence"))),
         row("Validation data", esc(m["validation_data"]) if m.get("validation_data") else ""),
         row("Language", chips(m.get("language"))),
         row("Architecture", esc(m["architecture_backbone"]) if m.get("architecture_backbone") else ""),

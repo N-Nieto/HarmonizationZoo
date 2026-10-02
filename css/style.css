@@ -1244,3 +1244,35 @@ select:focus, input[type="search"]:focus, button:focus-visible {
   background: rgba(242,169,59,0.15); border: 1px solid var(--phosphor-dim); color: var(--paper);
 }
 .active-filter-chip:hover { border-color: var(--phosphor); }
+
+/* ---------- Impact view ---------- */
+.impact-wrap { position: relative; width: 100%; }
+.impact-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); -webkit-overflow-scrolling: touch; }
+.impact-svg { display: block; width: 100%; min-width: 760px; height: auto; font-family: var(--font-body); }
+.imp-band { opacity: 0.07; }
+.imp-band-active { fill: #7fd88f; }
+.imp-band-slowing { fill: var(--phosphor); }
+.imp-band-stale { fill: var(--rose); opacity: 0.05; }
+.imp-band-label { font-family: var(--font-mono); font-size: 11px; fill: var(--paper-dim); }
+.imp-grid line { stroke: var(--line); stroke-width: 1; }
+.imp-grid .imp-axis { stroke: var(--paper-dim); stroke-opacity: 0.5; }
+.imp-grid text { fill: var(--paper-dim); font-family: var(--font-mono); font-size: 11px; }
+.imp-grid .imp-axis-title { font-family: var(--font-body); font-size: 12px; }
+.imp-dot { fill: var(--cyan); fill-opacity: 0.85; stroke: var(--panel); stroke-width: 2; }
+.imp-dot.selected { fill: var(--phosphor); fill-opacity: 1; }
+.imp-labels text { fill: var(--paper); font-size: 12px; pointer-events: none; }
+.imp-focus { fill: none; stroke: var(--paper); stroke-width: 2; pointer-events: none; }
+.imp-focus.hidden { display: none; }
+.imp-overlay { fill: transparent; }
+.imp-tooltip {
+  position: absolute; z-index: 5; width: 240px; pointer-events: none;
+  display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; font-size: 12.5px;
+  background: var(--panel-raised); border: 1px solid var(--line); border-radius: 8px; color: var(--paper-dim);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+}
+.imp-tooltip.hidden { display: none; }
+.imp-tooltip strong { color: var(--paper); font-size: 13.5px; }
+.imp-tooltip em { font-style: normal; font-family: var(--font-mono); font-size: 11px; opacity: 0.8; }
+.imp-tooltip .maint-badge { margin-left: 0; margin-right: 4px; }
+.imp-tip-family { display: inline-flex; align-items: center; }
+.imp-note { font-size: 12.5px; color: var(--paper-dim); margin: 10px 0 0; max-width: 820px; }

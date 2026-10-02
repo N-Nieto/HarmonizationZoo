@@ -112,6 +112,7 @@ malformed `github` slugs, wrong value types, unknown categories/modalities, and
 | `extends` | no | Array of method `id`s this method builds on (e.g. ComBatLS → `["combat-gam"]`). Drives the lineage view; leave `[]` if it's a new approach. |
 | `modalities_proposed` | no | Array from the controlled list `sMRI`, `dMRI`, `fMRI`, `connectome`, `EEG`, `MEG`, `PET`, `CT`, `radiomics`, `omics`, `histopathology`, `general-imaging`, `general`, `MRI-acquisition` — what the method was designed for. |
 | `modalities_tested` | no | Same list — every modality the method has been validated on, including ones beyond the original paper. This is what the modality filter uses, so an MRI method later validated on EEG appears under EEG. |
+| `evidence` | no | List of `{"modality", "title", "year", "doi"}` — one paper per modality showing the method was validated there (e.g. ComBat on EEG). Each modality listed should also be in `modalities_tested`. Shown on the method page. |
 | `modalities_verified` | no | `true` once someone has checked both modality lists against the paper(s). Auto-seeded entries start as `false`. |
 | `doi`, `arxiv_id` | no | Derived from `paper_url`; used for citation lookup. |
 | `authors`, `n_authors`, `venue`, `publication_type` | no | Bibliographic metadata (first six authors, journal/conference, `article` / `conference-paper` / `preprint` / …). Filled from OpenAlex; fix by hand if wrong. |

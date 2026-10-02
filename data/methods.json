@@ -72,12 +72,57 @@
         "sMRI"
       ],
       "modalities_tested": [
-        "sMRI"
+        "sMRI",
+        "dMRI",
+        "fMRI",
+        "CT",
+        "radiomics",
+        "EEG"
       ],
-      "modalities_verified": false,
+      "modalities_verified": true,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [
+        "combat-eb"
+      ],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "Harmonization of cortical thickness measurements across scanners and sites",
+          "year": 2018,
+          "doi": "10.1016/j.neuroimage.2017.11.024"
+        },
+        {
+          "modality": "dMRI",
+          "title": "Harmonization of multi-site diffusion tensor imaging data",
+          "year": 2017,
+          "doi": "10.1016/j.neuroimage.2017.08.047"
+        },
+        {
+          "modality": "fMRI",
+          "title": "Statistical harmonization corrects site effects in functional connectivity measurements from multi-site fMRI data",
+          "year": 2018,
+          "doi": "10.1002/hbm.24241"
+        },
+        {
+          "modality": "CT",
+          "title": "Validation of a method to compensate multicenter effects affecting CT radiomics",
+          "year": 2019,
+          "doi": "10.1148/radiol.2019182023"
+        },
+        {
+          "modality": "radiomics",
+          "title": "Validation of a method to compensate multicenter effects affecting CT radiomics",
+          "year": 2019,
+          "doi": "10.1148/radiol.2019182023"
+        },
+        {
+          "modality": "EEG",
+          "title": "ComBat models for harmonization of resting-state EEG features in multisite studies",
+          "year": 2024,
+          "doi": "10.1016/j.clinph.2024.09.019"
+        }
+      ]
     },
     {
       "id": "neurocombat",
@@ -161,7 +206,8 @@
       "modalities_verified": false,
       "entry_type": "implementation",
       "implements": "combat",
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "combat-gam",
@@ -239,7 +285,8 @@
       "implements": null,
       "extends": [
         "combat"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "harmonizer",
@@ -315,7 +362,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "covbat",
@@ -394,7 +442,8 @@
       "implements": null,
       "extends": [
         "combat"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "prettyharmonize",
@@ -470,7 +519,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "pycombat",
@@ -539,7 +589,8 @@
       "modalities_verified": false,
       "entry_type": "implementation",
       "implements": "combat",
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "longcombat",
@@ -616,7 +667,8 @@
       "implements": null,
       "extends": [
         "combat"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "relief",
@@ -692,7 +744,8 @@
       "implements": null,
       "extends": [
         "combat"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "combat-mega",
@@ -770,7 +823,8 @@
       "implements": null,
       "extends": [
         "combat"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "combatls",
@@ -847,7 +901,8 @@
       "implements": null,
       "extends": [
         "combat-gam"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "robust-combat",
@@ -922,7 +977,8 @@
       "implements": null,
       "extends": [
         "combat"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "opnestedcombat",
@@ -1001,8 +1057,9 @@
       "entry_type": "method",
       "implements": null,
       "extends": [
-        "combat"
-      ]
+        "nested-gmm-combat"
+      ],
+      "evidence": []
     },
     {
       "id": "harmonizr",
@@ -1071,7 +1128,8 @@
       "implements": null,
       "extends": [
         "combat"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "whitestripe",
@@ -1148,7 +1206,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "nyul",
@@ -1220,7 +1279,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "ravel",
@@ -1305,7 +1365,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "zscore-normalization",
@@ -1372,7 +1433,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "fcm-normalization",
@@ -1440,7 +1502,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "kde-normalization",
@@ -1507,7 +1570,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "lsq-normalization",
@@ -1573,7 +1637,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "deepharmony",
@@ -1646,7 +1711,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "imunity",
@@ -1717,7 +1783,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "cyclegan-brainmri",
@@ -1791,7 +1858,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "mispel",
@@ -1867,7 +1935,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "harmless",
@@ -1939,7 +2008,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "xcov-disentanglement",
@@ -2008,7 +2078,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "unlearning-mri",
@@ -2085,7 +2156,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "sfharmony",
@@ -2160,7 +2232,8 @@
       "implements": null,
       "extends": [
         "unlearning-mri"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "harmonized-fmri",
@@ -2230,7 +2303,8 @@
       "modalities_verified": false,
       "entry_type": "protocol",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "dmri-harmonization",
@@ -2309,7 +2383,10 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [
+        "rish"
+      ],
+      "evidence": []
     },
     {
       "id": "dictionary-learning-harmonization",
@@ -2383,7 +2460,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "b0shimming",
@@ -2451,7 +2529,8 @@
       "modalities_verified": false,
       "entry_type": "protocol",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "intensity-normalization",
@@ -2535,7 +2614,8 @@
       "modalities_verified": false,
       "entry_type": "toolbox",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "calamiti",
@@ -2613,7 +2693,8 @@
       "implements": null,
       "extends": [
         "dewey-disentangled-latent"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "dewey-disentangled-latent",
@@ -2686,7 +2767,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "murd",
@@ -2757,7 +2839,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "stgan",
@@ -2833,7 +2916,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "disarm",
@@ -2909,7 +2993,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "disarmpp",
@@ -2987,7 +3072,8 @@
       "implements": null,
       "extends": [
         "disarm"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "iguane",
@@ -3054,7 +3140,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "haca3",
@@ -3135,7 +3222,8 @@
       "implements": null,
       "extends": [
         "calamiti"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "scanner-invariant-repr",
@@ -3207,7 +3295,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "flow-causal-harmonization",
@@ -3277,7 +3366,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "bashyam-stargan-harmonization",
@@ -3351,7 +3441,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "modanwal-cyclegan",
@@ -3422,7 +3513,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "dlest",
@@ -3495,7 +3587,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "deepresbat",
@@ -3575,7 +3668,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "harmonizing-flows",
@@ -3649,7 +3743,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "simix",
@@ -3723,7 +3818,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "ssimh",
@@ -3796,7 +3892,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "diffusion-autoencoder-harmonization",
@@ -3861,7 +3958,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "style-guided-latent-diffusion",
@@ -3926,7 +4024,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "attention-guided-domain-adaptation",
@@ -4000,7 +4099,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "blindharmony",
@@ -4072,7 +4172,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "blindharmonydiff",
@@ -4139,7 +4240,8 @@
       "implements": null,
       "extends": [
         "blindharmony"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "tgtfreeharmony",
@@ -4215,7 +4317,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "gnn-connectome-harmonization",
@@ -4292,7 +4395,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "connectome-distribution-matching",
@@ -4365,7 +4469,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "ssim-guided-disentanglement",
@@ -4430,7 +4535,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "dist-clip",
@@ -4505,7 +4611,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "bartharm",
@@ -4580,7 +4687,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "neuroharmony",
@@ -4656,7 +4764,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "autocombat",
@@ -4742,7 +4851,8 @@
       "implements": null,
       "extends": [
         "combat"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "bayesian-normative",
@@ -4817,7 +4927,10 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [
+        "hbr"
+      ],
+      "evidence": []
     },
     {
       "id": "ismi",
@@ -4891,7 +5004,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "isi",
@@ -4956,7 +5070,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "fedharmony",
@@ -5031,7 +5146,8 @@
       "implements": null,
       "extends": [
         "unlearning-mri"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "fedcombat",
@@ -5108,7 +5224,8 @@
       "extends": [
         "combat",
         "d-combat"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "d-combat",
@@ -5186,7 +5303,8 @@
       "implements": null,
       "extends": [
         "combat"
-      ]
+      ],
+      "evidence": []
     },
     {
       "id": "harmofl",
@@ -5201,14 +5319,14 @@
       ],
       "paper_title": "HarmoFL: Harmonizing Local and Global Drifts in Federated Learning on Heterogeneous Medical Images",
       "paper_year": 2022,
-      "paper_url": "https://arxiv.org/abs/2112.10775",
+      "paper_url": "https://doi.org/10.1609/aaai.v36i1.19993",
       "github": "med-air/HarmoFL",
       "language": [
         "Python"
       ],
       "other_url": null,
       "abstract": null,
-      "citations": 1,
+      "citations": 157,
       "stars": 91,
       "forks": 15,
       "open_issues": 1,
@@ -5239,8 +5357,8 @@
         "needs_gpu": false
       },
       "citations_source": "openalex",
-      "citations_fetched_at": "2026-10-02T11:26:10Z",
-      "doi": null,
+      "citations_fetched_at": "2026-10-02T18:36:28Z",
+      "doi": "10.1609/aaai.v36i1.19993",
       "arxiv_id": "2112.10775",
       "authors": [
         "Meirui Jiang",
@@ -5248,8 +5366,8 @@
         "Qi Dou"
       ],
       "n_authors": 3,
-      "venue": "arXiv",
-      "publication_type": "preprint",
+      "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+      "publication_type": "conference-paper",
       "modalities_proposed": [
         "general-imaging"
       ],
@@ -5260,7 +5378,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "ica-dp",
@@ -5336,7 +5455,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "ica-dp-fmri",
@@ -5411,7 +5531,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "otda",
@@ -5484,7 +5605,8 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": []
+      "extends": [],
+      "evidence": []
     },
     {
       "id": "botda",
@@ -5562,7 +5684,566 @@
       "implements": null,
       "extends": [
         "otda"
-      ]
+      ],
+      "evidence": []
+    },
+    {
+      "id": "combat-eb",
+      "name": "ComBat (original, Johnson et al.)",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "batch-effect",
+        "microarray",
+        "genomics",
+        "origin"
+      ],
+      "paper_title": "Adjusting batch effects in microarray expression data using empirical Bayes methods",
+      "paper_year": 2007,
+      "paper_url": "https://doi.org/10.1093/biostatistics/kxj037",
+      "github": "jtleek/sva-devel",
+      "language": [
+        "R"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 9455,
+      "stars": 28,
+      "forks": 43,
+      "open_issues": 31,
+      "license": null,
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2014-06-05",
+      "first_commit_date": null,
+      "last_commit": "2024-07-18",
+      "repo_description": null,
+      "stats_fetched_at": "2026-10-02T18:36:28Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Omics/Proteomics",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-02T18:36:28Z",
+      "doi": "10.1093/biostatistics/kxj037",
+      "arxiv_id": null,
+      "authors": [
+        "William Evan Johnson",
+        "Cheng Li",
+        "Ariel Rabinovic"
+      ],
+      "n_authors": 3,
+      "venue": "Biostatistics",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "omics"
+      ],
+      "modalities_tested": [
+        "omics"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": []
+    },
+    {
+      "id": "combat-seq",
+      "name": "ComBat-seq",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "negative-binomial",
+        "RNA-seq",
+        "count-data",
+        "genomics"
+      ],
+      "paper_title": "ComBat-seq: batch effect adjustment for RNA-seq count data",
+      "paper_year": 2020,
+      "paper_url": "https://doi.org/10.1093/nargab/lqaa078",
+      "github": "zhangyuqing/ComBat-seq",
+      "language": [
+        "R"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 1780,
+      "stars": 212,
+      "forks": 39,
+      "open_issues": 34,
+      "license": null,
+      "topics": [
+        "batch-effects",
+        "negative-binomial-regression",
+        "rna-seq"
+      ],
+      "archived": false,
+      "repo_created_at": "2018-05-20",
+      "first_commit_date": null,
+      "last_commit": "2020-09-24",
+      "repo_description": "Batch effect adjustment based on negative binomial regression for RNA sequencing count data",
+      "stats_fetched_at": "2026-10-02T18:36:28Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Omics/Proteomics",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-02T18:36:28Z",
+      "doi": "10.1093/nargab/lqaa078",
+      "arxiv_id": null,
+      "authors": [
+        "Yuqing Zhang",
+        "Giovanni Parmigiani",
+        "William Evan Johnson"
+      ],
+      "n_authors": 3,
+      "venue": "NAR Genomics and Bioinformatics",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "omics"
+      ],
+      "modalities_tested": [
+        "omics"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat-eb"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "deepcombat",
+      "name": "DeepComBat",
+      "category": "combat-family",
+      "method_type": "deep-learning",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "conditional-VAE",
+        "nonlinear",
+        "multivariate",
+        "hyperparameter-robust"
+      ],
+      "paper_title": "DeepComBat: A statistically motivated, hyperparameter-robust, deep learning approach to harmonization of neuroimaging data",
+      "paper_year": 2024,
+      "paper_url": "https://doi.org/10.1002/hbm.26708",
+      "github": "hufengling/DeepComBat",
+      "language": [
+        "R"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 19,
+      "stars": 7,
+      "forks": 1,
+      "open_issues": 1,
+      "license": "NOASSERTION",
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2023-02-16",
+      "first_commit_date": null,
+      "last_commit": "2025-02-27",
+      "repo_description": null,
+      "stats_fetched_at": "2026-10-02T18:36:28Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": false,
+      "architecture_backbone": "Conditional VAE",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": false,
+        "ml_compatible": true,
+        "needs_gpu": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-02T18:36:28Z",
+      "doi": "10.1002/hbm.26708",
+      "arxiv_id": null,
+      "authors": [
+        "Fengling Hu",
+        "Alfredo Lucas",
+        "Andrew An Chen",
+        "Kyle Coleman",
+        "Hannah Horng",
+        "Raymond W. S. Ng"
+      ],
+      "n_authors": 12,
+      "venue": "Human Brain Mapping",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "nested-gmm-combat",
+      "name": "Nested ComBat & GMM ComBat",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "radiomics",
+        "nested",
+        "gaussian-mixture",
+        "multiple-batch-effects"
+      ],
+      "paper_title": "Generalized ComBat harmonization methods for radiomic features with multi-modal distributions and multiple batch effects",
+      "paper_year": 2022,
+      "paper_url": "https://doi.org/10.1038/s41598-022-08412-9",
+      "github": "hannah-horng/generalized-combat",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 113,
+      "stars": 9,
+      "forks": 6,
+      "open_issues": 0,
+      "license": "MIT",
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2021-05-10",
+      "first_commit_date": null,
+      "last_commit": "2022-11-11",
+      "repo_description": "This is the repository for Nested and GMM ComBat from the manuscript entitled \"Generalized ComBat Harmonization Methods for Radiomic Features with Multi-modal Distributions and Multiple Batch Effects\" by Horng et al.",
+      "stats_fetched_at": "2026-10-02T18:36:28Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Radiomics (CT/MRI)",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-02T18:36:28Z",
+      "doi": "10.1038/s41598-022-08412-9",
+      "arxiv_id": null,
+      "authors": [
+        "Hannah Horng",
+        "Apurva Singh",
+        "Bardia Yousefi",
+        "Eric A. Cohen",
+        "Babak Haghighi",
+        "Sharyn I. Katz"
+      ],
+      "n_authors": 9,
+      "venue": "Scientific Reports",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "CT",
+        "radiomics"
+      ],
+      "modalities_tested": [
+        "CT",
+        "radiomics"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "rish",
+      "name": "RISH (Rotation-Invariant Spherical Harmonics)",
+      "category": "classical-normalization",
+      "method_type": "statistical",
+      "level": "image-level",
+      "tags": [
+        "diffusion-MRI",
+        "spherical-harmonics",
+        "RISH",
+        "reference-site",
+        "signal-level"
+      ],
+      "paper_title": "Inter-site and inter-scanner diffusion MRI data harmonization",
+      "paper_year": 2016,
+      "paper_url": "https://doi.org/10.1016/j.neuroimage.2016.04.041",
+      "github": "pnlbwh/dMRIharmonization",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 174,
+      "stars": 50,
+      "forks": 16,
+      "open_issues": 7,
+      "license": "NOASSERTION",
+      "topics": [],
+      "archived": true,
+      "repo_created_at": "2018-10-23",
+      "first_commit_date": null,
+      "last_commit": "2025-05-14",
+      "repo_description": "Multi-site dMRI harmonization",
+      "stats_fetched_at": "2026-10-02T18:36:28Z",
+      "category_label": "Classical Intensity Normalization",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Diffusion MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-02T18:36:28Z",
+      "doi": "10.1016/j.neuroimage.2016.04.041",
+      "arxiv_id": null,
+      "authors": [
+        "Hengameh Mirzaalian",
+        "Lipeng Ning",
+        "Peter Savadjiev",
+        "Ofer Pasternak",
+        "Sylvain Bouix",
+        "Oleg Michailovich"
+      ],
+      "n_authors": 22,
+      "venue": "NeuroImage",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "dMRI"
+      ],
+      "modalities_tested": [
+        "dMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": []
+    },
+    {
+      "id": "hbr",
+      "name": "Hierarchical Bayesian Regression (PCNtoolkit)",
+      "category": "normative-modeling",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "normative-modeling",
+        "hierarchical-bayesian",
+        "site-as-random-effect",
+        "federated-capable"
+      ],
+      "paper_title": "Hierarchical Bayesian Regression for Multi-site Normative Modeling of Neuroimaging Data",
+      "paper_year": 2020,
+      "paper_url": "https://doi.org/10.1007/978-3-030-59728-3_68",
+      "github": "predictive-clinical-neuroscience/PCNtoolkit",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 65,
+      "stars": 175,
+      "forks": 81,
+      "open_issues": 52,
+      "license": "GPL-3.0",
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2016-08-18",
+      "first_commit_date": null,
+      "last_commit": "2026-10-01",
+      "repo_description": "Normative modelling of neuroimaging data",
+      "stats_fetched_at": "2026-10-02T18:36:28Z",
+      "category_label": "Normative Modeling",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-02T18:36:28Z",
+      "doi": "10.1007/978-3-030-59728-3_68",
+      "arxiv_id": null,
+      "authors": [
+        "Seyed Mostafa Kia",
+        "Hester Huijsdens",
+        "Richard Dinga",
+        "Thomas Wolfers",
+        "Maarten Mennes",
+        "Ole A. Andreassen"
+      ],
+      "n_authors": 9,
+      "venue": "MICCAI 2020 (LNCS)",
+      "publication_type": "conference-paper",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": []
+    },
+    {
+      "id": "synthsr",
+      "name": "SynthSR",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "domain-randomization",
+        "contrast-agnostic",
+        "super-resolution",
+        "clinical-scans",
+        "no-retraining"
+      ],
+      "paper_title": "SynthSR: A public AI tool to turn heterogeneous clinical brain scans into high-resolution T1-weighted images for 3D morphometry",
+      "paper_year": 2023,
+      "paper_url": "https://doi.org/10.1126/sciadv.add3607",
+      "github": "BBillot/SynthSR",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 225,
+      "stars": 198,
+      "forks": 33,
+      "open_issues": 6,
+      "license": "Apache-2.0",
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2020-12-09",
+      "first_commit_date": null,
+      "last_commit": "2024-03-29",
+      "repo_description": "A framework for joint super-resolution and image synthesis, without requiring real training data",
+      "stats_fetched_at": "2026-10-02T18:36:28Z",
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": false,
+      "architecture_backbone": "CNN (U-Net-style), trained on synthetic data",
+      "framework": null,
+      "has_pretrained_weights": true,
+      "pretrained_weights_url": "https://github.com/BBillot/SynthSR",
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-02T18:36:28Z",
+      "doi": "10.1126/sciadv.add3607",
+      "arxiv_id": null,
+      "authors": [
+        "Juan Eugenio Iglesias",
+        "Benjamin Billot",
+        "Yaël Balbastre",
+        "Colin Magdamo",
+        "Steven E. Arnold",
+        "Sudeshna Das"
+      ],
+      "n_authors": 10,
+      "venue": "Science Advances",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": []
     }
   ],
   "stats_fetched_at": "2026-10-02T13:31:19Z",

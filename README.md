@@ -25,7 +25,8 @@ file as its database — so it's built to grow.
   rows as CSV (`?view=table#explore` links straight to it). **Lineage**
   view draws the family tree of methods (which builds on which) over
   publication years, from the `extends` / `implements` fields
-  (`?view=lineage#explore`).
+  (`?view=lineage#explore`). **Impact** view plots citations (log) against
+  the repo's last commit, over Active / Slowing / Stale bands (`?view=impact#explore`).
 - **Which method?** — answer a few questions about your task and
   constraints; the method list narrows live, with a reason given for
   everything removed.

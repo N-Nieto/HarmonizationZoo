@@ -794,11 +794,11 @@ function bindControls() {
   });
   document.getElementById("csv-btn").addEventListener("click", downloadTableCsv);
   const initialView = new URLSearchParams(location.search).get("view");
-  if (initialView === "table" || initialView === "lineage") setView(initialView, { silent: true });
+  if (["table", "lineage", "impact"].includes(initialView)) setView(initialView, { silent: true });
 }
 
 function setView(view, { silent = false } = {}) {
-  state.view = ["table", "lineage"].includes(view) ? view : "map";
+  state.view = ["table", "lineage", "impact"].includes(view) ? view : "map";
   document.querySelectorAll(".view-btn").forEach((b) => {
     const on = b.dataset.view === state.view;
     b.classList.toggle("active", on);
@@ -808,7 +808,7 @@ function setView(view, { silent = false } = {}) {
   const isMap = state.view === "map";
   document.getElementById("group-by-group").classList.toggle("hidden", !isMap);
   document.getElementById("csv-group").classList.toggle("hidden", !isTable);
-  document.querySelector(".legend-row").classList.toggle("hidden", isTable);
+  document.querySelector(".legend-row").classList.toggle("hidden", isTable || state.view === "impact");
   document.querySelector(".label-size-control").classList.toggle("hidden", !isMap);
   const url = new URL(location.href);
   if (!isMap) url.searchParams.set("view", state.view); else url.searchParams.delete("view");
@@ -902,6 +902,10 @@ function render() {
   }
   if (state.view === "lineage") {
     stage.appendChild(renderLineage(methods));
+    return;
+  }
+  if (state.view === "impact") {
+    stage.appendChild(renderImpact(methods));
     return;
   }
 
@@ -1148,6 +1152,174 @@ function bindFacets() {
     btn.setAttribute("aria-expanded", String(open));
   });
   if (activeFacetCount()) { panel.classList.remove("hidden"); btn.setAttribute("aria-expanded", "true"); }
+}
+
+/* ---------------- Impact view (citations × maintenance) ---------------- */
+// One dot per method with both a citation count and a last-commit date.
+// x = last commit (older left → recent right), y = citations on a log scale.
+// Background bands reuse the Active / Slowing / Stale thresholds of the badges.
+// Dots are one neutral hue: the chart's question is "cited and maintained?",
+// family is in the tooltip (10 family colours would not be distinguishable here).
+
+function renderImpact(visible) {
+  const wrap = document.createElement("div");
+  wrap.className = "impact-wrap";
+  const plotted = visible.filter((d) => typeof d.citations === "number" && d.last_commit);
+  const missing = visible.length - plotted.length;
+
+  const W = 1100, H = 560, m = { l: 64, r: 28, t: 28, b: 52 };
+  const pw = W - m.l - m.r, ph = H - m.t - m.b;
+  const DAY = 86400000;
+  const now = Date.now();
+  const t = (d) => new Date(`${d.last_commit}T00:00:00Z`).getTime();
+  const tMinData = plotted.length ? Math.min(...plotted.map(t)) : now - 5 * 365 * DAY;
+  const startYear = new Date(tMinData).getUTCFullYear();
+  const tMin = Date.UTC(startYear, 0, 1), tMax = now + 20 * DAY;
+  const xOf = (ms) => m.l + ((ms - tMin) / (tMax - tMin)) * pw;
+  const cMax = Math.max(10, ...plotted.map((d) => d.citations));
+  const logMax = Math.ceil(Math.log10(cMax + 1));
+  const yOf = (c) => m.t + ph - (Math.log10(c + 1) / logMax) * ph;
+
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, class: "impact-svg", role: "img",
+    "aria-label": "Citations versus last commit date for each method" });
+
+  // maintenance bands
+  const bands = [
+    { from: tMin, to: now - 730 * DAY, cls: "stale", label: "Stale · no commit in 2+ years" },
+    { from: now - 730 * DAY, to: now - 182 * DAY, cls: "slowing", label: "Slowing" },
+    { from: now - 182 * DAY, to: tMax, cls: "active", label: "Active" },
+  ];
+  const bandG = svgEl("g", { class: "imp-bands" });
+  bands.forEach((b) => {
+    const x1 = xOf(Math.max(b.from, tMin)), x2 = xOf(Math.min(b.to, tMax));
+    if (x2 <= x1) return;
+    bandG.appendChild(svgEl("rect", { x: x1, y: m.t, width: x2 - x1, height: ph, class: `imp-band imp-band-${b.cls}` }));
+    const lab = svgEl("text", { x: x1 + 8, y: m.t + 16, class: `imp-band-label imp-band-label-${b.cls}` });
+    lab.textContent = b.label;
+    bandG.appendChild(lab);
+  });
+  svg.appendChild(bandG);
+
+  // grid + axes
+  const grid = svgEl("g", { class: "imp-grid" });
+  for (let k = 0; k <= logMax; k++) {
+    const v = k === 0 ? 0 : 10 ** k;
+    const y = yOf(v);
+    grid.appendChild(svgEl("line", { x1: m.l, x2: W - m.r, y1: y, y2: y }));
+    const tx = svgEl("text", { x: m.l - 10, y: y + 4, "text-anchor": "end" });
+    tx.textContent = v.toLocaleString();
+    grid.appendChild(tx);
+  }
+  const endYear = new Date(tMax).getUTCFullYear();
+  for (let yr = startYear; yr <= endYear; yr++) {
+    const x = xOf(Date.UTC(yr, 0, 1));
+    if (x < m.l || x > W - m.r) continue;
+    grid.appendChild(svgEl("line", { x1: x, x2: x, y1: m.t + ph, y2: m.t + ph + 5 }));
+    const tx = svgEl("text", { x, y: m.t + ph + 20, "text-anchor": "middle" });
+    tx.textContent = String(yr);
+    grid.appendChild(tx);
+  }
+  grid.appendChild(svgEl("line", { x1: m.l, x2: W - m.r, y1: m.t + ph, y2: m.t + ph, class: "imp-axis" }));
+  const xl = svgEl("text", { x: m.l + pw / 2, y: H - 10, "text-anchor": "middle", class: "imp-axis-title" });
+  xl.textContent = "Last commit to the repository →  more recent";
+  grid.appendChild(xl);
+  const yl = svgEl("text", { x: 16, y: m.t + ph / 2, "text-anchor": "middle", class: "imp-axis-title",
+    transform: `rotate(-90 16 ${m.t + ph / 2})` });
+  yl.textContent = "Citations (log scale)";
+  grid.appendChild(yl);
+  svg.appendChild(grid);
+
+  // dots
+  const pts = plotted.map((d) => ({ d, x: xOf(t(d)), y: yOf(d.citations) }));
+  const dotG = svgEl("g", { class: "imp-dots" });
+  pts.forEach((p) => {
+    const c = svgEl("circle", { cx: p.x, cy: p.y, r: 5, class: "imp-dot" });
+    if (state.compareMode && state.selectedIds.has(p.d.id)) c.classList.add("selected");
+    p.el = c;
+    dotG.appendChild(c);
+  });
+  svg.appendChild(dotG);
+
+  // selective labels: the most-cited methods, skipping any that would collide
+  const labelG = svgEl("g", { class: "imp-labels" });
+  const placed = [];
+  [...pts].sort((a, b) => b.d.citations - a.d.citations).slice(0, 10).forEach((p) => {
+    const text = p.d.name.length > 28 ? `${p.d.name.slice(0, 26)}…` : p.d.name;
+    const w = text.length * 6.6, h = 14;
+    const right = p.x + 10 + w < W - m.r;
+    const box = { x: right ? p.x + 9 : p.x - 9 - w, y: p.y - 10, w, h };
+    if (placed.some((q) => !(box.x + box.w < q.x || q.x + q.w < box.x || box.y + box.h < q.y || q.y + q.h < box.y))) return;
+    placed.push(box);
+    const lab = svgEl("text", { x: right ? p.x + 9 : p.x - 9, y: p.y + 1, "text-anchor": right ? "start" : "end" });
+    lab.textContent = text;
+    labelG.appendChild(lab);
+  });
+  svg.appendChild(labelG);
+
+  // hover: nearest point within 24px (no pinpoint targets)
+  const focusRing = svgEl("circle", { r: 9, class: "imp-focus hidden" });
+  svg.appendChild(focusRing);
+  const overlay = svgEl("rect", { x: m.l, y: m.t, width: pw, height: ph, class: "imp-overlay" });
+  svg.appendChild(overlay);
+  const tip = document.createElement("div");
+  tip.className = "imp-tooltip hidden";
+  tip.setAttribute("role", "status");
+
+  let current = null;
+  const toSvg = (evt) => {
+    const r = svg.getBoundingClientRect();
+    return { x: ((evt.clientX - r.left) / r.width) * W, y: ((evt.clientY - r.top) / r.height) * H, scale: r.width / W };
+  };
+  function show(p, clientX, clientY) {
+    current = p;
+    focusRing.setAttribute("cx", p.x); focusRing.setAttribute("cy", p.y);
+    focusRing.classList.remove("hidden");
+    const maint = formatMaintenance(p.d.last_commit);
+    tip.innerHTML = `
+      <strong>${escapeHtml(p.d.name)}</strong>
+      <span class="imp-tip-family"><span class="tbl-dot" style="background:${FAMILY_COLOR.get(p.d.category) || "#888"}"></span>${escapeHtml(familyShort(p.d))}</span>
+      <span>${p.d.citations.toLocaleString()} citations${typeof p.d.stars === "number" ? ` · ${p.d.stars.toLocaleString()} ★` : ""}</span>
+      <span><span class="maint-badge maint-${maint.status}">${STATUS_LABEL[maint.status]}</span> last commit ${escapeHtml(p.d.last_commit)}</span>
+      <em>Click for details</em>`;
+    tip.classList.remove("hidden");
+    const box = wrap.getBoundingClientRect();
+    let left = clientX - box.left + 14, top = clientY - box.top + 14;
+    if (left + 240 > box.width) left = clientX - box.left - 254;
+    tip.style.left = `${Math.max(0, left)}px`;
+    tip.style.top = `${top}px`;
+  }
+  function hide() { current = null; focusRing.classList.add("hidden"); tip.classList.add("hidden"); }
+  overlay.addEventListener("mousemove", (evt) => {
+    const q = toSvg(evt);
+    let best = null, bestD = (24 / q.scale) ** 2;
+    pts.forEach((p) => { const dd = (p.x - q.x) ** 2 + (p.y - q.y) ** 2; if (dd < bestD) { bestD = dd; best = p; } });
+    if (best) show(best, evt.clientX, evt.clientY); else hide();
+    overlay.style.cursor = best ? "pointer" : "default";
+  });
+  overlay.addEventListener("mouseleave", hide);
+  overlay.addEventListener("click", () => {
+    if (!current) return;
+    const d = current.d;
+    if (state.compareMode) {
+      if (state.selectedIds.has(d.id)) state.selectedIds.delete(d.id); else state.selectedIds.add(d.id);
+      current.el.classList.toggle("selected", state.selectedIds.has(d.id));
+      updateCompareBar();
+    } else {
+      openDrawer(d);
+    }
+  });
+
+  wrap.innerHTML = `<p class="tbl-caption">${plotted.length} methods with both a citation count and a repository · ${missing ? `${missing} more in the current filter have no repo or no citation data yet · ` : ""}hover a dot for details</p>`;
+  const scroller = document.createElement("div");
+  scroller.className = "impact-scroll";
+  scroller.appendChild(svg);
+  wrap.appendChild(scroller);
+  wrap.appendChild(tip);
+  const note = document.createElement("p");
+  note.className = "imp-note";
+  note.textContent = "Top-right: well cited and still maintained. Bottom-right: new or niche but active. Top-left: influential but no longer maintained — check forks or toolboxes before relying on it. Exact numbers for every method are in the Table view.";
+  wrap.appendChild(note);
+  return wrap;
 }
 
 /* ---------------- Lineage view ---------------- */

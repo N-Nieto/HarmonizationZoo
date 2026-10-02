@@ -10,6 +10,7 @@ Checks:
 - numbers are numbers, dates are YYYY-MM-DD
 - `extends` / `implements` / toolbox `methods` point at ids that exist
 - `modalities_proposed` / `modalities_tested` use the controlled list
+- `evidence` entries (paper showing a method tested on a modality) have a modality + DOI/URL
 
 Exit code 1 on any error (CI fails); warnings are printed but don't fail.
 
@@ -96,6 +97,14 @@ def main():
             for x in m.get(field) or []:
                 if x not in MODALITIES:
                     err(f"`{field}` has unknown modality `{x}`")
+
+        for ev in m.get("evidence") or []:
+            if not isinstance(ev, dict) or ev.get("modality") not in MODALITIES:
+                err(f"`evidence` entries need a known `modality`, got {ev!r}")
+            elif not (ev.get("doi") or is_http_url(ev.get("url"))):
+                err(f"`evidence` for {ev.get('modality')} needs a `doi` or an http(s) `url`")
+            elif ev.get("modality") not in (m.get("modalities_tested") or []):
+                warnings.append(f"{mid}: evidence for {ev['modality']} but it is not in modalities_tested")
 
         for ref in m.get("extends") or []:
             if ref not in id_set:
