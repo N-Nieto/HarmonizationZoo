@@ -18,7 +18,9 @@ file as its database — so it's built to grow.
 - **Home** — quick orientation, with buttons into the other tabs.
 - **Explore** — every method as a box you can group by family, level,
   modality, language, year, stars, citations, validation data, or toolbox,
-  search, and compare side-by-side. Switch to **Table** view to sort by
+  search, and compare side-by-side. **Filters** combine modality (tested on),
+  family, language, code availability, maintenance, paper status and
+  hardware — shareable via the URL (e.g. `?f=modality:EEG,language:Python#explore`). Switch to **Table** view to sort by
   citations, stars, last commit, year or venue, and download the current
   rows as CSV (`?view=table#explore` links straight to it). **Lineage**
   view draws the family tree of methods (which builds on which) over

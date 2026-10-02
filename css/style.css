@@ -1203,3 +1203,44 @@ select:focus, input[type="search"]:focus, button:focus-visible {
 .lineage-svg .lin-edge.on { stroke: var(--phosphor); stroke-opacity: 1; stroke-width: 2; }
 .lineage-others { margin-top: 18px; }
 .lineage-others summary { cursor: pointer; font-family: var(--font-mono); font-size: 12.5px; color: var(--paper-dim); margin-bottom: 12px; }
+
+/* ---------- Facet filters ---------- */
+.filters-toggle-btn.active { color: var(--ink); background: var(--phosphor); border-color: var(--phosphor); }
+.facet-panel {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px 28px;
+  padding: 18px clamp(18px, 4vw, 48px) 14px; border-bottom: 1px solid var(--line); background: var(--panel);
+}
+.facet-panel.hidden { display: none; }
+.facet-group { border: 0; margin: 0; padding: 0; min-width: 0; }
+.facet-group legend {
+  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--paper-dim); margin-bottom: 8px; padding: 0;
+}
+.facet-options { display: flex; flex-wrap: wrap; gap: 6px; }
+.facet-pill {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; padding: 5px 10px;
+  border-radius: 999px; border: 1px solid var(--line); background: var(--ink); color: var(--paper); cursor: pointer;
+}
+.facet-pill:hover:not(:disabled) { border-color: var(--phosphor); }
+.facet-pill.active { background: var(--phosphor); border-color: var(--phosphor); color: var(--ink); }
+.facet-pill:disabled { opacity: 0.35; cursor: default; }
+.facet-count { font-family: var(--font-mono); font-size: 11px; color: var(--paper-dim); }
+.facet-pill.active .facet-count { color: var(--ink); opacity: 0.75; }
+.facet-foot {
+  grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; justify-content: space-between;
+  font-size: 12px; color: var(--paper-dim);
+}
+.facet-clear {
+  font-family: var(--font-mono); font-size: 12px; background: none; border: 0; color: var(--cyan);
+  cursor: pointer; text-decoration: underline; padding: 4px 0;
+}
+.active-filters {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  padding: 12px clamp(18px, 4vw, 48px) 0;
+}
+.active-filters.hidden { display: none; }
+.active-filter-chip {
+  font-size: 12.5px; padding: 5px 10px; border-radius: 999px; cursor: pointer;
+  background: rgba(242,169,59,0.15); border: 1px solid var(--phosphor-dim); color: var(--paper);
+}
+.active-filter-chip:hover { border-color: var(--phosphor); }

@@ -100,6 +100,11 @@
         <button id="compare-toggle" type="button" class="compare-toggle-btn">Compare mode: off</button>
       </div>
 
+      <div class="control-group">
+        <label for="filters-toggle">&nbsp;</label>
+        <button id="filters-toggle" type="button" class="compare-toggle-btn filters-toggle-btn" aria-expanded="false" aria-controls="facet-panel">⚲ Filters</button>
+      </div>
+
       <div class="control-group hidden" id="csv-group">
         <label for="csv-btn">&nbsp;</label>
         <button id="csv-btn" type="button" class="compare-toggle-btn" title="Download the rows currently shown, in the current sort order">⇩ Download CSV</button>
@@ -110,11 +115,14 @@
       </div>
     </section>
 
+    <section id="facet-panel" class="facet-panel hidden" aria-label="Filters"></section>
+    <div id="active-filters" class="active-filters hidden"></div>
+
     <section class="stage-wrap">
       <div id="stage" aria-label="Map of harmonization methods"></div>
       <div id="empty-state" class="empty-state hidden">
-        <p>No methods match that search.</p>
-        <button id="clear-search-btn">Clear search</button>
+        <p>No methods match this search and these filters.</p>
+        <button id="clear-search-btn">Clear search and filters</button>
       </div>
     </section>
 

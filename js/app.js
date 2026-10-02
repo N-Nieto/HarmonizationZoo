@@ -43,6 +43,7 @@ const state = {
   activeTab: "home",
   view: "map",
   sort: { key: "citations", dir: "desc" },
+  facets: {}, // facet key -> Set of selected values (OR within a facet, AND across facets)
 };
 
 async function init() {
@@ -78,6 +79,7 @@ async function init() {
   buildLevelToggles();
   buildFamilyLegend();
   bindControls();
+  bindFacets();
   bindTabs();
   bindCompareBar();
   bindFetchStatsButton();
@@ -775,6 +777,8 @@ function bindControls() {
   document.getElementById("clear-search-btn").addEventListener("click", () => {
     document.getElementById("search").value = "";
     state.search = "";
+    state.facets = {};
+    facetsToUrl();
     render();
   });
   document.getElementById("drawer-close").addEventListener("click", closeDrawer);
@@ -814,7 +818,7 @@ function setView(view, { silent = false } = {}) {
 
 function toggleCompareMode() {
   state.compareMode = !state.compareMode;
-  document.querySelectorAll(".compare-toggle-btn").forEach((btn) => {
+  document.querySelectorAll("#compare-toggle, #compare-toggle-rec").forEach((btn) => {
     btn.classList.toggle("active", state.compareMode);
     btn.textContent = `Compare mode: ${state.compareMode ? "on" : "off"}`;
   });
@@ -878,16 +882,7 @@ function updateCompareBar() {
 }
 
 function visibleMethods() {
-  return state.data.filter((d) => {
-    if (!state.activeLevels.has(d.level)) return false;
-    if (!state.search) return true;
-    const haystack = [
-      d.name, d.category_label, d.method_type, d.level, d.venue || "",
-      ...(d.tags || []), ...(d.language || []), ...(d.authors || []),
-      ...(d.modalities_tested || []),
-    ].join(" ").toLowerCase();
-    return haystack.includes(state.search);
-  });
+  return state.data.filter((d) => passesSearchAndLevel(d) && passesFacets(d));
 }
 
 function render() {
@@ -896,6 +891,8 @@ function render() {
   stage.innerHTML = "";
 
   const methods = visibleMethods();
+  renderFacetPanel();
+  renderActiveFilters();
   document.getElementById("empty-state").classList.toggle("hidden", methods.length > 0);
   if (methods.length === 0) return;
 
@@ -961,6 +958,196 @@ function makeBox(d) {
     }
   });
   return box;
+}
+
+/* ---------------- Facet filters ---------------- */
+// Each facet maps a method to the list of values it has for that facet.
+// Selecting values: OR within a facet, AND across facets. Counts next to each
+// option show how many methods you'd get if you added it (given the other facets).
+const MODALITY_FACET_LABEL = {
+  sMRI: "Structural MRI", dMRI: "Diffusion MRI", fMRI: "Functional MRI", connectome: "Connectomes",
+  EEG: "EEG", MEG: "MEG", PET: "PET", CT: "CT", radiomics: "Radiomics", omics: "Omics",
+  histopathology: "Histopathology", "general-imaging": "Medical imaging (general)",
+  general: "Modality-agnostic", "MRI-acquisition": "MRI acquisition",
+};
+function maintenanceFacet(d) {
+  if (d.last_commit) return [formatMaintenance(d.last_commit).status];
+  if (isToolboxMember(d.id)) return ["toolbox"];
+  return ["unknown"];
+}
+function publicationFacet(d) {
+  if (!d.paper_title && !d.paper_url) return ["none"];
+  if (d.publication_type === "preprint" || d.venue === "arXiv" || d.venue === "bioRxiv") return ["preprint"];
+  return ["peer-reviewed"];
+}
+const FACETS = [
+  { key: "modality", label: "Tested on", values: (d) => d.modalities_tested || [],
+    labelOf: (v) => MODALITY_FACET_LABEL[v] || v },
+  { key: "family", label: "Family", values: (d) => [d.category],
+    labelOf: (v) => FAMILY_SHORT[v] || FAMILY_LABEL.get(v) || v },
+  { key: "language", label: "Language", values: (d) => (d.language && d.language.length ? d.language : ["none"]),
+    labelOf: (v) => (v === "none" ? "No code listed" : v) },
+  { key: "code", label: "Code", values: (d) => [d.github || d.other_url || isToolboxMember(d.id) ? "yes" : "no"],
+    labelOf: (v) => (v === "yes" ? "Has public code" : "No public code"), order: ["yes", "no"] },
+  { key: "maintenance", label: "Maintenance", values: maintenanceFacet,
+    labelOf: (v) => ({ active: "Active (< 6 mo)", slowing: "Slowing (< 2 y)", stale: "Stale (2 y+)", toolbox: "Via a toolbox", unknown: "Unknown" })[v] || v,
+    order: ["active", "slowing", "stale", "toolbox", "unknown"] },
+  { key: "publication", label: "Paper", values: publicationFacet,
+    labelOf: (v) => ({ "peer-reviewed": "Peer-reviewed", preprint: "Preprint", none: "No paper" })[v] || v,
+    order: ["peer-reviewed", "preprint", "none"] },
+  { key: "gpu", label: "Hardware", values: (d) => [d.recommend && d.recommend.needs_gpu ? "gpu" : "cpu"],
+    labelOf: (v) => (v === "gpu" ? "Needs a GPU" : "Runs on CPU"), order: ["cpu", "gpu"] },
+];
+
+function passesFacets(d, skipKey = null) {
+  for (const f of FACETS) {
+    if (f.key === skipKey) continue;
+    const sel = state.facets[f.key];
+    if (!sel || sel.size === 0) continue;
+    if (!f.values(d).some((v) => sel.has(v))) return false;
+  }
+  return true;
+}
+
+function passesSearchAndLevel(d) {
+  if (!state.activeLevels.has(d.level)) return false;
+  if (!state.search) return true;
+  const haystack = [
+    d.name, d.category_label, d.method_type, d.level, d.venue || "",
+    ...(d.tags || []), ...(d.language || []), ...(d.authors || []),
+    ...(d.modalities_tested || []),
+  ].join(" ").toLowerCase();
+  return haystack.includes(state.search);
+}
+
+function activeFacetCount() {
+  return Object.values(state.facets).reduce((n, s) => n + (s ? s.size : 0), 0);
+}
+
+function facetsToUrl() {
+  const url = new URL(location.href);
+  const parts = [];
+  FACETS.forEach((f) => (state.facets[f.key] || new Set()).forEach((v) => parts.push(`${f.key}:${v}`)));
+  if (parts.length) url.searchParams.set("f", parts.join(",")); else url.searchParams.delete("f");
+  history.replaceState(history.state, "", url);
+}
+
+function facetsFromUrl() {
+  const raw = new URLSearchParams(location.search).get("f");
+  if (!raw) return;
+  const known = new Set(FACETS.map((f) => f.key));
+  raw.split(",").forEach((pair) => {
+    const i = pair.indexOf(":");
+    if (i < 1) return;
+    const key = pair.slice(0, i), val = pair.slice(i + 1);
+    if (!known.has(key) || !val) return;
+    (state.facets[key] ||= new Set()).add(val);
+  });
+}
+
+function toggleFacet(key, value) {
+  const set = (state.facets[key] ||= new Set());
+  if (set.has(value)) set.delete(value); else set.add(value);
+  facetsToUrl();
+  render();
+}
+
+function clearFacets() {
+  state.facets = {};
+  facetsToUrl();
+  render();
+}
+
+function renderFacetPanel() {
+  const panel = document.getElementById("facet-panel");
+  const base = state.data.filter(passesSearchAndLevel);
+  panel.innerHTML = "";
+  FACETS.forEach((f) => {
+    // counts for this facet's options = methods passing every *other* facet
+    const pool = base.filter((d) => passesFacets(d, f.key));
+    const counts = new Map();
+    base.forEach((d) => f.values(d).forEach((v) => { if (!counts.has(v)) counts.set(v, 0); }));
+    pool.forEach((d) => f.values(d).forEach((v) => counts.set(v, (counts.get(v) || 0) + 1)));
+    let values = [...counts.keys()];
+    if (f.order) values = f.order.filter((v) => counts.has(v)).concat(values.filter((v) => !f.order.includes(v)));
+    else values.sort((a, b) => (counts.get(b) - counts.get(a)) || String(f.labelOf(a)).localeCompare(String(f.labelOf(b))));
+    const sel = state.facets[f.key] || new Set();
+
+    const group = document.createElement("fieldset");
+    group.className = "facet-group";
+    const legend = document.createElement("legend");
+    legend.textContent = f.label;
+    group.appendChild(legend);
+    const opts = document.createElement("div");
+    opts.className = "facet-options";
+    values.forEach((v) => {
+      const n = counts.get(v) || 0;
+      const on = sel.has(v);
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "facet-pill" + (on ? " active" : "") + (!on && n === 0 ? " empty" : "");
+      btn.setAttribute("aria-pressed", String(on));
+      btn.disabled = !on && n === 0;
+      btn.textContent = f.labelOf(v);
+      const c = document.createElement("span");
+      c.className = "facet-count";
+      c.textContent = n;
+      btn.appendChild(c);
+      btn.addEventListener("click", () => toggleFacet(f.key, v));
+      opts.appendChild(btn);
+    });
+    group.appendChild(opts);
+    panel.appendChild(group);
+  });
+  const foot = document.createElement("div");
+  foot.className = "facet-foot";
+  foot.innerHTML = `<span>Within a group, any selected option matches; across groups, all must match.</span>`;
+  if (activeFacetCount()) {
+    const clear = document.createElement("button");
+    clear.type = "button";
+    clear.className = "facet-clear";
+    clear.textContent = "Clear all filters";
+    clear.addEventListener("click", clearFacets);
+    foot.appendChild(clear);
+  }
+  panel.appendChild(foot);
+}
+
+function renderActiveFilters() {
+  const bar = document.getElementById("active-filters");
+  const n = activeFacetCount();
+  const btn = document.getElementById("filters-toggle");
+  btn.textContent = n ? `⚲ Filters (${n})` : "⚲ Filters";
+  btn.classList.toggle("active", n > 0);
+  bar.classList.toggle("hidden", n === 0);
+  bar.innerHTML = "";
+  if (!n) return;
+  FACETS.forEach((f) => (state.facets[f.key] || new Set()).forEach((v) => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "active-filter-chip";
+    chip.title = "Remove this filter";
+    chip.textContent = `${f.label}: ${f.labelOf(v)} ✕`;
+    chip.addEventListener("click", () => toggleFacet(f.key, v));
+    bar.appendChild(chip);
+  }));
+  const clear = document.createElement("button");
+  clear.type = "button";
+  clear.className = "facet-clear";
+  clear.textContent = "Clear all";
+  clear.addEventListener("click", clearFacets);
+  bar.appendChild(clear);
+}
+
+function bindFacets() {
+  facetsFromUrl();
+  const btn = document.getElementById("filters-toggle");
+  const panel = document.getElementById("facet-panel");
+  btn.addEventListener("click", () => {
+    const open = panel.classList.toggle("hidden") === false;
+    btn.setAttribute("aria-expanded", String(open));
+  });
+  if (activeFacetCount()) { panel.classList.remove("hidden"); btn.setAttribute("aria-expanded", "true"); }
 }
 
 /* ---------------- Lineage view ---------------- */
