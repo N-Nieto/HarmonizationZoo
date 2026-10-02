@@ -448,7 +448,7 @@
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
-      "doi": null,
+      "doi": "10.1016/j.neucom.2026.133146",
       "arxiv_id": null,
       "authors": [
         "Nicolás Nieto",
@@ -861,7 +861,7 @@
         "diffusion-MRI",
         "pathology-aware"
       ],
-      "paper_title": null,
+      "paper_title": "Robust-ComBat: Mitigating Outlier Effects in Diffusion MRI Data Harmonization",
       "paper_year": 2026,
       "paper_url": "https://arxiv.org/abs/2603.17968",
       "github": "scil-vital/ComBat-Robust",
@@ -1163,7 +1163,7 @@
       ],
       "paper_title": "On standardizing the MR image intensity scale",
       "paper_year": 1999,
-      "paper_url": "https://doi.org/10.1002/(SICI)1522-2594(199912)42:6<1072::AID-MRM11>3.0.CO;2-M",
+      "paper_url": "https://doi.org/10.1002/(SICI)1522-2594(199912)42:6%3C1072::AID-MRM11%3E3.0.CO;2-M",
       "github": null,
       "other_url": "https://github.com/jcreinhold/intensity-normalization",
       "language": [
@@ -5314,7 +5314,7 @@
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
-      "doi": null,
+      "doi": "10.1016/j.neuroimage.2026.121686",
       "arxiv_id": null,
       "authors": [
         "Yuxing Hao",
@@ -5538,7 +5538,7 @@
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
-      "doi": null,
+      "doi": "10.1109/tbme.2021.3105912",
       "arxiv_id": null,
       "authors": [
         "Victoria Peterson",

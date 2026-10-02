@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>CALAMITI — Harmonization Zoo</title>
+<meta name="description" content="CALAMITI: a image-level Deep learning-based harmonization method. published 2021 in NeuroImage, 110 citations, tested on Structural MRI.">
+<link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/calamiti/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CALAMITI — Harmonization Zoo">
+<meta property="og:description" content="CALAMITI: a image-level Deep learning-based harmonization method. published 2021 in NeuroImage, 110 citations, tested on Structural MRI.">
+<meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/calamiti/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0a0e13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='18' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.55'/%3E%3Ccircle cx='20' cy='20' r='12' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.75'/%3E%3Ccircle cx='20' cy='20' r='5.5' fill='%23f2a93b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/method-page.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "CALAMITI",
+  "url": "https://n-nieto.github.io/HarmonizationZoo/methods/calamiti/",
+  "description": "CALAMITI: a image-level Deep learning-based harmonization method. published 2021 in NeuroImage, 110 citations, tested on Structural MRI.",
+  "programmingLanguage": [
+    "Python"
+  ],
+  "citation": {
+    "@type": "ScholarlyArticle",
+    "headline": "Unsupervised MR harmonization by learning disentangled representations using information bottleneck theory",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Lianrui Zuo"
+      },
+      {
+        "@type": "Person",
+        "name": "Blake E. Dewey"
+      },
+      {
+        "@type": "Person",
+        "name": "Yihao Liu"
+      },
+      {
+        "@type": "Person",
+        "name": "Yufan He"
+      },
+      {
+        "@type": "Person",
+        "name": "Scott D. Newsome"
+      },
+      {
+        "@type": "Person",
+        "name": "Ellen M. Mowry"
+      }
+    ],
+    "datePublished": "2021",
+    "isPartOf": {
+      "@type": "Periodical",
+      "name": "NeuroImage"
+    },
+    "identifier": {
+      "@type": "PropertyValue",
+      "propertyID": "DOI",
+      "value": "10.1016/j.neuroimage.2021.118569"
+    },
+    "sameAs": "https://doi.org/10.1016/j.neuroimage.2021.118569"
+  }
+}
+</script>
+</head>
+<body>
+<header class="mp-top">
+  <a class="mp-home" href="../../">Harmonization <em>Zoo</em></a>
+  <nav class="mp-nav" aria-label="Site">
+    <a href="../../?method=calamiti#explore">Open in the map</a>
+    <a href="../../?view=table#explore">All methods</a>
+  </nav>
+</header>
+<main class="mp-main">
+  <p class="mp-eyebrow" style="--eyebrow-color:#5fc9c9">Deep learning-based · Image-level</p>
+  <h1>CALAMITI</h1>
+  
+  <section class="mp-section mp-paper">
+    <p class="mp-paper-title">Unsupervised MR harmonization by learning disentangled representations using information bottleneck theory</p><p class="mp-authors">Lianrui Zuo, Blake E. Dewey, Yihao Liu, Yufan He, Scott D. Newsome, Ellen M. Mowry et al.</p><p class="mp-venue">NeuroImage · 2021</p>
+    <div class="mp-links"><a class="mp-btn" href="https://doi.org/10.1016/j.neuroimage.2021.118569" rel="noopener noreferrer">↗ doi:10.1016/j.neuroimage.2021.118569</a><a class="mp-btn" href="https://iacl.ece.jhu.edu/index.php?title=CALAMITI" rel="noopener noreferrer">↗ Project page</a></div>
+  </section>
+  <section class="mp-stats"><div class="mp-stat"><span>Citations</span><strong>110</strong></div></section>
+  
+  <section class="mp-section">
+    <h2>Details</h2>
+    <dl class="spec-table"><dt>Family</dt><dd>Deep learning-based</dd><dt>Level</dt><dd>Image-level</dd><dt>Method type</dt><dd>deep learning</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Language</dt><dd><div class="chip-row"><span class="chip">Python</span></div></dd><dt>Architecture</dt><dd>Disentangled VAE</dd><dt>Builds on</dt><dd><a href="../dewey-disentangled-latent/">Disentangled Latent Space (Dewey et al.)</a></dd><dt>Extended by</dt><dd><a href="../haca3/">HACA3</a></dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">disentanglement</span><span class="chip">information-bottleneck</span><span class="chip">unsupervised</span></div></dd></dl>
+  </section>
+  
+    <section class="mp-section">
+      <div class="mp-section-head"><h2>Cite</h2>
+        <button type="button" class="mp-btn" data-copy="#bibtex">⧉ Copy BibTeX</button></div>
+      <pre class="mp-bibtex" id="bibtex">@article{zuo2021unsupervised,
+  title   = {{Unsupervised MR harmonization by learning disentangled representations using information bottleneck theory}},
+  author  = {Zuo, Lianrui and Dewey, Blake E. and Liu, Yihao and He, Yufan and Newsome, Scott D. and Mowry, Ellen M. and others},
+  journal = {NeuroImage},
+  year    = {2021},
+  doi     = {10.1016/j.neuroimage.2021.118569}
+}</pre>
+      <p class="mp-muted">Author list truncated; check the publisher page for the full list.</p>
+    </section>
+  <section class="mp-section mp-report">
+    <h2>Something wrong or missing?</h2>
+    <p>Corrections are reviewed in the open on GitHub.</p>
+    <div class="mp-links">
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/issues/new?title=Data%20issue%3A%20CALAMITI%20%28calamiti%29&amp;body=Method%20page%3A%20https%3A//n-nieto.github.io/HarmonizationZoo/methods/calamiti/%0A%0A%2A%2AWhat%20is%20wrong%20or%20missing%3F%2A%2A%0A%0A%0A%2A%2ACorrect%20value%20and%20a%20source%20%28DOI%2C%20paper%20section%2C%20repo%20link%29%3A%2A%2A%0A%0A&amp;labels=data" rel="noopener noreferrer">⚑ Report an error</a>
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/blob/main/data/methods.json" rel="noopener noreferrer">✎ Edit the data</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><p>Stats refresh automatically from GitHub and OpenAlex. <a href="../../">Back to the Harmonization Zoo</a></p></footer>
+<script src="../../js/method-page.js"></script>
+</body>
+</html>

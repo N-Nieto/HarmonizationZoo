@@ -47,3 +47,6 @@ jobs:
           delete-branch: true
           labels: automated
           author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+
+      - name: Rebuild method pages
+        run: python3 scripts/build_pages.py

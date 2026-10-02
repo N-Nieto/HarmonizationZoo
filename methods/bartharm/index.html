@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>BARTharm — Harmonization Zoo</title>
+<meta name="description" content="BARTharm: a feature-level IQM-based harmonization method. published 2025 in bioRxiv, 1 citations, tested on Structural MRI.">
+<link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/bartharm/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BARTharm — Harmonization Zoo">
+<meta property="og:description" content="BARTharm: a feature-level IQM-based harmonization method. published 2025 in bioRxiv, 1 citations, tested on Structural MRI.">
+<meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/bartharm/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0a0e13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='18' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.55'/%3E%3Ccircle cx='20' cy='20' r='12' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.75'/%3E%3Ccircle cx='20' cy='20' r='5.5' fill='%23f2a93b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/method-page.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "BARTharm",
+  "url": "https://n-nieto.github.io/HarmonizationZoo/methods/bartharm/",
+  "description": "BARTharm: a feature-level IQM-based harmonization method. published 2025 in bioRxiv, 1 citations, tested on Structural MRI.",
+  "codeRepository": "https://github.com/NeuroSML/BARTharm",
+  "programmingLanguage": [
+    "R"
+  ],
+  "citation": {
+    "@type": "ScholarlyArticle",
+    "headline": "BARTharm: MRI Harmonization Using Image Quality Metrics and Bayesian Non-parametric",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Emma Prevot"
+      },
+      {
+        "@type": "Person",
+        "name": "Dieter A. Häring"
+      },
+      {
+        "@type": "Person",
+        "name": "Laura Gaetano"
+      },
+      {
+        "@type": "Person",
+        "name": "Russell T. Shinohara"
+      },
+      {
+        "@type": "Person",
+        "name": "Chris C. Holmes"
+      },
+      {
+        "@type": "Person",
+        "name": "Thomas E. Nichols"
+      }
+    ],
+    "datePublished": "2025",
+    "isPartOf": {
+      "@type": "Periodical",
+      "name": "bioRxiv"
+    },
+    "identifier": {
+      "@type": "PropertyValue",
+      "propertyID": "DOI",
+      "value": "10.1101/2025.06.04.657792"
+    },
+    "sameAs": "https://doi.org/10.1101/2025.06.04.657792"
+  }
+}
+</script>
+</head>
+<body>
+<header class="mp-top">
+  <a class="mp-home" href="../../">Harmonization <em>Zoo</em></a>
+  <nav class="mp-nav" aria-label="Site">
+    <a href="../../?method=bartharm#explore">Open in the map</a>
+    <a href="../../?view=table#explore">All methods</a>
+  </nav>
+</header>
+<main class="mp-main">
+  <p class="mp-eyebrow" style="--eyebrow-color:#9c8cf0">IQM-based · Feature-level</p>
+  <h1>BARTharm</h1>
+  
+  <section class="mp-section mp-paper">
+    <p class="mp-paper-title">BARTharm: MRI Harmonization Using Image Quality Metrics and Bayesian Non-parametric</p><p class="mp-authors">Emma Prevot, Dieter A. Häring, Laura Gaetano, Russell T. Shinohara, Chris C. Holmes, Thomas E. Nichols et al.</p><p class="mp-venue">bioRxiv · 2025</p>
+    <div class="mp-links"><a class="mp-btn" href="https://doi.org/10.1101/2025.06.04.657792" rel="noopener noreferrer">↗ doi:10.1101/2025.06.04.657792</a><a class="mp-btn" href="https://github.com/NeuroSML/BARTharm" rel="noopener noreferrer">↗ NeuroSML/BARTharm</a></div>
+  </section>
+  <section class="mp-stats"><div class="mp-stat"><span>Citations</span><strong>1</strong></div><div class="mp-stat"><span>GitHub stars</span><strong>2</strong></div><div class="mp-stat"><span>Last commit</span><strong><span class="maint-badge maint-slowing">Slowing</span> 2026-03-29</strong></div></section>
+  <p class="mp-repo-desc">R-based pipeline to harmonize data using Bayesian Additive Regression Trees (BART) and Image Quality Metric (IQMs)</p>
+  <section class="mp-section">
+    <h2>Details</h2>
+    <dl class="spec-table"><dt>Family</dt><dd>IQM-based</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Language</dt><dd><div class="chip-row"><span class="chip">R</span></div></dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">IQM</span><span class="chip">bayesian-nonparametric</span></div></dd></dl>
+  </section>
+  
+    <section class="mp-section">
+      <div class="mp-section-head"><h2>Cite</h2>
+        <button type="button" class="mp-btn" data-copy="#bibtex">⧉ Copy BibTeX</button></div>
+      <pre class="mp-bibtex" id="bibtex">@misc{prevot2025bartharm,
+  title        = {{BARTharm: MRI Harmonization Using Image Quality Metrics and Bayesian Non-parametric}},
+  author       = {Prevot, Emma and Häring, Dieter A. and Gaetano, Laura and Shinohara, Russell T. and Holmes, Chris C. and Nichols, Thomas E. and others},
+  howpublished = {bioRxiv},
+  year         = {2025},
+  doi          = {10.1101/2025.06.04.657792}
+}</pre>
+      <p class="mp-muted">Author list truncated; check the publisher page for the full list.</p>
+    </section>
+  <section class="mp-section mp-report">
+    <h2>Something wrong or missing?</h2>
+    <p>Corrections are reviewed in the open on GitHub.</p>
+    <div class="mp-links">
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/issues/new?title=Data%20issue%3A%20BARTharm%20%28bartharm%29&amp;body=Method%20page%3A%20https%3A//n-nieto.github.io/HarmonizationZoo/methods/bartharm/%0A%0A%2A%2AWhat%20is%20wrong%20or%20missing%3F%2A%2A%0A%0A%0A%2A%2ACorrect%20value%20and%20a%20source%20%28DOI%2C%20paper%20section%2C%20repo%20link%29%3A%2A%2A%0A%0A&amp;labels=data" rel="noopener noreferrer">⚑ Report an error</a>
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/blob/main/data/methods.json" rel="noopener noreferrer">✎ Edit the data</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><p>Stats refresh automatically from GitHub and OpenAlex. <a href="../../">Back to the Harmonization Zoo</a></p></footer>
+<script src="../../js/method-page.js"></script>
+</body>
+</html>

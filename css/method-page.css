@@ -1,0 +1,43 @@
+/* Static per-method pages (methods/<id>/index.html). Builds on css/style.css tokens. */
+.mp-top {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 18px clamp(16px, 4vw, 48px); border-bottom: 1px solid var(--line);
+}
+.mp-home { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--paper); text-decoration: none; }
+.mp-home em { font-style: normal; color: var(--phosphor); }
+.mp-nav { display: flex; gap: 18px; font-family: var(--font-mono); font-size: 13px; }
+.mp-main { max-width: 860px; margin: 0 auto; padding: 32px clamp(16px, 4vw, 48px) 56px; }
+.mp-eyebrow {
+  font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--eyebrow-color, var(--phosphor)); margin: 0 0 8px;
+}
+.mp-main h1 { font-family: var(--font-display); font-size: clamp(26px, 5vw, 38px); line-height: 1.15; margin: 0 0 18px; }
+.mp-main h2 { font-family: var(--font-display); font-size: 18px; margin: 0 0 12px; }
+.mp-section { margin: 0 0 30px; }
+.mp-section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.mp-section-head h2 { margin: 0; }
+.mp-paper-title { font-size: 17px; font-style: italic; color: var(--paper); margin: 0 0 6px; }
+.mp-authors { color: var(--paper-dim); margin: 0 0 4px; font-size: 14.5px; }
+.mp-venue { font-family: var(--font-mono); font-size: 13px; color: var(--paper-dim); margin: 0 0 14px; }
+.mp-muted { color: var(--paper-dim); font-size: 13.5px; }
+.mp-review { border-left: 3px solid var(--phosphor); padding: 6px 12px; color: var(--paper-dim); background: var(--panel); }
+.mp-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.mp-btn {
+  display: inline-block; font-family: var(--font-mono); font-size: 13px; padding: 8px 12px;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--paper);
+  text-decoration: none; cursor: pointer; overflow-wrap: anywhere;
+}
+.mp-btn:hover { border-color: var(--phosphor); color: var(--phosphor); }
+.mp-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 0 0 24px; }
+.mp-stat { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; }
+.mp-stat > span { display: block; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--paper-dim); margin-bottom: 6px; }
+.mp-stat strong { font-size: 20px; font-weight: 600; }
+.mp-stat .maint-badge { display: inline-block; margin: 0 6px 0 0; font-size: 11px; vertical-align: 3px; }
+.mp-repo-desc { color: var(--paper-dim); margin: 0 0 24px; }
+.mp-bibtex {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 14px 16px; overflow-x: auto; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.55;
+  color: var(--paper); margin: 0; white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.mp-report p { color: var(--paper-dim); margin: 0 0 12px; }
+@media (max-width: 600px) { .mp-nav { gap: 12px; font-size: 12px; } }

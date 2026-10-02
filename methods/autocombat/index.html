@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>AutoComBat (ComScan) — Harmonization Zoo</title>
+<meta name="description" content="AutoComBat (ComScan): a feature-level IQM-based harmonization method. published 2022 in Scientific Reports, 25 citations, tested on Structural MRI, Radiomics.">
+<link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/autocombat/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AutoComBat (ComScan) — Harmonization Zoo">
+<meta property="og:description" content="AutoComBat (ComScan): a feature-level IQM-based harmonization method. published 2022 in Scientific Reports, 25 citations, tested on Structural MRI, Radiomics.">
+<meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/autocombat/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0a0e13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='18' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.55'/%3E%3Ccircle cx='20' cy='20' r='12' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.75'/%3E%3Ccircle cx='20' cy='20' r='5.5' fill='%23f2a93b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/method-page.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "AutoComBat (ComScan)",
+  "url": "https://n-nieto.github.io/HarmonizationZoo/methods/autocombat/",
+  "description": "AutoComBat (ComScan): a feature-level IQM-based harmonization method. published 2022 in Scientific Reports, 25 citations, tested on Structural MRI, Radiomics.",
+  "codeRepository": "https://github.com/Alxaline/ComScan",
+  "programmingLanguage": [
+    "Python"
+  ],
+  "license": "https://spdx.org/licenses/Apache-2.0.html",
+  "citation": {
+    "@type": "ScholarlyArticle",
+    "headline": "AutoComBat: a generic method for harmonizing MRI-based radiomic features",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Alexandre Carré"
+      },
+      {
+        "@type": "Person",
+        "name": "Enzo Battistella"
+      },
+      {
+        "@type": "Person",
+        "name": "Stéphane Niyoteka"
+      },
+      {
+        "@type": "Person",
+        "name": "Roger Sun"
+      },
+      {
+        "@type": "Person",
+        "name": "Eric Deutsch"
+      },
+      {
+        "@type": "Person",
+        "name": "Charlotte Robert"
+      }
+    ],
+    "datePublished": "2022",
+    "isPartOf": {
+      "@type": "Periodical",
+      "name": "Scientific Reports"
+    },
+    "identifier": {
+      "@type": "PropertyValue",
+      "propertyID": "DOI",
+      "value": "10.1038/s41598-022-16609-1"
+    },
+    "sameAs": "https://doi.org/10.1038/s41598-022-16609-1"
+  }
+}
+</script>
+</head>
+<body>
+<header class="mp-top">
+  <a class="mp-home" href="../../">Harmonization <em>Zoo</em></a>
+  <nav class="mp-nav" aria-label="Site">
+    <a href="../../?method=autocombat#explore">Open in the map</a>
+    <a href="../../?view=table#explore">All methods</a>
+  </nav>
+</header>
+<main class="mp-main">
+  <p class="mp-eyebrow" style="--eyebrow-color:#9c8cf0">IQM-based · Feature-level</p>
+  <h1>AutoComBat (ComScan)</h1>
+  
+  <section class="mp-section mp-paper">
+    <p class="mp-paper-title">AutoComBat: a generic method for harmonizing MRI-based radiomic features</p><p class="mp-authors">Alexandre Carré, Enzo Battistella, Stéphane Niyoteka, Roger Sun, Eric Deutsch, Charlotte Robert</p><p class="mp-venue">Scientific Reports · 2022</p>
+    <div class="mp-links"><a class="mp-btn" href="https://doi.org/10.1038/s41598-022-16609-1" rel="noopener noreferrer">↗ doi:10.1038/s41598-022-16609-1</a><a class="mp-btn" href="https://github.com/Alxaline/ComScan" rel="noopener noreferrer">↗ Alxaline/ComScan</a></div>
+  </section>
+  <section class="mp-stats"><div class="mp-stat"><span>Citations</span><strong>25</strong></div><div class="mp-stat"><span>GitHub stars</span><strong>10</strong></div><div class="mp-stat"><span>Last commit</span><strong><span class="maint-badge maint-stale">Stale</span> 2022-07-31</strong></div></section>
+  <p class="mp-repo-desc">Implementation of ComBat and AutoComBat for features radiomics harmonization</p>
+  <section class="mp-section">
+    <h2>Details</h2>
+    <dl class="spec-table"><dt>Family</dt><dd>IQM-based</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span><span class="chip">Radiomics</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span><span class="chip">Radiomics</span></div></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Language</dt><dd><div class="chip-row"><span class="chip">Python</span></div></dd><dt>License</dt><dd>Apache-2.0</dd><dt>Builds on</dt><dd><a href="../combat/">ComBat</a></dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">IQM</span><span class="chip">empirical-bayes</span><span class="chip">radiomics</span><span class="chip">auto-batch</span></div></dd></dl>
+  </section>
+  
+    <section class="mp-section">
+      <div class="mp-section-head"><h2>Cite</h2>
+        <button type="button" class="mp-btn" data-copy="#bibtex">⧉ Copy BibTeX</button></div>
+      <pre class="mp-bibtex" id="bibtex">@article{carre2022autocombat,
+  title   = {{AutoComBat: a generic method for harmonizing MRI-based radiomic features}},
+  author  = {Carré, Alexandre and Battistella, Enzo and Niyoteka, Stéphane and Sun, Roger and Deutsch, Eric and Robert, Charlotte},
+  journal = {Scientific Reports},
+  year    = {2022},
+  doi     = {10.1038/s41598-022-16609-1}
+}</pre>
+      
+    </section>
+  <section class="mp-section mp-report">
+    <h2>Something wrong or missing?</h2>
+    <p>Corrections are reviewed in the open on GitHub.</p>
+    <div class="mp-links">
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/issues/new?title=Data%20issue%3A%20AutoComBat%20%28ComScan%29%20%28autocombat%29&amp;body=Method%20page%3A%20https%3A//n-nieto.github.io/HarmonizationZoo/methods/autocombat/%0A%0A%2A%2AWhat%20is%20wrong%20or%20missing%3F%2A%2A%0A%0A%0A%2A%2ACorrect%20value%20and%20a%20source%20%28DOI%2C%20paper%20section%2C%20repo%20link%29%3A%2A%2A%0A%0A&amp;labels=data" rel="noopener noreferrer">⚑ Report an error</a>
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/blob/main/data/methods.json" rel="noopener noreferrer">✎ Edit the data</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><p>Stats refresh automatically from GitHub and OpenAlex. <a href="../../">Back to the Harmonization Zoo</a></p></footer>
+<script src="../../js/method-page.js"></script>
+</body>
+</html>

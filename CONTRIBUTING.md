@@ -75,6 +75,12 @@ There's no build step and no database — add a method either of two ways:
    `scripts/fetch_github_stats.py` to fill in `stars` / `last_commit`
    automatically — you don't need to look those up yourself.
 
+## Before you open a PR
+
+Run `python3 scripts/validate_methods.py` (CI runs it too), then `python3 scripts/build_pages.py` to regenerate the per-method pages in `methods/` and `sitemap.xml`, and commit those changes with your data edit. It rejects non-http(s) links,
+malformed `github` slugs, wrong value types, unknown categories/modalities, and
+`extends` / `implements` / toolbox ids that don't exist. Fix what it reports and push again.
+
 ## Field reference
 
 | Field | Required | Notes |

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>CycleGAN (3D brain MRI, Komandur et al.) — Harmonization Zoo</title>
+<meta name="description" content="CycleGAN (3D brain MRI, Komandur et al.): a image-level Deep learning-based harmonization method. published 2023 in SIPAIM 2023, 8 citations, tested on Structural MRI.">
+<link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/cyclegan-brainmri/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CycleGAN (3D brain MRI, Komandur et al.) — Harmonization Zoo">
+<meta property="og:description" content="CycleGAN (3D brain MRI, Komandur et al.): a image-level Deep learning-based harmonization method. published 2023 in SIPAIM 2023, 8 citations, tested on Structural MRI.">
+<meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/cyclegan-brainmri/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0a0e13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='18' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.55'/%3E%3Ccircle cx='20' cy='20' r='12' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.75'/%3E%3Ccircle cx='20' cy='20' r='5.5' fill='%23f2a93b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/method-page.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "CycleGAN (3D brain MRI, Komandur et al.)",
+  "url": "https://n-nieto.github.io/HarmonizationZoo/methods/cyclegan-brainmri/",
+  "description": "CycleGAN (3D brain MRI, Komandur et al.): a image-level Deep learning-based harmonization method. published 2023 in SIPAIM 2023, 8 citations, tested on Structural MRI.",
+  "citation": {
+    "@type": "ScholarlyArticle",
+    "headline": "Unsupervised harmonization of brain MRI using 3D CycleGANs and its effect on brain age prediction",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Dheeraj Komandur"
+      },
+      {
+        "@type": "Person",
+        "name": "Umang Gupta"
+      },
+      {
+        "@type": "Person",
+        "name": "Tamoghna Chattopadhyay"
+      },
+      {
+        "@type": "Person",
+        "name": "Nikhil J. Dhinagar"
+      },
+      {
+        "@type": "Person",
+        "name": "Sophia I. Thomopoulos"
+      },
+      {
+        "@type": "Person",
+        "name": "Jiu-Chiuan Chen"
+      }
+    ],
+    "datePublished": "2023",
+    "isPartOf": {
+      "@type": "Periodical",
+      "name": "SIPAIM 2023"
+    },
+    "identifier": {
+      "@type": "PropertyValue",
+      "propertyID": "DOI",
+      "value": "10.1109/SIPAIM56729.2023.10373501"
+    },
+    "sameAs": "https://doi.org/10.1109/SIPAIM56729.2023.10373501"
+  }
+}
+</script>
+</head>
+<body>
+<header class="mp-top">
+  <a class="mp-home" href="../../">Harmonization <em>Zoo</em></a>
+  <nav class="mp-nav" aria-label="Site">
+    <a href="../../?method=cyclegan-brainmri#explore">Open in the map</a>
+    <a href="../../?view=table#explore">All methods</a>
+  </nav>
+</header>
+<main class="mp-main">
+  <p class="mp-eyebrow" style="--eyebrow-color:#5fc9c9">Deep learning-based · Image-level</p>
+  <h1>CycleGAN (3D brain MRI, Komandur et al.)</h1>
+  
+  <section class="mp-section mp-paper">
+    <p class="mp-paper-title">Unsupervised harmonization of brain MRI using 3D CycleGANs and its effect on brain age prediction</p><p class="mp-authors">Dheeraj Komandur, Umang Gupta, Tamoghna Chattopadhyay, Nikhil J. Dhinagar, Sophia I. Thomopoulos, Jiu-Chiuan Chen et al.</p><p class="mp-venue">SIPAIM 2023 · 2023</p>
+    <div class="mp-links"><a class="mp-btn" href="https://doi.org/10.1109/SIPAIM56729.2023.10373501" rel="noopener noreferrer">↗ doi:10.1109/SIPAIM56729.2023.10373501</a></div>
+  </section>
+  <section class="mp-stats"><div class="mp-stat"><span>Citations</span><strong>8</strong></div></section>
+  
+  <section class="mp-section">
+    <h2>Details</h2>
+    <dl class="spec-table"><dt>Family</dt><dd>Deep learning-based</dd><dt>Level</dt><dd>Image-level</dd><dt>Method type</dt><dd>deep learning</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Validation data</dt><dd>ADNI, WHIMS, OASIS, AIBL, UK Biobank</dd><dt>Architecture</dt><dd>CycleGAN</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">GAN</span><span class="chip">cycle-consistency</span><span class="chip">brain-age</span></div></dd></dl>
+  </section>
+  
+    <section class="mp-section">
+      <div class="mp-section-head"><h2>Cite</h2>
+        <button type="button" class="mp-btn" data-copy="#bibtex">⧉ Copy BibTeX</button></div>
+      <pre class="mp-bibtex" id="bibtex">@inproceedings{komandur2023unsupervised,
+  title     = {{Unsupervised harmonization of brain MRI using 3D CycleGANs and its effect on brain age prediction}},
+  author    = {Komandur, Dheeraj and Gupta, Umang and Chattopadhyay, Tamoghna and Dhinagar, Nikhil J. and Thomopoulos, Sophia I. and Chen, Jiu-Chiuan and others},
+  booktitle = {SIPAIM 2023},
+  year      = {2023},
+  doi       = {10.1109/SIPAIM56729.2023.10373501}
+}</pre>
+      <p class="mp-muted">Author list truncated; check the publisher page for the full list.</p>
+    </section>
+  <section class="mp-section mp-report">
+    <h2>Something wrong or missing?</h2>
+    <p>Corrections are reviewed in the open on GitHub.</p>
+    <div class="mp-links">
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/issues/new?title=Data%20issue%3A%20CycleGAN%20%283D%20brain%20MRI%2C%20Komandur%20et%20al.%29%20%28cyclegan-brainmri%29&amp;body=Method%20page%3A%20https%3A//n-nieto.github.io/HarmonizationZoo/methods/cyclegan-brainmri/%0A%0A%2A%2AWhat%20is%20wrong%20or%20missing%3F%2A%2A%0A%0A%0A%2A%2ACorrect%20value%20and%20a%20source%20%28DOI%2C%20paper%20section%2C%20repo%20link%29%3A%2A%2A%0A%0A&amp;labels=data" rel="noopener noreferrer">⚑ Report an error</a>
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/blob/main/data/methods.json" rel="noopener noreferrer">✎ Edit the data</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><p>Stats refresh automatically from GitHub and OpenAlex. <a href="../../">Back to the Harmonization Zoo</a></p></footer>
+<script src="../../js/method-page.js"></script>
+</body>
+</html>

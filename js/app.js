@@ -141,7 +141,7 @@ function buildFamilyLegend() {
   FAMILY_ORDER.filter(([id]) => present.has(id)).forEach(([id, label, color]) => {
     const item = document.createElement("span");
     item.className = "legend-item";
-    item.innerHTML = `<span class="legend-swatch" style="background:${color}"></span>${label}`;
+    item.innerHTML = `<span class="legend-swatch" style="background:${escapeHtml(color)}"></span>${escapeHtml(label)}`;
     legend.appendChild(item);
   });
 }
@@ -262,7 +262,7 @@ function buildToolboxesTab() {
       .filter(Boolean);
 
     const methodChips = methods.map((m) => `
-      <button type="button" class="toolbox-method-chip" data-id="${m.id}" style="--box-color:${FAMILY_COLOR.get(m.category) || "#888"}">
+      <button type="button" class="toolbox-method-chip" data-id="${escapeHtml(m.id)}" style="--box-color:${FAMILY_COLOR.get(m.category) || "#888"}">
         ${escapeHtml(m.name)}
       </button>
     `).join("");
@@ -273,7 +273,7 @@ function buildToolboxesTab() {
       <div class="toolbox-card">
         <div class="toolbox-card-header">
           <h3>${escapeHtml(tb.name)}</h3>
-          <a href="${tb.url}" target="_blank" rel="noopener" class="toolbox-link">↗ ${tb.url.replace(/^https?:\/\//, "")}</a>
+          ${extLink(tb.url, `↗ ${escapeHtml(String(tb.url || "").replace(/^https?:\/\//, ""))}`, "toolbox-link")}
         </div>
         <div class="chip-row">${langChips}</div>
         <p class="toolbox-desc">${escapeHtml(tb.description)}</p>
@@ -492,7 +492,7 @@ function buildAddModelTab() {
 
 function populateSelect(id, options, defaultValue) {
   const sel = document.getElementById(id);
-  sel.innerHTML = `<option value="">— select —</option>` + options.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
+  sel.innerHTML = `<option value="">— select —</option>` + options.map(([v, l]) => `<option value="${escapeHtml(v)}">${escapeHtml(l)}</option>`).join("");
   if (defaultValue) sel.value = defaultValue;
 }
 
@@ -978,11 +978,11 @@ const TABLE_COLUMNS = [
   { key: "level", label: "Level", type: "text", value: (d) => LEVEL_LABELS[d.level] || d.level,
     cell: (d) => escapeHtml((LEVEL_LABELS[d.level] || d.level || "—").replace("-level", "")) },
   { key: "year", label: "Year", type: "num", value: (d) => d.paper_year ?? null,
-    cell: (d) => (d.paper_year ? String(d.paper_year) : "—") },
+    cell: (d) => escapeHtml(d.paper_year || "—") },
   { key: "citations", label: "Citations", type: "num", value: (d) => d.citations ?? null,
-    cell: (d) => (d.citations != null ? d.citations.toLocaleString() : "—") },
+    cell: (d) => (typeof d.citations === "number" ? d.citations.toLocaleString() : escapeHtml(d.citations ?? "—")) },
   { key: "stars", label: "Stars", type: "num", value: (d) => d.stars ?? null,
-    cell: (d) => (d.stars != null ? d.stars.toLocaleString() : (d.github ? "—" : `<span class="tbl-muted">no repo</span>`)) },
+    cell: (d) => (typeof d.stars === "number" ? d.stars.toLocaleString() : (d.github ? "—" : `<span class="tbl-muted">no repo</span>`)) },
   { key: "maintenance", label: "Last commit", type: "num",
     // sort by recency: more recent = larger number
     value: (d) => (d.last_commit ? -daysSince(d.last_commit) : null),
@@ -1173,7 +1173,7 @@ function renderClusters(methods, groupBy) {
 
     const header = document.createElement("h3");
     header.className = "cluster-heading";
-    header.innerHTML = `${groupLabel(g)} <span class="cluster-count">${items.length}</span>`;
+    header.innerHTML = `${escapeHtml(groupLabel(g))} <span class="cluster-count">${items.length}</span>`;
     section.appendChild(header);
 
     const flow = document.createElement("div");
@@ -1424,31 +1424,32 @@ function openDrawer(d) {
   const content = document.getElementById("drawer-content");
   const scrim = document.getElementById("drawer-scrim");
 
-  const languages = (d.language || []).map((l) => `<span class="chip">${l}</span>`).join("") || `<span class="chip">unspecified</span>`;
-  const tags = (d.tags || []).map((t) => `<span class="chip">${t}</span>`).join("");
-  const topics = (d.topics || []).map((t) => `<span class="chip">${t}</span>`).join("");
+  const languages = (d.language || []).map((l) => `<span class="chip">${escapeHtml(l)}</span>`).join("") || `<span class="chip">unspecified</span>`;
+  const tags = (d.tags || []).map((t) => `<span class="chip">${escapeHtml(t)}</span>`).join("");
+  const topics = (d.topics || []).map((t) => `<span class="chip">${escapeHtml(t)}</span>`).join("");
 
-  const repoLink = d.github
-    ? `<a href="https://github.com/${d.github}" target="_blank" rel="noopener">↗ ${d.github}</a>`
-    : (d.other_url ? `<a href="${d.other_url}" target="_blank" rel="noopener">↗ Project page</a>` : "");
+  const slug = ghSlug(d.github);
+  const repoLink = slug
+    ? extLink(`https://github.com/${slug}`, `↗ ${escapeHtml(slug)}`)
+    : extLink(d.other_url, "↗ Project page");
   const paperLink = d.paper_url
-    ? `<a href="${d.paper_url}" target="_blank" rel="noopener">↗ Paper</a>` : "";
+    ? extLink(d.paper_url, "↗ Paper") : "";
 
-  const starsLine = d.stars != null ? `${d.stars.toLocaleString()} ★` : "not fetched yet";
-  const forksLine = d.forks != null ? d.forks.toLocaleString() : "not fetched yet";
-  const issuesLine = d.open_issues != null ? d.open_issues.toLocaleString() : "not fetched yet";
+  const starsLine = typeof d.stars === "number" ? `${d.stars.toLocaleString()} ★` : "not fetched yet";
+  const forksLine = typeof d.forks === "number" ? d.forks.toLocaleString() : "not fetched yet";
+  const issuesLine = typeof d.open_issues === "number" ? d.open_issues.toLocaleString() : "not fetched yet";
   const licenseLine = d.license || (d.github ? "none / not fetched" : "—");
   const firstCommitLine = d.first_commit_date || "not fetched yet";
 
   const maint = formatMaintenance(d.last_commit);
   let maintLine;
   if (d.github) {
-    maintLine = `${maint.text}${maint.status ? ` <span class="maint-badge maint-${maint.status}">${STATUS_LABEL[maint.status]}</span>` : ""}${d.last_commit ? ` <span class="maint-date">(${d.last_commit})</span>` : ""}`;
+    maintLine = `${maint.text}${maint.status ? ` <span class="maint-badge maint-${maint.status}">${STATUS_LABEL[maint.status]}</span>` : ""}${d.last_commit ? ` <span class="maint-date">(${escapeHtml(d.last_commit)})</span>` : ""}`;
   } else {
     const memberOf = state.toolboxes.filter((tb) => tb.methods.includes(d.id));
     maintLine = memberOf.length
       ? `<span class="maint-badge maint-toolbox">Maintained as part of a Toolbox</span> — ` +
-        memberOf.map((tb) => `<a href="${tb.url}" target="_blank" rel="noopener" class="inline-link">${escapeHtml(tb.name)} ↗</a>`).join(", ")
+        memberOf.map((tb) => extLink(tb.url, `${escapeHtml(tb.name)} ↗`, "inline-link")).join(", ")
       : "—";
   }
 
@@ -1456,13 +1457,13 @@ function openDrawer(d) {
 
   const memberToolboxes = state.toolboxes.filter((tb) => tb.methods.includes(d.id));
   const toolboxLine = memberToolboxes.length
-    ? memberToolboxes.map((tb) => `<a href="${tb.url}" target="_blank" rel="noopener" class="inline-link">${escapeHtml(tb.name)} ↗</a>`).join(", ")
+    ? memberToolboxes.map((tb) => extLink(tb.url, `${escapeHtml(tb.name)} ↗`, "inline-link")).join(", ")
     : "Not bundled in a toolbox — see Explore → Group by Toolbox for what's available.";
 
   const isDL = d.method_type === "deep-learning";
   const frameworkLine = d.framework || (d.github ? "not fetched yet" : "—");
   const weightsLine = d.has_pretrained_weights === true
-    ? `Yes <a href="${d.pretrained_weights_url}" target="_blank" rel="noopener" class="inline-link">↗ weights</a>`
+    ? `Yes ${extLink(d.pretrained_weights_url, "↗ weights", "inline-link")}`
     : d.has_pretrained_weights === false
       ? "No"
       : (d.github ? "not fetched yet" : "—");
@@ -1480,29 +1481,29 @@ function openDrawer(d) {
     : (!d.paper_year ? `<p class="no-data-note">Publication year not yet verified for this entry — contributions welcome.</p>` : "");
 
   content.innerHTML = `
-    <div class="drawer-eyebrow" style="--eyebrow-color:${FAMILY_COLOR.get(d.category) || "#888"}">${d.category_label} · ${LEVEL_LABELS[d.level] || d.level}</div>
-    <h2>${d.name} ${archivedBadge}</h2>
+    <div class="drawer-eyebrow" style="--eyebrow-color:${FAMILY_COLOR.get(d.category) || "#888"}">${escapeHtml(d.category_label)} · ${escapeHtml(LEVEL_LABELS[d.level] || d.level)}</div>
+    <h2>${escapeHtml(d.name)} ${archivedBadge}</h2>
     ${d.paper_title ? `<p class="paper-title">"${escapeHtml(d.paper_title)}"</p>` : ""}
     ${d.abstract ? `<p>${escapeHtml(d.abstract)}</p>` : ""}
     ${d.repo_description ? `<p class="repo-description">${escapeHtml(d.repo_description)}</p>` : ""}
     ${noPaperNote}
 
     <dl class="spec-table">
-      <dt>Paper year</dt><dd>${d.paper_year || "—"}</dd>
+      <dt>Paper year</dt><dd>${escapeHtml(d.paper_year || "—")}</dd>
       ${d.venue ? `<dt>Published in</dt><dd>${escapeHtml(d.venue)}</dd>` : ""}
       ${d.authors && d.authors.length ? `<dt>Authors</dt><dd>${escapeHtml(d.authors.slice(0, 3).join(", "))}${d.n_authors > 3 ? " et al." : ""}</dd>` : ""}
       ${d.modalities_tested && d.modalities_tested.length ? `<dt>Tested on</dt><dd><div class="chip-row">${d.modalities_tested.map((x) => `<span class="chip">${escapeHtml(x)}</span>`).join("")}</div></dd>` : ""}
-      <dt>First commit</dt><dd>${firstCommitLine}</dd>
+      <dt>First commit</dt><dd>${escapeHtml(firstCommitLine)}</dd>
       <dt>Last maintained</dt><dd>${maintLine}</dd>
       <dt>Validation data</dt><dd>${escapeHtml(d.validation_data || "Agnostic")}</dd>
       <dt>Toolboxes</dt><dd>${toolboxLine}</dd>
       <dt>Language</dt><dd><div class="chip-row">${languages}</div></dd>
       ${dlRows}
       <dt>Stars</dt><dd>${starsLine}</dd>
-      <dt>Forks</dt><dd>${forksLine}</dd>
-      <dt>Open issues</dt><dd>${issuesLine}</dd>
-      <dt>License</dt><dd>${licenseLine}</dd>
-      <dt>Citations</dt><dd>${d.citations != null ? d.citations : "—"}</dd>
+      <dt>Forks</dt><dd>${escapeHtml(forksLine)}</dd>
+      <dt>Open issues</dt><dd>${escapeHtml(issuesLine)}</dd>
+      <dt>License</dt><dd>${escapeHtml(licenseLine)}</dd>
+      <dt>Citations</dt><dd>${escapeHtml(d.citations != null ? d.citations : "—")}</dd>
       ${tags ? `<dt>Tags</dt><dd><div class="chip-row">${tags}</div></dd>` : ""}
       ${topics ? `<dt>Repo topics</dt><dd><div class="chip-row">${topics}</div></dd>` : ""}
     </dl>
@@ -1511,6 +1512,7 @@ function openDrawer(d) {
 
     <div class="links">      ${paperLink}
       ${repoLink}
+      <a href="methods/${encodeURIComponent(d.id)}/">▤ Full page, BibTeX &amp; corrections</a>
       <button type="button" id="drawer-copy-link" class="drawer-share-btn">⧉ Copy link to this method</button>
     </div>
   `;
@@ -1520,7 +1522,7 @@ function openDrawer(d) {
   drawer.setAttribute("aria-hidden", "false");
 
   document.getElementById("drawer-copy-link").addEventListener("click", (e) => {
-    const shareUrl = `${location.origin}${location.pathname}?method=${encodeURIComponent(d.id)}#explore`;
+    const shareUrl = new URL(`methods/${encodeURIComponent(d.id)}/`, location.href.split(/[?#]/)[0]).href;
     navigator.clipboard.writeText(shareUrl).then(() => {
       e.target.textContent = "✓ Copied";
       setTimeout(() => { e.target.textContent = "⧉ Copy link to this method"; }, 1600);
@@ -1588,10 +1590,34 @@ function closeComparePanel() {
   document.getElementById("compare-panel").setAttribute("aria-hidden", "true");
 }
 
+// Everything that comes from data files (methods.json, toolboxes.json, submissions)
+// is contributor-supplied, so it is escaped before it goes into any HTML string —
+// including quotes, since several values land inside attributes.
+const HTML_ESCAPES = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 function escapeHtml(s) {
-  const div = document.createElement("div");
-  div.textContent = s;
-  return div.innerHTML;
+  return String(s ?? "").replace(/[&<>"']/g, (c) => HTML_ESCAPES[c]);
+}
+
+// Only http(s) links are rendered; anything else (javascript:, data:, …) is dropped.
+function safeUrl(u) {
+  if (!u) return null;
+  try {
+    const url = new URL(String(u), location.href);
+    return url.protocol === "https:" || url.protocol === "http:" ? url.href : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// GitHub "owner/repo" slugs: letters, digits, '-', '_', '.' only.
+function ghSlug(s) {
+  return typeof s === "string" && /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(s) ? s : null;
+}
+
+// <a> for an external link, or "" if the URL isn't a safe http(s) URL.
+function extLink(u, text, cls = "") {
+  const href = safeUrl(u);
+  return href ? `<a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer"${cls ? ` class="${cls}"` : ""}>${text}</a>` : "";
 }
 
 function debounce(fn, ms) {
