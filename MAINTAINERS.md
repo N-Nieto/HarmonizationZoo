@@ -495,28 +495,35 @@ A **guided, ranked shortlist** (`REC_STEPS` in `js/app.js`). Questions appear
 one at a time, in the order a harmonization expert would ask them, grouped
 into four blocks:
 
-| # | Group | Question | Kind | Uses |
+| # | Section | Question | Kind | Uses |
 |---|---|---|---|---|
-| 1 | Your data | What kind of data? (sMRI, dMRI, fMRI, EEG, MEG, PET, CT, radiomics, omics…) | filter | `modalities_tested`, `modalities_proposed` |
-| 2 | Your data | Features, images/raw signals, or still planning acquisition? | filter | `level` |
-| 3 | Your analysis | Statistical analysis or ML prediction? | filter | `recommend.ml_compatible` (leakage) |
-| 4 | Your study | Cross-sectional or longitudinal? | preference | `recommend.longitudinal` |
-| 5 | Your study | Will unseen sites need harmonizing later? | filter | `recommend.generalizes_to_new_site` |
-| 6 | Your study | Do you know each sample's site/scanner? | filter | `recommend.requires_site_id` |
-| 7 | Your study | Is the smallest site < ~30 samples? | preference | `recommend.low_n_friendly` |
-| 8 | Your study | Nonlinear covariate effects? (feature-level only) | filter | `recommend.requires_linear_signal` |
-| 9 | Your study | Same subjects scanned at several sites? (only if such methods remain) | filter | `recommend.requires_paired_data` |
-| 10 | Your study | Can data be pooled centrally? | filter | federated category or `federated-capable` tag |
-| 11 | Practical | GPU available? (only if GPU methods remain) | filter | `needs_gpu` |
-| 12 | Practical | Need a pretrained, ready-to-use model? | preference | `has_pretrained_weights`, NeuroHarm-kit membership |
-| 13 | Practical | Implementation language (options computed from what's left) | filter | `language` |
-| 14 | Practical | Maintained code only? | filter | last commit < 2 years, or toolbox |
+| 1 | 1 · Your data | What kind of data? (sMRI, dMRI, fMRI, EEG, MEG, PET, CT, radiomics, omics…) | filter | `modalities_tested`, `modalities_proposed` |
+| 2 | 1 · Your data | Features, images/raw signals, or still planning acquisition? | filter | `level` |
+| 3 | 1 · Your data | Cross-sectional or longitudinal? | filter | `recommend.longitudinal` (feature-level methods without it are removed; per-image methods stay with a caution) |
+| 4 | 1 · Your data | Traveling subjects (same people at several sites)? | filter / boost | `recommend.requires_paired_data` |
+| 5 | 1 · Your data | Every sample labelled with its site/scanner? | filter | `recommend.requires_site_id` |
+| 6 | 1 · Your data | Smallest site < ~30 samples? | preference | `recommend.low_n_friendly` |
+| 7 | 2 · Your analysis | Statistical analysis or ML prediction? | filter | `recommend.ml_compatible` (leakage) |
+| 8 | 2 · Your analysis | Nonlinear covariate effects? (feature-level only) | filter | `recommend.requires_linear_signal` |
+| 9 | 2 · Your analysis | Will unseen sites need harmonizing later? | filter | `recommend.generalizes_to_new_site` |
+| 10 | 3 · Your setting | Can data be brought together in one place? | filter | federated category or `federated-capable` tag |
+| 11 | 3 · Your setting | GPU available? (only if GPU methods remain) | filter | `needs_gpu` |
+| 12 | 3 · Your setting | Need a pretrained, ready-to-use model? | preference | `has_pretrained_weights`, NeuroHarm-kit membership |
+| 13 | 4 · Software | Implementation language (every language in the database, with counts) | filter, falls back | `language` |
+| 14 | 4 · Software | Maintained code only? | filter | last commit < 2 years, or toolbox |
 
-Why this order: the data you have (1–2) and what you'll do with it (3) are
-the decisions that rule out whole families, so they come first; study design
-(4–10) narrows within families; practical constraints (11–14) come last
-because they're preferences people can often relax. "Planning acquisition"
-skips straight to the practical block.
+Why this order: everything about the data itself comes first (what it is, its
+form, its design, how it was collected), because those facts rule out whole
+families and the user knows them for certain. The analysis goal comes next,
+then where the data lives and the compute available, and software
+constraints last, because those are the easiest to relax. "Planning
+acquisition" skips straight to the setting and software questions.
+
+**Language never dead-ends.** All languages in the database are offered,
+with the number of current matches that have code in each. Choosing a
+language none of them has (e.g. Python when only LongComBat in R fits)
+keeps the list and flags every method as needing a port, instead of
+showing zero results.
 
 **Filters vs. preferences.** A filter removes methods that cannot work and
 explains each removal above that question. A preference keeps every method
@@ -524,8 +531,8 @@ but re-ranks: matching methods get a ✓ reason, the rest a ⚠ caution. Every
 question has **Skip / not sure**, which applies no filter.
 
 **Ranking.** Each remaining method scores fit points from your answers
-(e.g. +3 designed for your modality, +1.5 only validated on it, +3 models
-repeated measures, +2 small-site robust or pretrained), plus evidence
+(e.g. +3 designed for your modality, +1.5 only validated on it, +3 designed
+for longitudinal data, +2 small-site robust, pretrained or uses traveling subjects), plus evidence
 (0.8 × log10(citations + 1)) and upkeep (Active +1.2, Slowing +0.6, toolbox
 +0.8, public code +0.5). The top 8 show as cards with their reasons and
 cautions; the rest are collapsed below. A caution shared by every remaining

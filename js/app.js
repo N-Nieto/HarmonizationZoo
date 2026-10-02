@@ -2210,6 +2210,12 @@ function debounce(fn, ms) {
 const recState = {};
 const REC_STEPS = [];
 const REC_SKIP = "skip";
+const REC_GROUPS = {
+  data: { n: 1, title: "Your data", desc: "What you have: modality, form, design and how it was collected." },
+  analysis: { n: 2, title: "Your analysis", desc: "What you'll do with the harmonized data." },
+  setting: { n: 3, title: "Your setting", desc: "Where the data lives and the compute you have." },
+  software: { n: 4, title: "Software", desc: "Implementation constraints." },
+};
 
 function recFamilyIsFederated(d) {
   return d.category === "federated" || (d.tags || []).includes("federated-capable");
@@ -2226,7 +2232,7 @@ const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
 
 REC_STEPS.push(
   {
-    key: "modality", group: "Your data", legend: "What kind of data are you harmonizing?",
+    key: "modality", group: "data", legend: "What kind of data are you harmonizing?",
     help: "Methods designed for your modality rank first; methods only validated on it (via a published evaluation) are kept but flagged.",
     dynamicOptions(pool) {
       const counts = new Map();
@@ -2251,7 +2257,7 @@ REC_STEPS.push(
     },
   },
   {
-    key: "level", group: "Your data", legend: "What exactly will you harmonize?",
+    key: "level", group: "data", legend: "What exactly will you harmonize?",
     help: "This is the biggest split between method families.",
     options: [
       ["feature-level", "Derived features (ROI volumes, cortical thickness, connectivity, radiomic or EEG features)"],
@@ -2265,48 +2271,37 @@ REC_STEPS.push(
     },
   },
   {
-    key: "task", group: "Your analysis", legend: "What will you do with the harmonized data?",
-    help: "In prediction pipelines, harmonization must be fitted on training data only. Methods that need the outcome as a covariate leak it into the test set.",
+    key: "design", group: "data", legend: "Is your data cross-sectional or longitudinal?",
+    help: "Longitudinal = repeated scans of the same people over time. Feature-level statistical models must then account for within-subject correlation; per-image methods are unaffected.",
     visibleIf: (pool, rs) => rs.level !== "acquisition-level",
-    options: [["statistical", "Statistical analysis (group differences, associations)"], ["ml", "Machine-learning prediction"]],
-    apply(pool, v, ctx) {
-      if (v !== "ml") return { pool, message: null };
-      const after = pool.filter((d) => !(d.recommend && d.recommend.ml_compatible === false));
-      after.forEach((d) => { if (d.category === "combat-family") ctx.boost(d, 1, "Leakage-safe in ML pipelines"); });
-      const removed = pool.length - after.length;
-      return { pool: after, message: removed ? `Removed ${plural(removed, "method")} (mostly ComBat-family) that use covariates, often your prediction target, to fit the model. That leaks test information. Leakage-safe variants such as PrettYharmonize stay.` : null };
-    },
-  },
-  {
-    key: "design", group: "Your study", legend: "Is your study cross-sectional or longitudinal?",
-    help: "With repeated scans of the same people, methods that model within-subject correlation are preferred.",
-    visibleIf: (pool, rs) => rs.level !== "acquisition-level",
-    options: [["cross", "Cross-sectional (one scan per person)"], ["longitudinal", "Longitudinal (repeated scans)"]],
-    soft: true,
+    options: [["cross", "Cross-sectional (one scan per person)"], ["longitudinal", "Longitudinal (repeated scans over time)"]],
     apply(pool, v, ctx) {
       if (v !== "longitudinal") return { pool, message: null };
-      pool.forEach((d) => {
-        if (d.recommend && d.recommend.longitudinal === true) ctx.boost(d, 3, "Models repeated measures");
-        else ctx.caution(d, "Treats repeated scans as independent observations");
+      const after = pool.filter((d) => d.level !== "feature-level" || (d.recommend && d.recommend.longitudinal === true));
+      after.forEach((d) => {
+        if (d.recommend && d.recommend.longitudinal === true) ctx.boost(d, 3, "Designed for longitudinal data");
+        else ctx.caution(d, "Harmonizes each scan independently; check that within-subject change is preserved");
       });
-      return { pool, message: "Kept every method; those that model repeated measures now rank first." };
-    },
-  },
-  {
-    key: "newSite", group: "Your study", legend: "Will new sites or scanners need harmonizing later?",
-    help: "For example, applying a trained classifier to data from a hospital that wasn't in your training set.",
-    visibleIf: (pool, rs) => rs.level !== "acquisition-level",
-    options: [["yes", "Yes, unseen sites will come later"], ["no", "No, all sites are known now"]],
-    apply(pool, v, ctx) {
-      if (v !== "yes") return { pool, message: null };
-      const after = pool.filter((d) => d.recommend && d.recommend.generalizes_to_new_site === true);
-      after.forEach((d) => ctx.boost(d, 1, "Can be applied to unseen sites"));
       const removed = pool.length - after.length;
-      return { pool: after, message: removed ? `Removed ${plural(removed, "method")} that must be refitted with every site present.` : null };
+      return { pool: after, message: removed ? `Removed ${plural(removed, "feature-level method")} that assume independent samples (one per subject). Methods built for repeated measures, and per-image methods, stay.` : null };
     },
   },
   {
-    key: "hasSiteId", group: "Your study", legend: "Do you know which site or scanner each sample came from?",
+    key: "paired", group: "data", legend: "Do you have traveling subjects (the same people scanned at several sites)?",
+    help: "Paired scans let some methods learn the site mapping directly; a few require them.",
+    visibleIf: (pool, rs) => rs.level !== "acquisition-level",
+    options: [["yes", "Yes"], ["no", "No"]],
+    apply(pool, v, ctx) {
+      if (v === "yes") {
+        pool.forEach((d) => { if (d.recommend && d.recommend.requires_paired_data === true) ctx.boost(d, 2, "Uses your traveling-subject scans"); });
+        return { pool, message: null };
+      }
+      const after = pool.filter((d) => !(d.recommend && d.recommend.requires_paired_data === true));
+      return { pool: after, message: pool.length > after.length ? `Removed ${plural(pool.length - after.length, "method")} that need paired or traveling-subject scans.` : null };
+    },
+  },
+  {
+    key: "hasSiteId", group: "data", legend: "Is every sample labelled with its site or scanner?",
     help: "Most methods need a batch label. Some (IQM-based, blind or reference-free) infer it.",
     visibleIf: (pool, rs) => rs.level !== "acquisition-level",
     options: [["yes", "Yes"], ["no", "No or only partially"]],
@@ -2317,7 +2312,7 @@ REC_STEPS.push(
     },
   },
   {
-    key: "sampleSize", group: "Your study", legend: "How large is your smallest site?",
+    key: "sampleSize", group: "data", legend: "How many samples does your smallest site have?",
     help: "Site effects are estimated per site; very small sites make those estimates unstable.",
     visibleIf: (pool, rs) => rs.level !== "acquisition-level",
     options: [["small", "Fewer than ~30 samples"], ["large", "30 or more"]],
@@ -2332,7 +2327,20 @@ REC_STEPS.push(
     },
   },
   {
-    key: "nonlinear", group: "Your study", legend: "Do your biological covariates have nonlinear effects?",
+    key: "task", group: "analysis", legend: "What will you do with the harmonized data?",
+    help: "In prediction pipelines, harmonization must be fitted on training data only. Methods that need the outcome as a covariate leak it into the test set.",
+    visibleIf: (pool, rs) => rs.level !== "acquisition-level",
+    options: [["statistical", "Statistical analysis (group differences, associations)"], ["ml", "Machine-learning prediction"]],
+    apply(pool, v, ctx) {
+      if (v !== "ml") return { pool, message: null };
+      const after = pool.filter((d) => !(d.recommend && d.recommend.ml_compatible === false));
+      after.forEach((d) => { if (d.category === "combat-family") ctx.boost(d, 1, "Leakage-safe in ML pipelines"); });
+      const removed = pool.length - after.length;
+      return { pool: after, message: removed ? `Removed ${plural(removed, "method")} (mostly ComBat-family) that use covariates, often your prediction target, to fit the model. That leaks test information. Leakage-safe variants such as PrettYharmonize stay.` : null };
+    },
+  },
+  {
+    key: "nonlinear", group: "analysis", legend: "Do your biological covariates have nonlinear effects?",
     help: "For example, age across the lifespan. Linear-only models then misattribute part of the biology to site.",
     visibleIf: (pool, rs) => rs.level === "feature-level" && pool.some((d) => d.recommend && d.recommend.requires_linear_signal === true),
     options: [["yes", "Yes (e.g. wide age range)"], ["no", "No, roughly linear"]],
@@ -2343,21 +2351,20 @@ REC_STEPS.push(
     },
   },
   {
-    key: "paired", group: "Your study", legend: "Do you have the same subjects scanned at several sites?",
-    help: "Traveling subjects or paired scans. A few methods need them for training.",
-    visibleIf: (pool, rs) => rs.level !== "acquisition-level" && pool.some((d) => d.recommend && d.recommend.requires_paired_data === true),
-    options: [["yes", "Yes"], ["no", "No"]],
+    key: "newSite", group: "analysis", legend: "Will new sites or scanners need harmonizing later?",
+    help: "For example, applying a trained classifier to data from a hospital that wasn't in your training set.",
+    visibleIf: (pool, rs) => rs.level !== "acquisition-level",
+    options: [["yes", "Yes, unseen sites will come later"], ["no", "No, all sites are known now"]],
     apply(pool, v, ctx) {
-      if (v === "yes") {
-        pool.forEach((d) => { if (d.recommend && d.recommend.requires_paired_data === true) ctx.boost(d, 1, "Uses your paired scans"); });
-        return { pool, message: null };
-      }
-      const after = pool.filter((d) => !(d.recommend && d.recommend.requires_paired_data === true));
-      return { pool: after, message: pool.length > after.length ? `Removed ${plural(pool.length - after.length, "method")} that need paired or traveling-subject scans.` : null };
+      if (v !== "yes") return { pool, message: null };
+      const after = pool.filter((d) => d.recommend && d.recommend.generalizes_to_new_site === true);
+      after.forEach((d) => ctx.boost(d, 1, "Can be applied to unseen sites"));
+      const removed = pool.length - after.length;
+      return { pool: after, message: removed ? `Removed ${plural(removed, "method")} that must be refitted with every site present.` : null };
     },
   },
   {
-    key: "pooling", group: "Your study", legend: "Can all sites' data be pooled in one place?",
+    key: "pooling", group: "setting", legend: "Can all sites' data be brought together in one place?",
     help: "If data can't leave each site (privacy, regulation), you need a federated or distributed method.",
     visibleIf: (pool, rs) => rs.level !== "acquisition-level",
     options: [["yes", "Yes, data can be centralized"], ["no", "No, data must stay at each site"]],
@@ -2369,7 +2376,7 @@ REC_STEPS.push(
     },
   },
   {
-    key: "hasGpu", group: "Practical", legend: "Do you have access to a GPU?",
+    key: "hasGpu", group: "setting", legend: "Do you have access to a GPU?",
     help: "Asked only because deep-learning methods are still in the list.",
     visibleIf: (pool) => pool.some((d) => d.needs_gpu),
     options: [["yes", "Yes"], ["no", "No, CPU only"]],
@@ -2380,7 +2387,7 @@ REC_STEPS.push(
     },
   },
   {
-    key: "pretrained", group: "Practical", legend: "Do you need something that works without training?",
+    key: "pretrained", group: "setting", legend: "Do you need something that works without training?",
     help: "Pretrained models (or bundles like NeuroHarm-kit) can be applied directly.",
     visibleIf: (pool) => pool.some(recHasPretrained),
     options: [["yes", "Yes, prefer ready-to-use models"], ["no", "No, I can train"]],
@@ -2392,20 +2399,26 @@ REC_STEPS.push(
     },
   },
   {
-    key: "language", group: "Practical", legend: "Which language should the implementation be in?",
-    help: "Choosing one removes methods without public code in that language.",
+    key: "language", group: "software", legend: "Which language do you need the implementation in?",
+    help: "All languages in the database are listed, with how many of your current matches have code in each. If none do, you'll see the best matches in other languages instead.",
     dynamicOptions(pool) {
-      const langs = new Map();
-      pool.forEach((d) => (d.language || []).forEach((l) => langs.set(l, (langs.get(l) || 0) + 1)));
-      return [...langs.entries()].sort((a, b) => b[1] - a[1]).map(([l]) => [l, l]);
+      const all = new Map();
+      state.data.forEach((d) => (d.language || []).forEach((l) => all.set(l, 0)));
+      pool.forEach((d) => (d.language || []).forEach((l) => all.set(l, (all.get(l) || 0) + 1)));
+      return [...all.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([l, n]) => [l, `${l} (${n})`]);
     },
-    apply(pool, v) {
+    apply(pool, v, ctx) {
       const after = pool.filter((d) => (d.language || []).includes(v));
+      if (after.length === 0) {
+        pool.forEach((d) => ctx.caution(d, `No ${v} implementation; you'd need to port it or call it from ${v}`));
+        return { pool, message: `None of the matching methods has a ${v} implementation, so nothing was removed. They are shown ranked as before, flagged as needing a port.`, soft: true };
+      }
+      after.forEach((d) => ctx.boost(d, 0.5, `${v} implementation available`));
       return { pool: after, message: pool.length > after.length ? `Removed ${plural(pool.length - after.length, "method")} with no ${v} implementation.` : null };
     },
   },
   {
-    key: "maintained", group: "Practical", legend: "Do you need actively maintained code?",
+    key: "maintained", group: "software", legend: "Do you need actively maintained code?",
     help: "\"Maintained\" means a commit in the last 2 years, or upkeep through a toolbox.",
     options: [["yes", "Yes, maintained code only"], ["no", "No, I can work with older code"]],
     apply(pool, v) {
@@ -2466,25 +2479,29 @@ function renderRecommenderTree() {
   const visibleSteps = [];
   let current = null;
   let lastGroup = null;
+  let groupEl = null;
 
   for (const step of REC_STEPS) {
     if (step.visibleIf && !step.visibleIf(pool, recState)) continue;
     visibleSteps.push(step);
     const answer = recState[step.key];
     let message = null;
+    let softMsg = false;
     if (answer != null && answer !== REC_SKIP) {
       const res = step.apply(pool, answer, ctx);
       pool = res.pool;
       message = res.message;
+      softMsg = !!res.soft;
     }
     if (step.group !== lastGroup) {
-      const h = document.createElement("h3");
-      h.className = "rec-group";
-      h.textContent = step.group;
-      treeEl.appendChild(h);
+      const g = REC_GROUPS[step.group];
+      groupEl = document.createElement("section");
+      groupEl.className = "rec-section";
+      groupEl.innerHTML = `<header class="rec-section-head"><span class="rec-section-n">${g.n}</span><div><h3>${escapeHtml(g.title)}</h3><p>${escapeHtml(g.desc)}</p></div></header>`;
+      treeEl.appendChild(groupEl);
       lastGroup = step.group;
     }
-    renderStep(treeEl, step, answer, message, visibleSteps.length);
+    renderStep(groupEl, step, answer, message, visibleSteps.length, softMsg);
     if (answer == null) { current = step; break; }
   }
 
@@ -2544,7 +2561,7 @@ function loadRecommendationFromUrl() {
   return true;
 }
 
-function renderStep(container, step, answer, message, number) {
+function renderStep(container, step, answer, message, number, softMsg = false) {
   const fs = document.createElement("fieldset");
   fs.className = "rec-question" + (answer == null ? " current" : " answered");
   fs.innerHTML = `
@@ -2555,7 +2572,7 @@ function renderStep(container, step, answer, message, number) {
   `;
   container.appendChild(fs);
   if (message) {
-    fs.querySelector(".rec-step-message").innerHTML = `<p class="${step.soft ? "rec-special-note" : "rec-excluded-note"}">${step.soft ? "Re-ranked:" : "✕"} ${escapeHtml(message)}</p>`;
+    fs.querySelector(".rec-step-message").innerHTML = `<p class="${step.soft || softMsg ? "rec-special-note" : "rec-excluded-note"}">${step.soft ? "Re-ranked:" : softMsg ? "Note:" : "✕"} ${escapeHtml(message)}</p>`;
   }
   const options = (step.dynamicOptions ? step.dynamicOptions(recPoolBefore(step)) : step.options).concat([[REC_SKIP, "Skip / not sure"]]);
   const optsWrap = fs.querySelector(".rec-options");
