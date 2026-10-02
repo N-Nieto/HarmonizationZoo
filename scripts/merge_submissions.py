@@ -36,7 +36,7 @@ SUBMISSION_ONLY_FIELDS = ["_submitted_via", "_submitted_at"]
 
 
 def load_submission(path):
-    with open(path) as f:
+    with open(path, encoding="utf-8") as f:
         entry = json.load(f)
     problems = []
     for field in REQUIRED_FIELDS:
@@ -59,7 +59,7 @@ def main():
         print("No pending submissions found.")
         return 0
 
-    with open(args.methods_path) as f:
+    with open(args.methods_path, encoding="utf-8") as f:
         db = json.load(f)
     existing_ids = {m["id"] for m in db["methods"]}
 
@@ -84,8 +84,8 @@ def main():
         print(f"✓ merged '{entry['id']}' ({entry['name']})")
 
     if merged and not args.dry_run:
-        with open(args.methods_path, "w") as f:
-            json.dump(db, f, indent=2)
+        with open(args.methods_path, "w", encoding="utf-8") as f:
+            json.dump(db, f, indent=2, ensure_ascii=False)
         for path in merged:
             os.remove(path)
 

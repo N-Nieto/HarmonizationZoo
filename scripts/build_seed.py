@@ -608,7 +608,7 @@ def main():
     preserved = []
     existing_path = "data/methods.json"
     if os.path.exists(existing_path):
-        with open(existing_path) as f:
+        with open(existing_path, encoding="utf-8") as f:
             existing = json.load(f)
         preserved = [m for m in existing.get("methods", []) if m.get("id") not in seed_ids]
         if preserved:
@@ -616,8 +616,8 @@ def main():
                   f"{', '.join(m['id'] for m in preserved)}")
 
     os.makedirs("data", exist_ok=True)
-    with open("data/methods.json", "w") as f:
-        json.dump({"generated_by": "build_seed.py", "methods": out + preserved}, f, indent=2)
+    with open("data/methods.json", "w", encoding="utf-8") as f:
+        json.dump({"generated_by": "build_seed.py", "methods": out + preserved}, f, indent=2, ensure_ascii=False)
     print(f"Wrote {len(out) + len(preserved)} methods to data/methods.json ({len(out)} from the seed script, {len(preserved)} preserved)")
     out = out + preserved  # so the summary stats below cover everyone
     have_year = sum(1 for m in out if m.get("paper_year"))

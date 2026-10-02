@@ -159,7 +159,7 @@ def main():
     import os
     API_KEY = os.environ.get("S2_API_KEY")
 
-    with open(args.path) as f:
+    with open(args.path, encoding="utf-8") as f:
         db = json.load(f)
     methods = db["methods"]
 
@@ -223,8 +223,8 @@ def main():
         if m["id"] in results:
             m["citations"] = results[m["id"]]
 
-    with open(args.path, "w") as f:
-        json.dump(db, f, indent=2)
+    with open(args.path, "w", encoding="utf-8") as f:
+        json.dump(db, f, indent=2, ensure_ascii=False)
 
     print(f"\nUpdated {len(results)} / {len(methods)} entries with a citation count.")
 

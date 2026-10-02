@@ -59,7 +59,7 @@ def main():
         print("No pending stats updates found.")
         return 0
 
-    with open(args.methods_path) as f:
+    with open(args.methods_path, encoding="utf-8") as f:
         db = json.load(f)
     by_id = {m["id"]: m for m in db["methods"]}
 
@@ -67,7 +67,7 @@ def main():
     applied, skipped_ids, bad_fields = 0, [], []
 
     for path in update_paths:
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             payload = json.load(f)
         updates = payload.get("updates", {})
 
@@ -89,8 +89,8 @@ def main():
             print(f"✓ updated '{method_id}' with {list(clean_fields.keys())}")
 
     if applied and not args.dry_run:
-        with open(args.methods_path, "w") as f:
-            json.dump(db, f, indent=2)
+        with open(args.methods_path, "w", encoding="utf-8") as f:
+            json.dump(db, f, indent=2, ensure_ascii=False)
         for path in update_paths:
             os.remove(path)
 

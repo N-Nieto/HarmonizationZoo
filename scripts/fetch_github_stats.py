@@ -190,7 +190,7 @@ def main():
     args = parser.parse_args()
     only_ids = set(args.ids.split(",")) if args.ids else None
 
-    with open(args.path) as f:
+    with open(args.path, encoding="utf-8") as f:
         db = json.load(f)
 
     ok, failed, skipped = 0, [], 0
@@ -234,8 +234,8 @@ def main():
             print(f"    (first-commit lookup issue: {fc_err})", file=sys.stderr)
 
     db["stats_fetched_at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-    with open(args.path, "w") as f:
-        json.dump(db, f, indent=2)
+    with open(args.path, "w", encoding="utf-8") as f:
+        json.dump(db, f, indent=2, ensure_ascii=False)
 
     print(f"\nUpdated {ok} repos. {skipped} skipped (fetched within the last {FRESHNESS_DAYS} days — use --force to override). {len(failed)} failed.")
     if failed:

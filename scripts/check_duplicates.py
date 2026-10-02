@@ -48,7 +48,7 @@ def main():
     parser.add_argument("--path", default="data/methods.json")
     args = parser.parse_args()
 
-    with open(args.path) as f:
+    with open(args.path, encoding="utf-8") as f:
         methods = json.load(f)["methods"]
 
     flags = []
