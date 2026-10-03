@@ -230,9 +230,10 @@ unauthenticated GET requests) for whichever methods are missing stats,
 and updates the page for that session only — reloading reverts to
 whatever's actually committed. **"↗ Open PR with fetched data"** (appears
 once something's been fetched) is what makes it permanent: it bundles
-exactly what was fetched into `data/submissions-stats/<timestamp>.json`
-and opens GitHub's pre-filled new-file page for it, the same fork-and-PR
-flow as "Add a model". A maintainer reviews and merges it, and
+exactly what was fetched into `data/submissions-stats/stats-<timestamp>.json`,
+downloads it, and opens GitHub's upload page for that folder, the same
+fork-and-PR flow as "Add a model" (the file is uploaded rather than passed
+in the URL, which GitHub rejects once it gets long). A maintainer reviews and merges it, and
 `.github/workflows/merge-stats-updates.yml` runs
 `scripts/merge_stats_updates.py`, which applies each field to the matching
 method by id (an explicit field allowlist — a stats update can't smuggle
@@ -315,18 +316,34 @@ registry directly enough, that a plain PR is the right weight for it).
 ## Adding a method through the site
 
 The "Add a model" tab is a full form — only the name, paper link, and
-source code link are required, everything else (family, level, modality,
-language, architecture, framework, and every "Which method?" compatibility
-question as a toggle) is optional. Pasting a `github.com/owner/repo` link
+source code link are required. Everything else is optional and maps 1:1 to
+the schema-v2 fields: paper title/year/venue/authors/publication type, entry
+type (`method` / `implementation` + `implements` / `toolbox` / `protocol`),
+`extends` (picked from existing ids, so the Lineage view stays valid),
+family, level, method type, language, an editable `id`,
+`modalities_proposed` and `modalities_tested` (controlled chips — proposed
+and evidence modalities are always included in tested), `evidence` rows
+(modality + DOI/URL + title + year), deep-learning specifics, every
+`recommend` flag including `longitudinal` and `requires_paired_data`, and
+toolbox membership. `doi` / `arxiv_id` are derived from the paper link and
+`modality` (legacy) from the first proposed modality. Before generating, it
+mirrors the validator's checks (http(s) URLs, slug-shaped unique id, year
+range, DOI format) and warns about likely duplicates (same repo, DOI or
+name). Pasting a `github.com/owner/repo` link
 into the source code field triggers a live preview fetch (stars, primary
 language, license) using the same on-demand, browser-side GitHub call as
 the "Fetch missing GitHub stats" button — GitLab and other links are noted
 but not auto-fetched.
 
-**This is a static site with no backend to write to**, so "Generate
-submission" doesn't call an API — it builds the full JSON entry client-side
-and opens a pre-filled GitHub page for a new file at
-`data/submissions/<id>.json`. What happens next depends on whether you have
+**This is a static site with no backend to write to**, so "Check &
+generate submission" doesn't call an API — it builds the full JSON entry
+client-side, downloads it as `<id>.json`, and opens GitHub's upload page for
+`data/submissions/` (the folder must keep its `.gitkeep`). The contributor
+drags the file in and picks "start a pull request". A "paste instead"
+fallback opens the new-file page with only the file name in the URL. (The
+old flow put the whole JSON in the URL and broke once it got long.)
+Submission-only keys start with `_` — `_toolboxes`, `_notes`,
+`_submitted_via`, `_submitted_at` — so read `_notes` during review. What happens next depends on whether you have
 write access to the repo: collaborators can commit it directly; everyone
 else gets GitHub's standard "fork this repo and open a pull request" flow
 automatically, with no extra setup needed. Either way, the change lands as
@@ -338,9 +355,15 @@ From there:
 1. A maintainer reviews and merges the PR into `main`.
 2. `.github/workflows/merge-submissions.yml` runs
    `scripts/merge_submissions.py`, which folds every file under
-   `data/submissions/` into `data/methods.json` (light validation — required
-   fields present, no id collision — since a human already reviewed the
-   PR) and deletes the submission files.
+   `data/submissions/` into `data/methods.json` and deletes the submission
+   files. It fills any missing schema-v2 field with its default (so old or
+   hand-written submissions still produce complete entries), derives
+   `doi`/`arxiv_id`, makes `modalities_tested` include proposed + evidence
+   modalities, adds the id to each toolbox in `_toolboxes`
+   (`data/toolboxes.json`), and drops `_`-prefixed keys. It rejects files with
+   missing required fields, id collisions, unknown enum values, modalities or
+   `extends`/`implements` ids, or non-http(s) URLs — those stay in place and
+   the job fails so a human fixes them.
 3. The stats-refresh Action picks up the newly-added method on its next
    run — a never-before-fetched entry always gets fetched regardless of the
    30-day freshness window (see above), so a brand-new method doesn't have
@@ -556,6 +579,35 @@ DeepHarmony need paired scans; d-ComBat/Fed-ComBat are not leakage-safe and
 must be refitted for new sites). If you know a method behaves differently,
 fix its flag in `data/methods.json`. Every filter's explanation tells users
 exactly which assumption removed a method, so wrong flags are easy to spot.
+
+## Code health score
+
+Every method with its own GitHub repo gets a 0–100 **code health** score and
+an A–E grade, shown in the Table view (sortable "Health" column), as a
+filter ("Code health"), in the method panel and on the method page (with a
+per-part breakdown), and in "Which method?" cards. It's computed from fields
+already in `data/methods.json`, so it updates whenever the stats refresh:
+
+| Part | Points | Rule |
+|---|---|---|
+| Recency | 40 | last commit ≤ 3 months ago = 40, falling linearly to 0 at 3 years |
+| Longevity | 15 | span from first commit (or repo creation) to last commit; 3+ years = 15 |
+| License | 15 | SPDX licence = 15, `NOASSERTION` (unclear) = 7, none = 0 |
+| Adoption | 20 | stars on a log scale; 500+ stars = 20 |
+| Community | 10 | forks on a log scale; 100+ forks = 10 |
+
+Archived repos are capped at 20. Grades: A ≥ 80, B ≥ 60, C ≥ 40, D ≥ 20,
+E < 20. Methods without their own repo get no score; toolbox-maintained
+ones are labelled "toolbox" instead. Ages are measured against the
+database's `stats_fetched_at`, not today's date, so the score only changes
+when the data does (and rebuilding pages without new data gives no diff).
+
+The same constants live in `codeHealth()` (`js/app.js`) and `code_health()`
+(`scripts/build_pages.py`); change both together. It measures the *code
+repository*, not the method's scientific quality: a stale repo can hold a
+sound, widely used method (ComBat scores C because its repo hasn't had a
+commit since 2023 and has no licence file). "Which method?" uses it as a
+small tie-breaker (up to 1.5 points), never as a filter.
 
 ## Other maintainer tooling
 

@@ -154,6 +154,46 @@ def days_since(date_str, today):
     return (today - date(y, mo, d)).days
 
 
+def code_health(m, today):
+    """0-100 score for the method's own repo. Same constants as codeHealth() in js/app.js."""
+    import math
+    from datetime import date
+    if not m.get("github") or not isinstance(m.get("stars"), int) or not m.get("last_commit"):
+        return None
+    d = lambda s: date(*map(int, s.split("-")))  # noqa: E731
+    age = max(0, (today - d(m["last_commit"])).days)
+    recency = 40 if age <= 90 else max(0.0, 40 * (1 - (age - 90) / (1095 - 90)))
+    start = m.get("first_commit_date") or m.get("repo_created_at")
+    span = max(0.0, (d(m["last_commit"]) - d(start)).days / 365.25) if start else 0.0
+    longevity = 15 * min(1.0, span / 3)
+    lic = m.get("license")
+    license_pts = 0 if not lic else 7 if lic == "NOASSERTION" else 15
+    adoption = 20 * min(1.0, math.log10(m["stars"] + 1) / math.log10(501))
+    community = 10 * min(1.0, math.log10((m.get("forks") or 0) + 1) / math.log10(101))
+    score = recency + longevity + license_pts + adoption + community
+    if m.get("archived"):
+        score = min(score, 20)
+    # JS Math.round rounds .5 up; mirror that
+    score = int(math.floor(score + 0.5))
+    grade = next(g for t, g in [(80, "A"), (60, "B"), (40, "C"), (20, "D"), (0, "E")] if score >= t)
+    parts = [("Recency", recency, 40, f"last commit {m['last_commit']}"),
+             ("Longevity", longevity, 15, f"{span:.1f} years of commits" if start else "unknown start"),
+             ("License", license_pts, 15, (lic if lic != "NOASSERTION" else "licence unclear") if lic else "no licence"),
+             ("Adoption", adoption, 20, f"{m['stars']:,} stars"),
+             ("Community", community, 10, f"{(m.get('forks') or 0):,} forks")]
+    return {"score": score, "grade": grade, "archived": bool(m.get("archived")),
+            "parts": [(k, int(math.floor(v + 0.5)), mx, note) for k, v, mx, note in parts]}
+
+
+def health_html(h):
+    rows = "".join(
+        f'<li><span>{esc(k)}</span><span class="health-bar"><span style="width:{v / mx * 100:.0f}%"></span></span>'
+        f'<span class="health-num">{v}/{mx}</span><span class="health-note">{esc(note)}</span></li>'
+        for k, v, mx, note in h["parts"])
+    archived = '<p class="health-archived">Archived repository: score capped at 20.</p>' if h["archived"] else ""
+    return f'<ul class="health-parts">{rows}</ul>{archived}'
+
+
 def maintenance(m, today):
     lc = m.get("last_commit")
     if not lc:
@@ -276,7 +316,10 @@ def render_page(m, by_id, extended_by, toolboxes, today):
     status, lc = maintenance(m, today)
     if status:
         stats.append(("Last commit", f'<span class="maint-badge maint-{status}">{status.title()}</span> {esc(lc)}'))
-    stat_html = "".join(f'<div class="mp-stat"><span>{esc(k)}</span><strong>{v if k == "Last commit" else esc(v)}</strong></div>'
+    health = code_health(m, today)
+    if health:
+        stats.append(("Code health", f'<span class="health-badge health-{health["grade"]}">{health["grade"]}</span> {health["score"]}/100'))
+    stat_html = "".join(f'<div class="mp-stat"><span>{esc(k)}</span><strong>{v if k in ("Last commit", "Code health") else esc(v)}</strong></div>'
                         for k, v in stats)
 
     tbs = [tb for tb in toolboxes if m["id"] in tb.get("methods", [])]
@@ -305,6 +348,7 @@ def render_page(m, by_id, extended_by, toolboxes, today):
         row("Architecture", esc(m["architecture_backbone"]) if m.get("architecture_backbone") else ""),
         row("License", esc(m["license"]) if m.get("license") and m["license"] != "NOASSERTION" else ""),
         row("First commit", esc(m["first_commit_date"]) if m.get("first_commit_date") else ""),
+        row("Code health", health_html(health) if health else ""),
         row("Toolboxes", tb_html),
         "".join(lineage),
         row("Tags", chips(m.get("tags"))),

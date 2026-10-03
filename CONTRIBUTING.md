@@ -3,15 +3,18 @@
 The whole site is driven by one file: [`data/methods.json`](data/methods.json).
 There's no build step and no database — add a method either of two ways:
 
-- **Use the "Add a model" tab on the site itself.** It's a form (paper link
-  and source code link required, everything else optional), with a live
-  GitHub preview and a "Generate submission" button that opens a pre-filled
-  GitHub page proposing a new file under `data/submissions/`. If you're not
-  a repo collaborator, GitHub automatically forks the repo and opens this
-  as a pull request for you — no git needed. A maintainer reviews it, and
-  once merged, an Action folds it into `data/methods.json` automatically.
-  This is the easiest path if you don't want to think about the schema
-  below at all.
+- **Use the "Add a model" tab on the site itself.** It's a form (name, paper
+  link and source code link required, everything else optional) covering the
+  full schema below: designed-for and tested-on modalities, evidence papers,
+  what it extends or implements, toolbox membership, and the "Which method?"
+  flags (longitudinal, paired data, …). It checks your input, warns about
+  likely duplicates, then downloads `<id>.json` and opens GitHub's upload page
+  for `data/submissions/`: drag the file in and choose "start a pull request".
+  If you're not a repo collaborator, GitHub forks the repo and opens the pull
+  request for you — no git needed. A maintainer reviews it, and once merged,
+  an Action folds it into `data/methods.json` (filling defaults and
+  validating it). This is the easiest path if you don't want to think about
+  the schema below at all.
 - **Edit `data/methods.json` directly** and open a pull request — GitHub's
   web editor is enough, you don't need to clone the repo. Better if you
   want full control over every field, or you're fixing an existing entry

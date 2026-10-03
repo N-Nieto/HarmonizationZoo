@@ -224,28 +224,45 @@ function buildHomeTab() {
 
 /* ---------------- Add a model tab ---------------- */
 
-const MODALITY_OPTIONS = [
-  "Structural MRI", "Diffusion MRI", "Functional MRI", "Radiomics (CT/MRI)",
-  "Omics/Proteomics", "EEG", "Medical imaging (general, not MRI-brain-specific)",
-  "Modality-agnostic (general ML)", "Acquisition (modality-agnostic)", "MRI (unspecified)", "Other",
+const SUBMIT_REPO = "N-Nieto/HarmonizationZoo";
+const SUBMIT_BRANCH = "main";
+// Controlled modality vocabulary — keep in sync with MODALITIES in scripts/validate_methods.py.
+const MODALITY_CODES = [
+  "sMRI", "dMRI", "fMRI", "connectome", "EEG", "MEG", "PET", "CT", "radiomics", "omics",
+  "histopathology", "general-imaging", "general", "MRI-acquisition",
 ];
+// Legacy free-text `modality` field (used by "Group by → modality") derived from the first proposed modality.
+const LEGACY_MODALITY = {
+  sMRI: "Structural MRI", dMRI: "Diffusion MRI", fMRI: "Functional MRI", connectome: "Functional MRI",
+  EEG: "EEG", MEG: "MEG", PET: "Medical imaging (general, not MRI-brain-specific)",
+  CT: "Radiomics (CT/MRI)", radiomics: "Radiomics (CT/MRI)", omics: "Omics/Proteomics",
+  histopathology: "Medical imaging (general, not MRI-brain-specific)",
+  "general-imaging": "Medical imaging (general, not MRI-brain-specific)",
+  general: "Modality-agnostic (general ML)", "MRI-acquisition": "Acquisition (modality-agnostic)",
+};
 const ARCHITECTURE_OPTIONS = [
   "VAE", "GAN", "CycleGAN", "StarGAN", "VAE-GAN", "Disentangled VAE",
   "Autoencoder", "Adversarial network", "Adversarial autoencoder",
   "Normalizing flow", "Energy-based model", "U-Net (CNN)", "Transformer",
   "Diffusion model", "Other",
 ];
+const ENTRY_TYPE_OPTIONS = [
+  ["method", "New method"], ["implementation", "Implementation of an existing method"],
+  ["toolbox", "Toolbox / package"], ["protocol", "Acquisition protocol"],
+];
+const PUBLICATION_TYPE_OPTIONS = [
+  ["article", "Journal article"], ["conference-paper", "Conference paper"],
+  ["preprint", "Preprint"], ["data-paper", "Data paper"],
+];
 
 const addModelState = {
-  name: "", paperUrl: "", codeUrl: "", paperYear: "",
-  category: "combat-family", level: "feature-level", methodType: "statistical",
-  modality: "", modalityOther: "", language: "", tags: "", validationData: "",
-  architecture: "", architectureOther: "", framework: "",
-  hasPretrainedWeights: null, pretrainedWeightsUrl: "",
+  entryType: "method", level: "feature-level",
+  proposed: new Set(), tested: new Set(), extends: new Set(), toolboxes: new Set(),
+  evidence: [],
+  needsGpu: null, hasPretrainedWeights: null,
   requiresSiteId: null, generalizesToNewSite: null, lowNFriendly: null,
-  requiresLinearSignal: null, mlCompatible: null, needsGpu: null,
-  inUniharmony: null, alsoImplementedIn: "",
-  fetchedRepo: null,
+  requiresLinearSignal: null, mlCompatible: null, longitudinal: null, requiresPairedData: null,
+  idTouched: false, fetchedRepo: null, last: null,
 };
 
 /* ---------------- Toolboxes tab ---------------- */
@@ -312,91 +329,148 @@ function buildToolboxesTab() {
 
 function buildAddModelTab() {
   const root = document.getElementById("add-model-root");
+  const methodOptions = [...state.data]
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((m) => `<option value="${escapeHtml(m.name)}"></option>`).join("");
   root.innerHTML = `
     <div class="addmodel-wrap">
       <p class="addmodel-intro">
-        Know a harmonization method that's missing? Fill in what you know — only the
-        name, paper link, and source code link are required, everything else is
-        optional and helps but isn't a blocker. Submitting doesn't touch the live
-        database directly (this is a static site with no backend to write to) — it
-        opens a pre-filled GitHub page proposing a new file under
-        <code>data/submissions/</code>, which becomes a real pull request. Once merged,
-        an Action automatically folds it into the main database and refreshes GitHub
-        stats — the site rebuilds and you'll need to reload after that finishes.
+        Know a harmonization method that's missing? Only the name, paper link and source
+        code link are required — everything else helps but isn't a blocker; leave anything
+        you're unsure about blank. This is a static site with no backend, so nothing is
+        written directly: the form builds a small JSON file that you upload to
+        <code>data/submissions/</code> on GitHub, which opens a pull request (GitHub forks
+        the repo for you if you don't have write access). Once a maintainer merges it, an
+        Action folds it into the database, validates it, and fetches its GitHub stats.
       </p>
 
       <div class="addmodel-section">
-        <h3>Required</h3>
+        <h3>1 · Required</h3>
         <label class="addmodel-field">
           <span>Method name*</span>
-          <input type="text" id="am-name" placeholder="e.g. My Harmonization Method">
+          <input type="text" id="am-name" placeholder="e.g. My Harmonization Method" maxlength="120">
         </label>
         <label class="addmodel-field">
-          <span>Paper link*</span>
-          <input type="url" id="am-paper" placeholder="https://doi.org/... or arXiv link">
+          <span>Paper link* <em class="addmodel-hint">DOI link preferred — https://doi.org/10.…, or an arXiv/bioRxiv URL</em></span>
+          <input type="url" id="am-paper" placeholder="https://doi.org/10.xxxx/…">
         </label>
         <label class="addmodel-field">
-          <span>Source code link* (GitHub or GitLab)</span>
+          <span>Source code link* <em class="addmodel-hint">GitHub, GitLab, or a project page</em></span>
           <input type="url" id="am-code" placeholder="https://github.com/owner/repo">
         </label>
-        <div id="am-fetch-status" class="addmodel-fetch-status"></div>
+        <div id="am-fetch-status" class="addmodel-fetch-status" aria-live="polite"></div>
+        <div id="am-dup-status" class="addmodel-dup-status" aria-live="polite"></div>
       </div>
 
       <div class="addmodel-section">
-        <h3>Classification</h3>
+        <h3>2 · Paper details <span class="addmodel-section-note">(optional — the citation job fills gaps later)</span></h3>
         <label class="addmodel-field">
-          <span>Family</span>
-          <select id="am-category"></select>
+          <span>Paper title</span>
+          <input type="text" id="am-title" placeholder="Full title as published">
         </label>
+        <div class="addmodel-row">
+          <label class="addmodel-field">
+            <span>Year <em class="addmodel-hint">print/issue year</em></span>
+            <input type="number" id="am-year" min="1950" max="2100" placeholder="2025">
+          </label>
+          <label class="addmodel-field">
+            <span>Publication type</span>
+            <select id="am-pubtype"></select>
+          </label>
+        </div>
+        <label class="addmodel-field">
+          <span>Venue</span>
+          <input type="text" id="am-venue" placeholder="e.g. NeuroImage, MICCAI 2025 (LNCS)">
+        </label>
+        <label class="addmodel-field">
+          <span>Authors <em class="addmodel-hint">separate with semicolons</em></span>
+          <input type="text" id="am-authors" placeholder="Ada Lovelace; Alan Turing">
+        </label>
+      </div>
+
+      <div class="addmodel-section">
+        <h3>3 · What kind of entry is it?</h3>
+        <div class="addmodel-field">
+          <span>Entry type</span>
+          <div class="rec-options" id="am-entrytype"></div>
+        </div>
+        <label class="addmodel-field addmodel-field-hidden" id="am-implements-wrap">
+          <span>Implements which method in the database?</span>
+          <select id="am-implements"></select>
+        </label>
+        <div class="addmodel-field">
+          <span>Builds on / extends <em class="addmodel-hint">methods already in the database — draws the Lineage view</em></span>
+          <div class="addmodel-inline">
+            <input type="text" id="am-extends-input" list="am-method-list" placeholder="Start typing a method name…">
+            <button type="button" id="am-extends-add" class="addmodel-small-btn">Add</button>
+          </div>
+          <datalist id="am-method-list">${methodOptions}</datalist>
+          <div class="chip-row" id="am-extends-chips"></div>
+        </div>
+        <div class="addmodel-row">
+          <label class="addmodel-field">
+            <span>Family</span>
+            <select id="am-category"></select>
+          </label>
+          <label class="addmodel-field">
+            <span>Method type</span>
+            <select id="am-methodtype">
+              <option value="statistical">Statistical</option>
+              <option value="deep-learning">Deep learning</option>
+              <option value="machine-learning">Machine learning</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+        </div>
         <div class="addmodel-field">
           <span>Harmonization level</span>
           <div class="rec-options" id="am-level"></div>
         </div>
         <label class="addmodel-field">
-          <span>Method type</span>
-          <select id="am-methodtype">
-            <option value="statistical">Statistical</option>
-            <option value="deep-learning">Deep learning</option>
-            <option value="machine-learning">Machine learning</option>
-            <option value="other">Other</option>
-          </select>
-        </label>
-        <label class="addmodel-field">
-          <span>Data modality</span>
-          <select id="am-modality"></select>
-        </label>
-        <label class="addmodel-field addmodel-field-hidden" id="am-modality-other-wrap">
-          <span>Modality (other)</span>
-          <input type="text" id="am-modality-other" placeholder="describe it">
-        </label>
-        <label class="addmodel-field">
-          <span>Programming language(s)</span>
+          <span>Programming language(s) <em class="addmodel-hint">comma-separated</em></span>
           <input type="text" id="am-language" placeholder="Python, R, MATLAB…">
+        </label>
+        <label class="addmodel-field">
+          <span>ID <em class="addmodel-hint">URL slug — generated from the name, edit if it clashes</em></span>
+          <input type="text" id="am-id" placeholder="my-harmonization-method" maxlength="60">
         </label>
       </div>
 
+      <div class="addmodel-section">
+        <h3>4 · Modalities &amp; evidence <span class="addmodel-section-note">(powers the "Tested on" filter)</span></h3>
+        <div class="addmodel-field">
+          <span>Designed for <em class="addmodel-hint">what the original paper proposed it for</em></span>
+          <div class="rec-options" id="am-proposed"></div>
+        </div>
+        <div class="addmodel-field">
+          <span>Also tested on <em class="addmodel-hint">"designed for" and evidence modalities are included automatically</em></span>
+          <div class="rec-options" id="am-tested"></div>
+        </div>
+        <div class="addmodel-field">
+          <span>Evidence papers <em class="addmodel-hint">one row per paper that applied it to a modality (the original paper counts too)</em></span>
+          <div id="am-evidence"></div>
+          <button type="button" id="am-evidence-add" class="addmodel-small-btn">+ Add evidence paper</button>
+        </div>
+      </div>
+
       <div class="addmodel-section" id="am-dl-section">
-        <h3>Deep learning specifics</h3>
-        <label class="addmodel-field">
-          <span>Architecture backbone</span>
-          <select id="am-architecture"></select>
-        </label>
+        <h3>5 · Deep learning specifics</h3>
+        <div class="addmodel-row">
+          <label class="addmodel-field">
+            <span>Architecture backbone</span>
+            <select id="am-architecture"></select>
+          </label>
+          <label class="addmodel-field">
+            <span>Framework</span>
+            <input type="text" id="am-framework" placeholder="PyTorch, TensorFlow…">
+          </label>
+        </div>
         <label class="addmodel-field addmodel-field-hidden" id="am-architecture-other-wrap">
           <span>Architecture (other)</span>
           <input type="text" id="am-architecture-other" placeholder="describe it">
         </label>
-        <label class="addmodel-field">
-          <span>Framework</span>
-          <input type="text" id="am-framework" placeholder="PyTorch, TensorFlow…">
-        </label>
-        <div class="addmodel-field">
-          <span>Needs a GPU?</span>
-          <div class="rec-options" id="am-needsgpu"></div>
-        </div>
-        <div class="addmodel-field">
-          <span>Pretrained weights available?</span>
-          <div class="rec-options" id="am-weights"></div>
-        </div>
+        <div class="addmodel-field"><span>Needs a GPU?</span><div class="rec-options" id="am-needsgpu"></div></div>
+        <div class="addmodel-field"><span>Pretrained weights available?</span><div class="rec-options" id="am-weights"></div></div>
         <label class="addmodel-field addmodel-field-hidden" id="am-weightsurl-wrap">
           <span>Weights link</span>
           <input type="url" id="am-weightsurl" placeholder="https://…">
@@ -404,91 +478,175 @@ function buildAddModelTab() {
       </div>
 
       <div class="addmodel-section">
-        <h3>Compatibility <span class="addmodel-section-note">(used by the "Which method?" tab — leave anything unsure blank)</span></h3>
-        <div class="addmodel-field"><span>Requires a Site ID?</span><div class="rec-options" id="am-sitereq"></div></div>
-        <div class="addmodel-field"><span>Generalizes to a new, unseen site?</span><div class="rec-options" id="am-newsite"></div></div>
-        <div class="addmodel-field"><span>Works well with small per-site N?</span><div class="rec-options" id="am-lown"></div></div>
-        <div class="addmodel-field" id="am-linear-wrap"><span>Assumes a linear biological signal?</span><div class="rec-options" id="am-linear"></div></div>
-        <div class="addmodel-field"><span>Safe to use ahead of an ML pipeline (no leakage)?</span><div class="rec-options" id="am-mlok"></div></div>
+        <h3>6 · Data &amp; study fit <span class="addmodel-section-note">(used by the "Which method?" tab — leave unsure ones blank)</span></h3>
+        <div class="addmodel-field"><span>Designed for longitudinal data (repeated scans per subject)?</span><div class="rec-options" id="am-longitudinal"></div></div>
+        <div class="addmodel-field"><span>Requires paired / traveling-subject data?</span><div class="rec-options" id="am-paired"></div></div>
+        <div class="addmodel-field"><span>Requires a site/scanner label for every sample?</span><div class="rec-options" id="am-sitereq"></div></div>
+        <div class="addmodel-field"><span>Can harmonize data from a new, unseen site without refitting?</span><div class="rec-options" id="am-newsite"></div></div>
+        <div class="addmodel-field"><span>Works with small per-site samples (≲ 30)?</span><div class="rec-options" id="am-lown"></div></div>
+        <div class="addmodel-field" id="am-linear-wrap"><span>Assumes biological effects are linear?</span><div class="rec-options" id="am-linear"></div></div>
+        <div class="addmodel-field"><span>Safe ahead of an ML pipeline (fit on train, apply to test — no leakage)?</span><div class="rec-options" id="am-mlok"></div></div>
       </div>
 
       <div class="addmodel-section">
-        <h3>Extra</h3>
-        <label class="addmodel-field">
-          <span>Publication year</span>
-          <input type="number" id="am-year" min="1990" max="2100">
-        </label>
+        <h3>7 · Extra</h3>
         <label class="addmodel-field">
           <span>Validation data</span>
-          <input type="text" id="am-data" placeholder="Agnostic, or e.g. ADNI, ABCD…">
+          <input type="text" id="am-data" placeholder="e.g. ADNI, ABCD, UK Biobank — or Agnostic">
         </label>
         <label class="addmodel-field">
-          <span>Tags</span>
-          <input type="text" id="am-tags" placeholder="comma, separated, tags">
+          <span>Tags <em class="addmodel-hint">comma-separated</em></span>
+          <input type="text" id="am-tags" placeholder="empirical-bayes, disentanglement…">
         </label>
-        <div class="addmodel-field"><span>Implemented in UniHarmony?</span><div class="rec-options" id="am-uniharmony"></div></div>
+        <div class="addmodel-field addmodel-field-hidden" id="am-toolboxes-wrap">
+          <span>Also available in these toolboxes</span>
+          <div class="rec-options" id="am-toolboxes"></div>
+        </div>
         <label class="addmodel-field">
-          <span>Also implemented in (other toolkits)</span>
-          <input type="text" id="am-alsoin" placeholder="e.g. UniHarmony">
+          <span>Other implementations <em class="addmodel-hint">packages not listed above, comma-separated</em></span>
+          <input type="text" id="am-alsoin" placeholder="e.g. neuroHarmonize">
+        </label>
+        <label class="addmodel-field">
+          <span>Note for the maintainers <em class="addmodel-hint">not published — anything worth knowing when reviewing</em></span>
+          <textarea id="am-notes" rows="3" maxlength="1000"></textarea>
         </label>
       </div>
 
       <div class="addmodel-submit-row">
-        <button type="button" id="am-generate">Generate submission</button>
-        <span id="am-validation-msg" class="addmodel-validation-msg"></span>
+        <button type="button" id="am-generate">Check &amp; generate submission</button>
       </div>
+      <div id="am-validation-msg" class="addmodel-validation-msg" aria-live="polite"></div>
 
       <div id="am-output" class="addmodel-output hidden">
-        <h3>Preview</h3>
+        <h3>Submit in two steps</h3>
+        <ol class="addmodel-steps">
+          <li>
+            <button type="button" id="am-download" class="addmodel-primary-btn">⬇ Download <span id="am-filename"></span></button>
+          </li>
+          <li>
+            <button type="button" id="am-upload" class="addmodel-primary-btn">↗ Open GitHub upload page</button>
+            <p class="addmodel-output-note">
+              Drag the downloaded file onto the page, then choose
+              <em>"Create a new branch for this commit and start a pull request"</em> and click
+              <em>Propose changes</em>. Without write access GitHub forks the repo and opens the
+              pull request for you. You need to be signed in to GitHub.
+            </p>
+          </li>
+        </ol>
+        <details class="addmodel-alt">
+          <summary>Can't upload files? Paste instead</summary>
+          <p class="addmodel-output-note">
+            Copy the JSON, open GitHub's new-file page (the file name is pre-filled), paste it into
+            the editor and propose the change.
+          </p>
+          <div class="addmodel-output-actions">
+            <button type="button" id="am-copy-json">Copy JSON</button>
+            <button type="button" id="am-newfile">↗ Open new-file page</button>
+            <span id="am-copy-status" class="addmodel-copy-status"></span>
+          </div>
+        </details>
+        <h3 class="addmodel-preview-h">Preview</h3>
         <pre id="am-json-preview" class="addmodel-json"></pre>
-        <div class="addmodel-output-actions">
-          <button type="button" id="am-submit-github">↗ Open GitHub to submit</button>
-          <button type="button" id="am-copy-json">Copy JSON</button>
-        </div>
-        <p class="addmodel-output-note">
-          Opens a new tab with this file pre-filled. If you're not a repo collaborator,
-          GitHub automatically forks the repo and proposes this as a pull request when
-          you click "Propose new file" — you don't need write access.
-        </p>
       </div>
     </div>
   `;
 
-  populateSelect("am-category", FAMILY_ORDER.map(([id, label]) => [id, label]), addModelState.category);
-  populateSelect("am-modality", MODALITY_OPTIONS.map((m) => [m, m]), "");
+  populateSelect("am-category", FAMILY_ORDER.map(([id, label]) => [id, label]), "combat-family");
   populateSelect("am-architecture", ARCHITECTURE_OPTIONS.map((a) => [a, a]), "");
+  populateSelect("am-pubtype", PUBLICATION_TYPE_OPTIONS, "");
+  populateSelect("am-implements", [...state.data].sort((a, b) => a.name.localeCompare(b.name)).map((m) => [m.id, m.name]), "");
 
-  makeToggleGroup("am-level", [["feature-level", "Feature-level"], ["image-level", "Image-level"], ["acquisition-level", "Acquisition-level"]], addModelState, "level");
-  makeToggleGroup("am-needsgpu", [["yes", "Yes"], ["no", "No"]], addModelState, "needsGpu");
-  makeToggleGroup("am-weights", [["yes", "Yes"], ["no", "No"]], addModelState, "hasPretrainedWeights", () => {
-    document.getElementById("am-weightsurl-wrap").classList.toggle("addmodel-field-hidden", addModelState.hasPretrainedWeights !== "yes");
+  const S = addModelState;
+  makeToggleGroup("am-entrytype", ENTRY_TYPE_OPTIONS, S, "entryType", () => {
+    if (!S.entryType) S.entryType = "method";
+    document.getElementById("am-implements-wrap").classList.toggle("addmodel-field-hidden", S.entryType !== "implementation");
+  }, { required: true, initial: S.entryType });
+  makeToggleGroup("am-level", [["feature-level", "Feature-level"], ["image-level", "Image-level"], ["acquisition-level", "Acquisition-level"]], S, "level", () => {
+    document.getElementById("am-linear-wrap").classList.toggle("addmodel-field-hidden", S.level !== "feature-level");
+  }, { required: true, initial: S.level });
+  const yn = [["yes", "Yes"], ["no", "No"]];
+  makeToggleGroup("am-needsgpu", yn, S, "needsGpu");
+  makeToggleGroup("am-weights", yn, S, "hasPretrainedWeights", () => {
+    document.getElementById("am-weightsurl-wrap").classList.toggle("addmodel-field-hidden", S.hasPretrainedWeights !== "yes");
   });
-  makeToggleGroup("am-sitereq", [["yes", "Yes"], ["no", "No"]], addModelState, "requiresSiteId");
-  makeToggleGroup("am-newsite", [["yes", "Yes"], ["no", "No"]], addModelState, "generalizesToNewSite");
-  makeToggleGroup("am-lown", [["yes", "Yes"], ["no", "No"]], addModelState, "lowNFriendly");
-  makeToggleGroup("am-linear", [["yes", "Yes"], ["no", "No"], ["na", "N/A"]], addModelState, "requiresLinearSignal");
-  makeToggleGroup("am-mlok", [["yes", "Yes"], ["no", "No"]], addModelState, "mlCompatible");
-  makeToggleGroup("am-uniharmony", [["yes", "Yes"], ["no", "No"]], addModelState, "inUniharmony");
+  makeToggleGroup("am-longitudinal", yn, S, "longitudinal");
+  makeToggleGroup("am-paired", yn, S, "requiresPairedData");
+  makeToggleGroup("am-sitereq", yn, S, "requiresSiteId");
+  makeToggleGroup("am-newsite", yn, S, "generalizesToNewSite");
+  makeToggleGroup("am-lown", yn, S, "lowNFriendly");
+  makeToggleGroup("am-linear", [["yes", "Yes"], ["no", "No"], ["na", "N/A"]], S, "requiresLinearSignal");
+  makeToggleGroup("am-mlok", yn, S, "mlCompatible");
 
-  document.getElementById("am-modality").addEventListener("change", (e) => {
-    document.getElementById("am-modality-other-wrap").classList.toggle("addmodel-field-hidden", e.target.value !== "Other");
+  const modalityOpts = MODALITY_CODES.map((c) => [c, MODALITY_FACET_LABEL[c] || c]);
+  makeChipSet("am-proposed", modalityOpts, S.proposed, () => syncChipSet("am-tested"));
+  makeChipSet("am-tested", modalityOpts, S.tested, null, () => impliedTested());
+
+  if (state.toolboxes.length) {
+    document.getElementById("am-toolboxes-wrap").classList.remove("addmodel-field-hidden");
+    makeChipSet("am-toolboxes", state.toolboxes.map((t) => [t.id, t.name]), S.toolboxes);
+  }
+
+  renderExtendsChips();
+  renderEvidenceRows();
+
+  const addExtends = () => {
+    const input = document.getElementById("am-extends-input");
+    const q = input.value.trim().toLowerCase();
+    if (!q) return;
+    const hit = state.data.find((m) => m.name.toLowerCase() === q || m.id === q);
+    if (!hit) {
+      document.getElementById("am-validation-msg").textContent = `"${input.value.trim()}" isn't in the database — pick a name from the suggestions (add the parent method first if it's missing).`;
+      return;
+    }
+    document.getElementById("am-validation-msg").textContent = "";
+    S.extends.add(hit.id);
+    input.value = "";
+    renderExtendsChips();
+  };
+  document.getElementById("am-extends-add").addEventListener("click", addExtends);
+  document.getElementById("am-extends-input").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); addExtends(); }
   });
+  document.getElementById("am-evidence-add").addEventListener("click", () => {
+    S.evidence.push({ modality: [...S.proposed][0] || "", ref: "", title: "", year: "" });
+    renderEvidenceRows();
+  });
+
   document.getElementById("am-architecture").addEventListener("change", (e) => {
     document.getElementById("am-architecture-other-wrap").classList.toggle("addmodel-field-hidden", e.target.value !== "Other");
   });
-  document.getElementById("am-methodtype").addEventListener("change", (e) => {
-    document.getElementById("am-dl-section").classList.toggle("addmodel-field-hidden", e.target.value !== "deep-learning");
-    document.getElementById("am-linear-wrap").classList.toggle("addmodel-field-hidden", e.target.value === "deep-learning" && addModelState.level === "image-level");
+  const methodTypeSel = document.getElementById("am-methodtype");
+  const syncMethodType = () => document.getElementById("am-dl-section").classList.toggle("addmodel-field-hidden", methodTypeSel.value !== "deep-learning");
+  methodTypeSel.addEventListener("change", syncMethodType);
+  document.getElementById("am-category").addEventListener("change", (e) => {
+    if (e.target.value === "deep-learning" && methodTypeSel.value === "statistical") { methodTypeSel.value = "deep-learning"; syncMethodType(); }
   });
-  document.getElementById("am-level").addEventListener("click", () => {
-    document.getElementById("am-linear-wrap").classList.toggle("addmodel-field-hidden", addModelState.level === "image-level");
-  });
-  document.getElementById("am-dl-section").classList.toggle("addmodel-field-hidden", addModelState.methodType !== "deep-learning");
+  syncMethodType();
 
-  document.getElementById("am-code").addEventListener("change", (e) => fetchRepoPreview(e.target.value));
+  const nameInput = document.getElementById("am-name");
+  const idInput = document.getElementById("am-id");
+  nameInput.addEventListener("input", () => { if (!S.idTouched) idInput.value = slugify(nameInput.value); });
+  idInput.addEventListener("input", () => { S.idTouched = idInput.value.trim() !== ""; });
+  nameInput.addEventListener("change", updateDuplicateStatus);
+  document.getElementById("am-paper").addEventListener("change", updateDuplicateStatus);
+  document.getElementById("am-code").addEventListener("change", (e) => { fetchRepoPreview(e.target.value.trim()); updateDuplicateStatus(); });
+
   document.getElementById("am-generate").addEventListener("click", generateSubmission);
-  document.getElementById("am-copy-json").addEventListener("click", () => {
-    navigator.clipboard.writeText(document.getElementById("am-json-preview").textContent);
+  document.getElementById("am-download").addEventListener("click", () => {
+    if (S.last) downloadJsonFile(S.last.filename, S.last.json);
+  });
+  document.getElementById("am-upload").addEventListener("click", () => openGithubUpload("data/submissions"));
+  document.getElementById("am-newfile").addEventListener("click", () => {
+    if (S.last) window.open(`https://github.com/${SUBMIT_REPO}/new/${SUBMIT_BRANCH}?filename=${encodeURIComponent(`data/submissions/${S.last.filename}`)}`, "_blank", "noopener");
+  });
+  document.getElementById("am-copy-json").addEventListener("click", async () => {
+    const status = document.getElementById("am-copy-status");
+    try {
+      await navigator.clipboard.writeText(document.getElementById("am-json-preview").textContent);
+      status.textContent = "Copied ✓";
+    } catch (e) {
+      status.textContent = "Couldn't copy — select the preview text manually.";
+    }
   });
 }
 
@@ -498,36 +656,194 @@ function populateSelect(id, options, defaultValue) {
   if (defaultValue) sel.value = defaultValue;
 }
 
-function makeToggleGroup(containerId, options, targetState, key, onChange) {
+// Single-choice pill group. With {required:true} a click on the active pill keeps it selected.
+function makeToggleGroup(containerId, options, targetState, key, onChange, { required = false, initial = null } = {}) {
   const wrap = document.getElementById(containerId);
   wrap.innerHTML = "";
+  const paint = () => wrap.querySelectorAll(".rec-pill").forEach((b) => {
+    const on = targetState[key] === b.dataset.value;
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-pressed", String(on));
+  });
   options.forEach(([value, label]) => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "rec-pill";
-    btn.setAttribute("aria-pressed", "false");
+    btn.dataset.value = value;
     btn.textContent = label;
     btn.addEventListener("click", () => {
-      targetState[key] = targetState[key] === value ? null : value;
-      wrap.querySelectorAll(".rec-pill").forEach((b) => { b.classList.remove("active"); b.setAttribute("aria-pressed", "false"); });
-      if (targetState[key] === value) { btn.classList.add("active"); btn.setAttribute("aria-pressed", "true"); }
+      targetState[key] = targetState[key] === value && !required ? null : value;
+      paint();
       if (onChange) onChange();
     });
     wrap.appendChild(btn);
   });
+  if (initial !== null) targetState[key] = initial;
+  paint();
+  if (onChange) onChange();
+}
+
+// Multi-choice pill group bound to a Set. `locked()` returns values shown as on and not clickable.
+function makeChipSet(containerId, options, set, onChange, locked) {
+  const wrap = document.getElementById(containerId);
+  wrap.innerHTML = "";
+  wrap._locked = locked || (() => new Set());
+  wrap._set = set;
+  options.forEach(([value, label]) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rec-pill";
+    btn.dataset.value = value;
+    btn.textContent = label;
+    btn.addEventListener("click", () => {
+      if (wrap._locked().has(value)) return;
+      if (set.has(value)) set.delete(value); else set.add(value);
+      syncChipSet(containerId);
+      if (onChange) onChange(value);
+    });
+    wrap.appendChild(btn);
+  });
+  syncChipSet(containerId);
+}
+
+function syncChipSet(containerId) {
+  const wrap = document.getElementById(containerId);
+  if (!wrap) return;
+  const locked = wrap._locked();
+  wrap.querySelectorAll(".rec-pill").forEach((b) => {
+    const isLocked = locked.has(b.dataset.value);
+    const on = isLocked || wrap._set.has(b.dataset.value);
+    b.classList.toggle("active", on);
+    b.classList.toggle("locked", isLocked);
+    b.setAttribute("aria-pressed", String(on));
+    b.title = isLocked ? "Included automatically (designed for, or has an evidence paper)" : "";
+  });
+}
+
+// Modalities implied by "designed for" + evidence rows: always part of modalities_tested.
+function impliedTested() {
+  const s = new Set(addModelState.proposed);
+  addModelState.evidence.forEach((ev) => { if (ev.modality) s.add(ev.modality); });
+  return s;
+}
+
+function renderExtendsChips() {
+  const wrap = document.getElementById("am-extends-chips");
+  wrap.innerHTML = "";
+  addModelState.extends.forEach((id) => {
+    const m = state.data.find((d) => d.id === id);
+    const chip = document.createElement("span");
+    chip.className = "chip addmodel-removable";
+    chip.textContent = m ? m.name : id;
+    const x = document.createElement("button");
+    x.type = "button";
+    x.className = "addmodel-chip-x";
+    x.setAttribute("aria-label", `Remove ${m ? m.name : id}`);
+    x.textContent = "×";
+    x.addEventListener("click", () => { addModelState.extends.delete(id); renderExtendsChips(); });
+    chip.appendChild(x);
+    wrap.appendChild(chip);
+  });
+}
+
+function renderEvidenceRows() {
+  const wrap = document.getElementById("am-evidence");
+  wrap.innerHTML = "";
+  if (!addModelState.evidence.length) {
+    wrap.innerHTML = `<p class="addmodel-empty">No evidence papers yet.</p>`;
+  }
+  addModelState.evidence.forEach((ev, i) => {
+    const row = document.createElement("div");
+    row.className = "addmodel-evidence-row";
+    row.innerHTML = `
+      <select data-k="modality" aria-label="Modality">
+        <option value="">modality…</option>
+        ${MODALITY_CODES.map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(MODALITY_FACET_LABEL[c] || c)}</option>`).join("")}
+      </select>
+      <input type="text" data-k="ref" placeholder="DOI (10.…) or URL" aria-label="DOI or URL">
+      <input type="text" data-k="title" placeholder="Paper title" aria-label="Paper title">
+      <input type="number" data-k="year" placeholder="Year" min="1950" max="2100" aria-label="Year">
+      <button type="button" class="addmodel-chip-x" aria-label="Remove evidence paper">×</button>`;
+    row.querySelectorAll("[data-k]").forEach((el) => {
+      el.value = ev[el.dataset.k] || "";
+      el.addEventListener(el.tagName === "SELECT" ? "change" : "input", () => {
+        ev[el.dataset.k] = el.value;
+        if (el.dataset.k === "modality") syncChipSet("am-tested");
+      });
+    });
+    row.querySelector("button").addEventListener("click", () => {
+      addModelState.evidence.splice(i, 1);
+      renderEvidenceRows();
+      syncChipSet("am-tested");
+    });
+    wrap.appendChild(row);
+  });
+}
+
+function normalizeGithubSlug(url) {
+  const m = String(url || "").trim().match(/^https?:\/\/(?:www\.)?github\.com\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+?)(?:\.git)?\/?(?:[#?].*)?$/);
+  return m ? `${m[1]}/${m[2]}` : null;
+}
+
+function normalizeDoi(s) {
+  if (!s) return null;
+  let v = String(s).trim().replace(/^https?:\/\/(dx\.)?doi\.org\//i, "").replace(/^doi:\s*/i, "");
+  try { v = decodeURIComponent(v); } catch (e) { /* keep as-is */ }
+  return /^10\.\d{4,9}\/\S+$/.test(v) ? v : null;
+}
+
+function arxivFromUrl(url) {
+  const m = String(url || "").match(/arxiv\.org\/(?:abs|pdf)\/(\d{4}\.\d{4,5})/i);
+  return m ? m[1] : null;
+}
+
+function normName(s) {
+  return String(s || "").toLowerCase().replace(/\(.*?\)/g, "").replace(/[^a-z0-9]+/g, "");
+}
+
+// Possible duplicates already in the database (same repo, same DOI, or same normalized name).
+function findDuplicates({ name, paperUrl, codeUrl }) {
+  const slug = normalizeGithubSlug(codeUrl);
+  const doi = normalizeDoi(paperUrl) || doiFromUrl(paperUrl);
+  const n = normName(name);
+  const hits = [];
+  state.data.forEach((m) => {
+    const why = [];
+    if (slug && m.github && m.github.toLowerCase() === slug.toLowerCase()) why.push("same repository");
+    if (doi && m.doi && m.doi.toLowerCase() === doi.toLowerCase()) why.push("same paper DOI");
+    if (n && n.length > 2 && normName(m.name) === n) why.push("same name");
+    if (why.length) hits.push({ m, why });
+  });
+  return hits;
+}
+
+function updateDuplicateStatus() {
+  const box = document.getElementById("am-dup-status");
+  const hits = findDuplicates({
+    name: document.getElementById("am-name").value,
+    paperUrl: document.getElementById("am-paper").value,
+    codeUrl: document.getElementById("am-code").value,
+  });
+  if (!hits.length) { box.innerHTML = ""; return; }
+  box.innerHTML = `⚠ Possibly already listed: ` + hits.map(({ m, why }) =>
+    `<button type="button" class="inline-link addmodel-dup-link" data-id="${escapeHtml(m.id)}">${escapeHtml(m.name)}</button> (${escapeHtml(why.join(", "))})`
+  ).join("; ") + `. Shared repositories are normal for toolboxes — otherwise consider reporting an error on that page instead.`;
+  box.querySelectorAll(".addmodel-dup-link").forEach((b) => b.addEventListener("click", () => {
+    const m = state.data.find((d) => d.id === b.dataset.id);
+    if (m) { switchTab("explore"); openDrawer(m); }
+  }));
 }
 
 async function fetchRepoPreview(url) {
   const status = document.getElementById("am-fetch-status");
-  const m = url.match(/^https?:\/\/github\.com\/([^\/]+)\/([^\/]+?)\/?$/);
-  if (!m) {
-    status.textContent = url.includes("gitlab.com") || url.includes("gitlab.")
-      ? "GitLab link noted — auto-fetch only works for github.com links, that's fine, just fill in language/etc. manually."
+  const repo = normalizeGithubSlug(url);
+  if (!repo) {
+    status.textContent = /gitlab\./.test(url)
+      ? "GitLab link noted — auto-fetch only works for github.com links; fill in language etc. manually."
       : "";
     addModelState.fetchedRepo = null;
     return;
   }
-  const repo = `${m[1]}/${m[2]}`;
   status.textContent = `Fetching ${repo}…`;
   try {
     const resp = await fetch(`https://api.github.com/repos/${repo}`, { headers: { Accept: "application/vnd.github+json" } });
@@ -537,7 +853,7 @@ async function fetchRepoPreview(url) {
     }
     const data = await resp.json();
     addModelState.fetchedRepo = repo;
-    status.textContent = `✓ Found: ${data.stargazers_count} ★, ${data.language || "language unknown"}, ${data.license ? data.license.spdx_id : "no license"}${data.archived ? " (archived)" : ""}`;
+    status.textContent = `✓ Found: ${Number(data.stargazers_count) || 0} ★, ${data.language || "language unknown"}, ${data.license ? data.license.spdx_id : "no license"}${data.archived ? " (archived)" : ""}`;
     if (data.language && !document.getElementById("am-language").value) {
       document.getElementById("am-language").value = data.language;
     }
@@ -547,7 +863,8 @@ async function fetchRepoPreview(url) {
 }
 
 function slugify(name) {
-  return name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60) || "new-method";
+  return String(name || "").normalize("NFKD").replace(/[̀-ͯ]/g, "")
+    .toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60);
 }
 
 function toBool(v) {
@@ -556,91 +873,175 @@ function toBool(v) {
   return null; // covers null and "na"
 }
 
-function generateSubmission() {
-  const name = document.getElementById("am-name").value.trim();
-  const paperUrl = document.getElementById("am-paper").value.trim();
-  const codeUrl = document.getElementById("am-code").value.trim();
-  const msg = document.getElementById("am-validation-msg");
+const isHttpUrl = (u) => /^https?:\/\/[^\s"'<>]+$/.test(u);
+const splitList = (s, sep = ",") => String(s || "").split(sep).map((x) => x.trim()).filter(Boolean);
 
-  if (!name || !paperUrl || !codeUrl) {
-    msg.textContent = "Name, paper link, and source code link are all required.";
+function generateSubmission() {
+  const S = addModelState;
+  const val = (id) => document.getElementById(id).value.trim();
+  const msg = document.getElementById("am-validation-msg");
+  const errors = [], warnings = [];
+
+  const name = val("am-name");
+  const paperUrl = val("am-paper");
+  const codeUrl = val("am-code");
+  const id = val("am-id") || slugify(name);
+
+  if (!name) errors.push("Method name is required.");
+  if (!paperUrl) errors.push("Paper link is required.");
+  else if (!isHttpUrl(paperUrl)) errors.push("Paper link must start with http:// or https:// (no spaces or quotes).");
+  if (!codeUrl) errors.push("Source code link is required.");
+  else if (!isHttpUrl(codeUrl)) errors.push("Source code link must start with http:// or https://.");
+  if (!name && !id) { /* covered by the name error */ }
+  else if (!/^[a-z0-9][a-z0-9-]*$/.test(id)) errors.push("ID must use lowercase letters, digits and hyphens.");
+  else if (state.data.some((m) => m.id === id)) errors.push(`ID "${id}" is already used by another entry — edit the ID field.`);
+
+  const yearVal = val("am-year");
+  const year = yearVal ? Number(yearVal) : null;
+  const maxYear = new Date().getFullYear() + 1;
+  if (year !== null && !(Number.isInteger(year) && year >= 1950 && year <= maxYear)) errors.push(`Year must be between 1950 and ${maxYear}.`);
+
+  const weightsUrl = toBool(S.hasPretrainedWeights) ? val("am-weightsurl") : "";
+  if (weightsUrl && !isHttpUrl(weightsUrl)) errors.push("Weights link must be an http(s) URL.");
+
+  const implementsId = S.entryType === "implementation" ? (val("am-implements") || null) : null;
+  if (S.entryType === "implementation" && !implementsId) warnings.push("Pick which method this implements, so it's grouped under its parent.");
+
+  const evidence = [];
+  S.evidence.forEach((ev, i) => {
+    const ref = String(ev.ref || "").trim();
+    if (!ref && !ev.title) return;
+    const doi = normalizeDoi(ref);
+    const out = { modality: ev.modality || null, title: String(ev.title || "").trim() || null, year: ev.year ? Number(ev.year) : null };
+    if (doi) out.doi = doi;
+    else if (isHttpUrl(ref)) out.url = ref;
+    else errors.push(`Evidence row ${i + 1}: give a DOI (10.…) or an http(s) link.`);
+    if (!ev.modality) errors.push(`Evidence row ${i + 1}: pick the modality it was tested on.`);
+    if (out.year !== null && !(Number.isInteger(out.year) && out.year >= 1950 && out.year <= maxYear)) errors.push(`Evidence row ${i + 1}: year looks wrong.`);
+    evidence.push(out);
+  });
+
+  if (!S.proposed.size) warnings.push(`No "designed for" modality selected — choose Modality-agnostic if it isn't tied to one.`);
+  const dups = findDuplicates({ name, paperUrl, codeUrl });
+  if (dups.length) warnings.push(`Possible duplicate of ${dups.map(({ m }) => m.name).join(", ")} — double-check before submitting.`);
+  updateDuplicateStatus();
+
+  if (errors.length) {
+    msg.innerHTML = `<ul>${errors.map((e) => `<li>${escapeHtml(e)}</li>`).join("")}</ul>`;
+    msg.className = "addmodel-validation-msg is-error";
+    document.getElementById("am-output").classList.add("hidden");
+    msg.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
-  msg.textContent = "";
+  msg.className = "addmodel-validation-msg is-warning";
+  msg.innerHTML = warnings.length ? `<ul>${warnings.map((w) => `<li>⚠ ${escapeHtml(w)}</li>`).join("")}</ul>` : "";
 
-  const category = document.getElementById("am-category").value || "deep-learning";
-  const level = addModelState.level || "feature-level";
-  const methodType = document.getElementById("am-methodtype").value;
-  let modality = document.getElementById("am-modality").value;
-  if (modality === "Other") modality = document.getElementById("am-modality-other").value.trim() || "MRI (unspecified)";
-  const language = document.getElementById("am-language").value.split(",").map((s) => s.trim()).filter(Boolean);
-  const tags = document.getElementById("am-tags").value.split(",").map((s) => s.trim()).filter(Boolean);
-  const validationData = document.getElementById("am-data").value.trim() || "Agnostic";
-  const yearVal = document.getElementById("am-year").value;
-  const alsoIn = document.getElementById("am-alsoin").value.split(",").map((s) => s.trim()).filter(Boolean);
-
-  const isGithub = /^https?:\/\/github\.com\//.test(codeUrl);
+  const category = val("am-category") || "deep-learning";
+  const level = S.level || "feature-level";
+  const methodType = val("am-methodtype");
+  const isDL = methodType === "deep-learning";
   let architecture = null, framework = null;
-  if (methodType === "deep-learning") {
-    architecture = document.getElementById("am-architecture").value;
-    if (architecture === "Other") architecture = document.getElementById("am-architecture-other").value.trim() || null;
-    framework = document.getElementById("am-framework").value.trim() || null;
+  if (isDL) {
+    architecture = val("am-architecture") || null;
+    if (architecture === "Other") architecture = val("am-architecture-other") || null;
+    framework = val("am-framework") || null;
   }
-
-  const id = slugify(name);
+  const github = normalizeGithubSlug(codeUrl);
+  const doi = normalizeDoi(paperUrl) || doiFromUrl(paperUrl);
+  const arxivId = arxivFromUrl(paperUrl);
+  const isPreprintHost = /arxiv\.org|biorxiv\.org|medrxiv\.org/i.test(paperUrl);
+  const authorsRaw = val("am-authors");
+  const authors = splitList(authorsRaw, authorsRaw.includes(";") ? ";" : ",");
+  const proposed = MODALITY_CODES.filter((c) => S.proposed.has(c));
+  const testedSet = new Set([...S.tested, ...impliedTested()]);
+  const tested = MODALITY_CODES.filter((c) => testedSet.has(c));
+  const toolboxes = [...S.toolboxes];
   const familyLabel = (FAMILY_ORDER.find(([fid]) => fid === category) || [, category])[1];
+  const needsGpu = isDL ? (toBool(S.needsGpu) ?? true) : false;
 
+  // Key order mirrors existing entries in data/methods.json.
   const entry = {
     id,
     name,
     category,
-    category_label: familyLabel,
     method_type: methodType,
     level,
-    tags,
-    paper_title: null,
-    paper_year: yearVal ? Number(yearVal) : null,
+    tags: splitList(val("am-tags")),
+    paper_title: val("am-title") || null,
+    paper_year: year,
     paper_url: paperUrl,
+    github,
+    language: splitList(val("am-language")),
+    other_url: github ? null : codeUrl,
     abstract: null,
-    github: isGithub ? codeUrl.replace(/^https?:\/\/github\.com\//, "").replace(/\/$/, "") : null,
-    other_url: isGithub ? null : codeUrl,
-    language,
     citations: null,
     stars: null, forks: null, open_issues: null, license: null, topics: null,
     archived: null, repo_created_at: null, first_commit_date: null,
     last_commit: null, repo_description: null, stats_fetched_at: null,
-    validation_data: validationData,
-    modality: modality || "MRI (unspecified)",
-    in_uniharmony: toBool(addModelState.inUniharmony) === true,
-    also_implemented_in: alsoIn,
-    needs_gpu: methodType === "deep-learning" ? (toBool(addModelState.needsGpu) ?? true) : false,
+    category_label: familyLabel,
+    in_uniharmony: toolboxes.includes("uniharmony"),
+    also_implemented_in: splitList(val("am-alsoin")),
+    validation_data: val("am-data") || "Agnostic",
+    modality: LEGACY_MODALITY[proposed[0]] || "MRI (unspecified)",
+    needs_gpu: needsGpu,
     architecture_backbone: architecture,
     framework,
-    has_pretrained_weights: toBool(addModelState.hasPretrainedWeights),
-    pretrained_weights_url: toBool(addModelState.hasPretrainedWeights) ? (document.getElementById("am-weightsurl").value.trim() || null) : null,
+    has_pretrained_weights: toBool(S.hasPretrainedWeights),
+    pretrained_weights_url: weightsUrl || null,
     recommend: {
-      requires_site_id: toBool(addModelState.requiresSiteId) ?? true,
-      generalizes_to_new_site: toBool(addModelState.generalizesToNewSite) ?? false,
-      low_n_friendly: toBool(addModelState.lowNFriendly) ?? false,
-      requires_linear_signal: addModelState.requiresLinearSignal === "na" ? null : toBool(addModelState.requiresLinearSignal),
-      ml_compatible: toBool(addModelState.mlCompatible) ?? (category !== "combat-family"),
-      needs_gpu: methodType === "deep-learning" ? (toBool(addModelState.needsGpu) ?? true) : false,
+      requires_site_id: toBool(S.requiresSiteId) ?? true,
+      generalizes_to_new_site: toBool(S.generalizesToNewSite) ?? false,
+      low_n_friendly: toBool(S.lowNFriendly) ?? false,
+      requires_linear_signal: S.requiresLinearSignal === "na" ? null : toBool(S.requiresLinearSignal),
+      ml_compatible: toBool(S.mlCompatible) ?? (category !== "combat-family"),
+      needs_gpu: needsGpu,
+      longitudinal: toBool(S.longitudinal) ?? false,
+      requires_paired_data: toBool(S.requiresPairedData) ?? false,
     },
+    doi: doi || null,
+    arxiv_id: arxivId,
+    authors,
+    n_authors: authors.length || null,
+    venue: val("am-venue") || (arxivId ? "arXiv" : null),
+    publication_type: val("am-pubtype") || (isPreprintHost ? "preprint" : null),
+    modalities_proposed: proposed,
+    modalities_tested: tested,
+    modalities_verified: false,
+    entry_type: S.entryType || "method",
+    implements: implementsId,
+    extends: [...S.extends],
+    evidence,
+    _toolboxes: toolboxes,
+    _notes: val("am-notes") || null,
     _submitted_via: "add-a-model form",
     _submitted_at: new Date().toISOString(),
   };
 
-  const json = JSON.stringify(entry, null, 2);
+  const json = JSON.stringify(entry, null, 2) + "\n";
+  S.last = { filename: `${id}.json`, json };
+  document.getElementById("am-filename").textContent = `${id}.json`;
   document.getElementById("am-json-preview").textContent = json;
+  document.getElementById("am-copy-status").textContent = "";
   document.getElementById("am-output").classList.remove("hidden");
-
-  document.getElementById("am-submit-github").onclick = () => {
-    const filename = `data/submissions/${id}.json`;
-    const url = `https://github.com/N-Nieto/HarmonizationZoo/new/main?filename=${encodeURIComponent(filename)}&value=${encodeURIComponent(json)}`;
-    window.open(url, "_blank");
-  };
-
   document.getElementById("am-output").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// Save a JSON string as a file via a Blob URL (no network; allowed by the page CSP).
+function downloadJsonFile(filename, json) {
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// GitHub's "Upload files" page for a folder: short URL, works for non-collaborators via fork + PR.
+function openGithubUpload(folder) {
+  window.open(`https://github.com/${SUBMIT_REPO}/upload/${SUBMIT_BRANCH}/${folder}`, "_blank", "noopener");
 }
 
 
@@ -661,8 +1062,8 @@ function generateSubmission() {
  *
  * What gets fetched this session is tracked in sessionUpdates, keyed by
  * method id. "Open PR with fetched data" turns that into a small JSON file
- * under data/submissions-stats/<id>.json and opens GitHub's pre-filled
- * new-file page for it — same pattern as the "Add a model" tab. A
+ * under data/submissions-stats/, downloads it and opens GitHub's upload page
+ * for that folder — same pattern as the "Add a model" tab. A
  * maintainer merges the PR, and scripts/merge_stats_updates.py (run by
  * .github/workflows/merge-stats-updates.yml) folds each file's fields into
  * the matching entry in methods.json for real.
@@ -755,10 +1156,14 @@ function openStatsUpdatePR() {
   const ids = Object.keys(sessionUpdates);
   if (ids.length === 0) return;
 
-  const filename = `data/submissions-stats/${Date.now()}.json`;
-  const payload = JSON.stringify({ updates: sessionUpdates, fetched_at: new Date().toISOString() }, null, 2);
-  const url = `https://github.com/N-Nieto/HarmonizationZoo/new/main?filename=${encodeURIComponent(filename)}&value=${encodeURIComponent(payload)}`;
-  window.open(url, "_blank");
+  // Download the update file and open GitHub's upload page for the folder — the old
+  // "new file?value=<json>" URL grew past GitHub's URL length limit with many updates.
+  const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const payload = JSON.stringify({ updates: sessionUpdates, fetched_at: new Date().toISOString() }, null, 2) + "\n";
+  downloadJsonFile(`stats-${stamp}.json`, payload);
+  openGithubUpload("data/submissions-stats");
+  document.getElementById("fetch-stats-status").textContent =
+    `Downloaded stats-${stamp}.json (${ids.length} method${ids.length === 1 ? "" : "s"}). Drag it onto the GitHub upload page that just opened and choose "start a pull request".`;
 }
 
 function bindControls() {
@@ -964,6 +1369,55 @@ function makeBox(d) {
   return box;
 }
 
+/* ---------------- Code health score ---------------- */
+// A transparent 0–100 score for a method's own GitHub repository, computed from
+// fields already in methods.json. Same constants as scripts/build_pages.py.
+//   Recency    40  last commit: full marks < 3 months, 0 at 3 years
+//   Longevity  15  first → last commit span: full marks at 3+ years
+//   License    15  OSI/SPDX license 15, unclear licence 7, none 0
+//   Adoption   20  stars on a log scale, full marks at 500
+//   Community  10  forks on a log scale, full marks at 100
+// Archived repos are capped at 20. Methods without their own repo get no score
+// (toolbox-maintained ones say so instead). Dates are measured against the
+// database's last stats refresh, so the score doesn't drift between refreshes.
+const HEALTH_GRADES = [[80, "A"], [60, "B"], [40, "C"], [20, "D"], [0, "E"]];
+function healthReferenceTime() {
+  return state.dbStatsFetchedAt ? new Date(state.dbStatsFetchedAt).getTime() : Date.now();
+}
+function codeHealth(d) {
+  if (!d.github || typeof d.stars !== "number" || !d.last_commit) return null;
+  const day = 86400000, ref = healthReferenceTime();
+  const ageDays = Math.max(0, (ref - new Date(`${d.last_commit}T00:00:00Z`).getTime()) / day);
+  const recency = ageDays <= 90 ? 40 : Math.max(0, 40 * (1 - (ageDays - 90) / (1095 - 90)));
+  const start = d.first_commit_date || d.repo_created_at;
+  const spanYears = start ? Math.max(0, (new Date(`${d.last_commit}T00:00:00Z`) - new Date(`${start}T00:00:00Z`)) / (365.25 * day)) : 0;
+  const longevity = 15 * Math.min(1, spanYears / 3);
+  const license = !d.license ? 0 : d.license === "NOASSERTION" ? 7 : 15;
+  const adoption = 20 * Math.min(1, Math.log10(d.stars + 1) / Math.log10(501));
+  const community = 10 * Math.min(1, Math.log10((d.forks || 0) + 1) / Math.log10(101));
+  let score = recency + longevity + license + adoption + community;
+  if (d.archived) score = Math.min(score, 20);
+  score = Math.round(score);
+  const grade = HEALTH_GRADES.find(([min]) => score >= min)[1];
+  return {
+    score, grade, archived: !!d.archived,
+    parts: [
+      ["Recency", recency, 40, d.last_commit ? `last commit ${d.last_commit}` : ""],
+      ["Longevity", longevity, 15, start ? `${spanYears.toFixed(1)} years of commits` : "unknown start"],
+      ["License", license, 15, d.license ? (d.license === "NOASSERTION" ? "licence unclear" : d.license) : "no licence"],
+      ["Adoption", adoption, 20, `${d.stars.toLocaleString()} stars`],
+      ["Community", community, 10, `${(d.forks || 0).toLocaleString()} forks`],
+    ].map(([k, v, max, note]) => ({ k, v: Math.round(v), max, note })),
+  };
+}
+function healthBadge(h) {
+  if (!h) return "";
+  return `<span class="health-badge health-${h.grade}" title="Code health ${h.score}/100">${h.grade} · ${h.score}</span>`;
+}
+function healthBreakdownHtml(h) {
+  return `<ul class="health-parts">${h.parts.map((p) => `<li><span>${escapeHtml(p.k)}</span><span class="health-bar"><span style="width:${(p.v / p.max) * 100}%"></span></span><span class="health-num">${p.v}/${p.max}</span><span class="health-note">${escapeHtml(p.note)}</span></li>`).join("")}</ul>${h.archived ? `<p class="health-archived">Archived repository: score capped at 20.</p>` : ""}`;
+}
+
 /* ---------------- Facet filters ---------------- */
 // Each facet maps a method to the list of values it has for that facet.
 // Selecting values: OR within a facet, AND across facets. Counts next to each
@@ -999,6 +1453,9 @@ const FACETS = [
   { key: "publication", label: "Paper", values: publicationFacet,
     labelOf: (v) => ({ "peer-reviewed": "Peer-reviewed", preprint: "Preprint", none: "No paper" })[v] || v,
     order: ["peer-reviewed", "preprint", "none"] },
+  { key: "health", label: "Code health", values: (d) => { const h = codeHealth(d); return [h ? h.grade : (isToolboxMember(d.id) ? "toolbox" : "none")]; },
+    labelOf: (v) => ({ A: "A (80+)", B: "B (60–79)", C: "C (40–59)", D: "D (20–39)", E: "E (< 20)", toolbox: "Via a toolbox", none: "No repo data" })[v] || v,
+    order: ["A", "B", "C", "D", "E", "toolbox", "none"] },
   { key: "gpu", label: "Hardware", values: (d) => [d.recommend && d.recommend.needs_gpu ? "gpu" : "cpu"],
     labelOf: (v) => (v === "gpu" ? "Needs a GPU" : "Runs on CPU"), order: ["cpu", "gpu"] },
 ];
@@ -1280,6 +1737,7 @@ function renderImpact(visible) {
       <span class="imp-tip-family"><span class="tbl-dot" style="background:${FAMILY_COLOR.get(p.d.category) || "#888"}"></span>${escapeHtml(familyShort(p.d))}</span>
       <span>${p.d.citations.toLocaleString()} citations${typeof p.d.stars === "number" ? ` · ${p.d.stars.toLocaleString()} ★` : ""}</span>
       <span><span class="maint-badge maint-${maint.status}">${STATUS_LABEL[maint.status]}</span> last commit ${escapeHtml(p.d.last_commit)}</span>
+      ${codeHealth(p.d) ? `<span>Code health ${healthBadge(codeHealth(p.d))}</span>` : ""}
       <em>Click for details</em>`;
     tip.classList.remove("hidden");
     const box = wrap.getBoundingClientRect();
@@ -1560,6 +2018,8 @@ const TABLE_COLUMNS = [
       const m = formatMaintenance(d.last_commit);
       return `<span class="maint-badge maint-${m.status}">${STATUS_LABEL[m.status]}</span> <span class="tbl-muted">${escapeHtml(d.last_commit)}</span>`;
     } },
+  { key: "health", label: "Health", type: "num", value: (d) => { const h = codeHealth(d); return h ? h.score : null; },
+    cell: (d) => { const h = codeHealth(d); return h ? healthBadge(h) : (isToolboxMember(d.id) && !d.github ? `<span class="tbl-muted">toolbox</span>` : "—"); } },
   { key: "language", label: "Language", type: "text", value: (d) => (d.language && d.language[0]) || "",
     cell: (d) => escapeHtml((d.language || []).join(", ") || "—") },
   { key: "venue", label: "Published in", type: "text", value: (d) => d.venue || "",
@@ -1656,7 +2116,7 @@ function downloadTableCsv() {
     ["level", (d) => d.level], ["method_type", (d) => d.method_type], ["paper_year", (d) => d.paper_year],
     ["paper_title", (d) => d.paper_title], ["venue", (d) => d.venue], ["doi", (d) => d.doi], ["paper_url", (d) => d.paper_url],
     ["citations", (d) => d.citations], ["github", (d) => (d.github ? `https://github.com/${d.github}` : d.other_url)],
-    ["stars", (d) => d.stars], ["forks", (d) => d.forks], ["last_commit", (d) => d.last_commit],
+    ["stars", (d) => d.stars], ["forks", (d) => d.forks], ["last_commit", (d) => d.last_commit], ["code_health", (d) => { const h = codeHealth(d); return h ? h.score : null; }],
     ["license", (d) => d.license], ["language", (d) => d.language], ["modalities_tested", (d) => d.modalities_tested],
   ];
   const lines = [fields.map(([k]) => k).join(",")]
@@ -2063,6 +2523,7 @@ function openDrawer(d) {
       ${(d.evidence || []).length ? `<dt>Evidence</dt><dd><ul class="evidence-list">${d.evidence.map((ev) => `<li><span class="chip">${escapeHtml(MODALITY_FACET_LABEL[ev.modality] || ev.modality)}</span> ${extLink(ev.doi ? `https://doi.org/${ev.doi}` : ev.url, `${escapeHtml(ev.title || "paper")}${ev.year ? ` (${escapeHtml(ev.year)})` : ""}`, "inline-link")}</li>`).join("")}</ul></dd>` : ""}
       <dt>First commit</dt><dd>${escapeHtml(firstCommitLine)}</dd>
       <dt>Last maintained</dt><dd>${maintLine}</dd>
+      ${(() => { const h = codeHealth(d); return h ? `<dt>Code health</dt><dd>${healthBadge(h)}${healthBreakdownHtml(h)}</dd>` : ""; })()}
       <dt>Validation data</dt><dd>${escapeHtml(d.validation_data || "Agnostic")}</dd>
       <dt>Toolboxes</dt><dd>${toolboxLine}</dd>
       <dt>Language</dt><dd><div class="chip-row">${languages}</div></dd>
@@ -2608,7 +3069,9 @@ function recScore(d, ctx) {
   const fit = (ctx.boosts.get(d.id) || []).reduce((s, b) => s + b.pts, 0);
   const evidence = typeof d.citations === "number" ? Math.log10(d.citations + 1) * 0.8 : 0;
   let upkeep = 0;
-  if (d.last_commit) upkeep = { active: 1.2, slowing: 0.6, stale: 0 }[formatMaintenance(d.last_commit).status];
+  const h = codeHealth(d);
+  if (h) upkeep = (h.score / 100) * 1.5;
+  else if (d.last_commit) upkeep = { active: 1.2, slowing: 0.6, stale: 0 }[formatMaintenance(d.last_commit).status];
   else if (isToolboxMember(d.id)) upkeep = 0.8;
   const code = d.github || d.other_url || isToolboxMember(d.id) ? 0.5 : 0;
   return { total: fit + evidence + upkeep + code, fit };
@@ -2651,7 +3114,7 @@ function renderMethodsPanel(container, pool, ctx = recContext(), finished = fals
   }
   const how = document.createElement("p");
   how.className = "rec-how";
-  how.textContent = "Ranked by how well each method fits your answers, then by citations and code maintenance.";
+  how.textContent = "Ranked by how well each method fits your answers, then by citations and code health.";
   container.appendChild(how);
 }
 
@@ -2674,6 +3137,7 @@ function recCard(d, ctx, rank) {
       <span class="tbl-dot" style="background:${FAMILY_COLOR.get(d.category) || "#888"}"></span>
       <strong>${escapeHtml(d.name)}</strong>
       ${maint ? `<span class="maint-badge maint-${maint.status}">${STATUS_LABEL[maint.status]}</span>` : (isToolboxMember(d.id) ? `<span class="maint-badge maint-toolbox">toolbox</span>` : "")}
+      ${healthBadge(codeHealth(d))}
     </div>
     <p class="rec-card-meta">${escapeHtml(familyShort(d))}${meta ? ` · ${meta}` : ""}</p>
     ${reasons.length ? `<ul class="rec-why">${reasons.map((r) => `<li>✓ ${escapeHtml(r)}</li>`).join("")}</ul>` : ""}

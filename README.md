@@ -20,9 +20,11 @@ file as its database — so it's built to grow.
   modality, language, year, stars, citations, validation data, or toolbox,
   search, and compare side-by-side. **Filters** combine modality (tested on),
   family, language, code availability, maintenance, paper status and
-  hardware — shareable via the URL (e.g. `?f=modality:EEG,language:Python#explore`). Switch to **Table** view to sort by
+  hardware and code health — shareable via the URL (e.g. `?f=modality:EEG,language:Python#explore`). Switch to **Table** view to sort by
   citations, stars, last commit, year or venue, and download the current
-  rows as CSV (`?view=table#explore` links straight to it). **Lineage**
+  rows as CSV (`?view=table#explore` links straight to it). A **code health**
+  score (A–E, 0–100) rates each repo on recency, longevity, licence, stars
+  and forks — see `MAINTAINERS.md`. **Lineage**
   view draws the family tree of methods (which builds on which) over
   publication years, from the `extends` / `implements` fields
   (`?view=lineage#explore`). **Impact** view plots citations (log) against
@@ -64,8 +66,8 @@ in `MAINTAINERS.md`.
 
 Two ways to add or fix a method:
 
-- **Use the "Add a model" tab on the site** — fill in a form, it opens a
-  pre-filled GitHub page proposing the change as a PR.
+- **Use the "Add a model" tab on the site** — fill in a form, it downloads a
+  small JSON file and opens GitHub's upload page to propose it as a PR.
 - **Edit `data/methods.json` directly** and open a PR — GitHub's web
   editor is enough, no clone needed.
 
