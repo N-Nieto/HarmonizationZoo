@@ -33,6 +33,9 @@ jobs:
       - name: Validate data (URLs, types, references)
         run: python3 scripts/validate_methods.py
 
+      - name: Rebuild method pages + sitemap
+        run: python3 scripts/build_pages.py
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
