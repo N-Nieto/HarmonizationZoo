@@ -37,6 +37,8 @@ const state = {
   toolboxes: [],
   resources: [],
   resourceScope: "all",
+  datasets: [],
+  datasetCategory: "all",
   groupBy: "category",
   search: "",
   activeLevels: new Set(LEVEL_ORDER),
@@ -77,6 +79,12 @@ async function init() {
     state.toolboxes = []; // supplementary data — the rest of the site works fine without it
   }
   try {
+    const dsRes = await fetch("data/datasets.json");
+    state.datasets = dsRes.ok ? (await dsRes.json()).datasets : [];
+  } catch (e) {
+    state.datasets = []; // optional
+  }
+  try {
     const resRes = await fetch("data/resources.json");
     state.resources = resRes.ok ? (await resRes.json()).resources : [];
   } catch (e) {
@@ -98,6 +106,7 @@ async function init() {
   buildHomeTab();
   buildToolboxesTab();
   buildResourcesTab();
+  buildDatasetsTab();
   buildAddModelTab();
   render();
 
@@ -449,6 +458,98 @@ function showResource(id) {
     el.classList.add("resource-flash");
     setTimeout(() => el.classList.remove("resource-flash"), 1600);
   }
+}
+
+/* ---------------- Datasets tab ---------------- */
+// Multisite datasets (data/datasets.json): traveling-subject resources and
+// benchmarks built for harmonization, phantoms, and large multisite cohorts.
+// Methods are linked when their `validation_data` mentions one of a dataset's
+// aliases (word match), so the list grows as validation_data is filled in.
+
+const DATASET_CATEGORIES = [
+  ["all", "All"],
+  ["traveling-subjects", "Traveling subjects"],
+  ["harmonization-benchmark", "Harmonization benchmarks"],
+  ["phantom", "Phantoms"],
+  ["multisite-cohort", "Multisite cohorts"],
+];
+const DATASET_CATEGORY_LABEL = Object.fromEntries(DATASET_CATEGORIES);
+const DATASET_ACCESS_LABEL = { open: "Open download", registration: "Free registration", application: "Data-use application" };
+
+function methodsValidatedOn(ds) {
+  const names = [ds.name, ...(ds.aliases || [])].filter(Boolean);
+  const res = names.map((n) => new RegExp(`(^|[^A-Za-z0-9])${n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}($|[^A-Za-z0-9])`, "i"));
+  return state.data.filter((d) => d.validation_data && res.some((re) => re.test(d.validation_data)));
+}
+
+function buildDatasetsTab() {
+  const root = document.getElementById("datasets-root");
+  if (!state.datasets.length) {
+    root.innerHTML = `<div class="loading-placeholder">No datasets listed yet.</div>`;
+    return;
+  }
+  const visible = state.datasets.filter((d) => state.datasetCategory === "all" || d.category === state.datasetCategory);
+  const order = DATASET_CATEGORIES.map(([k]) => k);
+  visible.sort((a, b) => order.indexOf(a.category) - order.indexOf(b.category) || (b.year || 0) - (a.year || 0));
+
+  const cards = visible.map((ds) => {
+    const used = methodsValidatedOn(ds).sort((a, b) => a.name.localeCompare(b.name));
+    const paperUrl = ds.doi ? `https://doi.org/${ds.doi}` : null;
+    const facts = [
+      ["Participants", ds.participants], ["Sites / scanners", ds.sites],
+      ["Vendors", (ds.vendors || []).join(", ")], ["Sessions", ds.sessions],
+    ].filter(([, v]) => v);
+    const extra = (ds.extra_papers || []).map((p) => extLink(p.doi ? `https://doi.org/${p.doi}` : p.url, `${escapeHtml(p.title)}${p.year ? ` (${escapeHtml(p.year)})` : ""}`, "inline-link")).join("<br>");
+    return `
+      <article class="dataset-card dataset-${escapeHtml(ds.category)}">
+        <div class="resource-meta">
+          <span class="resource-type">${escapeHtml(DATASET_CATEGORY_LABEL[ds.category] || ds.category)}</span>
+          ${ds.access ? `<span class="dataset-access dataset-access-${escapeHtml(ds.access)}">${escapeHtml(DATASET_ACCESS_LABEL[ds.access] || ds.access)}</span>` : ""}
+          ${ds.longitudinal ? `<span>Longitudinal</span>` : ""}
+        </div>
+        <h3>${escapeHtml(ds.name)}</h3>
+        ${ds.full_name && ds.full_name !== ds.name ? `<p class="resource-cite">${escapeHtml(ds.full_name)}</p>` : ""}
+        <p class="resource-note">${escapeHtml(ds.description || "")}</p>
+        <div class="chip-row">${(ds.modalities || []).map((m) => `<span class="chip">${escapeHtml(MODALITY_FACET_LABEL[m] || m)}</span>`).join("")}</div>
+        ${facts.length ? `<dl class="spec-table dataset-facts">${facts.map(([k, v]) => `<dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd>`).join("")}</dl>` : ""}
+        <div class="dataset-links">
+          ${ds.url ? extLink(ds.url, "↗ Website / access", "inline-link") : ""}
+          ${paperUrl ? extLink(paperUrl, `↗ Paper${ds.year ? ` (${escapeHtml(ds.year)})` : ""}`, "inline-link") : ""}
+        </div>
+        ${extra ? `<p class="dataset-extra">Also: ${extra}</p>` : ""}
+        ${used.length ? `
+          <p class="toolbox-methods-label">Validation data for ${used.length} method${used.length === 1 ? "" : "s"} here:</p>
+          <div class="toolbox-methods">${used.map((m) => `<button type="button" class="toolbox-method-chip" data-id="${escapeHtml(m.id)}" style="--box-color:${FAMILY_COLOR.get(m.category) || "#888"}">${escapeHtml(m.name)}</button>`).join("")}</div>` : ""}
+      </article>`;
+  }).join("");
+
+  root.innerHTML = `
+    <div class="toolboxes-wrap resources-wrap">
+      <p class="toolboxes-intro">
+        Datasets for developing and testing harmonization. <strong>Traveling-subject</strong> resources
+        scan the same people on several scanners, so scanner effects can be measured directly; they are what
+        methods marked "needs paired data" require. <strong>Benchmarks</strong> and <strong>phantoms</strong>
+        come with an evaluation set-up. <strong>Multisite cohorts</strong> are large studies whose site effects are
+        the problem harmonization solves. Check each dataset's own terms before use; missing access details mean
+        we haven't verified them yet. Know one that belongs here? Add it to <code>data/datasets.json</code>.
+      </p>
+      <div class="rec-options resource-filter" role="group" aria-label="Filter datasets by type">
+        ${DATASET_CATEGORIES.filter(([c]) => c === "all" || state.datasets.some((d) => d.category === c)).map(([c, label]) => {
+          const n = c === "all" ? state.datasets.length : state.datasets.filter((d) => d.category === c).length;
+          return `<button type="button" class="rec-pill${state.datasetCategory === c ? " active" : ""}" aria-pressed="${state.datasetCategory === c}" data-cat="${c}">${escapeHtml(label)} (${n})</button>`;
+        }).join("")}
+      </div>
+      <div class="dataset-grid">${cards}</div>
+    </div>`;
+
+  root.querySelectorAll(".resource-filter .rec-pill").forEach((b) => b.addEventListener("click", () => {
+    state.datasetCategory = b.dataset.cat;
+    buildDatasetsTab();
+  }));
+  root.querySelectorAll(".toolbox-method-chip").forEach((chip) => chip.addEventListener("click", () => {
+    const m = state.data.find((d) => d.id === chip.dataset.id);
+    if (m) { switchTab("explore"); openDrawer(m); }
+  }));
 }
 
 function buildAddModelTab() {
@@ -1391,7 +1492,7 @@ function switchTab(tab, { pushHistory = true } = {}) {
   window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
 }
 
-const VALID_TABS = ["home", "explore", "recommend", "toolboxes", "resources", "add"];
+const VALID_TABS = ["home", "explore", "recommend", "toolboxes", "resources", "datasets", "add"];
 
 function initialTabFromUrl() {
   const fromHash = location.hash.slice(1);

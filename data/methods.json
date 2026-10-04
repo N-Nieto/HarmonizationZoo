@@ -7293,7 +7293,7 @@
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic",
+      "validation_data": "SRPBS Traveling Subject dataset",
       "modality": "Functional MRI",
       "needs_gpu": false,
       "architecture_backbone": null,

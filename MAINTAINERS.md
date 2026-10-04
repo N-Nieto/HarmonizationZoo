@@ -337,6 +337,22 @@ left out on purpose. The 20 "implicit" methods — site-invariant models
 rather than harmonized data, following the explicit/implicit split in Wen et
 al. 2023 — live in the **Domain Adaptation & Distribution Matching** family.
 
+## Datasets
+
+The **Datasets** tab lists multisite datasets from `data/datasets.json`, in
+four `category` values: `traveling-subjects` (same people on several
+scanners — what "needs paired data" methods require), `harmonization-benchmark`,
+`phantom`, and `multisite-cohort`. Fields: `id`, `name`, `full_name`,
+`modalities` (controlled codes), free-text `participants`, `sites`,
+`sessions`, `vendors`, `longitudinal`, `access` (`open` | `registration` |
+`application` | `null` = not verified), `url`, `doi`, `paper_title`, `year`,
+`extra_papers`, and `aliases`. A method is shown under a dataset when its
+`validation_data` mentions the dataset's name or one of its aliases (whole
+word), so filling in `validation_data` links methods automatically. Numbers
+were taken from each dataset paper's abstract (October 2026); leave a field
+empty rather than guess. The validator checks ids, categories, access values,
+URLs and modalities.
+
 ### Overlapping families
 
 Families are not mutually exclusive — a deep network can be "domain

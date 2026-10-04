@@ -1555,3 +1555,34 @@ select:focus, input[type="search"]:focus, button:focus-visible {
 .drawer-resource-link { background: none; border: none; padding: 0; cursor: pointer; font: inherit; }
 .resource-card .toolbox-methods-label { margin-top: 14px; }
 .drawer-also-fits { font-family: var(--font-mono); font-size: 11.5px; color: var(--paper-dim); margin: -4px 0 12px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+/* ---------- Datasets tab ---------- */
+.dataset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 18px;
+}
+@media (max-width: 520px) { .dataset-grid { grid-template-columns: 1fr; } }
+.dataset-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 20px;
+  background: var(--panel);
+  display: flex;
+  flex-direction: column;
+}
+.dataset-card h3 { font-family: var(--font-display); font-size: 17px; margin: 0 0 4px; }
+.dataset-traveling-subjects { border-top: 3px solid var(--phosphor); }
+.dataset-harmonization-benchmark { border-top: 3px solid var(--cyan); }
+.dataset-phantom { border-top: 3px solid #c98f5e; }
+.dataset-multisite-cohort { border-top: 3px solid var(--line); }
+.dataset-facts { margin: 10px 0 6px; font-size: 13px; }
+.dataset-access {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+.dataset-access-open { border-color: var(--cyan); color: var(--cyan); }
+.dataset-links { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; margin-top: 6px; }
+.dataset-extra { font-size: 12.5px; color: var(--paper-dim); margin: 8px 0 0; }
+.dataset-card .toolbox-methods-label { margin-top: 12px; }

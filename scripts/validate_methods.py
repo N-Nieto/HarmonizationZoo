@@ -11,6 +11,7 @@ Checks:
 - `extends` / `implements` / toolbox `methods` point at ids that exist
 - `modalities_proposed` / `modalities_tested` use the controlled list
 - data/resources.json (optional): ids, DOI/URL, type, scope, and method references
+- data/datasets.json (optional): ids, category, access, DOI/URL, modalities
 - `evidence` entries (paper showing a method tested on a modality) have a modality + DOI/URL
 
 Exit code 1 on any error (CI fails); warnings are printed but don't fail.
@@ -28,6 +29,8 @@ CATEGORIES = {
     "interpolation-based", "federated", "ica-based", "optimal-transport", "acquisition-protocol",
     "domain-adaptation",
 }
+DATASET_CATEGORIES = {"traveling-subjects", "harmonization-benchmark", "phantom", "multisite-cohort"}
+DATASET_ACCESS = {None, "open", "registration", "application"}
 RESOURCE_TYPES = {"survey", "systematic-review", "review", "benchmark", "book-chapter", "research", "guide"}
 METHOD_TYPES = {"statistical", "deep-learning", "machine-learning", "other"}
 ENTRY_TYPES = {"method", "implementation", "toolbox", "protocol"}
@@ -158,11 +161,39 @@ def main():
             if ref not in id_set:
                 errors.append(f"resource {rid}: lists unknown method id `{ref}`")
 
+    # data/datasets.json is optional (Datasets tab)
+    try:
+        with open("data/datasets.json", encoding="utf-8") as f:
+            datasets = json.load(f)["datasets"]
+    except FileNotFoundError:
+        datasets = []
+    ds_ids = [d.get("id") for d in datasets]
+    for dup in sorted({i for i in ds_ids if ds_ids.count(i) > 1}):
+        errors.append(f"duplicate dataset id: {dup}")
+    for d in datasets:
+        did = d.get("id", "<dataset>")
+        if not d.get("id") or not ID_RE.match(d["id"]):
+            errors.append(f"dataset {did}: id must be lowercase letters, digits and hyphens")
+        if not d.get("name"):
+            errors.append(f"dataset {did}: missing name")
+        if d.get("category") not in DATASET_CATEGORIES:
+            errors.append(f"dataset {did}: unknown category `{d.get('category')}`")
+        if d.get("access") not in DATASET_ACCESS:
+            errors.append(f"dataset {did}: unknown access `{d.get('access')}`")
+        if not d.get("doi") and not is_http_url(d.get("url")):
+            errors.append(f"dataset {did}: needs a `doi` or an http(s) `url`")
+        if d.get("url") and not is_http_url(d["url"]):
+            errors.append(f"dataset {did}: `url` must be an http(s) URL")
+        for x in d.get("modalities") or []:
+            if x not in MODALITIES:
+                errors.append(f"dataset {did}: unknown modality `{x}`")
+
     for w in warnings:
         print(f"warning: {w}")
     for e in errors:
         print(f"error: {e}", file=sys.stderr)
-    print(f"\nChecked {len(methods)} methods, {len(toolboxes)} toolboxes and {len(resources)} resources: "
+    print(f"\nChecked {len(methods)} methods, {len(toolboxes)} toolboxes, {len(resources)} resources "
+          f"and {len(datasets)} datasets: "
           f"{len(errors)} error(s), {len(warnings)} warning(s).")
     sys.exit(1 if errors else 0)
 

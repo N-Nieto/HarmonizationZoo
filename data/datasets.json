@@ -1,0 +1,642 @@
+{
+  "datasets": [
+    {
+      "id": "on-harmony",
+      "name": "ON-Harmony",
+      "full_name": "Oxford-Nottingham Harmonisation resource",
+      "category": "traveling-subjects",
+      "modalities": [
+        "sMRI",
+        "dMRI",
+        "fMRI"
+      ],
+      "participants": "20 healthy adults (travelling heads)",
+      "sites": "5 sites, 6 scanners (3 T)",
+      "vendors": [
+        "GE",
+        "Philips",
+        "Siemens"
+      ],
+      "sessions": "165 multimodal sessions; ~half with 5 within-scanner repeats",
+      "description": "Travelling-heads resource: T1w, T2w, dMRI, resting-state fMRI and SWI per session with protocols aligned to UK Biobank, built to separate biological, between-scanner and within-scanner variability.",
+      "access": null,
+      "url": null,
+      "doi": "10.1038/s41597-025-04822-2",
+      "paper_title": "A multi-site, multi-modal travelling-heads resource for brain MRI harmonisation",
+      "year": 2025,
+      "extra_papers": [
+        {
+          "title": "A resource for development and comparison of multimodal brain 3 T MRI harmonisation approaches",
+          "doi": "10.1162/imag_a_00042",
+          "year": 2023
+        }
+      ],
+      "aliases": [
+        "ON-Harmony",
+        "ONHarmony"
+      ]
+    },
+    {
+      "id": "srpbs-traveling-subjects",
+      "name": "SRPBS Traveling Subject",
+      "full_name": "SRPBS Traveling Subject MRI Dataset (DecNef project, Japan)",
+      "category": "traveling-subjects",
+      "modalities": [
+        "sMRI",
+        "fMRI"
+      ],
+      "participants": "9 healthy traveling subjects",
+      "sites": "12 scanners",
+      "vendors": [],
+      "sessions": null,
+      "description": "Traveling subjects scanned at the sites of the SRPBS multi-disorder database; used to separate measurement bias from sampling bias in resting-state connectivity.",
+      "access": null,
+      "url": null,
+      "doi": "10.1038/s41597-021-01004-8",
+      "paper_title": "A multi-site, multi-disorder resting-state magnetic resonance image database",
+      "year": 2021,
+      "extra_papers": [
+        {
+          "title": "Harmonization of resting-state functional MRI data across multiple imaging sites via the separation of site differences into sampling bias and measurement bias",
+          "doi": "10.1371/journal.pbio.3000042",
+          "year": 2019
+        }
+      ],
+      "aliases": [
+        "SRPBS Traveling",
+        "SRPBS traveling-subject",
+        "traveling-subject dataset (SRPBS)"
+      ]
+    },
+    {
+      "id": "brainminds-traveling-subjects",
+      "name": "Brain/MINDS Beyond traveling subjects",
+      "full_name": "Brain/MINDS Beyond Human Brain MRI project — traveling-subject data",
+      "category": "traveling-subjects",
+      "modalities": [
+        "sMRI",
+        "dMRI"
+      ],
+      "participants": "9 traveling subjects (21–49 y)",
+      "sites": "4 scanners (3 T)",
+      "vendors": [],
+      "sessions": null,
+      "description": "Public traveling-subject data from the Japanese Brain/MINDS Beyond project, used to quantify cross-scanner differences in diffusion-MRI structural networks.",
+      "access": "open",
+      "url": "http://mriportal.umin.jp/",
+      "doi": "10.1016/j.neuroimage.2021.118675",
+      "paper_title": "Cross-scanner reproducibility and harmonization of a diffusion MRI structural brain network: A traveling subject study of multi-b acquisition",
+      "year": 2021,
+      "extra_papers": [],
+      "aliases": [
+        "Brain/MINDS"
+      ]
+    },
+    {
+      "id": "masivar",
+      "name": "MASiVar",
+      "full_name": "Multisite, multiscanner, and multisubject acquisitions for studying variability in diffusion weighted MRI",
+      "category": "traveling-subjects",
+      "modalities": [
+        "dMRI"
+      ],
+      "participants": "14 healthy adults + 83 healthy children (5–8 y)",
+      "sites": "3 sites, 4 scanners",
+      "vendors": [],
+      "sessions": null,
+      "description": "Publicly available, preprocessed diffusion data designed to quantify intrasession, intersession, interscanner and intersubject variability.",
+      "access": "open",
+      "url": null,
+      "doi": "10.1002/mrm.28926",
+      "paper_title": "MASiVar: Multisite, multiscanner, and multisubject acquisitions for studying variability in diffusion weighted MRI",
+      "year": 2021,
+      "extra_papers": [],
+      "aliases": [
+        "MASiVar"
+      ]
+    },
+    {
+      "id": "tong-multishell-traveling",
+      "name": "Multi-shell dMRI traveling adults (Tong et al.)",
+      "full_name": "Multicenter dataset of multi-shell diffusion MRI in healthy traveling adults with identical settings",
+      "category": "traveling-subjects",
+      "modalities": [
+        "dMRI"
+      ],
+      "participants": "3 traveling subjects",
+      "sites": null,
+      "vendors": [],
+      "sessions": null,
+      "description": "Multi-shell diffusion data acquired with identical settings across centres, for testing the reproducibility of multi-shell diffusion models and harmonization.",
+      "access": "open",
+      "url": null,
+      "doi": "10.1038/s41597-020-0493-8",
+      "paper_title": "Multicenter dataset of multi-shell diffusion MRI in healthy traveling adults with identical settings",
+      "year": 2020,
+      "extra_papers": [],
+      "aliases": []
+    },
+    {
+      "id": "simon",
+      "name": "SIMON",
+      "full_name": "Single Individual volunteer for Multiple Observations across Networks",
+      "category": "traveling-subjects",
+      "modalities": [
+        "sMRI",
+        "dMRI",
+        "fMRI"
+      ],
+      "participants": "1 volunteer",
+      "sites": "36 scanners (13 models, 3 manufacturers), 73 sessions over 15+ years",
+      "vendors": [],
+      "sessions": "599+ multi-contrast images",
+      "description": "One person scanned repeatedly on dozens of scanners: T1w, T2w, PD, FLAIR, T2*, diffusion, SWI, ASL and resting-state fMRI. Useful for scanner-effect and longitudinal-stability tests.",
+      "access": "open",
+      "url": null,
+      "doi": "10.1038/s41597-019-0262-8",
+      "paper_title": "Structural and functional multi-platform MRI series of a single human volunteer over more than fifteen years",
+      "year": 2019,
+      "extra_papers": [],
+      "aliases": [
+        "SIMON"
+      ]
+    },
+    {
+      "id": "mushac",
+      "name": "MUSHAC / CDMRI benchmark",
+      "full_name": "Cross-scanner and cross-protocol diffusion MRI harmonisation benchmark (CDMRI 2017–2018 challenges)",
+      "category": "harmonization-benchmark",
+      "modalities": [
+        "dMRI"
+      ],
+      "participants": "Same subjects on all scanners",
+      "sites": "3 scanners (40, 80 and 300 mT/m gradients)",
+      "vendors": [],
+      "sessions": "\"standard\" and \"state-of-the-art\" protocols per scanner",
+      "description": "The reference benchmark for diffusion-signal harmonization, with an evaluation of submitted algorithms.",
+      "access": null,
+      "url": null,
+      "doi": "10.1016/j.neuroimage.2019.01.077",
+      "paper_title": "Cross-scanner and cross-protocol diffusion MRI data harmonisation: A benchmark database and evaluation of algorithms",
+      "year": 2019,
+      "extra_papers": [],
+      "aliases": [
+        "MUSHAC",
+        "CDMRI"
+      ]
+    },
+    {
+      "id": "quantconn",
+      "name": "QuantConn challenge",
+      "full_name": "MICCAI-CDMRI 2023 QuantConn challenge",
+      "category": "harmonization-benchmark",
+      "modalities": [
+        "dMRI",
+        "connectome"
+      ],
+      "participants": "Same individuals, two acquisitions (10× more subjects than MUSHAC)",
+      "sites": "1 scanner, 2 acquisition protocols",
+      "vendors": [],
+      "sessions": null,
+      "description": "Harmonization challenge evaluated on bundles, tractography and connectomes rather than only voxel-wise measures.",
+      "access": null,
+      "url": null,
+      "doi": "10.59275/j.melba.2024-9c68",
+      "paper_title": "MICCAI-CDMRI 2023 QuantConn Challenge Findings on Achieving Robust Quantitative Connectivity through Harmonized Preprocessing of Diffusion MRI",
+      "year": 2024,
+      "extra_papers": [],
+      "aliases": [
+        "QuantConn"
+      ]
+    },
+    {
+      "id": "openbhb",
+      "name": "OpenBHB",
+      "full_name": "Open Big Healthy Brains",
+      "category": "harmonization-benchmark",
+      "modalities": [
+        "sMRI"
+      ],
+      "participants": ">5,000 healthy controls",
+      "sites": ">60 centres, 10 studies",
+      "vendors": [],
+      "sessions": null,
+      "description": "Uniformly preprocessed T1w data (VBM, quasi-raw, FreeSurfer) built as a brain-age benchmark with explicit site debiasing.",
+      "access": null,
+      "url": null,
+      "doi": "10.1016/j.neuroimage.2022.119637",
+      "paper_title": "OpenBHB: a Large-Scale Multi-Site Brain MRI Data-set for Age Prediction and Debiasing",
+      "year": 2022,
+      "extra_papers": [],
+      "aliases": [
+        "OpenBHB"
+      ]
+    },
+    {
+      "id": "ccr-phantom",
+      "name": "Credence Cartridge Radiomics phantom",
+      "full_name": "Credence Cartridge Radiomics (CCR) phantom CT scans",
+      "category": "phantom",
+      "modalities": [
+        "CT",
+        "radiomics"
+      ],
+      "participants": "Phantom with 10 material cartridges (+ 20 NSCLC patients for comparison)",
+      "sites": "4 centres, 17 scans",
+      "vendors": [
+        "GE",
+        "Philips",
+        "Siemens",
+        "Toshiba"
+      ],
+      "sessions": null,
+      "description": "Standard phantom for measuring CT scanner variability of radiomic features.",
+      "access": null,
+      "url": null,
+      "doi": "10.1097/rli.0000000000000180",
+      "paper_title": "Measuring Computed Tomography Scanner Variability of Radiomics Features",
+      "year": 2015,
+      "extra_papers": [],
+      "aliases": [
+        "Credence",
+        "CCR phantom"
+      ]
+    },
+    {
+      "id": "ct-anthropomorphic-phantom",
+      "name": "Multi-centric anthropomorphic CT phantom",
+      "full_name": "Multi-centric anthropomorphic 3D CT phantom benchmark for harmonization",
+      "category": "phantom",
+      "modalities": [
+        "CT",
+        "radiomics"
+      ],
+      "participants": "Anthropomorphic phantom",
+      "sites": "8 institutions, 13 scanners, 4 manufacturers",
+      "vendors": [],
+      "sessions": "1,378 image series, several doses",
+      "description": "Benchmark for CT image- and feature-level harmonization acquired with a harmonized protocol.",
+      "access": null,
+      "url": null,
+      "doi": "10.48550/arxiv.2507.01539",
+      "paper_title": "A Multi-Centric Anthropomorphic 3D CT Phantom-Based Benchmark Dataset for Harmonization",
+      "year": 2025,
+      "extra_papers": [],
+      "aliases": []
+    },
+    {
+      "id": "abcd",
+      "name": "ABCD",
+      "full_name": "Adolescent Brain Cognitive Development study",
+      "category": "multisite-cohort",
+      "modalities": [
+        "sMRI",
+        "dMRI",
+        "fMRI"
+      ],
+      "participants": ">10,000 children recruited at 9–10 y, followed through adolescence",
+      "sites": "21 sites (harmonized protocol)",
+      "vendors": [
+        "GE",
+        "Philips",
+        "Siemens"
+      ],
+      "sessions": "Longitudinal",
+      "longitudinal": true,
+      "description": "The largest pediatric multisite cohort; acquisition was harmonized prospectively, yet scanner effects remain and are a common harmonization test-bed.",
+      "access": "application",
+      "url": "https://abcdstudy.org/",
+      "doi": "10.1016/j.dcn.2018.03.001",
+      "paper_title": "The Adolescent Brain Cognitive Development (ABCD) study: Imaging acquisition across 21 sites",
+      "year": 2018,
+      "extra_papers": [],
+      "aliases": [
+        "ABCD"
+      ]
+    },
+    {
+      "id": "adni",
+      "name": "ADNI",
+      "full_name": "Alzheimer's Disease Neuroimaging Initiative",
+      "category": "multisite-cohort",
+      "modalities": [
+        "sMRI",
+        "PET"
+      ],
+      "participants": "Older adults: cognitively normal, MCI and AD",
+      "sites": "Many North-American sites",
+      "vendors": [
+        "GE",
+        "Philips",
+        "Siemens"
+      ],
+      "sessions": "Longitudinal; MRI, FDG/amyloid PET, fluid biomarkers",
+      "longitudinal": true,
+      "description": "The reference multisite dementia cohort, with a standardized MRI protocol and phantom-based QC; used by most structural harmonization papers.",
+      "access": "application",
+      "url": "https://adni.loni.usc.edu/",
+      "doi": "10.1002/jmri.21049",
+      "paper_title": "The Alzheimer's disease neuroimaging initiative (ADNI): MRI methods",
+      "year": 2008,
+      "extra_papers": [],
+      "aliases": [
+        "ADNI"
+      ]
+    },
+    {
+      "id": "uk-biobank",
+      "name": "UK Biobank imaging",
+      "full_name": "UK Biobank brain imaging",
+      "category": "multisite-cohort",
+      "modalities": [
+        "sMRI",
+        "dMRI",
+        "fMRI"
+      ],
+      "participants": "Target ~100,000 imaged participants (~48,000 by Jan 2021)",
+      "sites": "Several imaging centres with identical scanners and protocol",
+      "vendors": [
+        "Siemens"
+      ],
+      "sessions": "Repeat imaging for a subset",
+      "longitudinal": true,
+      "description": "Population cohort with a single harmonized protocol; small residual site effects make it a useful near-best case.",
+      "access": "application",
+      "url": "https://www.ukbiobank.ac.uk/",
+      "doi": "10.1038/nn.4393",
+      "paper_title": "Multimodal population brain imaging in the UK Biobank prospective epidemiological study",
+      "year": 2016,
+      "extra_papers": [],
+      "aliases": [
+        "UK Biobank",
+        "UKBB",
+        "UKB"
+      ]
+    },
+    {
+      "id": "ixi",
+      "name": "IXI",
+      "full_name": "Information eXtraction from Images dataset",
+      "category": "multisite-cohort",
+      "modalities": [
+        "sMRI",
+        "dMRI"
+      ],
+      "participants": "~600 healthy adults",
+      "sites": "3 London hospitals (1.5 T and 3 T)",
+      "vendors": [
+        "Philips",
+        "GE"
+      ],
+      "sessions": null,
+      "description": "Small, fully open dataset (T1, T2, PD, MRA, DTI); a common quick test for image-level harmonization because the three sites differ in vendor and field strength.",
+      "access": "open",
+      "url": "https://brain-development.org/ixi-dataset/",
+      "doi": null,
+      "paper_title": null,
+      "year": null,
+      "extra_papers": [],
+      "aliases": [
+        "IXI"
+      ]
+    },
+    {
+      "id": "abide",
+      "name": "ABIDE I + II",
+      "full_name": "Autism Brain Imaging Data Exchange",
+      "category": "multisite-cohort",
+      "modalities": [
+        "sMRI",
+        "fMRI",
+        "dMRI"
+      ],
+      "participants": "2,156 cross-sectional datasets (ABIDE I 1,112; ABIDE II 1,044 incl. 284 dMRI)",
+      "sites": "ABIDE II: 16 international institutions (plus ABIDE I sites)",
+      "vendors": [],
+      "sessions": null,
+      "description": "Retrospectively aggregated autism and control data with strong site effects; the standard benchmark for multi-site classification and domain adaptation.",
+      "access": "open",
+      "url": "https://fcon_1000.projects.nitrc.org/indi/abide/",
+      "doi": "10.1038/sdata.2017.10",
+      "paper_title": "Enhancing studies of the connectome in autism using the autism brain imaging data exchange II",
+      "year": 2017,
+      "extra_papers": [
+        {
+          "title": "The autism brain imaging data exchange: towards a large-scale evaluation of the intrinsic brain architecture in autism",
+          "doi": "10.1038/mp.2013.78",
+          "year": 2013
+        }
+      ],
+      "aliases": [
+        "ABIDE"
+      ]
+    },
+    {
+      "id": "adhd-200",
+      "name": "ADHD-200",
+      "full_name": "ADHD-200 Consortium sample",
+      "category": "multisite-cohort",
+      "modalities": [
+        "sMRI",
+        "fMRI"
+      ],
+      "participants": "Children and adolescents with ADHD and controls",
+      "sites": "Multiple international sites",
+      "vendors": [],
+      "sessions": null,
+      "description": "Open resting-state and anatomical data released for a classification competition; frequently used for cross-site generalization.",
+      "access": "open",
+      "url": "https://fcon_1000.projects.nitrc.org/indi/adhd200/",
+      "doi": "10.3389/fnsys.2012.00062",
+      "paper_title": "The ADHD-200 Consortium: a model to advance the translational potential of neuroimaging in clinical neuroscience",
+      "year": 2012,
+      "extra_papers": [],
+      "aliases": [
+        "ADHD-200",
+        "ADHD200"
+      ]
+    },
+    {
+      "id": "corr",
+      "name": "CoRR",
+      "full_name": "Consortium for Reliability and Reproducibility",
+      "category": "multisite-cohort",
+      "modalities": [
+        "fMRI",
+        "sMRI",
+        "dMRI"
+      ],
+      "participants": "1,629 typical individuals (5,093 rfMRI scans)",
+      "sites": "18 international sites",
+      "vendors": [],
+      "sessions": "Test–retest",
+      "longitudinal": true,
+      "description": "Test–retest data across sites: lets you compare within-site reliability with between-site differences.",
+      "access": "open",
+      "url": "https://fcon_1000.projects.nitrc.org/indi/CoRR/html/",
+      "doi": "10.1038/sdata.2014.49",
+      "paper_title": "An open science resource for establishing reliability and reproducibility in functional connectomics",
+      "year": 2014,
+      "extra_papers": [],
+      "aliases": [
+        "CoRR"
+      ]
+    },
+    {
+      "id": "srpbs",
+      "name": "SRPBS Multi-disorder",
+      "full_name": "SRPBS multi-site, multi-disorder resting-state MRI database",
+      "category": "multisite-cohort",
+      "modalities": [
+        "sMRI",
+        "fMRI"
+      ],
+      "participants": "993 patients + 1,421 healthy individuals",
+      "sites": "Multiple Japanese sites (see the traveling-subject entry)",
+      "vendors": [],
+      "sessions": null,
+      "description": "Psychiatric multi-disorder cohort released together with its own traveling-subject harmonization data.",
+      "access": null,
+      "url": null,
+      "doi": "10.1038/s41597-021-01004-8",
+      "paper_title": "A multi-site, multi-disorder resting-state magnetic resonance image database",
+      "year": 2021,
+      "extra_papers": [],
+      "aliases": [
+        "SRPBS"
+      ]
+    },
+    {
+      "id": "aibl",
+      "name": "AIBL",
+      "full_name": "Australian Imaging, Biomarkers and Lifestyle study of ageing",
+      "category": "multisite-cohort",
+      "modalities": [
+        "sMRI",
+        "PET"
+      ],
+      "participants": "1,112 older adults (MRI + PiB PET in about a quarter)",
+      "sites": "2 Australian centres",
+      "vendors": [],
+      "sessions": "Longitudinal",
+      "longitudinal": true,
+      "description": "Dementia cohort often pooled with ADNI as an external site.",
+      "access": "application",
+      "url": null,
+      "doi": "10.1017/s1041610209009405",
+      "paper_title": "The Australian Imaging, Biomarkers and Lifestyle (AIBL) study of aging: methodology and baseline characteristics of 1112 individuals recruited for a longitudinal study of Alzheimer's disease",
+      "year": 2009,
+      "extra_papers": [],
+      "aliases": [
+        "AIBL"
+      ]
+    },
+    {
+      "id": "ppmi",
+      "name": "PPMI",
+      "full_name": "Parkinson's Progression Markers Initiative",
+      "category": "multisite-cohort",
+      "modalities": [
+        "sMRI",
+        "dMRI",
+        "PET"
+      ],
+      "participants": "People with Parkinson's disease, prodromal and controls",
+      "sites": "International sites",
+      "vendors": [],
+      "sessions": "Longitudinal",
+      "longitudinal": true,
+      "description": "Longitudinal Parkinson's cohort with imaging, biofluid and clinical data.",
+      "access": "application",
+      "url": "https://www.ppmi-info.org/",
+      "doi": "10.1016/j.pneurobio.2011.09.005",
+      "paper_title": "The Parkinson Progression Marker Initiative (PPMI)",
+      "year": 2011,
+      "extra_papers": [],
+      "aliases": [
+        "PPMI"
+      ]
+    },
+    {
+      "id": "hbn",
+      "name": "Healthy Brain Network",
+      "full_name": "Child Mind Institute Healthy Brain Network",
+      "category": "multisite-cohort",
+      "modalities": [
+        "sMRI",
+        "dMRI",
+        "fMRI",
+        "EEG"
+      ],
+      "participants": "Target 10,000 participants aged 5–21 (first release 664)",
+      "sites": "New York area sites",
+      "vendors": [],
+      "sessions": null,
+      "description": "Transdiagnostic pediatric biobank with MRI and EEG collected at several sites — one of the few large resources to test EEG and MRI harmonization together.",
+      "access": null,
+      "url": null,
+      "doi": "10.1038/sdata.2017.181",
+      "paper_title": "An open resource for transdiagnostic research in pediatric mental health and learning disorders",
+      "year": 2017,
+      "extra_papers": [],
+      "aliases": [
+        "HBN",
+        "Healthy Brain Network"
+      ]
+    },
+    {
+      "id": "hcp-lifespan",
+      "name": "HCP Lifespan (Development & Aging)",
+      "full_name": "Human Connectome Project — Lifespan Development and Aging",
+      "category": "multisite-cohort",
+      "modalities": [
+        "sMRI",
+        "dMRI",
+        "fMRI"
+      ],
+      "participants": "Children to older adults",
+      "sites": "Multiple sites on matched Siemens Prisma scanners",
+      "vendors": [
+        "Siemens"
+      ],
+      "sessions": null,
+      "description": "HCP-style protocols extended across ages and sites; a near-harmonized acquisition useful as a low-site-effect reference.",
+      "access": "application",
+      "url": null,
+      "doi": "10.1016/j.neuroimage.2018.09.060",
+      "paper_title": "Extending the Human Connectome Project across ages: Imaging protocols for the Lifespan Development and Aging projects",
+      "year": 2018,
+      "extra_papers": [],
+      "aliases": [
+        "HCP-D",
+        "HCP-A",
+        "HCP Lifespan"
+      ]
+    },
+    {
+      "id": "lidc-idri",
+      "name": "LIDC-IDRI",
+      "full_name": "Lung Image Database Consortium and Image Database Resource Initiative",
+      "category": "multisite-cohort",
+      "modalities": [
+        "CT",
+        "radiomics"
+      ],
+      "participants": "1,018 thoracic CT cases with nodule annotations by 4 radiologists",
+      "sites": "Multiple academic centres",
+      "vendors": [],
+      "sessions": null,
+      "description": "The common multi-institution CT set for radiomics robustness and harmonization tests.",
+      "access": "open",
+      "url": null,
+      "doi": "10.1118/1.3528204",
+      "paper_title": "The Lung Image Database Consortium (LIDC) and Image Database Resource Initiative (IDRI): a completed reference database of lung nodules on CT scans",
+      "year": 2011,
+      "extra_papers": [],
+      "aliases": [
+        "LIDC",
+        "LIDC-IDRI"
+      ]
+    }
+  ]
+}
