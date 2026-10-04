@@ -90,8 +90,36 @@
   <p class="mp-repo-desc">Harmonization of brain imaging features using bayesian inference</p>
   <section class="mp-section">
     <h2>Details</h2>
-    <dl class="spec-table"><dt>Family</dt><dd>Location/Scale Models (ComBat-family)</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Structural MRI</span> <a href="https://doi.org/10.1016/j.nicl.2023.103472" rel="noopener noreferrer">ComBat Harmonization: Empirical Bayes versus fully Bayes approaches</a> (2023)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Language</dt><dd><div class="chip-row"><span class="chip">Python</span></div></dd><dt>Code health</dt><dd><ul class="health-parts"><li><span>Recency</span><span class="health-bar"><span style="width:0%"></span></span><span class="health-num">0/40</span><span class="health-note">last commit 2023-08-06</span></li><li><span>Longevity</span><span class="health-bar"><span style="width:40%"></span></span><span class="health-num">6/15</span><span class="health-note">1.1 years of commits</span></li><li><span>License</span><span class="health-bar"><span style="width:0%"></span></span><span class="health-num">0/15</span><span class="health-note">no licence</span></li><li><span>Adoption</span><span class="health-bar"><span style="width:50%"></span></span><span class="health-num">10/20</span><span class="health-note">21 stars</span></li><li><span>Community</span><span class="health-bar"><span style="width:20%"></span></span><span class="health-num">2/10</span><span class="health-note">1 forks</span></li></ul></dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.1016/j.media.2026.104066" rel="noopener noreferrer">Harmonization in magnetic resonance imaging: A survey of acquisition, image-level, and feature-level methods</a> (2026)</dd><dt>Builds on</dt><dd><a href="../combat/">ComBat</a></dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">fully-bayesian</span><span class="chip">mcmc</span><span class="chip">location-scale</span></div></dd></dl>
+    <dl class="spec-table"><dt>Family</dt><dd>Location/Scale Models (ComBat-family)</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Structural MRI</span> <a href="https://doi.org/10.1016/j.nicl.2023.103472" rel="noopener noreferrer">ComBat Harmonization: Empirical Bayes versus fully Bayes approaches</a> (2023)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Language</dt><dd><div class="chip-row"><span class="chip">Python</span></div></dd><dt>Code health</dt><dd><ul class="health-parts"><li><span>Recency</span><span class="health-bar"><span style="width:0%"></span></span><span class="health-num">0/40</span><span class="health-note">last commit 2023-08-06</span></li><li><span>Longevity</span><span class="health-bar"><span style="width:40%"></span></span><span class="health-num">6/15</span><span class="health-note">1.1 years of commits</span></li><li><span>License</span><span class="health-bar"><span style="width:0%"></span></span><span class="health-num">0/15</span><span class="health-note">no licence</span></li><li><span>Adoption</span><span class="health-bar"><span style="width:50%"></span></span><span class="health-num">10/20</span><span class="health-note">21 stars</span></li><li><span>Community</span><span class="health-bar"><span style="width:20%"></span></span><span class="health-num">2/10</span><span class="health-note">1 forks</span></li></ul></dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.1016/j.media.2026.104066" rel="noopener noreferrer">Harmonization in magnetic resonance imaging: A survey of acquisition, image-level, and feature-level methods</a> (2026), <a href="https://doi.org/10.1016/j.neuroimage.2023.120125" rel="noopener noreferrer">Image harmonization: A review of statistical and deep learning methods for removing batch effects and evaluation metrics for effective harmonization</a> (2023)</dd><dt>Builds on</dt><dd><a href="../combat/">ComBat</a></dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">fully-bayesian</span><span class="chip">mcmc</span><span class="chip">location-scale</span></div></dd></dl>
   </section>
+  
+    <section class="mp-section">
+      <h2>Get started</h2>
+      <div class="mp-section-head"><h3>Install <em class="mp-muted">bash</em></h3>
+        <button type="button" class="mp-btn" data-copy="#gs-install">⧉ Copy</button></div>
+      <pre class="mp-bibtex" id="gs-install">git clone https://github.com/batmanlab/BayesComBat
+pip install BayesComBat</pre>
+      <div class="mp-section-head"><h3>Usage <em class="mp-muted">python</em></h3>
+        <button type="button" class="mp-btn" data-copy="#gs-usage">⧉ Copy</button></div>
+      <pre class="mp-bibtex" id="gs-usage">from BayesComBat import hamonize
+import pandas as pd
+
+# Load data
+data = pd.read_csv(&#x27;my_imaging_data.csv&#x27;)
+
+#specify features in data to harmonize 
+features = [&#x27;feature1&#x27;, &#x27;feature2&#x27;, &#x27;feature3&#x27;]
+
+#specify biological covariates
+covariates = [&#x27;covaritate1&#x27;, &#x27;covariate2&#x27;]
+
+harmonize.infer(data=data,
+features=[&#x27;feature1&#x27;, &#x27;feature2&#x27;, &#x27;feature3&#x27;],
+covariates=[&#x27;covaritate1&#x27;, &#x27;covariate2&#x27;],
+batch_var=&#x27;Scanner&#x27;,
+# …</pre>
+      <p class="mp-muted">Taken from the <a href="https://github.com/batmanlab/BayesComBat#readme" rel="noopener noreferrer">project README</a> (2026-10-04); check it for requirements and the current version.</p>
+    </section>
   
     <section class="mp-section">
       <div class="mp-section-head"><h2>Cite</h2>

@@ -17,10 +17,10 @@
         "Philips",
         "Siemens"
       ],
-      "sessions": "165 multimodal sessions; ~half with 5 within-scanner repeats",
+      "sessions": "165 multimodal sessions; 9 participants with 6 within-scanner repeats (OpenNeuro ds004712, CC0)",
       "description": "Travelling-heads resource: T1w, T2w, dMRI, resting-state fMRI and SWI per session with protocols aligned to UK Biobank, built to separate biological, between-scanner and within-scanner variability.",
-      "access": null,
-      "url": null,
+      "access": "open",
+      "url": "https://openneuro.org/datasets/ds004712",
       "doi": "10.1038/s41597-025-04822-2",
       "paper_title": "A multi-site, multi-modal travelling-heads resource for brain MRI harmonisation",
       "year": 2025,
@@ -46,7 +46,7 @@
         "fMRI"
       ],
       "participants": "9 healthy traveling subjects",
-      "sites": "12 scanners",
+      "sites": "12 scanners (sites visited by the 9 subjects)",
       "vendors": [],
       "sessions": null,
       "description": "Traveling subjects scanned at the sites of the SRPBS multi-disorder database; used to separate measurement bias from sampling bias in resting-state connectivity.",
@@ -100,13 +100,13 @@
       "modalities": [
         "dMRI"
       ],
-      "participants": "14 healthy adults + 83 healthy children (5–8 y)",
-      "sites": "3 sites, 4 scanners",
+      "participants": "14 healthy adults + 83 children (5–8 y); Cohort II: 5 adults each on 3–4 scanners",
+      "sites": "3 institutions, 4 scanners (3 T)",
       "vendors": [],
-      "sessions": null,
+      "sessions": "319 diffusion scans, b = 1000–3000 s/mm² (OpenNeuro ds003416, CC0)",
       "description": "Publicly available, preprocessed diffusion data designed to quantify intrasession, intersession, interscanner and intersubject variability.",
       "access": "open",
-      "url": null,
+      "url": "https://openneuro.org/datasets/ds003416",
       "doi": "10.1002/mrm.28926",
       "paper_title": "MASiVar: Multisite, multiscanner, and multisubject acquisitions for studying variability in diffusion weighted MRI",
       "year": 2021,
@@ -637,6 +637,253 @@
         "LIDC",
         "LIDC-IDRI"
       ]
+    },
+    {
+      "full_name": "TREAT-MS pragmatic trial — traveling-subject sub-study (NCT03500328)",
+      "modalities": [
+        "sMRI"
+      ],
+      "participants": "15 participants (5 healthy controls, people with stable MS)",
+      "sites": "9 sites in total; each subject visited 3–5 sites (eastern US)",
+      "vendors": [],
+      "sessions": "126 sessions; scan–rescan T1w, T2w, FLAIR, PD",
+      "description": "Clinical-trial traveling subjects: initial and final sessions at Johns Hopkins with 3–5 other sites in between, same protocol. Private; used to validate HACA3+.",
+      "access": "private",
+      "url": null,
+      "doi": "10.48550/arxiv.2604.19474",
+      "paper_title": "Harmonizing MR Images Across 100+ Scanners: Multi-site Validation with Traveling Subjects and Real-world Protocols",
+      "year": 2026,
+      "extra_papers": [],
+      "aliases": [
+        "TREAT-MS"
+      ],
+      "id": "treat-ms-traveling",
+      "name": "TREAT-MS traveling subjects",
+      "category": "traveling-subjects"
+    },
+    {
+      "full_name": "Frequently Traveling Human Phantom",
+      "modalities": [
+        "sMRI"
+      ],
+      "participants": "1 healthy male volunteer",
+      "sites": "116 scanners (later releases: 123 scanners; 96 scanners at 76 sites with back-to-back repeats)",
+      "vendors": [],
+      "sessions": "T1w only; repeat scans on many scanners",
+      "description": "One person scanned on more than a hundred clinical scanners — the widest scanner coverage of any traveling-subject resource, used to test inter-scanner stability of volumetry and harmonization.",
+      "access": null,
+      "url": "https://www.nitrc.org/projects/fthp",
+      "doi": null,
+      "paper_title": null,
+      "year": 2022,
+      "extra_papers": [
+        {
+          "title": "Automatic segmentation of the thalamus using a massively trained 3D convolutional neural network: higher sensitivity for the detection of reduced thalamus volume by improved inter-scanner stability",
+          "doi": "10.1007/s00330-022-09170-y",
+          "year": 2022
+        },
+        {
+          "title": "Easy-to-use and easy-to-interpret quality control of 3D gradient echo T1-weighted MR acquisition sequences for improved test-retest stability of MRI-based hippocampus volumetry",
+          "doi": "10.1177/13872877251380301",
+          "year": 2025
+        }
+      ],
+      "aliases": [
+        "FTHP",
+        "Frequently Traveling Human Phantom",
+        "Buchert traveling"
+      ],
+      "id": "fthp",
+      "name": "FTHP (Frequently Traveling Human Phantom)",
+      "category": "traveling-subjects"
+    },
+    {
+      "full_name": "DWI Traveling Human Phantom study (PREDICT-HD reliability)",
+      "modalities": [
+        "dMRI",
+        "sMRI"
+      ],
+      "participants": "5 healthy controls",
+      "sites": "8 imaging centres",
+      "vendors": [],
+      "sessions": "DWI with two protocols, 3D T1w MP-RAGE and T2w SPACE, repeated (OpenNeuro ds000206, CC0)",
+      "description": "Early multi-centre diffusion reliability study; still one of the few open traveling-subject sets with DWI plus T1w/T2w.",
+      "access": "open",
+      "url": "https://openneuro.org/datasets/ds000206",
+      "doi": "10.1089/brain.2012.0112",
+      "paper_title": "MultiCenter Reliability of Diffusion Tensor Imaging",
+      "year": 2012,
+      "extra_papers": [],
+      "aliases": [
+        "THP",
+        "Traveling Human Phantom"
+      ],
+      "id": "dwi-traveling-human-phantom",
+      "name": "DWI Traveling Human Phantom",
+      "category": "traveling-subjects"
+    },
+    {
+      "full_name": "Traveling-subject T1w dataset comparing TS-GLM, ComBat and TS-ComBat",
+      "modalities": [
+        "sMRI"
+      ],
+      "participants": "20 healthy participants (56 T1w scans)",
+      "sites": "3 MRI procedures (scanner/protocol combinations)",
+      "vendors": [],
+      "sessions": "Test–retest scans",
+      "description": "Used to show that traveling-subject harmonization reduces measurement bias more than ComBat, and that at least 6 traveling subjects are needed.",
+      "access": null,
+      "url": null,
+      "doi": "10.1002/hbm.25615",
+      "paper_title": "Comparison of traveling-subject and ComBat harmonization methods for assessing structural brain characteristics",
+      "year": 2021,
+      "extra_papers": [],
+      "aliases": [],
+      "id": "maikusa-ts",
+      "name": "Japanese T1w traveling subjects (Maikusa et al.)",
+      "category": "traveling-subjects"
+    },
+    {
+      "full_name": "TRavelling Across Melbourne for FIXel-based analysis",
+      "modalities": [
+        "dMRI"
+      ],
+      "participants": "10 healthy adults",
+      "sites": "4 scanners (3 T), Melbourne",
+      "vendors": [],
+      "sessions": "Harmonised multi-shell DWI; preprocessed derivatives on OpenNeuro ds006935 (CC0)",
+      "description": "Traveling heads for fixel-based analysis: reproducibility of FD, FC, FDC, FA and MD across scanners.",
+      "access": "open",
+      "url": "https://openneuro.org/datasets/ds006935",
+      "doi": "10.1101/2025.07.21.666058",
+      "paper_title": "TRAMFIX: TRavelling Across Melbourne for FIXel-based analysis (a reproducibility study)",
+      "year": 2025,
+      "extra_papers": [],
+      "aliases": [
+        "TRAMFIX"
+      ],
+      "id": "tramfix",
+      "name": "TRAMFIX",
+      "category": "traveling-subjects"
+    },
+    {
+      "full_name": "Traveling human phantoms + lifespan cohort across three Canadian MRI centres",
+      "modalities": [
+        "sMRI"
+      ],
+      "participants": "23 traveling phantoms (138 scans) + 856 healthy participants aged 5–91",
+      "sites": "3 centres, 3 scanner models, 2 vendors",
+      "vendors": [],
+      "sessions": "Each phantom scanned twice at every site; non-harmonized T1w protocols",
+      "description": "Compares traveling-phantom correction factors with ComBat on lifespan volume trajectories.",
+      "access": null,
+      "url": null,
+      "doi": "10.3389/fneur.2022.826564",
+      "paper_title": "Lifespan Volume Trajectories From Non–harmonized T1–Weighted MRI Do Not Differ After Site Correction Based on Traveling Human Phantoms",
+      "year": 2022,
+      "extra_papers": [],
+      "aliases": [],
+      "id": "treit-traveling-phantoms",
+      "name": "Alberta traveling human phantoms (Treit et al.)",
+      "category": "traveling-subjects"
+    },
+    {
+      "full_name": "Movement-related artefacts dataset",
+      "modalities": [
+        "sMRI"
+      ],
+      "participants": "148 healthy adults",
+      "sites": "Single site",
+      "vendors": [],
+      "sessions": "Matched motion-free and motion-corrupted T1w scans",
+      "description": "Not multisite, but the standard set for testing whether harmonization or IQM-based correction handles motion artefacts (used e.g. by ComCat).",
+      "access": null,
+      "url": null,
+      "doi": "10.1038/s41597-022-01694-8",
+      "paper_title": "Movement-related artefacts (MR-ART) dataset of matched motion-corrupted and clean structural MRI brain scans",
+      "year": 2022,
+      "extra_papers": [],
+      "aliases": [
+        "MR-ART"
+      ],
+      "id": "mr-art",
+      "name": "MR-ART",
+      "category": "harmonization-benchmark"
+    },
+    {
+      "full_name": "Brain Tumor Segmentation benchmark (multi-institutional)",
+      "modalities": [
+        "sMRI",
+        "radiomics"
+      ],
+      "participants": "Glioma patients, multi-contrast MRI (T1, T1c, T2, FLAIR); grows with each challenge edition",
+      "sites": "Multiple institutions",
+      "vendors": [],
+      "sessions": null,
+      "description": "Multi-institutional tumour MRI widely used to test radiomics robustness and intensity harmonization.",
+      "access": "registration",
+      "url": null,
+      "doi": "10.1109/tmi.2014.2377694",
+      "paper_title": "The Multimodal Brain Tumor Image Segmentation Benchmark (BRATS)",
+      "year": 2014,
+      "extra_papers": [],
+      "aliases": [
+        "BraTS",
+        "BRATS"
+      ],
+      "id": "brats",
+      "name": "BraTS",
+      "category": "multisite-cohort"
+    },
+    {
+      "full_name": "Harmonized multi-dataset EEG benchmark for cross-hardware generalization",
+      "modalities": [
+        "EEG"
+      ],
+      "participants": "Five public motor-imagery corpora (PhysioNet MI, Cho2017, Lee2019-MI, Shin2017A, Weibo2014)",
+      "sites": "5 datasets / recording systems",
+      "vendors": [],
+      "sessions": "20 standard channels, 8–32 Hz, 3-s trials; Euclidean-aligned; leave-one-dataset-out splits",
+      "description": "A ready-made EEG set for testing harmonization and domain generalization across recording hardware.",
+      "access": "open",
+      "url": null,
+      "doi": "10.5281/zenodo.20727886",
+      "paper_title": "A Harmonized Multi-Dataset EEG Benchmark for Cross-Hardware Generalization",
+      "year": 2026,
+      "extra_papers": [],
+      "aliases": [],
+      "id": "eeg-cross-hardware-benchmark",
+      "name": "Cross-hardware EEG benchmark",
+      "category": "harmonization-benchmark"
+    },
+    {
+      "full_name": "Mother of All BCI Benchmarks",
+      "modalities": [
+        "EEG"
+      ],
+      "participants": "250+ subjects in the original release; the library now wraps dozens of open BCI datasets",
+      "sites": "Many labs and recording systems (one per dataset)",
+      "vendors": [],
+      "sessions": "Motor imagery, P300/ERP and SSVEP paradigms; within-session, cross-session and cross-subject evaluation",
+      "description": "Python library (MNE + scikit-learn) that downloads and preprocesses open brain-computer-interface EEG datasets behind one interface and runs standard evaluations. Each dataset comes from a different lab, amplifier and montage, which makes it the usual testbed for cross-dataset EEG alignment and transfer methods.",
+      "access": "open",
+      "url": "https://github.com/NeuroTechX/moabb",
+      "doi": "10.1088/1741-2552/aadea0",
+      "paper_title": "MOABB: trustworthy algorithm benchmarking for BCIs",
+      "year": 2018,
+      "extra_papers": [
+        {
+          "title": "The largest EEG-based BCI reproducibility study for open science: the MOABB benchmark",
+          "year": 2024,
+          "doi": "10.48550/arxiv.2404.15319"
+        }
+      ],
+      "aliases": [
+        "MOABB"
+      ],
+      "id": "moabb",
+      "name": "MOABB",
+      "category": "harmonization-benchmark"
     }
   ]
 }

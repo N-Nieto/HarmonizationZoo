@@ -227,7 +227,15 @@
       "implements": "combat",
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "pip install neuroCombat",
+        "install_lang": "bash",
+        "usage": "from neuroCombat import neuroCombat\r\nimport pandas as pd\r\nimport numpy as np\r\n\r\n# Getting example data\r\n# 200 rows (features) and 10 columns (scans)\r\ndata = np.genfromtxt('testdata/testdata.csv', delimiter=\",\", skip_header=1)\r\n\r\n# Specifying the batch (scanner variable) as well as a biological covariate to preserve:\r\ncovars = {'batch':[1,1,1,1,1,2,2,2,2,2],\r\n          'gender':[1,2,1,2,1,2,1,2,1,2]} \r\ncovars = pd.DataFrame(covars)  \r\n\r\n# To specify names of the variables that are categorical:\r\ncategorical_cols = ['gender']\r\n\r\n# …",
+        "usage_lang": "python",
+        "source": "https://github.com/Jfortin1/neuroCombat#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "combat-gam",
@@ -338,7 +346,15 @@
           "doi": "10.1162/imag.a.1099"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "pip install neuroHarmonize\npip install git+https://github.com/rpomponio/neuroHarmonize",
+        "install_lang": "bash",
+        "usage": "from neuroHarmonize import harmonizationLearn\nimport pandas as pd\nimport numpy as np\n# load your data and all numeric covariates\nmy_data = pd.read_csv('brain_volumes.csv')\nmy_data = np.array(my_data)\ncovars = pd.read_csv('subject_info.csv')\n# run harmonization and store the adjusted data\nmy_model, my_data_adj = harmonizationLearn(my_data, covars)",
+        "usage_lang": "python",
+        "source": "https://github.com/rpomponio/neuroHarmonize#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "harmonizer",
@@ -537,7 +553,15 @@
           "doi": "10.1007/s10278-026-01934-y"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "devtools::install_github(\"andy1764/CovBat_Harmonization/R\")",
+        "install_lang": "r",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/andy1764/CovBat_Harmonization#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "prettyharmonize",
@@ -617,7 +641,15 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/juaml/PrettYharmonize.git\ncd PrettYharmonize\npip install .",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/juaml/PrettYharmonize#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "pycombat",
@@ -690,7 +722,15 @@
       "implements": "combat",
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "pip install pycombat",
+        "install_lang": "bash",
+        "usage": "from pycombat import Combat\n\ncombat = Combat()\ncombat.fit(Y=Y, b=b, X=X, C=C)      # Y: [observations x features], b: batch labels\nY_adjusted = combat.transform(Y=Y, b=b, X=X, C=C)",
+        "usage_lang": "python",
+        "source": "https://github.com/CoAxLab/pycombat#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "longcombat",
@@ -793,7 +833,15 @@
           "doi": "10.3389/fnins.2025.1610401"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "install.packages(\"devtools\")\ndevtools::install_github(\"jcbeer/longCombat\")",
+        "install_lang": "r",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/jcbeer/longCombat#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "relief",
@@ -873,7 +921,15 @@
         "combat"
       ],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "if (!require(\"devtools\"))\ninstall.packages(\"devtools\")\ndevtools::install_github(\"junjypark/RELIEF\")\ndevtools::install_github(\"julierennes/denoiseR\")",
+        "install_lang": "r",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/junjypark/RELIEF#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "combat-mega",
@@ -1036,7 +1092,15 @@
         "combat-gam"
       ],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "# install.packages(\"remotes\")\nremotes::install_github(\"andy1764/ComBatFamily\")",
+        "install_lang": "r",
+        "usage": "library(ComBatFamily)\nvignette(\"comfam\")\nvignette(\"covfam\")",
+        "usage_lang": "r",
+        "source": "https://github.com/andy1764/ComBatFamily#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "robust-combat",
@@ -1115,7 +1179,15 @@
         "combat"
       ],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "python -m venv .venv\nsource .venv/bin/activate\nuv pip install -e .",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/scil-vital/ComBat-Robust#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "opnestedcombat",
@@ -1376,7 +1448,15 @@
           "doi": "10.1038/s41598-020-69298-z"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "devtools::install_github(\"muschellij2/WhiteStripe\")",
+        "install_lang": "r",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/muschellij2/WhiteStripe#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "nyul",
@@ -1549,7 +1629,15 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "install.packages(\"devtools\")\ndevtools::install_github(\"muschellij2/neurobase\")\ndevtools::install_github(\"muschellij2/WhiteStripe\")\ndevtools::install_github(\"jfortin1/RAVEL\")",
+        "install_lang": "r",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/Jfortin1/RAVEL#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "zscore-normalization",
@@ -2863,7 +2951,15 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "pip install intensity-normalization            # or: uv add intensity-normalization\npip install \"intensity-normalization[ants]\"  # ravel registration, preprocess, coregister\npip install \"intensity-normalization[plot]\"  # histogram plotting",
+        "install_lang": "bash",
+        "usage": "import intensity_normalization as inorm\n\nnormed = inorm.whitestripe(t1w_image, mask=brain_mask)  # numpy or nibabel in → same type out\n\ntx = inorm.nyul.fit(train_images, masks=train_masks)  # population: fit once...\ntx.save(\"nyul.npz\")\nnormed_new = tx(new_image)  # ...apply to new scans",
+        "usage_lang": "python",
+        "source": "https://github.com/jcreinhold/intensity-normalization#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "calamiti",
@@ -3177,7 +3273,15 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/USCLoBeS/style_transfer_harmonization.git\ncd style_transfer_harmonization/\nconda env create -n style-harmonization --file ENV.yml\nconda activate style-harmonization",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/USC-IGC/style_transfer_harmonization#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "disarm",
@@ -3257,7 +3361,15 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/luca2245/DISARM_Harmonization.git\ncd DISARM_Harmonization/Code",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/luca2245/DISARM_Harmonization#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "disarmpp",
@@ -3339,7 +3451,15 @@
         "disarm"
       ],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/luca2245/DISARMpp_Harmonization.git\ncd DISARMpp_Harmonization\npip install -r requirements.txt",
+        "install_lang": "bash",
+        "usage": "mkdir -p checkpoint\ncurl -L --fail \\\n  -o 'checkpoint/trained_disarm++.pth' \\\n  'https://github.com/luca2245/DISARMpp_Harmonization/releases/download/pretrained-v1/trained_disarm++.pth'",
+        "usage_lang": "bash",
+        "source": "https://github.com/luca2245/DISARMpp_Harmonization#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "iguane",
@@ -3501,7 +3621,15 @@
         "calamiti"
       ],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/lianruizuo/haca3.git\ncd haca3\npip install .",
+        "install_lang": "bash",
+        "usage": "singularity exec --nv -e haca3.sif haca3-test \\\n  --in-path [PATH-TO-INPUT-SOURCE-IMAGE] \\\n  --target-image [TARGET-IMAGE] \\\n  --harmonization-model [PRETRAINED-HACA3-MODEL] \\\n  --fusion-model [PRETRAINED-FUSION-MODEL] \\\n  --out-path [PATH-TO-HARMONIZED-IMAGE]",
+        "usage_lang": "bash",
+        "source": "https://github.com/lianruizuo/haca3#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "scanner-invariant-repr",
@@ -5138,7 +5266,15 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "pip install neuroharmony",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/garciadias/Neuroharmony#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "autocombat",
@@ -5228,7 +5364,15 @@
         "combat"
       ],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "pip install git+https://github.com/Alxaline/ComScan.git",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/Alxaline/ComScan#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "bayesian-normative",
@@ -5786,7 +5930,15 @@
       "evidence": [],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "get_started": {
+        "install": "git clone https://github.com/med-air/HarmoFL.git\ncd HarmoFL\nconda env create -f environment.yaml\nconda activate harmofl",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/med-air/HarmoFL#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "ica-dp",
@@ -6109,7 +6261,15 @@
       "evidence": [],
       "secondary_categories": [
         "domain-adaptation"
-      ]
+      ],
+      "get_started": {
+        "install": "git clone https://github.com/vpeterson/otda-mibci.git\ncd otda-mibci\nconda env create -f environment_otda.yml\nconda activate otda",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/vpeterson/otda-mibci#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "combat-eb",
@@ -6273,7 +6433,15 @@
         "combat-eb"
       ],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "devtools::install_github(\"zhangyuqing/sva-devel\")",
+        "install_lang": "r",
+        "usage": "count_matrix <- matrix(rnbinom(400, size=10, prob=0.1), nrow=50, ncol=8)\nbatch <- c(rep(1, 4), rep(2, 4))\n\nadjusted <- ComBat_seq(count_matrix, batch=batch, group=NULL)",
+        "usage_lang": "r",
+        "source": "https://github.com/zhangyuqing/ComBat-seq#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "deepcombat",
@@ -6359,7 +6527,15 @@
       "evidence": [],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "get_started": {
+        "install": "devtools::install_github(\"hufengling/DeepComBat\")",
+        "install_lang": "r",
+        "usage": "library(DeepComBat)\nsetup <- deepcombat_setup(~ age + sex + diagnosis, \n                          ~ scanner, \n                          data, \n                          covariates) # data frame with columns: age, sex, diagnosis, scanner\ntrained_model <- deepcombat_trainer(setup, verbose = TRUE)\nharmonized <- deepcombat_harmonize(setup, trained_model)",
+        "usage_lang": "r",
+        "source": "https://github.com/hufengling/DeepComBat#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "nested-gmm-combat",
@@ -6631,7 +6807,15 @@
           "doi": "10.1038/s42003-026-09825-2"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "pip install pcntoolkit",
+        "install_lang": "bash",
+        "usage": "from pcntoolkit import load_fcon1000, BLR, NormativeModel\n\nfcon1000 = load_fcon1000()\n\ntrain, test = fcon1000.train_test_split()\n\n# Create a BLR model with heteroskedastic noise\nmodel = NormativeModel(BLR(heteroskedastic=True), \n                       inscaler='standardize', \n                       outscaler='standardize')\n\nmodel.fit_predict(train, test)",
+        "usage_lang": "python",
+        "source": "https://github.com/predictive-clinical-neuroscience/PCNtoolkit#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "synthsr",
@@ -6713,7 +6897,15 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "# Ships with FreeSurfer 7.3+ as `mri_synthsr`, or standalone:\ngit clone https://github.com/BBillot/SynthSR.git\ncd SynthSR\npip install tensorflow-gpu==2.2.0 keras==2.3.1 protobuf==3.20.3 numpy==1.23.5 nibabel==5.0.1 matplotlib==3.6.2",
+        "install_lang": "bash",
+        "usage": "python ./scripts/predict_command_line.py <input> <output> [--cpu] [--threads N] [--ct]",
+        "usage_lang": "bash",
+        "source": "https://github.com/BBillot/SynthSR#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "comcat",
@@ -6805,7 +6997,15 @@
           "doi": "10.64898/2026.06.18.733200"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/ChristianGaser/ComCat.git\ncd ComCat\npip install -r requirements.txt",
+        "install_lang": "bash",
+        "usage": "from comcat import comcat\n\nY_harmonized, beta_hat, gamma_hat, delta_hat = comcat(\n    Y,           # (n_features, n_subjects) data matrix\n    batch,       # (n_subjects,) site/scanner labels\n    nuisance,    # (n_subjects, n_nuisance) variables to remove  — or None\n    preserve,    # (n_subjects, n_preserve) variables to keep    — or None\n    mean_only=False,\n    verbose=True,\n)",
+        "usage_lang": "python",
+        "source": "https://github.com/ChristianGaser/ComCat#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "m-combat",
@@ -7174,7 +7374,15 @@
           "doi": "10.1016/j.nicl.2023.103472"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/batmanlab/BayesComBat\npip install BayesComBat",
+        "install_lang": "bash",
+        "usage": "from BayesComBat import hamonize\nimport pandas as pd\n\n# Load data\ndata = pd.read_csv('my_imaging_data.csv')\n\n#specify features in data to harmonize \nfeatures = ['feature1', 'feature2', 'feature3']\n\n#specify biological covariates\ncovariates = ['covaritate1', 'covariate2']\n\nharmonize.infer(data=data,\nfeatures=['feature1', 'feature2', 'feature3'],\ncovariates=['covaritate1', 'covariate2'],\nbatch_var='Scanner',\n# …",
+        "usage_lang": "python",
+        "source": "https://github.com/batmanlab/BayesComBat#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "sva",
@@ -10458,7 +10666,15 @@
           "doi": "10.1109/tmi.2021.3059726"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/mengweiren/segmentation-renormalized-harmonization.git\ncd segmentation-renormalized-harmonization\nconda env create -f environment.yml",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/mengweiren/segmentation-renormalized-harmonization#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "realistic-image-normalization",
@@ -11568,7 +11784,15 @@
           "doi": "10.1016/j.media.2023.102789"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "# Ships with FreeSurfer 7.3+ as `mri_synthseg`, or standalone:\ngit clone https://github.com/BBillot/SynthSeg.git\ncd SynthSeg\npip install tensorflow-gpu==2.2.0 keras==2.3.1 protobuf==3.20.3 numpy==1.23.5 nibabel==5.0.1 matplotlib==3.6.2",
+        "install_lang": "bash",
+        "usage": "python ./scripts/commands/SynthSeg_predict.py --i <input> --o <output> [--parc --robust]",
+        "usage_lang": "bash",
+        "source": "https://github.com/BBillot/SynthSeg#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "nst-cardiac-mr",
@@ -13973,7 +14197,15 @@
           "doi": "10.1016/j.neuroimage.2021.118715"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": "pip install pcntoolkit",
+        "install_lang": "bash",
+        "usage": "from pcntoolkit import load_fcon1000, BLR, NormativeModel\n\nfcon1000 = load_fcon1000()\n\ntrain, test = fcon1000.train_test_split()\n\n# Create a BLR model with heteroskedastic noise\nmodel = NormativeModel(BLR(heteroskedastic=True), \n                       inscaler='standardize', \n                       outscaler='standardize')\n\nmodel.fit_predict(train, test)",
+        "usage_lang": "python",
+        "source": "https://github.com/predictive-clinical-neuroscience/PCNtoolkit#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "braincharts-pcn",
@@ -14189,7 +14421,15 @@
       ],
       "secondary_categories": [
         "normative-modeling"
-      ]
+      ],
+      "get_started": {
+        "install": "pip install pcntoolkit",
+        "install_lang": "bash",
+        "usage": "from pcntoolkit import load_fcon1000, BLR, NormativeModel\n\nfcon1000 = load_fcon1000()\n\ntrain, test = fcon1000.train_test_split()\n\n# Create a BLR model with heteroskedastic noise\nmodel = NormativeModel(BLR(heteroskedastic=True), \n                       inscaler='standardize', \n                       outscaler='standardize')\n\nmodel.fit_predict(train, test)",
+        "usage_lang": "python",
+        "source": "https://github.com/predictive-clinical-neuroscience/PCNtoolkit#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "pulseq",
@@ -14375,7 +14615,15 @@
           "doi": "10.1002/mrm.28825"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "get_started": {
+        "install": null,
+        "install_lang": null,
+        "usage": "seq = SequenceSBB;\nseq.read('examples/APTw_3T_example.seq');\nseq.plotSaturationPhase();",
+        "usage_lang": "matlab",
+        "source": "https://github.com/kherz/pulseq-cest#readme",
+        "fetched": "2026-10-04"
+      }
     },
     {
       "id": "ptx-pulseq",
@@ -15500,6 +15748,3671 @@
           "title": "ComBat-Predict Enhances Generalizability of Neuroimaging Models to New Sites",
           "year": 2026,
           "doi": "10.1002/hbm.70546"
+        }
+      ],
+      "secondary_categories": [],
+      "get_started": {
+        "install": "# install.packages(\"remotes\")\nremotes::install_github(\"andy1764/ComBatFamily\")",
+        "install_lang": "r",
+        "usage": "library(ComBatFamily)\nvignette(\"comfam\")\nvignette(\"covfam\")",
+        "usage_lang": "r",
+        "source": "https://github.com/andy1764/ComBatFamily#readme",
+        "fetched": "2026-10-04"
+      }
+    },
+    {
+      "id": "meeg-covariance-alignment",
+      "name": "M/EEG covariance alignment (re-center / re-scale / rotate)",
+      "category": "domain-adaptation",
+      "method_type": "machine-learning",
+      "level": "feature-level",
+      "tags": [
+        "riemannian",
+        "covariance",
+        "re-centering",
+        "procrustes",
+        "brain-age"
+      ],
+      "paper_title": "Harmonizing and aligning M/EEG datasets with covariance-based techniques to enhance predictive regression modeling",
+      "paper_year": 2023,
+      "paper_url": "https://doi.org/10.1162/imag_a_00040",
+      "github": "apmellot/harmonizing_aligning_meeg",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 13,
+      "stars": 10,
+      "forks": 0,
+      "open_issues": 0,
+      "license": null,
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2023-05-11",
+      "first_commit_date": null,
+      "last_commit": "2024-09-09",
+      "repo_description": null,
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Domain Adaptation & Distribution Matching",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "EEG",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1162/imag_a_00040",
+      "arxiv_id": null,
+      "authors": [
+        "Apolline Mellot",
+        "Antoine Collas",
+        "Pedro Luiz Coelho Rodrigues",
+        "Denis Alexander Engemann",
+        "Alexandre Gramfort"
+      ],
+      "n_authors": 5,
+      "venue": "Imaging Neuroscience",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "EEG",
+        "MEG"
+      ],
+      "modalities_tested": [
+        "EEG",
+        "MEG"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "EEG",
+          "title": "Harmonizing and aligning M/EEG datasets with covariance-based techniques to enhance predictive regression modeling",
+          "year": 2023,
+          "doi": "10.1162/imag_a_00040"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "riemannian-fmri-harmonization",
+      "name": "Riemannian rs-fMRI harmonization (connectome-to-time-series)",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "riemannian",
+        "functional-connectivity",
+        "spd-manifold",
+        "time-series"
+      ],
+      "paper_title": "Riemannian frameworks for the harmonization of resting-state functional MRI scans",
+      "paper_year": 2023,
+      "paper_url": "https://doi.org/10.1016/j.media.2023.103043",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 6,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Functional MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1016/j.media.2023.103043",
+      "arxiv_id": null,
+      "authors": [
+        "Nicolas Honnorat",
+        "Sudha S. Seshadri",
+        "Ronald Killiany",
+        "John Blangero",
+        "David C. Glahn",
+        "Peter T. Fox",
+        "Mohamad Habes"
+      ],
+      "n_authors": 7,
+      "venue": "Medical Image Analysis",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "fMRI",
+        "connectome"
+      ],
+      "modalities_tested": [
+        "fMRI",
+        "connectome"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat"
+      ],
+      "evidence": [
+        {
+          "modality": "fMRI",
+          "title": "Riemannian frameworks for the harmonization of resting-state functional MRI scans",
+          "year": 2023,
+          "doi": "10.1016/j.media.2023.103043"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "b-pip",
+      "name": "Berkeley PET Imaging Pipeline (B-PIP)",
+      "category": "classical-normalization",
+      "method_type": "other",
+      "level": "image-level",
+      "tags": [
+        "pipeline",
+        "suvr",
+        "centiloid",
+        "amyloid",
+        "tau",
+        "cross-tracer"
+      ],
+      "paper_title": "Positron emission tomography harmonization in the Alzheimer's Disease Neuroimaging Initiative: A scalable and rigorous approach to multisite amyloid and tau quantification",
+      "paper_year": 2024,
+      "paper_url": "https://doi.org/10.1002/alz.14378",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 52,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Classical Intensity Normalization",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Medical imaging (general, not MRI-brain-specific)",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1002/alz.14378",
+      "arxiv_id": null,
+      "authors": [
+        "Susan M. Landau",
+        "Theresa M. Harrison",
+        "Suzanne L. Baker",
+        "Martin S. Boswell",
+        "JiaQie Lee",
+        "Jacinda Z. Taggett",
+        "Tyler J. Ward",
+        "Trevor A Chadwick",
+        "Alice Murphy",
+        "Charles S DeCarli",
+        "Christopher G. Schwarz",
+        "Prashanthi Vemuri",
+        "Clifford R. Jack",
+        "Robert A. Koeppe",
+        "William J. Jagust",
+        "for the U.S. POINTER Study Group and for the Alzheimer's Disease Neuroimaging Initiative"
+      ],
+      "n_authors": 16,
+      "venue": "Alzheimer's & Dementia",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "PET"
+      ],
+      "modalities_tested": [
+        "PET"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "PET",
+          "title": "Positron emission tomography harmonization in the Alzheimer's Disease Neuroimaging Initiative: A scalable and rigorous approach to multisite amyloid and tau quantification",
+          "year": 2024,
+          "doi": "10.1002/alz.14378"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "sp-combat",
+      "name": "Superpixel-ComBat (SP-ComBat)",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "image-level",
+      "tags": [
+        "superpixel",
+        "voxel-level",
+        "interpretable",
+        "location-scale"
+      ],
+      "paper_title": "Superpixel-ComBat modeling: A joint approach for harmonization and characterization of inter-scanner variability in T1-weighted images",
+      "paper_year": 2024,
+      "paper_url": "https://doi.org/10.1162/imag_a_00306",
+      "github": "ChangleChen/SPComBat",
+      "language": [
+        "MATLAB"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 3,
+      "stars": 2,
+      "forks": 1,
+      "open_issues": 0,
+      "license": "MIT",
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2024-07-02",
+      "first_commit_date": null,
+      "last_commit": "2025-04-13",
+      "repo_description": "A method that integrates the statistical ComBat model with a computer vision technique known as superpixel segmentation to facilitate explainable image harmonization.",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": true
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1162/imag_a_00306",
+      "arxiv_id": null,
+      "authors": [
+        "Chang‐Le Chen",
+        "Mahbaneh Eshaghzadeh Torbati",
+        "Davneet Singh Minhas",
+        "Charles M. Laymon",
+        "Seong Jae Hwang",
+        "Murat Bilgel",
+        "Adina Crainiceanu",
+        "Hecheng Jin",
+        "Weiquan Luo",
+        "Pauline Maillard",
+        "Evan Fletcher",
+        "Ciprian M. Crainiceanu",
+        "Charles S DeCarli",
+        "Howard Jay Aizenstein",
+        "Dana Tudorascu"
+      ],
+      "n_authors": 15,
+      "venue": "Imaging Neuroscience",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat"
+      ],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "Superpixel-ComBat modeling: A joint approach for harmonization and characterization of inter-scanner variability in T1-weighted images",
+          "year": 2024,
+          "doi": "10.1162/imag_a_00306"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "pwgan-harmonization",
+      "name": "PWGAN (pseudo-warping-field guided GAN)",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "gan",
+        "3d",
+        "warping-field"
+      ],
+      "paper_title": "Harmonizing three-dimensional MRI using pseudo-warping field guided GAN",
+      "paper_year": 2024,
+      "paper_url": "https://doi.org/10.1016/j.neuroimage.2024.120635",
+      "github": "lx123-j/PWFHarmonization",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 8,
+      "stars": 2,
+      "forks": 1,
+      "open_issues": 0,
+      "license": null,
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2024-05-06",
+      "first_commit_date": null,
+      "last_commit": "2024-07-15",
+      "repo_description": "Harmonizing Three-Dimensional MRI using Pseudo-Warping Field Guided GAN",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "GAN",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1016/j.neuroimage.2024.120635",
+      "arxiv_id": null,
+      "authors": [
+        "Jiaying Lin",
+        "Zhuoshuo Li",
+        "Youbing Zeng",
+        "Xiaobo Liu",
+        "Liang Li",
+        "Neda Jahanshad",
+        "Xinting Ge",
+        "Dan Zhang",
+        "Minhua Lu",
+        "Mengting Liu"
+      ],
+      "n_authors": 10,
+      "venue": "NeuroImage",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "Harmonizing three-dimensional MRI using pseudo-warping field guided GAN",
+          "year": 2024,
+          "doi": "10.1016/j.neuroimage.2024.120635"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "personalized-template-mapping",
+      "name": "Personalized Template Mapping (dMRI)",
+      "category": "classical-normalization",
+      "method_type": "statistical",
+      "level": "image-level",
+      "tags": [
+        "rish",
+        "template",
+        "spherical-harmonics",
+        "registration"
+      ],
+      "paper_title": "Diffusion MRI harmonization via personalized template mapping",
+      "paper_year": 2024,
+      "paper_url": "https://doi.org/10.1002/hbm.26661",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 3,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Classical Intensity Normalization",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Diffusion MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1002/hbm.26661",
+      "arxiv_id": null,
+      "authors": [
+        "Yihao Xia",
+        "Yonggang Shi"
+      ],
+      "n_authors": 2,
+      "venue": "Human Brain Mapping",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "dMRI"
+      ],
+      "modalities_tested": [
+        "dMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "rish"
+      ],
+      "evidence": [
+        {
+          "modality": "dMRI",
+          "title": "Diffusion MRI harmonization via personalized template mapping",
+          "year": 2024,
+          "doi": "10.1002/hbm.26661"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "buan-combat",
+      "name": "BUAN-ComBat (along-tract ComBat)",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "tractometry",
+        "along-tract",
+        "buan",
+        "location-scale"
+      ],
+      "paper_title": "Bundle Analytics based Data Harmonization for Multi-Site Diffusion MRI Tractometry",
+      "paper_year": 2024,
+      "paper_url": "https://doi.org/10.1109/embc53108.2024.10782419",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 6,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Diffusion MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1109/embc53108.2024.10782419",
+      "arxiv_id": null,
+      "authors": [
+        "Bramsh Q. Chandio",
+        "Julio E. Villalón‐Reina",
+        "Talia M. Nir",
+        "Sophia I. Thomopoulos",
+        "Yixue Feng",
+        "Sebastian M. Benavidez",
+        "Neda Jahanshad",
+        "Jaroslaw Harezlak",
+        "Eleftherios Garyfallidis",
+        "Paul M. Thompson"
+      ],
+      "n_authors": 10,
+      "venue": "IEEE EMBC",
+      "publication_type": "conference-paper",
+      "modalities_proposed": [
+        "dMRI"
+      ],
+      "modalities_tested": [
+        "dMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat"
+      ],
+      "evidence": [
+        {
+          "modality": "dMRI",
+          "title": "Bundle Analytics based Data Harmonization for Multi-Site Diffusion MRI Tractometry",
+          "year": 2024,
+          "doi": "10.1109/embc53108.2024.10782419"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "daw-fa",
+      "name": "DAW-FA (domain-aware adaptive weighting)",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "disentanglement",
+        "attention",
+        "unsupervised"
+      ],
+      "paper_title": "DAW-FA: Domain-aware adaptive weighting with fine-grain attention for unsupervised MRI harmonization",
+      "paper_year": 2024,
+      "paper_url": "https://doi.org/10.1016/j.jksuci.2024.102157",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 3,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "Autoencoder",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1016/j.jksuci.2024.102157",
+      "arxiv_id": null,
+      "authors": [
+        "Linda Delali Fiasam",
+        "Yunbo Rao",
+        "Collins Sey",
+        "Stacy E.B. Aggrey",
+        "Seth Larweh Kodjiku",
+        "Kwame Opuni-Boachie Obour Agyekum",
+        "Annicet Razafindratovolahy",
+        "Isaac Adjei-Mensah",
+        "Chiagoziem C. Ukwuoma",
+        "Francis Sam"
+      ],
+      "n_authors": 10,
+      "venue": "Journal of King Saud University - Computer and Information Sciences",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "DAW-FA: Domain-aware adaptive weighting with fine-grain attention for unsupervised MRI harmonization",
+          "year": 2024,
+          "doi": "10.1016/j.jksuci.2024.102157"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "dwi-contrast-sr-harmonization",
+      "name": "DWI contrast adjustment + super-resolution (Wada et al.)",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "dwi",
+        "super-resolution",
+        "clinical",
+        "contrast-adjustment"
+      ],
+      "paper_title": "Deep Learning‐Driven Transformation: A Novel Approach for Mitigating Batch Effects in Diffusion MRI Beyond Traditional Harmonization",
+      "paper_year": 2023,
+      "paper_url": "https://doi.org/10.1002/jmri.29088",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 7,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Diffusion MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "CNN",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1002/jmri.29088",
+      "arxiv_id": null,
+      "authors": [
+        "Akihiko Wada",
+        "Toshiaki Akashi",
+        "Akifumi Hagiwara",
+        "Mitsuo Nishizawa",
+        "Keigo Shimoji",
+        "Junko Kikuta",
+        "Tomoko Maekawa",
+        "Katsuhiro Sano",
+        "Koji Kamagata",
+        "Atsushi Nakanishi",
+        "Shigeki Aoki"
+      ],
+      "n_authors": 11,
+      "venue": "Journal of Magnetic Resonance Imaging",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "dMRI"
+      ],
+      "modalities_tested": [
+        "dMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "dMRI",
+          "title": "Deep Learning‐Driven Transformation: A Novel Approach for Mitigating Batch Effects in Diffusion MRI Beyond Traditional Harmonization",
+          "year": 2023,
+          "doi": "10.1002/jmri.29088"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "scanner-domain-adaptation-kushol",
+      "name": "Scanner domain adaptation instead of harmonization (Kushol et al.)",
+      "category": "domain-adaptation",
+      "method_type": "deep-learning",
+      "level": "feature-level",
+      "tags": [
+        "domain-adaptation",
+        "alzheimers",
+        "classification"
+      ],
+      "paper_title": "Domain Adaptation of MRI Scanners as an Alternative to MRI Harmonization",
+      "paper_year": 2023,
+      "paper_url": "https://doi.org/10.1007/978-3-031-45857-6_1",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 7,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Domain Adaptation & Distribution Matching",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": true,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1007/978-3-031-45857-6_1",
+      "arxiv_id": null,
+      "authors": [
+        "Rafsanjany Kushol",
+        "Richard Frayne",
+        "Simon J. Graham",
+        "Alan H. Wilman",
+        "Sanjay Kalra",
+        "Yee‐Hong Yang"
+      ],
+      "n_authors": 6,
+      "venue": "Lecture Notes in Computer Science",
+      "publication_type": "conference-paper",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "Domain Adaptation of MRI Scanners as an Alternative to MRI Harmonization",
+          "year": 2023,
+          "doi": "10.1007/978-3-031-45857-6_1"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "clinical-combat",
+      "name": "Clinical-ComBAT",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "clinical",
+        "new-site",
+        "nonlinear",
+        "reference-site"
+      ],
+      "paper_title": "Clinical-ComBAT: a diffusion-weighted MRI harmonization method for clinical applications",
+      "paper_year": 2025,
+      "paper_url": "https://doi.org/10.48550/arxiv.2511.04871",
+      "github": "scil-vital/clinical-ComBAT",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 2,
+      "stars": 8,
+      "forks": 7,
+      "open_issues": 5,
+      "license": null,
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2024-06-13",
+      "first_commit_date": null,
+      "last_commit": "2026-04-14",
+      "repo_description": "Repository dedicated to the clinical-ComBAT harmonisation method",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Diffusion MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.48550/arxiv.2511.04871",
+      "arxiv_id": "2511.04871",
+      "authors": [
+        "Gabriel Girard",
+        "Manon Edde",
+        "Félix Dumais",
+        "Yoan David",
+        "Dumont, Matthieu",
+        "Guillaume Theaud",
+        "Jean‐Christophe Houde",
+        "Arnaud Boré",
+        "Maxime Descoteaux",
+        "Pierre‐Marc Jodoin"
+      ],
+      "n_authors": 10,
+      "venue": "arXiv",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "dMRI"
+      ],
+      "modalities_tested": [
+        "dMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat"
+      ],
+      "evidence": [
+        {
+          "modality": "dMRI",
+          "title": "Clinical-ComBAT: a diffusion-weighted MRI harmonization method for clinical applications",
+          "year": 2025,
+          "doi": "10.48550/arxiv.2511.04871"
+        }
+      ],
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/scil-vital/clinical-ComBAT.git\ncd clinical-ComBAT\npython -m venv .venv && source .venv/bin/activate\nuv pip install -e .",
+        "install_lang": "bash",
+        "usage": "combat_pipeline \\\n    src/clinical_combat/data/CamCAN.md.raw.csv.gz \\\n    src/clinical_combat/data/ModifiedCamCAN.md.raw.csv.gz \\\n    --method clinical \\\n    --out_dir quickstart_demo/",
+        "usage_lang": "bash",
+        "source": "https://github.com/scil-vital/clinical-ComBAT#readme",
+        "fetched": "2026-10-04"
+      }
+    },
+    {
+      "id": "prism-harmonization",
+      "name": "PRISM (privacy-preserving inter-site MRI harmonization)",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "disentanglement",
+        "contrastive",
+        "vae",
+        "privacy",
+        "unpaired"
+      ],
+      "paper_title": "Prism: Privacy-Preserving Inter-Site MRI Harmonization via Disentangled Representation Learning",
+      "paper_year": 2025,
+      "paper_url": "https://doi.org/10.1109/isbi60581.2025.10980997",
+      "github": "saranggalada/PRISM",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 1,
+      "stars": 2,
+      "forks": 0,
+      "open_issues": 0,
+      "license": "Apache-2.0",
+      "topics": [
+        "contrastive-learning",
+        "federated-learning",
+        "privacy-preserving-machine-learning",
+        "representation-learning",
+        "style-transfer"
+      ],
+      "archived": false,
+      "repo_created_at": "2024-09-12",
+      "first_commit_date": null,
+      "last_commit": "2025-02-18",
+      "repo_description": "PRISM: Privacy-preserving Inter-Site MRI Harmonization via Disentangled Representation Learning (Accepted for Oral Presentation at ISBI 2025!)",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "VAE",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1109/isbi60581.2025.10980997",
+      "arxiv_id": null,
+      "authors": [
+        "Sarang Galada",
+        "Tanurima Halder",
+        "Kunal Deo",
+        "Ram P. Krish",
+        "Kshitij S. Jadhav"
+      ],
+      "n_authors": 5,
+      "venue": "IEEE ISBI",
+      "publication_type": "conference-paper",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "Prism: Privacy-Preserving Inter-Site MRI Harmonization via Disentangled Representation Learning",
+          "year": 2025,
+          "doi": "10.1109/isbi60581.2025.10980997"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "linear-rice",
+      "name": "LinearRICE",
+      "category": "classical-normalization",
+      "method_type": "statistical",
+      "level": "image-level",
+      "tags": [
+        "dki",
+        "spherical-harmonics",
+        "rotational-invariants"
+      ],
+      "paper_title": "Diffusion MRI harmonization by Linear scaling of Rotational Invariants of the Cumulant Expansion (LinearRICE): a multi-vendor multi-site study",
+      "paper_year": 2025,
+      "paper_url": "https://doi.org/10.58530/2025/0700",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Classical Intensity Normalization",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Diffusion MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.58530/2025/0700",
+      "arxiv_id": null,
+      "authors": [
+        "Kouhei Kamiya",
+        "Ryo Kurokawa",
+        "Yuichi Suzuki",
+        "Shinsuke Koike",
+        "Naohiro Okada",
+        "Yoshiyuki Hirano",
+        "Jinichi Hirano",
+        "Masaaki Hori",
+        "Takuya Hayashi",
+        "Osamu Abe"
+      ],
+      "n_authors": 10,
+      "venue": "ISMRM Annual Meeting",
+      "publication_type": "conference-paper",
+      "modalities_proposed": [
+        "dMRI"
+      ],
+      "modalities_tested": [
+        "dMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "rish"
+      ],
+      "evidence": [
+        {
+          "modality": "dMRI",
+          "title": "Diffusion MRI harmonization by Linear scaling of Rotational Invariants of the Cumulant Expansion (LinearRICE): a multi-vendor multi-site study",
+          "year": 2025,
+          "doi": "10.58530/2025/0700"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "mm-combat",
+      "name": "MM-ComBat / MM-CovBat",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "multivariate",
+        "multi-metric",
+        "covariance",
+        "location-scale"
+      ],
+      "paper_title": "MM-ComBat and MM-CovBat: Multivariate Frameworks for Joint Harmonization of Multi-Metric Neuroimaging Data",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.64898/2026.02.05.704069",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.64898/2026.02.05.704069",
+      "arxiv_id": null,
+      "authors": [
+        "Zheng Ren",
+        "Patrick S. Sadil",
+        "Martin A. Lindquist"
+      ],
+      "n_authors": 3,
+      "venue": "bioRxiv",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat",
+        "covbat"
+      ],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "MM-ComBat and MM-CovBat: Multivariate Frameworks for Joint Harmonization of Multi-Metric Neuroimaging Data",
+          "year": 2026,
+          "doi": "10.64898/2026.02.05.704069"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "cam-combat",
+      "name": "CAM-ComBat / SIB-ComBat",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "spatial-correlation",
+        "covariance",
+        "high-dimensional",
+        "location-scale"
+      ],
+      "paper_title": "Batch Effect Correction for Neuroimaging Data with Heterogeneous Spatial Correlations",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.64898/2026.06.03.729396",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.64898/2026.06.03.729396",
+      "arxiv_id": null,
+      "authors": [
+        "Ryan Xie",
+        "Dhivya Srinivasan",
+        "Gareth A. Harman",
+        "Christos A. Davatzikos",
+        "Russel T. Shinohara",
+        "Haochang Shou"
+      ],
+      "n_authors": 6,
+      "venue": "bioRxiv",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat",
+        "covbat"
+      ],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "Batch Effect Correction for Neuroimaging Data with Heterogeneous Spatial Correlations",
+          "year": 2026,
+          "doi": "10.64898/2026.06.03.729396"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "frugal-combat",
+      "name": "Frugal-ComBat",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "bayesian",
+        "low-n",
+        "clinical",
+        "prior"
+      ],
+      "paper_title": "Frugal-Combat: An Ultra-Low-Sample Diffusion MRI Harmonization Method",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.1109/isbi61048.2026.11516003",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Diffusion MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1109/isbi61048.2026.11516003",
+      "arxiv_id": null,
+      "authors": [
+        "Baptiste Pierrard",
+        "Michaël Sdika",
+        "Pierre‐Marc Jodoin"
+      ],
+      "n_authors": 3,
+      "venue": "IEEE ISBI",
+      "publication_type": "conference-paper",
+      "modalities_proposed": [
+        "dMRI"
+      ],
+      "modalities_tested": [
+        "dMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat"
+      ],
+      "evidence": [
+        {
+          "modality": "dMRI",
+          "title": "Frugal-Combat: An Ultra-Low-Sample Diffusion MRI Harmonization Method",
+          "year": 2026,
+          "doi": "10.1109/isbi61048.2026.11516003"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "anatomy-site-patch-diffusion",
+      "name": "Anatomy- and site-guided 3D patch diffusion",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "diffusion-model",
+        "3d",
+        "patch"
+      ],
+      "paper_title": "Anatomy- and Site-Guided 3D Patch Diffusion for Robust MRI Harmonization",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.1007/978-3-032-38072-2_2",
+      "github": "barna-hache/PatchLevelDiffusionMRIHarmonization",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": 0,
+      "forks": 1,
+      "open_issues": 0,
+      "license": null,
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2025-11-28",
+      "first_commit_date": null,
+      "last_commit": "2026-01-21",
+      "repo_description": "Patch-level Anatomy- and Style-Guided 3D Diffusion for Multi-site T1 MRI Harmonization",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "Diffusion model",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1007/978-3-032-38072-2_2",
+      "arxiv_id": null,
+      "authors": [
+        "Barnabé Hache",
+        "Vincent Roca",
+        "Grégory Kuchcinski",
+        "Dorian Manouvriez",
+        "Renaud Lopes"
+      ],
+      "n_authors": 5,
+      "venue": "Lecture Notes in Computer Science",
+      "publication_type": "conference-paper",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "Anatomy- and Site-Guided 3D Patch Diffusion for Robust MRI Harmonization",
+          "year": 2026,
+          "doi": "10.1007/978-3-032-38072-2_2"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "unifcharm",
+      "name": "UniFCHarm",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "feature-level",
+      "tags": [
+        "prompt",
+        "functional-connectivity"
+      ],
+      "paper_title": "UniFCHarm: Unified Prompt-Guided Harmonization of fMRI Functional Connectivity Across Scanners and Atlases",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.1007/978-3-032-38072-2_58",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Functional MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "Transformer",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": false,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1007/978-3-032-38072-2_58",
+      "arxiv_id": null,
+      "authors": [
+        "Xin Lin",
+        "Yuxiao Liu",
+        "Yulin Wang",
+        "Lin Teng",
+        "Long Yang",
+        "Shilun Zhao",
+        "Kai Zhang",
+        "Zhiming Cui",
+        "Dinggang Shen"
+      ],
+      "n_authors": 9,
+      "venue": "Lecture Notes in Computer Science",
+      "publication_type": "conference-paper",
+      "modalities_proposed": [
+        "fMRI",
+        "connectome"
+      ],
+      "modalities_tested": [
+        "fMRI",
+        "connectome"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "fMRI",
+          "title": "UniFCHarm: Unified Prompt-Guided Harmonization of fMRI Functional Connectivity Across Scanners and Atlases",
+          "year": 2026,
+          "doi": "10.1007/978-3-032-38072-2_58"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "probabilistic-cgan-harmonization",
+      "name": "Probabilistic feature-preserving conditional GAN",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "gan",
+        "probabilistic",
+        "uncertainty"
+      ],
+      "paper_title": "Probabilistic multi-site MR image harmonization via feature preserving conditional generative adversarial networks",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.1016/j.compmedimag.2026.102777",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 2,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "GAN",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1016/j.compmedimag.2026.102777",
+      "arxiv_id": null,
+      "authors": [
+        "Saeed Moazami",
+        "Sepideh Rezvani",
+        "Agnimitra Dasgupta",
+        "Assad A. Oberai"
+      ],
+      "n_authors": 4,
+      "venue": "Computerized Medical Imaging and Graphics",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "Probabilistic multi-site MR image harmonization via feature preserving conditional generative adversarial networks",
+          "year": 2026,
+          "doi": "10.1016/j.compmedimag.2026.102777"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "mmh-harmonization",
+      "name": "MMH (multi-site multi-sequence harmonization with semantic style)",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "style-transfer",
+        "multi-sequence",
+        "vision-language",
+        "disentanglement"
+      ],
+      "paper_title": "Unified Multi-Site Multi-Sequence Brain MRI Harmonization Enriched by Biomedical Semantic Style",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.48550/arxiv.2601.08193",
+      "github": "MW1798/MMH_Harmonization",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": 2,
+      "forks": 1,
+      "open_issues": 1,
+      "license": "Apache-2.0",
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2026-01-13",
+      "first_commit_date": null,
+      "last_commit": "2026-06-09",
+      "repo_description": "Official code repository for paper Unified Multi-Site Multi-Sequence Brain MRI Harmonization Enriched by Biomedical Semantic Style",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "Autoencoder",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.48550/arxiv.2601.08193",
+      "arxiv_id": "2601.08193",
+      "authors": [
+        "Mengqi Wu",
+        "Yongheng Sun",
+        "Qianqian Wang",
+        "Pew-Thian Yap",
+        "Mingxia Liu"
+      ],
+      "n_authors": 5,
+      "venue": "arXiv",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "Unified Multi-Site Multi-Sequence Brain MRI Harmonization Enriched by Biomedical Semantic Style",
+          "year": 2026,
+          "doi": "10.48550/arxiv.2601.08193"
+        }
+      ],
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/MW1798/MMH_Harmonization.git\ncd MMH_Harmonization\nconda env create -f environment.yml\nconda activate MMH_env",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/MW1798/MMH_Harmonization#readme",
+        "fetched": "2026-10-04"
+      }
+    },
+    {
+      "id": "tensor-combat",
+      "name": "Tensor-ComBat",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "image-level",
+      "tags": [
+        "bayesian",
+        "tensor-regression",
+        "spatial",
+        "voxel-level"
+      ],
+      "paper_title": "Spatially-informed Image Harmonization Results in Improved Scanner Effect Removal and Prediction",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.48550/arxiv.2604.01546",
+      "github": "aereinh/TensorComBat",
+      "language": [
+        "C++"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": 0,
+      "forks": 0,
+      "open_issues": 0,
+      "license": null,
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2024-08-12",
+      "first_commit_date": null,
+      "last_commit": "2024-12-11",
+      "repo_description": "Tensor-ComBat: Cortical Thickness Harmonization",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.48550/arxiv.2604.01546",
+      "arxiv_id": "2604.01546",
+      "authors": [
+        "Alec Reinhardt",
+        "Yajie Liu",
+        "Suprateek Kundu"
+      ],
+      "n_authors": 3,
+      "venue": "arXiv",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat"
+      ],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "Spatially-informed Image Harmonization Results in Improved Scanner Effect Removal and Prediction",
+          "year": 2026,
+          "doi": "10.48550/arxiv.2604.01546"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "sa-cyclegan-2-5d",
+      "name": "SA-CycleGAN-2.5D",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "cyclegan",
+        "self-attention",
+        "2.5d",
+        "unpaired"
+      ],
+      "paper_title": "SA-CycleGAN-2.5D: Self-Attention CycleGAN with Tri-Planar Context for Multi-Site MRI Harmonization",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.48550/arxiv.2603.17219",
+      "github": "ishrith-gowda/SA-CycleGAN-2.5D",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": 1,
+      "forks": 0,
+      "open_issues": 11,
+      "license": "MIT",
+      "topics": [
+        "brain-tumor",
+        "cyclegan",
+        "deep-learning",
+        "domain-adaptation",
+        "generative-adversarial-network",
+        "glioma",
+        "image-to-image-translation",
+        "medical-imaging",
+        "miccai",
+        "mri-harmonization",
+        "neuroimaging",
+        "pytorch",
+        "self-attention"
+      ],
+      "archived": false,
+      "repo_created_at": "2025-07-24",
+      "first_commit_date": null,
+      "last_commit": "2026-06-28",
+      "repo_description": "SA-CycleGAN-2.5D: Self-Attention CycleGAN with Tri-Planar Context for Multi-Site MRI Harmonization [arXiv 2603.17219]",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "CycleGAN",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.48550/arxiv.2603.17219",
+      "arxiv_id": "2603.17219",
+      "authors": [
+        "Ishrith Gowda",
+        "Chunwei Liu"
+      ],
+      "n_authors": 2,
+      "venue": "arXiv",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "SA-CycleGAN-2.5D: Self-Attention CycleGAN with Tri-Planar Context for Multi-Site MRI Harmonization",
+          "year": 2026,
+          "doi": "10.48550/arxiv.2603.17219"
+        }
+      ],
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/ishrith-gowda/SA-CycleGAN-2.5D.git\ncd SA-CycleGAN-2.5D\npython -m venv venv && source venv/bin/activate",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/ishrith-gowda/SA-CycleGAN-2.5D#readme",
+        "fetched": "2026-10-04"
+      }
+    },
+    {
+      "id": "harp-dmri",
+      "name": "HARP (phantom-only dMRI harmonization)",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "phantom",
+        "spherical-harmonics",
+        "voxel-wise"
+      ],
+      "paper_title": "HARP: HARmonizing in-vivo diffusion MRI using Phantom-only training",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.48550/arxiv.2603.06696",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Diffusion MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "MLP",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": true
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.48550/arxiv.2603.06696",
+      "arxiv_id": "2603.06696",
+      "authors": [
+        "Hwihun Jeong",
+        "Qiang Liu",
+        "Kathryn E. Keenan",
+        "Elisabeth A. Wilde",
+        "Walter Schneider",
+        "Sudhir Pathak",
+        "Anthony P. Zuccolotto",
+        "Lauren J. O’Donnell",
+        "Lipeng Ning",
+        "Yogesh Rathi"
+      ],
+      "n_authors": 10,
+      "venue": "arXiv",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "dMRI"
+      ],
+      "modalities_tested": [
+        "dMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "dMRI",
+          "title": "HARP: HARmonizing in-vivo diffusion MRI using Phantom-only training",
+          "year": 2026,
+          "doi": "10.48550/arxiv.2603.06696"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "cross-field-flow-matching",
+      "name": "Conditional flow matching for cross-field harmonisation",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "flow-matching",
+        "field-strength",
+        "low-field",
+        "challenge"
+      ],
+      "paper_title": "Conditional Flow Matching for Cross-Field MRI Harmonisation",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.48550/arxiv.2609.00960",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "Flow matching",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": true
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.48550/arxiv.2609.00960",
+      "arxiv_id": "2609.00960",
+      "authors": [
+        "Baris Imre",
+        "Salehi, Aram",
+        "Levente Baljer",
+        "Andrew Webb",
+        "Marius Staring",
+        "Efe Ilıcak"
+      ],
+      "n_authors": 6,
+      "venue": "arXiv",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "Conditional Flow Matching for Cross-Field MRI Harmonisation",
+          "year": 2026,
+          "doi": "10.48550/arxiv.2609.00960"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "atlasgs",
+      "name": "AtlasGS (shared Gaussian geometry)",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "gaussian-splatting",
+        "super-resolution",
+        "resolution-harmonization"
+      ],
+      "paper_title": "AtlasGS: Brain MRI Spatial Resolution Harmonization With Shared Gaussian Geometry",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.48550/arxiv.2606.02961",
+      "github": "yfgao76/AtlasGS",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": 0,
+      "forks": 0,
+      "open_issues": 0,
+      "license": null,
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2026-05-28",
+      "first_commit_date": null,
+      "last_commit": "2026-06-18",
+      "repo_description": null,
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "Gaussian splatting",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.48550/arxiv.2606.02961",
+      "arxiv_id": "2606.02961",
+      "authors": [
+        "Yifan Gao",
+        "Peiran Xu",
+        "Yimeng He",
+        "Haoran Li",
+        "Ziyang Long",
+        "Yufeng Wang",
+        "Ju Dong Yang",
+        "Debiao Li"
+      ],
+      "n_authors": 8,
+      "venue": "arXiv",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "sMRI",
+        "dMRI"
+      ],
+      "modalities_tested": [
+        "sMRI",
+        "dMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "AtlasGS: Brain MRI Spatial Resolution Harmonization With Shared Gaussian Geometry",
+          "year": 2026,
+          "doi": "10.48550/arxiv.2606.02961"
+        }
+      ],
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/yfgao76/AtlasGS.git\ncd AtlasGS\npython -m pip install -e .",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/yfgao76/AtlasGS#readme",
+        "fetched": "2026-10-04"
+      }
+    },
+    {
+      "id": "category-combat",
+      "name": "Category-ComBat",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "categorical-covariates",
+        "biological-variability",
+        "location-scale"
+      ],
+      "paper_title": "Category-Combat: An Improved Multicenter Harmonization Algorithm Preserving Biological Variability between Nodule Types in Radiomics",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.21203/rs.3.rs-7559470/v1",
+      "github": "zhangxiaolei1993/Category_Combat",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": 2,
+      "forks": 0,
+      "open_issues": 0,
+      "license": null,
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2023-02-23",
+      "first_commit_date": null,
+      "last_commit": "2024-01-19",
+      "repo_description": "This is a novel algorithm we developed to solve multicentric problems with radiomic Features",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Radiomics (CT/MRI)",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.21203/rs.3.rs-7559470/v1",
+      "arxiv_id": null,
+      "authors": [
+        "Xiaolei Zhang",
+        "Xiaona Wang",
+        "Haihong Liu",
+        "M Iqbal Bin Saripan",
+        "Lijun Lu",
+        "Mohammad Hamiruce Marhaban",
+        "Xianling Dong"
+      ],
+      "n_authors": 7,
+      "venue": "Research Square",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "radiomics"
+      ],
+      "modalities_tested": [
+        "radiomics"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat"
+      ],
+      "evidence": [
+        {
+          "modality": "radiomics",
+          "title": "Category-Combat: An Improved Multicenter Harmonization Algorithm Preserving Biological Variability between Nodule Types in Radiomics",
+          "year": 2026,
+          "doi": "10.21203/rs.3.rs-7559470/v1"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "ritex",
+      "name": "RiTex (Riemannian texture harmonization)",
+      "category": "domain-adaptation",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "riemannian",
+        "generalized-eigenvalue",
+        "radiomics",
+        "texture"
+      ],
+      "paper_title": "RiTex: Harmonization of Radiomic Features Based on Riemannian Geometry",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.3390/jimaging12060264",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Domain Adaptation & Distribution Matching",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Radiomics (CT/MRI)",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.3390/jimaging12060264",
+      "arxiv_id": null,
+      "authors": [
+        "Darya A. Voitenko",
+        "Anton V. Vladzymyrskyy",
+        "Olga V. Omelyanskaya",
+        "Yuriy Aleksandrovich Vasilev",
+        "Ivan Andreevich Blokhin",
+        "Maria R. Kodenko"
+      ],
+      "n_authors": 6,
+      "venue": "Journal of Imaging",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "radiomics"
+      ],
+      "modalities_tested": [
+        "radiomics"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "radiomics",
+          "title": "RiTex: Harmonization of Radiomic Features Based on Riemannian Geometry",
+          "year": 2026,
+          "doi": "10.3390/jimaging12060264"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "petharmony",
+      "name": "PETHarmony",
+      "category": "ica-based",
+      "method_type": "statistical",
+      "level": "image-level",
+      "tags": [
+        "svd",
+        "decomposition",
+        "cross-tracer",
+        "voxel-level"
+      ],
+      "paper_title": "Decomposition‐based harmonization for quantitative PET imaging across scanners and radiotracers",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.1002/mp.70545",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "ICA-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Medical imaging (general, not MRI-brain-specific)",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1002/mp.70545",
+      "arxiv_id": null,
+      "authors": [
+        "Shilun Zhao",
+        "Qi Huang",
+        "Binbin Nie",
+        "T Zhang",
+        "C Y Zuo",
+        "Ge Zhang",
+        "G G Mao",
+        "Baoci Shan"
+      ],
+      "n_authors": 8,
+      "venue": "Medical Physics",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "PET"
+      ],
+      "modalities_tested": [
+        "PET"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "PET",
+          "title": "Decomposition‐based harmonization for quantitative PET imaging across scanners and radiotracers",
+          "year": 2026,
+          "doi": "10.1002/mp.70545"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "tanzanite",
+      "name": "TANZANITE (learned virtual monoenergetic imaging)",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "virtual-monoenergetic",
+        "tube-voltage",
+        "ct"
+      ],
+      "paper_title": "CT data harmonization via learned virtual monoenergetic imaging for cross‐kV scan translation and radiomics reproducibility",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.1002/mp.70403",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Radiomics (CT/MRI)",
+      "needs_gpu": true,
+      "architecture_backbone": "CNN",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": true
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1002/mp.70403",
+      "arxiv_id": null,
+      "authors": [
+        "Shaojie Chang",
+        "Joseph R. Swicklik",
+        "Zhongxing Zhou",
+        "Shravani Kharat",
+        "Jarod Wellinghoff",
+        "Hao Gong",
+        "Eric E. Williamson",
+        "Thomas A. Foley",
+        "Cynthia H. McCollough",
+        "Shuai Leng"
+      ],
+      "n_authors": 10,
+      "venue": "Medical Physics",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "CT",
+        "radiomics"
+      ],
+      "modalities_tested": [
+        "CT",
+        "radiomics"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "CT",
+          "title": "CT data harmonization via learned virtual monoenergetic imaging for cross‐kV scan translation and radiomics reproducibility",
+          "year": 2026,
+          "doi": "10.1002/mp.70403"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "ac-diff",
+      "name": "AC-Diff (anatomy-contrast disentangled diffusion)",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "diffusion-model",
+        "disentanglement",
+        "abdominal",
+        "liver"
+      ],
+      "paper_title": "AC-Diff: Anatomy–Contrast Disentangled Diffusion for Multi-Vendor Liver MRI Harmonization",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.64898/2026.09.28.755033",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Medical imaging (general, not MRI-brain-specific)",
+      "needs_gpu": true,
+      "architecture_backbone": "Diffusion model",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.64898/2026.09.28.755033",
+      "arxiv_id": null,
+      "authors": [
+        "Hansen Feng",
+        "Haotian Dang",
+        "Lei You",
+        "Hongyu Wang",
+        "Xiaobo zhou"
+      ],
+      "n_authors": 5,
+      "venue": "bioRxiv",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "general-imaging"
+      ],
+      "modalities_tested": [
+        "general-imaging"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "general-imaging",
+          "title": "AC-Diff: Anatomy–Contrast Disentangled Diffusion for Multi-Vendor Liver MRI Harmonization",
+          "year": 2026,
+          "doi": "10.64898/2026.09.28.755033"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "gcn-eeg-montage-harmonization",
+      "name": "GCN montage harmonization for EEG",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "graph",
+        "montage",
+        "bci",
+        "motor-imagery",
+        "electrode-mapping"
+      ],
+      "paper_title": "Graph convolutional network-based harmonization of EEG for cross-dataset transfer in motor imagery in BCI",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.1088/1741-2552/ae9344",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "EEG",
+      "needs_gpu": true,
+      "architecture_backbone": "GNN",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1088/1741-2552/ae9344",
+      "arxiv_id": null,
+      "authors": [
+        "Devika K M",
+        "Praveen K. Parashiva",
+        "A. P. Vinod"
+      ],
+      "n_authors": 3,
+      "venue": "Journal of Neural Engineering",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "EEG"
+      ],
+      "modalities_tested": [
+        "EEG"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "EEG",
+          "title": "Graph convolutional network-based harmonization of EEG for cross-dataset transfer in motor imagery in BCI",
+          "year": 2026,
+          "doi": "10.1088/1741-2552/ae9344"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "esf-eeg",
+      "name": "Encephlian Standard Format (ESF) preprocessing contract",
+      "category": "classical-normalization",
+      "method_type": "other",
+      "level": "image-level",
+      "tags": [
+        "preprocessing",
+        "resampling",
+        "montage",
+        "foundation-models"
+      ],
+      "paper_title": "ESF: Harmonizing Heterogeneous EEG Acquisition for Pretrained Classifiers",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.5281/zenodo.22772008",
+      "github": "h5371h/esf-recoverability",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": 0,
+      "forks": 0,
+      "open_issues": 0,
+      "license": "MIT",
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2026-06-30",
+      "first_commit_date": null,
+      "last_commit": "2026-09-28",
+      "repo_description": "ESF: harmonizing heterogeneous EEG acquisition for pretrained classifiers. Preprint v2 code, probes and per-recording results.",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Classical Intensity Normalization",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "EEG",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.5281/zenodo.22772008",
+      "arxiv_id": null,
+      "authors": [
+        "Hitesh Dammu"
+      ],
+      "n_authors": 1,
+      "venue": "Zenodo",
+      "publication_type": "software",
+      "modalities_proposed": [
+        "EEG"
+      ],
+      "modalities_tested": [
+        "EEG"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "EEG",
+          "title": "ESF: Harmonizing Heterogeneous EEG Acquisition for Pretrained Classifiers",
+          "year": 2026,
+          "doi": "10.5281/zenodo.22772008"
+        }
+      ],
+      "secondary_categories": [
+        "acquisition-protocol"
+      ],
+      "get_started": {
+        "install": "git clone https://github.com/h5371h/esf-recoverability.git && cd esf-recoverability\npython3 -m venv .venv && source .venv/bin/activate && pip install -r v2/requirements.txt",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/h5371h/esf-recoverability#readme",
+        "fetched": "2026-10-04"
+      }
+    },
+    {
+      "id": "haca3-plus",
+      "name": "HACA3+",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "disentanglement",
+        "attention",
+        "artifact-encoder",
+        "traveling-subjects"
+      ],
+      "paper_title": "Harmonizing MR Images Across 100+ Scanners: Multi-site Validation with Traveling Subjects and Real-world Protocols",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.48550/arxiv.2604.19474",
+      "github": "shays15/haca3-plus",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": 5,
+      "forks": 1,
+      "open_issues": 0,
+      "license": null,
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2026-04-07",
+      "first_commit_date": null,
+      "last_commit": "2026-07-16",
+      "repo_description": null,
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "Autoencoder",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.48550/arxiv.2604.19474",
+      "arxiv_id": "2604.19474",
+      "authors": [
+        "Savannah P. Hays",
+        "Lianrui Zuo",
+        "Muhammad F. A. Chaudhary",
+        "Kathleen M. Bartz",
+        "Samuel W. Remedios",
+        "Jinwei Zhang",
+        "Jiachen Zhuo",
+        "Murat Bilgel",
+        "Shiv Saidha",
+        "Carolyn Koch",
+        "Sandra D. Cassard",
+        "Ellen M. Mowry",
+        "Scott D. Newsome",
+        "Jerry L. Prince",
+        "Blake E. Dewey",
+        "Aaron Carass"
+      ],
+      "n_authors": 16,
+      "venue": "arXiv",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "haca3"
+      ],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "Harmonizing MR Images Across 100+ Scanners: Multi-site Validation with Traveling Subjects and Real-world Protocols",
+          "year": 2026,
+          "doi": "10.48550/arxiv.2604.19474"
+        }
+      ],
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/shays15/haca3-plus.git\ncd haca3-plus\npip install .",
+        "install_lang": "bash",
+        "usage": "APPTAINERENV_CUDA_VISIBLE_DEVICES=0 singularity run -ec --nv haca3-brain-tms_v2.0.1_general.sif \\\n--in-paths [PATH-TO-INPUT-SOURCE-IMAGE-1] [PATH-TO-INPUT-SOURCE-IMAGE-2, IF THERE ARE MULTIPLE SOURCE IMAGES] \\\n--target-images [TARGET-IMAGE] [PATH-TO-TARGET-IMAGE-2, IF THERE ARE MULTIPLE TARGET IMAGES]\\\n--out-paths [PATH-TO-HARMONIZED-IMAGE] [PATH-TO-HARMONIZED-IMAGE-2, IF THERE ARE MULTIPLE TARGET IMAGES]\\",
+        "usage_lang": "bash",
+        "source": "https://github.com/shays15/haca3-plus#readme",
+        "fetched": "2026-10-04"
+      }
+    },
+    {
+      "id": "dpabi-harmonization",
+      "name": "DPABI Harmonization",
+      "category": "combat-family",
+      "method_type": "other",
+      "level": "feature-level",
+      "tags": [
+        "toolbox",
+        "gui",
+        "matlab"
+      ],
+      "paper_title": "DPABI harmonization: A toolbox for harmonizing multi-site brain imaging for big-data era",
+      "paper_year": 2024,
+      "paper_url": "https://doi.org/10.1162/imag_a_00388",
+      "github": "Chaogan-Yan/DPABI",
+      "language": [
+        "MATLAB"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 7,
+      "stars": 115,
+      "forks": 53,
+      "open_issues": 0,
+      "license": "LGPL-2.1",
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2014-08-18",
+      "first_commit_date": null,
+      "last_commit": "2026-08-24",
+      "repo_description": "DPABI: a toolbox for Data Processing & Analysis of Brain Imaging",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Functional MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1162/imag_a_00388",
+      "arxiv_id": null,
+      "authors": [
+        "Yu-Wei Wang",
+        "Hanlin Wang",
+        "Chao‐Gan Yan"
+      ],
+      "n_authors": 3,
+      "venue": "Imaging Neuroscience",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "fMRI",
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "fMRI",
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "toolbox",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "fMRI",
+          "title": "DPABI harmonization: A toolbox for harmonizing multi-site brain imaging for big-data era",
+          "year": 2024,
+          "doi": "10.1162/imag_a_00388"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "combatfamqc",
+      "name": "ComBatFamQC",
+      "category": "combat-family",
+      "method_type": "other",
+      "level": "feature-level",
+      "tags": [
+        "toolbox",
+        "diagnostics",
+        "shiny",
+        "qc"
+      ],
+      "paper_title": "ComBatFamQC: Streamlining Interactive Batch-Effect Diagnostics and Harmonization for Neuroimaging Data in R",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.64898/2026.07.29.741509",
+      "github": "Zheng206/ComBatFamQC",
+      "language": [
+        "R"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": 5,
+      "forks": 4,
+      "open_issues": 0,
+      "license": null,
+      "topics": [
+        "diagnostic-tool",
+        "harmonization",
+        "rshinyapp"
+      ],
+      "archived": false,
+      "repo_created_at": "2024-10-27",
+      "first_commit_date": null,
+      "last_commit": "2025-09-02",
+      "repo_description": "Streamline interactive batch effect diagnostics, harmonization, and post-harmonization downstream analysis to greatly simplify the data harmonization process and improve transparency and reproducibility.",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.64898/2026.07.29.741509",
+      "arxiv_id": null,
+      "authors": [
+        "Zheng Ren",
+        "Elizabeth A. Horwath",
+        "Siyan Wen",
+        "Randa Melhem",
+        "Jessica McClintock",
+        "William Evan Johnson",
+        "Russell Taki Shinohara",
+        "Andrew An Chen",
+        "Haochang Shou"
+      ],
+      "n_authors": 9,
+      "venue": "bioRxiv",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "toolbox",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "ComBatFamQC: Streamlining Interactive Batch-Effect Diagnostics and Harmonization for Neuroimaging Data in R",
+          "year": 2026,
+          "doi": "10.64898/2026.07.29.741509"
+        }
+      ],
+      "secondary_categories": [],
+      "get_started": {
+        "install": "install.packages(\"ComBatFamQC\")\n# development version:\n# devtools::install_github(\"Zheng206/ComBatFamQC\", build_vignettes = TRUE)",
+        "install_lang": "r",
+        "usage": "vignette(\"ComBatQC\")\nvignette(\"Post-Harmonization\")",
+        "usage_lang": "r",
+        "source": "https://github.com/Zheng206/ComBatFamQC#readme",
+        "fetched": "2026-10-04"
+      }
+    },
+    {
+      "id": "combat-enigma",
+      "name": "combat.enigma (R)",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "r-package",
+        "enigma",
+        "lmm",
+        "prescaling"
+      ],
+      "paper_title": "combat.enigma: Fit and Apply ComBat, LMM, or Prescaling Harmonization for ENIGMA and Other Multisite MRI Data",
+      "paper_year": 2023,
+      "paper_url": "https://doi.org/10.32614/cran.package.combat.enigma",
+      "github": null,
+      "language": [
+        "R"
+      ],
+      "other_url": "https://CRAN.R-project.org/package=combat.enigma",
+      "abstract": null,
+      "citations": 1,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.32614/cran.package.combat.enigma",
+      "arxiv_id": null,
+      "authors": [
+        "Joaquim Raduà"
+      ],
+      "n_authors": 1,
+      "venue": "CRAN",
+      "publication_type": "software",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "implementation",
+      "implements": "combat-mega",
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "combat.enigma: Fit and Apply ComBat, LMM, or Prescaling Harmonization for ENIGMA and Other Multisite MRI Data",
+          "year": 2023,
+          "doi": "10.32614/cran.package.combat.enigma"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "qcalamiti",
+      "name": "qCALAMITI",
+      "category": "deep-learning",
+      "method_type": "deep-learning",
+      "level": "image-level",
+      "tags": [
+        "quantitative-mri",
+        "mpm",
+        "disentanglement",
+        "unsupervised"
+      ],
+      "paper_title": "qCALAMITI – software for unsupervised image harmonization of multi-parameter quantitative MRI",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.5281/zenodo.22899755",
+      "github": null,
+      "language": [],
+      "other_url": "https://doi.org/10.5281/zenodo.22899755",
+      "abstract": null,
+      "citations": 0,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Deep learning-based",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Structural MRI",
+      "needs_gpu": true,
+      "architecture_backbone": "Autoencoder",
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": true,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.5281/zenodo.22899755",
+      "arxiv_id": null,
+      "authors": [
+        "Ann P. Laube"
+      ],
+      "n_authors": 1,
+      "venue": "Zenodo",
+      "publication_type": "software",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "calamiti"
+      ],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "qCALAMITI – software for unsupervised image harmonization of multi-parameter quantitative MRI",
+          "year": 2026,
+          "doi": "10.5281/zenodo.22899755"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "harmnqeeg",
+      "name": "HarMNqEEG (harmonized multinational qEEG norms)",
+      "category": "normative-modeling",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "qeeg",
+        "riemannian",
+        "cross-spectrum",
+        "z-scores",
+        "mixed-effects",
+        "multinational"
+      ],
+      "paper_title": "Harmonized-Multinational qEEG norms (HarMNqEEG)",
+      "paper_year": 2022,
+      "paper_url": "https://doi.org/10.1016/j.neuroimage.2022.119190",
+      "github": "LMNonlinear/HarMNqEEG",
+      "language": [
+        "MATLAB"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 54,
+      "stars": 17,
+      "forks": 5,
+      "open_issues": 0,
+      "license": "GPL-3.0",
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2022-01-07",
+      "first_commit_date": null,
+      "last_commit": "2024-04-12",
+      "repo_description": "HarMNqEEG: provid the MATLAB code for the evaluation of batch harmonized z-scores based on the multinational norms.",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Normative Modeling",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "EEG",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1016/j.neuroimage.2022.119190",
+      "arxiv_id": null,
+      "authors": [
+        "Min Li",
+        "Ying Wang",
+        "Carlos Lopez-Naranjo",
+        "Shiang Hu",
+        "Ronaldo García Reyes",
+        "Deirel Paz-Linares",
+        "Ariosky Areces-González",
+        "Aini Ismafairus Abd Hamid",
+        "Alan Charles Evans",
+        "Alexander Nikolaevich Savostyanov",
+        "Ana Calzada‐Reyes",
+        "Arno Villringer",
+        "Carlos Andrés Tobón-Quintero",
+        "Daysi García-Agustin",
+        "Dezhong Yao",
+        "Li Dong",
+        "Eduardo Aubert-Vázquez",
+        "Faruque Reza",
+        "Fuleah A. Razzaq",
+        "Hazim Omar",
+        "Jafri Malin Abdullah",
+        "Janina R. Galler",
+        "John Fredy Ochoa-Gómez",
+        "Leslie S. Prichep",
+        "Lídice Galán‐Garcia",
+        "Lilia María Morales Chacón",
+        "Mitchell Valdés-Sosa",
+        "Marius Tröndle",
+        "Mohd Faizal Mohd Zulkifly",
+        "Muhammad Riddha Abdul Rahman",
+        "Natalya S. Milakhina",
+        "Nicolas Langer",
+        "Pavel D. Rudych",
+        "Thomas W. Koenig",
+        "Trinidad A. Virues-Alba",
+        "Xu Lei",
+        "Maria Luisa Bringas-Vega",
+        "Jorge Bosch‐Bayard",
+        "Pedro Antonio Valdes-Sosa"
+      ],
+      "n_authors": 39,
+      "venue": "NeuroImage",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "EEG"
+      ],
+      "modalities_tested": [
+        "EEG"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "EEG",
+          "title": "Harmonized-Multinational qEEG norms (HarMNqEEG)",
+          "year": 2022,
+          "doi": "10.1016/j.neuroimage.2022.119190"
+        }
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "riemannian-procrustes-analysis",
+      "name": "Riemannian Procrustes Analysis (RPA)",
+      "category": "domain-adaptation",
+      "method_type": "machine-learning",
+      "level": "feature-level",
+      "tags": [
+        "riemannian",
+        "procrustes",
+        "covariance",
+        "bci",
+        "transfer-learning"
+      ],
+      "paper_title": "Riemannian Procrustes Analysis: Transfer Learning for Brain–Computer Interfaces",
+      "paper_year": 2018,
+      "paper_url": "https://doi.org/10.1109/tbme.2018.2889705",
+      "github": "plcrodrigues/RPA",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 225,
+      "stars": 53,
+      "forks": 19,
+      "open_issues": 5,
+      "license": "BSD-3-Clause",
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2018-05-29",
+      "first_commit_date": null,
+      "last_commit": "2021-03-12",
+      "repo_description": "Python code for the Riemannian Procrustes Analysis (RPA) method",
+      "stats_fetched_at": "2026-10-04T13:24:27Z",
+      "category_label": "Domain Adaptation & Distribution Matching",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "EEG",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1109/tbme.2018.2889705",
+      "arxiv_id": null,
+      "authors": [
+        "Pedro Luiz Coelho Rodrigues",
+        "Christian Jutten",
+        "Marco Congedo"
+      ],
+      "n_authors": 3,
+      "venue": "IEEE Transactions on Biomedical Engineering",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "EEG"
+      ],
+      "modalities_tested": [
+        "EEG"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "EEG",
+          "title": "Riemannian Procrustes Analysis: Transfer Learning for Brain–Computer Interfaces",
+          "year": 2018,
+          "doi": "10.1109/tbme.2018.2889705"
+        }
+      ],
+      "secondary_categories": [],
+      "get_started": {
+        "install": "git clone https://github.com/plcrodrigues/RPA.git\ncd RPA\npip install -r requirements.txt\npython setup.py develop",
+        "install_lang": "bash",
+        "usage": null,
+        "usage_lang": null,
+        "source": "https://github.com/plcrodrigues/RPA#readme",
+        "fetched": "2026-10-04"
+      }
+    },
+    {
+      "id": "euclidean-alignment",
+      "name": "Euclidean Alignment (EA) of EEG trials",
+      "category": "domain-adaptation",
+      "method_type": "machine-learning",
+      "level": "image-level",
+      "tags": [
+        "alignment",
+        "covariance",
+        "bci",
+        "unsupervised",
+        "transfer-learning"
+      ],
+      "paper_title": "Transfer Learning for Brain–Computer Interfaces: A Euclidean Space Data Alignment Approach",
+      "paper_year": 2019,
+      "paper_url": "https://doi.org/10.1109/tbme.2019.2913914",
+      "github": null,
+      "language": [],
+      "other_url": null,
+      "abstract": null,
+      "citations": 526,
+      "stars": null,
+      "forks": null,
+      "open_issues": null,
+      "license": null,
+      "topics": null,
+      "archived": null,
+      "repo_created_at": null,
+      "first_commit_date": null,
+      "last_commit": null,
+      "repo_description": null,
+      "stats_fetched_at": null,
+      "category_label": "Domain Adaptation & Distribution Matching",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "EEG",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T12:00:00Z",
+      "doi": "10.1109/tbme.2019.2913914",
+      "arxiv_id": null,
+      "authors": [
+        "He He",
+        "Dongrui Wu"
+      ],
+      "n_authors": 2,
+      "venue": "IEEE Transactions on Biomedical Engineering",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "EEG"
+      ],
+      "modalities_tested": [
+        "EEG"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [],
+      "evidence": [
+        {
+          "modality": "EEG",
+          "title": "Transfer Learning for Brain–Computer Interfaces: A Euclidean Space Data Alignment Approach",
+          "year": 2019,
+          "doi": "10.1109/tbme.2019.2913914"
         }
       ],
       "secondary_categories": []

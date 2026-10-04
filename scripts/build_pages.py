@@ -114,7 +114,7 @@ def bibtex(m):
 
     ptype = m.get("publication_type") or ""
     venue = m.get("venue")
-    if venue in ("arXiv", "bioRxiv") or ptype == "preprint":
+    if venue in ("arXiv", "bioRxiv") or ptype in ("preprint", "software"):
         kind = "misc"
     elif ptype in ("conference-paper", "proceedings-article"):
         kind = "inproceedings"
@@ -371,6 +371,22 @@ def render_page(m, by_id, extended_by, toolboxes, today):
       {'<p class="mp-muted">Author list truncated; check the publisher page for the full list.</p>' if (m.get("n_authors") or 0) > len(m.get("authors") or []) else ""}
     </section>''' if bib else "")
 
+    gs = m.get("get_started") or {}
+    gs_blocks = []
+    for key, label in (("install", "Install"), ("usage", "Usage")):
+        if gs.get(key):
+            lang = gs.get(key + "_lang") or ""
+            lang = "R" if lang == "r" else lang
+            gs_blocks.append(f'''
+      <div class="mp-section-head"><h3>{label}{f' <em class="mp-muted">{esc(lang)}</em>' if lang else ""}</h3>
+        <button type="button" class="mp-btn" data-copy="#gs-{key}">⧉ Copy</button></div>
+      <pre class="mp-bibtex" id="gs-{key}">{esc(gs[key])}</pre>''')
+    gs_html = (f'''
+    <section class="mp-section">
+      <h2>Get started</h2>{"".join(gs_blocks)}
+      <p class="mp-muted">Taken from the <a href="{esc(gs.get("source", ""))}" rel="noopener noreferrer">project README</a>{f" ({esc(gs['fetched'])})" if gs.get("fetched") else ""}; check it for requirements and the current version.</p>
+    </section>''' if gs_blocks and safe_url(gs.get("source")) else "")
+
     review = (f'<p class="mp-review">Under review: {esc(m["needs_review"])}</p>' if m.get("needs_review") else "")
 
     return f'''<!DOCTYPE html>
@@ -420,6 +436,7 @@ def render_page(m, by_id, extended_by, toolboxes, today):
     <h2>Details</h2>
     <dl class="spec-table">{details}</dl>
   </section>
+  {gs_html}
   {bib_html}
   <section class="mp-section mp-report">
     <h2>Something wrong or missing?</h2>

@@ -11,6 +11,7 @@ Checks:
 - `extends` / `implements` / toolbox `methods` point at ids that exist
 - `modalities_proposed` / `modalities_tested` use the controlled list
 - data/resources.json (optional): ids, DOI/URL, type, scope, and method references
+- data/guide.json (optional): method/resource/dataset ids referenced by the Guide tab
 - data/datasets.json (optional): ids, category, access, DOI/URL, modalities
 - `evidence` entries (paper showing a method tested on a modality) have a modality + DOI/URL
 
@@ -30,7 +31,7 @@ CATEGORIES = {
     "domain-adaptation",
 }
 DATASET_CATEGORIES = {"traveling-subjects", "harmonization-benchmark", "phantom", "multisite-cohort"}
-DATASET_ACCESS = {None, "open", "registration", "application"}
+DATASET_ACCESS = {None, "open", "registration", "application", "private"}
 RESOURCE_TYPES = {"survey", "systematic-review", "review", "benchmark", "book-chapter", "research", "guide"}
 METHOD_TYPES = {"statistical", "deep-learning", "machine-learning", "other"}
 ENTRY_TYPES = {"method", "implementation", "toolbox", "protocol"}
@@ -80,6 +81,16 @@ def main():
                 err(f"unknown secondary category `{sc}`")
             elif sc == m.get("category"):
                 err(f"secondary category `{sc}` repeats the primary category")
+        gs = m.get("get_started")
+        if gs is not None:
+            if not isinstance(gs, dict) or not (gs.get("install") or gs.get("usage")):
+                err("`get_started` must be an object with `install` and/or `usage` code")
+            else:
+                for k in ("install", "usage"):
+                    if gs.get(k) is not None and not isinstance(gs[k], str):
+                        err(f"`get_started.{k}` must be a string")
+                if not is_http_url(gs.get("source")):
+                    err("`get_started.source` must be the http(s) URL the snippet was taken from")
         if m.get("method_type") and m["method_type"] not in METHOD_TYPES:
             err(f"unknown method_type `{m['method_type']}`")
         if m.get("entry_type") and m["entry_type"] not in ENTRY_TYPES:
@@ -187,6 +198,33 @@ def main():
         for x in d.get("modalities") or []:
             if x not in MODALITIES:
                 errors.append(f"dataset {did}: unknown modality `{x}`")
+
+    # data/guide.json is optional (Guide tab): referenced ids must exist
+    try:
+        with open("data/guide.json", encoding="utf-8") as f:
+            guide = json.load(f)
+    except FileNotFoundError:
+        guide = {}
+    res_set, ds_set = set(res_ids), set(ds_ids)
+    blocks = list((guide.get("evaluation") or {}).get("steps") or [])
+    eeg = guide.get("eeg") or {}
+    blocks += list(eeg.get("approaches") or []) + [eeg]
+    for b in blocks:
+        where = f"guide `{b.get('id') or b.get('title') or 'eeg'}`"
+        for ref in b.get("methods") or []:
+            if ref not in id_set:
+                errors.append(f"{where}: unknown method id `{ref}`")
+        for ref in b.get("resources") or []:
+            if ref not in res_set:
+                errors.append(f"{where}: unknown resource id `{ref}`")
+        for ref in b.get("datasets") or []:
+            if ref not in ds_set:
+                errors.append(f"{where}: unknown dataset id `{ref}`")
+        if b.get("datasets_category") and b["datasets_category"] not in DATASET_CATEGORIES:
+            errors.append(f"{where}: unknown datasets_category `{b['datasets_category']}`")
+    for t in guide.get("glossary") or []:
+        if not t.get("term") or not t.get("def"):
+            errors.append(f"guide glossary: every entry needs `term` and `def` ({t.get('term')})")
 
     for w in warnings:
         print(f"warning: {w}")

@@ -41,6 +41,10 @@ file as its database — so it's built to grow.
   each linked to the methods it discusses (and back from each method).
 - **Datasets** — traveling-subject resources, harmonization benchmarks,
   phantoms and large multisite cohorts, with the methods validated on each.
+- **Guide** — how to check that harmonization worked (site effects removed,
+  biology kept, paired-data and leakage-safe checks), EEG/MEG notes and a
+  glossary. Method details also show install/usage snippets where the
+  project README has them.
 - **Add a model** — a short form that turns into a real GitHub pull
   request proposing a new method, no git required.
 
@@ -84,7 +88,7 @@ registry, repository protection, deployment troubleshooting — see
 ## Project layout
 
 ```
-index.html                    the whole page (Home / Explore / Which-method? / Toolboxes / Add-a-model tabs)
+index.html                    the whole page (Home / Explore / Which-method? / Toolboxes / Resources / Datasets / Guide / Add-a-model tabs)
 css/style.css                 styling
 js/app.js                     data loading, box layout, filters, compare mode, recommender, add-model form, detail drawer
 data/methods.json             the database — edit this to add/change methods
@@ -92,6 +96,7 @@ methods/<id>/index.html       generated page per method (BibTeX, lineage, report
 data/toolboxes.json           registry of packages bundling multiple methods
 data/resources.json           curated reviews, surveys and benchmarks (Resources tab)
 data/datasets.json            multisite / traveling-subject datasets (Datasets tab)
+data/guide.json               evaluation checklist, EEG/MEG notes and glossary (Guide tab)
 data/submissions/             pending method submissions, awaiting merge
 data/submissions-stats/       pending stats/citation updates, awaiting merge
 scripts/                      data pipeline — see MAINTAINERS.md for what each script does

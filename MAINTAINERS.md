@@ -8,7 +8,7 @@ debugging the pipelines, or changing how they work.
 
 ## What's in the database right now
 
-`data/methods.json` holds **179 methods** (October 2026) across eleven families (the
+`data/methods.json` holds **219 methods** (October 2026) across eleven families (the
 "Family" grouping) — **Location/Scale Models (ComBat-family)** /
 Deep-learning / IQM / Normative Modeling / Interpolation / Federated / ICA /
 Optimal-transport / **Domain Adaptation & Distribution Matching** /
@@ -345,13 +345,51 @@ scanners — what "needs paired data" methods require), `harmonization-benchmark
 `phantom`, and `multisite-cohort`. Fields: `id`, `name`, `full_name`,
 `modalities` (controlled codes), free-text `participants`, `sites`,
 `sessions`, `vendors`, `longitudinal`, `access` (`open` | `registration` |
-`application` | `null` = not verified), `url`, `doi`, `paper_title`, `year`,
+`application` | `private` = described in a paper but not shared | `null` = not verified), `url`, `doi`, `paper_title`, `year`,
 `extra_papers`, and `aliases`. A method is shown under a dataset when its
 `validation_data` mentions the dataset's name or one of its aliases (whole
 word), so filling in `validation_data` links methods automatically. Numbers
 were taken from each dataset paper's abstract (October 2026); leave a field
 empty rather than guess. The validator checks ids, categories, access values,
 URLs and modalities.
+
+## Guide
+
+The **Guide** tab is rendered from `data/guide.json`, so its text can be edited
+without touching JavaScript. Three parts:
+
+- `evaluation.steps[]` — the "Did harmonization work?" checklist. Each step has
+  `id`, `title`, `do` (list of actions), `pitfall`, and optional links:
+  `methods` (method ids), `resources` (resource ids), `datasets` (dataset ids)
+  and `datasets_category` (links to that Datasets filter).
+- `eeg` — EEG/MEG notes: `sources` of between-site variability and
+  `approaches[]` (each with `title`, `text`, `methods`), plus `resources` and
+  `datasets`.
+- `glossary[]` — `term` / `def` pairs (shown alphabetically, with a filter box).
+
+Unknown ids are skipped on the page, and `scripts/validate_methods.py` reports
+them as errors, so renaming a method or resource can't silently break a link.
+
+## Get-started snippets
+
+Methods can carry a `get_started` object, shown as an "Get started" block (with
+copy buttons) in the drawer and on the method page:
+
+```json
+"get_started": {
+  "install": "pip install neuroHarmonize", "install_lang": "bash",
+  "usage": "from neuroHarmonize import harmonizationLearn\n...", "usage_lang": "python",
+  "source": "https://github.com/rpomponio/neuroHarmonize#readme", "fetched": "2026-10-04"
+}
+```
+
+The October 2026 batch (40 methods) was extracted from each repo's README and
+then reviewed by hand: snippets that were only data-preparation scripts,
+training commands with machine-specific paths, or dependency lists were
+dropped, and a few install blocks were shortened. Keep them short (install ≤ 7
+lines, usage ≤ 16 lines), copy them from the README rather than writing new
+code, and update `fetched` when you re-check one. `source` must be an http(s)
+URL (validated). Repos without a usable README example simply have no block.
 
 ### Overlapping families
 

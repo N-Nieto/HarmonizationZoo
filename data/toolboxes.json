@@ -31,6 +31,30 @@
       "language": ["Python", "Shell"],
       "description": "Dockerized, open-source framework that unifies end-to-end execution of five deep-learning harmonization methods behind one CLI, bundling pretrained weights for all of them so nothing needs to be trained or fine-tuned from scratch.",
       "methods": ["stgan", "haca3", "murd", "iguane", "disarmpp"]
+    },
+    {
+      "id": "dpabi-harmonization-toolbox",
+      "name": "DPABI Harmonization",
+      "url": "https://github.com/Chaogan-Yan/DPABI",
+      "language": ["MATLAB"],
+      "description": "Harmonization module of the DPABI MATLAB toolbox, with a graphical interface so multi-site resting-state fMRI and structural data can be harmonized without programming. Bundles ComBat-family and other site-correction methods (including CovBat) next to DPABI's preprocessing and statistics.",
+      "methods": ["combat", "covbat"]
+    },
+    {
+      "id": "combatfamqc-toolbox",
+      "name": "ComBatFamQC",
+      "url": "https://github.com/Zheng206/ComBatFamQC",
+      "language": ["R"],
+      "description": "R package and Shiny app built on ComBatFamily: diagnose batch effects (visual and statistical checks), harmonize with ComBat, ComBat-GAM, Longitudinal ComBat or CovBat, and run post-harmonization analyses such as lifespan age trends. Useful for the before/after checks in the Guide tab.",
+      "methods": ["combat", "combat-gam", "longcombat", "covbat"]
+    },
+    {
+      "id": "pyriemann",
+      "name": "pyRiemann",
+      "url": "https://github.com/pyRiemann/pyRiemann",
+      "language": ["Python"],
+      "description": "scikit-learn-compatible library for machine learning on covariance matrices (EEG, MEG, BCI). Its transfer-learning module provides re-centering, stretching and rotation of covariance distributions across domains (the Riemannian Procrustes operations), the building blocks of covariance-based M/EEG harmonization.",
+      "methods": ["riemannian-procrustes-analysis", "meeg-covariance-alignment"]
     }
   ]
 }

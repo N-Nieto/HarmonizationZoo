@@ -85,6 +85,12 @@ async function init() {
     state.datasets = []; // optional
   }
   try {
+    const gRes = await fetch("data/guide.json");
+    state.guide = gRes.ok ? await gRes.json() : null;
+  } catch (e) {
+    state.guide = null; // optional
+  }
+  try {
     const resRes = await fetch("data/resources.json");
     state.resources = resRes.ok ? (await resRes.json()).resources : [];
   } catch (e) {
@@ -107,6 +113,7 @@ async function init() {
   buildToolboxesTab();
   buildResourcesTab();
   buildDatasetsTab();
+  buildGuideTab();
   buildAddModelTab();
   render();
 
@@ -218,6 +225,11 @@ function buildHomeTab() {
           <span class="home-cta-desc">Several methods aren't standalone repos — they're bundled inside
             larger packages (UniHarmony, ComBatFamily, NeuroHarm-kit, …). See what's
             implemented where, in which language.</span>
+        </button>
+        <button type="button" class="home-cta" data-tab="guide">
+          <span class="home-cta-title">Did it work? →</span>
+          <span class="home-cta-desc">A step-by-step guide to checking harmonization: site effects removed,
+            biology kept, paired-data checks and leakage-safe evaluation, plus EEG/MEG notes and a glossary.</span>
         </button>
         <button type="button" class="home-cta" data-tab="add">
           <span class="home-cta-title">Add a model →</span>
@@ -474,7 +486,7 @@ const DATASET_CATEGORIES = [
   ["multisite-cohort", "Multisite cohorts"],
 ];
 const DATASET_CATEGORY_LABEL = Object.fromEntries(DATASET_CATEGORIES);
-const DATASET_ACCESS_LABEL = { open: "Open download", registration: "Free registration", application: "Data-use application" };
+const DATASET_ACCESS_LABEL = { open: "Open download", registration: "Free registration", application: "Data-use application", private: "Not public" };
 
 function methodsValidatedOn(ds) {
   const names = [ds.name, ...(ds.aliases || [])].filter(Boolean);
@@ -550,6 +562,114 @@ function buildDatasetsTab() {
     const m = state.data.find((d) => d.id === chip.dataset.id);
     if (m) { switchTab("explore"); openDrawer(m); }
   }));
+}
+
+/* ---------------- Guide tab ---------------- */
+// data/guide.json: how to check that harmonization worked, EEG/MEG notes and
+// a glossary. Steps link to methods, resources and datasets by id; unknown
+// ids are skipped so the guide never shows broken links.
+
+function buildGuideTab() {
+  const root = document.getElementById("guide-root");
+  const g = state.guide;
+  if (!g) {
+    root.innerHTML = `<div class="loading-placeholder">Guide not available.</div>`;
+    return;
+  }
+  const byId = new Map(state.data.map((d) => [d.id, d]));
+  const resById = new Map(state.resources.map((r) => [r.id, r]));
+  const dsById = new Map(state.datasets.map((d) => [d.id, d]));
+  const methodChips = (ids) => (ids || []).map((id) => byId.get(id)).filter(Boolean)
+    .map((m) => `<button type="button" class="toolbox-method-chip" data-id="${escapeHtml(m.id)}" style="--box-color:${FAMILY_COLOR.get(m.category) || "#888"}">${escapeHtml(m.name)}</button>`).join("");
+  const resLinks = (ids) => (ids || []).map((id) => resById.get(id)).filter(Boolean)
+    .map((r) => `<button type="button" class="inline-link guide-res-link" data-res="${escapeHtml(r.id)}">${escapeHtml(resourceShortCite(r))}</button>`).join(", ");
+  const dsLinks = (ids) => (ids || []).map((id) => dsById.get(id)).filter(Boolean)
+    .map((d) => `<button type="button" class="inline-link guide-ds-link" data-cat="${escapeHtml(d.category)}">${escapeHtml(d.name)}</button>`).join(", ");
+  const links = (o) => {
+    const parts = [];
+    const mc = methodChips(o.methods);
+    if (mc) parts.push(`<div class="guide-links-row"><span class="guide-links-label">Methods</span><div class="toolbox-methods">${mc}</div></div>`);
+    const rl = resLinks(o.resources);
+    if (rl) parts.push(`<div class="guide-links-row"><span class="guide-links-label">Read</span><span>${rl}</span></div>`);
+    if (o.datasets_category) {
+      const n = state.datasets.filter((d) => d.category === o.datasets_category).length;
+      if (n) parts.push(`<div class="guide-links-row"><span class="guide-links-label">Data</span><button type="button" class="inline-link guide-ds-link" data-cat="${escapeHtml(o.datasets_category)}">${n} ${escapeHtml((DATASET_CATEGORY_LABEL[o.datasets_category] || o.datasets_category).toLowerCase())} datasets</button></div>`);
+    }
+    const dl = dsLinks(o.datasets);
+    if (dl) parts.push(`<div class="guide-links-row"><span class="guide-links-label">Data</span><span>${dl}</span></div>`);
+    return parts.join("");
+  };
+
+  const ev = g.evaluation || { steps: [] };
+  const steps = ev.steps.map((s, i) => `
+    <li class="guide-step" id="guide-${escapeHtml(s.id)}">
+      <h3><span class="guide-step-n">${i + 1}</span>${escapeHtml(s.title)}</h3>
+      <ul class="guide-do">${(s.do || []).map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
+      ${s.pitfall ? `<p class="guide-pitfall"><strong>Watch out:</strong> ${escapeHtml(s.pitfall)}</p>` : ""}
+      ${links(s)}
+    </li>`).join("");
+
+  const eeg = g.eeg;
+  const eegHtml = eeg ? `
+    <section class="guide-section" id="guide-eeg">
+      <h2>${escapeHtml(eeg.title)}</h2>
+      <p class="toolboxes-intro">${escapeHtml(eeg.intro || "")}</p>
+      <h3 class="guide-sub">Where between-site differences come from</h3>
+      <ul class="guide-do">${(eeg.sources || []).map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
+      <h3 class="guide-sub">Approaches</h3>
+      <div class="guide-approaches">${(eeg.approaches || []).map((a) => `
+        <article class="guide-approach">
+          <h4>${escapeHtml(a.title)}</h4>
+          <p>${escapeHtml(a.text)}</p>
+          ${links(a)}
+        </article>`).join("")}</div>
+      ${links({ resources: eeg.resources, datasets: eeg.datasets })}
+    </section>` : "";
+
+  const gloss = [...(g.glossary || [])].sort((a, b) => a.term.localeCompare(b.term));
+  const glossHtml = gloss.length ? `
+    <section class="guide-section" id="guide-glossary">
+      <h2>Glossary</h2>
+      <input type="search" id="guide-gloss-search" class="guide-gloss-search" placeholder="Filter terms…" aria-label="Filter glossary terms">
+      <dl class="guide-glossary">${gloss.map((t) => `<div class="guide-term" data-q="${escapeHtml((t.term + " " + t.def).toLowerCase())}"><dt>${escapeHtml(t.term)}</dt><dd>${escapeHtml(t.def)}</dd></div>`).join("")}</dl>
+    </section>` : "";
+
+  root.innerHTML = `
+    <div class="toolboxes-wrap guide-wrap">
+      <nav class="guide-toc" aria-label="Guide sections">
+        <a href="#guide-evaluation" data-jump="guide-evaluation">${escapeHtml(ev.title || "Evaluation")}</a>
+        ${eeg ? `<a href="#guide-eeg" data-jump="guide-eeg">${escapeHtml(eeg.title)}</a>` : ""}
+        ${gloss.length ? `<a href="#guide-glossary" data-jump="guide-glossary">Glossary</a>` : ""}
+      </nav>
+      <section class="guide-section" id="guide-evaluation">
+        <h2>${escapeHtml(ev.title || "")}</h2>
+        <p class="toolboxes-intro">${escapeHtml(ev.intro || "")}</p>
+        <ol class="guide-steps">${steps}</ol>
+      </section>
+      ${eegHtml}
+      ${glossHtml}
+    </div>`;
+
+  root.querySelectorAll("[data-jump]").forEach((a) => a.addEventListener("click", (e) => {
+    e.preventDefault();
+    const el = document.getElementById(a.dataset.jump);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }));
+  root.querySelectorAll(".toolbox-method-chip").forEach((chip) => chip.addEventListener("click", () => {
+    const m = byId.get(chip.dataset.id);
+    if (m) { switchTab("explore"); openDrawer(m); }
+  }));
+  root.querySelectorAll(".guide-res-link").forEach((b) => b.addEventListener("click", () => showResource(b.dataset.res)));
+  root.querySelectorAll(".guide-ds-link").forEach((b) => b.addEventListener("click", () => {
+    state.datasetCategory = b.dataset.cat || "all";
+    buildDatasetsTab();
+    switchTab("datasets");
+  }));
+  const search = root.querySelector("#guide-gloss-search");
+  if (search) search.addEventListener("input", () => {
+    const q = search.value.trim().toLowerCase();
+    root.querySelectorAll(".guide-term").forEach((t) => { t.hidden = q && !t.dataset.q.includes(q); });
+  });
 }
 
 function buildAddModelTab() {
@@ -1492,7 +1612,7 @@ function switchTab(tab, { pushHistory = true } = {}) {
   window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
 }
 
-const VALID_TABS = ["home", "explore", "recommend", "toolboxes", "resources", "datasets", "add"];
+const VALID_TABS = ["home", "explore", "recommend", "toolboxes", "resources", "datasets", "guide", "add"];
 
 function initialTabFromUrl() {
   const fromHash = location.hash.slice(1);
@@ -1667,7 +1787,8 @@ function maintenanceFacet(d) {
 }
 function publicationFacet(d) {
   if (!d.paper_title && !d.paper_url) return ["none"];
-  if (d.publication_type === "preprint" || d.venue === "arXiv" || d.venue === "bioRxiv") return ["preprint"];
+  if (d.publication_type === "preprint" || ["arXiv", "bioRxiv", "medRxiv", "Research Square"].includes(d.venue)) return ["preprint"];
+  if (d.publication_type === "software") return ["software"];
   return ["peer-reviewed"];
 }
 const FACETS = [
@@ -1683,8 +1804,8 @@ const FACETS = [
     labelOf: (v) => ({ active: "Active (< 6 mo)", slowing: "Slowing (< 2 y)", stale: "Stale (2 y+)", toolbox: "Via a toolbox", unknown: "Unknown" })[v] || v,
     order: ["active", "slowing", "stale", "toolbox", "unknown"] },
   { key: "publication", label: "Paper", values: publicationFacet,
-    labelOf: (v) => ({ "peer-reviewed": "Peer-reviewed", preprint: "Preprint", none: "No paper" })[v] || v,
-    order: ["peer-reviewed", "preprint", "none"] },
+    labelOf: (v) => ({ "peer-reviewed": "Peer-reviewed", preprint: "Preprint", software: "Software release only", none: "No paper" })[v] || v,
+    order: ["peer-reviewed", "preprint", "software", "none"] },
   { key: "health", label: "Code health", values: (d) => { const h = codeHealth(d); return [h ? h.grade : (isToolboxMember(d.id) ? "toolbox" : "none")]; },
     labelOf: (v) => ({ A: "A (80+)", B: "B (60–79)", C: "C (40–59)", D: "D (20–39)", E: "E (< 20)", toolbox: "Via a toolbox", none: "No repo data" })[v] || v,
     order: ["A", "B", "C", "D", "E", "toolbox", "none"] },
@@ -2707,6 +2828,36 @@ function formatMaintenance(dateStr) {
 
 const STATUS_LABEL = { active: "Active", slowing: "Slowing", stale: "Stale" };
 
+// "Get started" snippets: install commands and a first usage example taken
+// from the method's README (data field `get_started`, filled by maintainers).
+function getStartedHtml(d) {
+  const g = d.get_started;
+  if (!g || !(g.install || g.usage)) return "";
+  const block = (label, code, lang) => code ? `
+      <div class="gs-block">
+        <div class="gs-head"><span>${escapeHtml(label)}${lang ? ` <em>${escapeHtml(lang === "r" ? "R" : lang)}</em>` : ""}</span>
+          <button type="button" class="gs-copy" aria-label="Copy ${escapeHtml(label.toLowerCase())} code">⧉ Copy</button></div>
+        <pre class="gs-code"><code>${escapeHtml(code)}</code></pre>
+      </div>` : "";
+  return `
+    <section class="drawer-get-started">
+      <h3>Get started</h3>
+      ${block("Install", g.install, g.install_lang)}
+      ${block("Usage", g.usage, g.usage_lang)}
+      <p class="gs-source">Taken from the ${g.source ? extLink(g.source, "project README", "inline-link") : "project README"}${g.fetched ? ` (${escapeHtml(g.fetched)})` : ""}; check it for requirements and the current version.</p>
+    </section>`;
+}
+
+function bindCopyButtons(root) {
+  root.querySelectorAll(".gs-copy").forEach((b) => b.addEventListener("click", () => {
+    const code = b.closest(".gs-block").querySelector("code").textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      b.textContent = "✓ Copied";
+      setTimeout(() => { b.textContent = "⧉ Copy"; }, 1400);
+    });
+  }));
+}
+
 function openDrawer(d) {
   const drawer = document.getElementById("drawer");
   const content = document.getElementById("drawer-content");
@@ -2806,6 +2957,7 @@ function openDrawer(d) {
       <a href="methods/${encodeURIComponent(d.id)}/">▤ Full page, BibTeX &amp; corrections</a>
       <button type="button" id="drawer-copy-link" class="drawer-share-btn">⧉ Copy link to this method</button>
     </div>
+    ${getStartedHtml(d)}
     ${(d.evidence || []).length ? `
     <section class="drawer-evidence">
       <h3>Evidence <span class="drawer-evidence-count">${d.evidence.length} paper${d.evidence.length === 1 ? "" : "s"} applying it per modality</span></h3>
@@ -2817,6 +2969,7 @@ function openDrawer(d) {
   scrim.classList.add("open");
   drawer.setAttribute("aria-hidden", "false");
 
+  bindCopyButtons(content);
   content.querySelectorAll(".drawer-resource-link").forEach((b) => b.addEventListener("click", () => {
     closeDrawer();
     showResource(b.dataset.res);

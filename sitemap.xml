@@ -3,14 +3,18 @@
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/abcd-harmonizer/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/abcd-imaging-protocol/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/ac-diff/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/adni-mri-protocol/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/adversarial-normalization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/aggan-harmonization/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/anatomy-site-patch-diffusion/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/atlasgs/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/attention-guided-domain-adaptation/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/attention-image-harmonization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/autocombat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/autoencoder-tta/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/b-combat/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/b-pip/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/b0shimming/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/bart/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/bartharm/</loc></url>
@@ -23,25 +27,33 @@
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/br-net/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/brain-charts-lifespan/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/braincharts-pcn/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/buan-combat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/calamiti/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/cam-combat/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/category-combat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/cdat-adhd/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/cdw-contrast-homogenization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/cf-net/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/clinical-combat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/combat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/combat-eb/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/combat-enigma/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/combat-gam/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/combat-mega/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/combat-predict/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/combat-seq/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/combatfamqc/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/combatls/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/comcat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/conditional-latent-diffusion-harmonization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/connectome-distribution-matching/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/covbat/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/cross-field-flow-matching/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/cycle-aae-cortical/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/cyclegan-3d-intersite/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/cyclegan-brainmri/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/d-combat/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/daw-fa/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/deep-harmonization-seg/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/deepcombat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/deepharmony/</loc></url>
@@ -62,30 +74,39 @@
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/dmri-method-of-moments/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/dmri-registration-framework/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/dmri-sup2unsup/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/dpabi-harmonization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/dual-gan-dti/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/dwi-contrast-sr-harmonization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/earl-pet-harmonization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/embracing-disharmony/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/esf-eeg/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/espa/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/euclidean-alignment/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/fcm-normalization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/fedcombat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/federated-hbr/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/fedharmony/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/flow-causal-harmonization/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/frugal-combat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/fully-bayes-combat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/gadgetron/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/gamlss-normative/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/gammastar/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/gcn-eeg-montage-harmonization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/gnn-connectome-harmonization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/goal-specific-harmonization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/haca3/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/haca3-plus/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/hail/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/harmless/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/harmnqeeg/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/harmofl/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/harmonization-enriched-da/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/harmonized-fmri/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/harmonizer/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/harmonizing-flows/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/harmonizr/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/harp-dmri/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/hbr/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/homogenisation-uncertainty/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/ica-dp/</loc></url>
@@ -100,13 +121,17 @@
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/istn-harmonization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/kde-normalization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/learn-to-ignore/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/linear-rice/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/linked-ica-scanner-denoising/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/longcombat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/low-rank-domain-adaptation/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/lsq-normalization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/m-combat/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/meeg-covariance-alignment/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/mispel/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/mm-combat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/mmd-pooling/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/mmh-harmonization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/modanwal-cyclegan/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/mri-homogenization-pediatric/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/msc-nfe/</loc></url>
@@ -126,23 +151,34 @@
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/otda/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/paired-consistency-da/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/per-site-feature-standardization/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/personalized-template-mapping/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/petharmony/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/phycharm/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/phyre/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/prettyharmonize/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/prism-harmonization/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/probabilistic-cgan-harmonization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/ptx-pulseq/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/pulseq/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/pulseq-3d-qalas/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/pulseq-cest/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/pwgan-harmonization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/pycombat/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/qcalamiti/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/radiomic-feature-std-nn/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/rai-ot/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/ravel/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/realistic-image-normalization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/relief/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/residualization/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/riemannian-fmri-harmonization/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/riemannian-procrustes-analysis/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/rish/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/ritex/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/robust-combat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/s2s-cyclegan/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/sa-cyclegan-2-5d/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/scanner-domain-adaptation-kushol/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/scanner-invariant-repr/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/sdanet/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/segrenorm/</loc></url>
@@ -150,6 +186,7 @@
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/shresnet/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/simix/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/single-mr-disentangle/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/sp-combat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/ssim-guided-disentanglement/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/ssimh/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/ssl-harmonization-no-phantom/</loc></url>
@@ -162,6 +199,8 @@
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/sva/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/synthseg/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/synthsr/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/tanzanite/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/tensor-combat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/tgtfreeharmony/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/three-way-decision-da/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/transfer-learning-across-protocols/</loc></url>
@@ -172,6 +211,7 @@
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/ucan/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/uk7t-protocols/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/unet-gan-vendor-adaptation/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/unifcharm/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/unlearning-mri/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/wachinger-domain-adaptation/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/warped-blr/</loc></url>

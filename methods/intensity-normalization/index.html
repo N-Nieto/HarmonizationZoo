@@ -91,6 +91,25 @@
   </section>
   
     <section class="mp-section">
+      <h2>Get started</h2>
+      <div class="mp-section-head"><h3>Install <em class="mp-muted">bash</em></h3>
+        <button type="button" class="mp-btn" data-copy="#gs-install">⧉ Copy</button></div>
+      <pre class="mp-bibtex" id="gs-install">pip install intensity-normalization            # or: uv add intensity-normalization
+pip install &quot;intensity-normalization[ants]&quot;  # ravel registration, preprocess, coregister
+pip install &quot;intensity-normalization[plot]&quot;  # histogram plotting</pre>
+      <div class="mp-section-head"><h3>Usage <em class="mp-muted">python</em></h3>
+        <button type="button" class="mp-btn" data-copy="#gs-usage">⧉ Copy</button></div>
+      <pre class="mp-bibtex" id="gs-usage">import intensity_normalization as inorm
+
+normed = inorm.whitestripe(t1w_image, mask=brain_mask)  # numpy or nibabel in → same type out
+
+tx = inorm.nyul.fit(train_images, masks=train_masks)  # population: fit once...
+tx.save(&quot;nyul.npz&quot;)
+normed_new = tx(new_image)  # ...apply to new scans</pre>
+      <p class="mp-muted">Taken from the <a href="https://github.com/jcreinhold/intensity-normalization#readme" rel="noopener noreferrer">project README</a> (2026-10-04); check it for requirements and the current version.</p>
+    </section>
+  
+    <section class="mp-section">
       <div class="mp-section-head"><h2>Cite</h2>
         <button type="button" class="mp-btn" data-copy="#bibtex">⧉ Copy BibTeX</button></div>
       <pre class="mp-bibtex" id="bibtex">@inproceedings{reinhold2019evaluating,

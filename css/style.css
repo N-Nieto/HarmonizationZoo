@@ -1586,3 +1586,78 @@ select:focus, input[type="search"]:focus, button:focus-visible {
 .dataset-links { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; margin-top: 6px; }
 .dataset-extra { font-size: 12.5px; color: var(--paper-dim); margin: 8px 0 0; }
 .dataset-card .toolbox-methods-label { margin-top: 12px; }
+.dataset-access-private { border-style: dashed; color: var(--paper-dim); }
+
+/* ---------- Get started (drawer) ---------- */
+.drawer-get-started { margin-top: 22px; }
+.drawer-get-started h3 { font-family: var(--font-display); font-size: 15px; margin: 0 0 10px; }
+.gs-block { margin-bottom: 12px; }
+.gs-head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--paper-dim);
+  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;
+}
+.gs-head em { text-transform: none; font-style: normal; color: var(--cyan); margin-left: 6px; }
+.gs-copy {
+  background: none; border: 1px solid var(--line); color: var(--paper-dim);
+  border-radius: 6px; padding: 2px 8px; font: inherit; cursor: pointer; text-transform: none;
+}
+.gs-copy:hover { color: var(--phosphor); border-color: var(--phosphor); }
+.gs-code {
+  margin: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px;
+  background: rgba(0, 0, 0, 0.25); overflow-x: auto; max-height: 260px;
+  font-family: var(--font-mono); font-size: 12px; line-height: 1.5; white-space: pre;
+}
+.gs-source { font-size: 12px; color: var(--paper-dim); margin: 4px 0 0; }
+
+/* ---------- Guide tab ---------- */
+.guide-toc {
+  display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px;
+  position: sticky; top: 0; z-index: 2; padding: 10px 0; background: var(--ink);
+}
+.guide-toc a {
+  font-family: var(--font-mono); font-size: 12.5px; color: var(--paper-dim);
+  border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; text-decoration: none;
+}
+.guide-toc a:hover { color: var(--phosphor); border-color: var(--phosphor); }
+.guide-section { margin-bottom: 40px; scroll-margin-top: 60px; }
+.guide-section > h2 { font-family: var(--font-display); font-size: 22px; margin: 0 0 8px; }
+.guide-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+.guide-step {
+  border: 1px solid var(--line); border-radius: 12px; padding: 18px 22px; background: var(--panel);
+  scroll-margin-top: 60px;
+}
+.guide-step h3 { font-family: var(--font-display); font-size: 17px; margin: 0 0 10px; display: flex; gap: 10px; align-items: baseline; }
+.guide-step-n {
+  font-family: var(--font-mono); font-size: 12px; color: var(--phosphor);
+  border: 1px solid var(--phosphor); border-radius: 999px; min-width: 22px; height: 22px;
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.guide-do { margin: 0 0 10px; padding-left: 20px; font-size: 14px; line-height: 1.6; }
+.guide-do li { margin-bottom: 4px; }
+.guide-pitfall {
+  font-size: 13.5px; line-height: 1.55; margin: 0 0 10px; padding: 8px 12px;
+  border-left: 3px solid var(--phosphor); background: rgba(242, 169, 59, 0.06); border-radius: 0 8px 8px 0;
+}
+.guide-links-row { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-size: 13px; margin-top: 8px; }
+.guide-links-row .toolbox-methods { margin: 0; }
+.guide-links-label {
+  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--paper-dim); min-width: 62px;
+}
+.guide-res-link, .guide-ds-link { background: none; border: none; padding: 0; cursor: pointer; font: inherit; }
+.guide-sub { font-family: var(--font-display); font-size: 15px; margin: 18px 0 8px; }
+.guide-approaches { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin-bottom: 14px; }
+@media (max-width: 520px) { .guide-approaches { grid-template-columns: 1fr; } }
+.guide-approach { border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; background: var(--panel); }
+.guide-approach h4 { font-family: var(--font-display); font-size: 15px; margin: 0 0 6px; }
+.guide-approach p { font-size: 13.5px; line-height: 1.55; margin: 0 0 6px; }
+.guide-gloss-search {
+  width: 100%; max-width: 360px; margin: 6px 0 16px; padding: 8px 12px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--paper); font: inherit;
+}
+.guide-glossary { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px 24px; margin: 0; }
+@media (max-width: 520px) { .guide-glossary { grid-template-columns: 1fr; } }
+.guide-term dt { font-family: var(--font-display); font-weight: 600; font-size: 14.5px; margin-bottom: 2px; }
+.guide-term dd { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--paper-dim); }
+.guide-term[hidden] { display: none; }

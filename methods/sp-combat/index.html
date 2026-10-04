@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>Superpixel-ComBat (SP-ComBat) — Harmonization Zoo</title>
+<meta name="description" content="Superpixel-ComBat (SP-ComBat): a image-level Location/Scale Models (ComBat-family) harmonization method. published 2024 in Imaging Neuroscience, 3 citations, tested on Structural MRI.">
+<link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/sp-combat/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Superpixel-ComBat (SP-ComBat) — Harmonization Zoo">
+<meta property="og:description" content="Superpixel-ComBat (SP-ComBat): a image-level Location/Scale Models (ComBat-family) harmonization method. published 2024 in Imaging Neuroscience, 3 citations, tested on Structural MRI.">
+<meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/sp-combat/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0a0e13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='18' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.55'/%3E%3Ccircle cx='20' cy='20' r='12' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.75'/%3E%3Ccircle cx='20' cy='20' r='5.5' fill='%23f2a93b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/method-page.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "Superpixel-ComBat (SP-ComBat)",
+  "url": "https://n-nieto.github.io/HarmonizationZoo/methods/sp-combat/",
+  "description": "Superpixel-ComBat (SP-ComBat): a image-level Location/Scale Models (ComBat-family) harmonization method. published 2024 in Imaging Neuroscience, 3 citations, tested on Structural MRI.",
+  "codeRepository": "https://github.com/ChangleChen/SPComBat",
+  "programmingLanguage": [
+    "MATLAB"
+  ],
+  "license": "https://spdx.org/licenses/MIT.html",
+  "citation": {
+    "@type": "ScholarlyArticle",
+    "headline": "Superpixel-ComBat modeling: A joint approach for harmonization and characterization of inter-scanner variability in T1-weighted images",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Chang‐Le Chen"
+      },
+      {
+        "@type": "Person",
+        "name": "Mahbaneh Eshaghzadeh Torbati"
+      },
+      {
+        "@type": "Person",
+        "name": "Davneet Singh Minhas"
+      },
+      {
+        "@type": "Person",
+        "name": "Charles M. Laymon"
+      },
+      {
+        "@type": "Person",
+        "name": "Seong Jae Hwang"
+      },
+      {
+        "@type": "Person",
+        "name": "Murat Bilgel"
+      },
+      {
+        "@type": "Person",
+        "name": "Adina Crainiceanu"
+      },
+      {
+        "@type": "Person",
+        "name": "Hecheng Jin"
+      },
+      {
+        "@type": "Person",
+        "name": "Weiquan Luo"
+      },
+      {
+        "@type": "Person",
+        "name": "Pauline Maillard"
+      },
+      {
+        "@type": "Person",
+        "name": "Evan Fletcher"
+      },
+      {
+        "@type": "Person",
+        "name": "Ciprian M. Crainiceanu"
+      },
+      {
+        "@type": "Person",
+        "name": "Charles S DeCarli"
+      },
+      {
+        "@type": "Person",
+        "name": "Howard Jay Aizenstein"
+      },
+      {
+        "@type": "Person",
+        "name": "Dana Tudorascu"
+      }
+    ],
+    "datePublished": "2024",
+    "isPartOf": {
+      "@type": "Periodical",
+      "name": "Imaging Neuroscience"
+    },
+    "identifier": {
+      "@type": "PropertyValue",
+      "propertyID": "DOI",
+      "value": "10.1162/imag_a_00306"
+    },
+    "sameAs": "https://doi.org/10.1162/imag_a_00306"
+  }
+}
+</script>
+</head>
+<body>
+<header class="mp-top">
+  <a class="mp-home" href="../../">Harmonization <em>Zoo</em></a>
+  <nav class="mp-nav" aria-label="Site">
+    <a href="../../?method=sp-combat#explore">Open in the map</a>
+    <a href="../../?view=table#explore">All methods</a>
+  </nav>
+</header>
+<main class="mp-main">
+  <p class="mp-eyebrow" style="--eyebrow-color:#f2a93b">Location/Scale Models (ComBat-family) · Image-level</p>
+  <h1>Superpixel-ComBat (SP-ComBat)</h1>
+  
+  <section class="mp-section mp-paper">
+    <p class="mp-paper-title">Superpixel-ComBat modeling: A joint approach for harmonization and characterization of inter-scanner variability in T1-weighted images</p><p class="mp-authors">Chang‐Le Chen, Mahbaneh Eshaghzadeh Torbati, Davneet Singh Minhas, Charles M. Laymon, Seong Jae Hwang, Murat Bilgel, Adina Crainiceanu, Hecheng Jin, Weiquan Luo, Pauline Maillard, Evan Fletcher, Ciprian M. Crainiceanu, Charles S DeCarli, Howard Jay Aizenstein, Dana Tudorascu</p><p class="mp-venue">Imaging Neuroscience · 2024</p>
+    <div class="mp-links"><a class="mp-btn" href="https://doi.org/10.1162/imag_a_00306" rel="noopener noreferrer">↗ doi:10.1162/imag_a_00306</a><a class="mp-btn" href="https://github.com/ChangleChen/SPComBat" rel="noopener noreferrer">↗ ChangleChen/SPComBat</a></div>
+  </section>
+  <section class="mp-stats"><div class="mp-stat"><span>Citations</span><strong>3</strong></div><div class="mp-stat"><span>GitHub stars</span><strong>2</strong></div><div class="mp-stat"><span>Last commit</span><strong><span class="maint-badge maint-slowing">Slowing</span> 2025-04-13</strong></div><div class="mp-stat"><span>Code health</span><strong><span class="health-badge health-C">C</span> 46/100</strong></div></section>
+  <p class="mp-repo-desc">A method that integrates the statistical ComBat model with a computer vision technique known as superpixel segmentation to facilitate explainable image harmonization.</p>
+  <section class="mp-section">
+    <h2>Details</h2>
+    <dl class="spec-table"><dt>Family</dt><dd>Location/Scale Models (ComBat-family)</dd><dt>Level</dt><dd>Image-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Structural MRI</span> <a href="https://doi.org/10.1162/imag_a_00306" rel="noopener noreferrer">Superpixel-ComBat modeling: A joint approach for harmonization and characterization of inter-scanner variability in T1-weighted images</a> (2024)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Language</dt><dd><div class="chip-row"><span class="chip">MATLAB</span></div></dd><dt>License</dt><dd>MIT</dd><dt>Code health</dt><dd><ul class="health-parts"><li><span>Recency</span><span class="health-bar"><span style="width:55%"></span></span><span class="health-num">22/40</span><span class="health-note">last commit 2025-04-13</span></li><li><span>Longevity</span><span class="health-bar"><span style="width:27%"></span></span><span class="health-num">4/15</span><span class="health-note">0.8 years of commits</span></li><li><span>License</span><span class="health-bar"><span style="width:100%"></span></span><span class="health-num">15/15</span><span class="health-note">MIT</span></li><li><span>Adoption</span><span class="health-bar"><span style="width:20%"></span></span><span class="health-num">4/20</span><span class="health-note">2 stars</span></li><li><span>Community</span><span class="health-bar"><span style="width:20%"></span></span><span class="health-num">2/10</span><span class="health-note">1 forks</span></li></ul></dd><dt>Builds on</dt><dd><a href="../combat/">ComBat</a></dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">superpixel</span><span class="chip">voxel-level</span><span class="chip">interpretable</span><span class="chip">location-scale</span></div></dd></dl>
+  </section>
+  
+  
+    <section class="mp-section">
+      <div class="mp-section-head"><h2>Cite</h2>
+        <button type="button" class="mp-btn" data-copy="#bibtex">⧉ Copy BibTeX</button></div>
+      <pre class="mp-bibtex" id="bibtex">@article{chen2024superpixel,
+  title   = {{Superpixel-ComBat modeling: A joint approach for harmonization and characterization of inter-scanner variability in T1-weighted images}},
+  author  = {Chen, Chang‐Le and Torbati, Mahbaneh Eshaghzadeh and Minhas, Davneet Singh and Laymon, Charles M. and Hwang, Seong Jae and Bilgel, Murat and Crainiceanu, Adina and Jin, Hecheng and Luo, Weiquan and Maillard, Pauline and Fletcher, Evan and Crainiceanu, Ciprian M. and DeCarli, Charles S and Aizenstein, Howard Jay and Tudorascu, Dana},
+  journal = {Imaging Neuroscience},
+  year    = {2024},
+  doi     = {10.1162/imag_a_00306}
+}</pre>
+      
+    </section>
+  <section class="mp-section mp-report">
+    <h2>Something wrong or missing?</h2>
+    <p>Corrections are reviewed in the open on GitHub.</p>
+    <div class="mp-links">
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/issues/new?title=Data%20issue%3A%20Superpixel-ComBat%20%28SP-ComBat%29%20%28sp-combat%29&amp;body=Method%20page%3A%20https%3A//n-nieto.github.io/HarmonizationZoo/methods/sp-combat/%0A%0A%2A%2AWhat%20is%20wrong%20or%20missing%3F%2A%2A%0A%0A%0A%2A%2ACorrect%20value%20and%20a%20source%20%28DOI%2C%20paper%20section%2C%20repo%20link%29%3A%2A%2A%0A%0A&amp;labels=data" rel="noopener noreferrer">⚑ Report an error</a>
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/blob/main/data/methods.json" rel="noopener noreferrer">✎ Edit the data</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><p>Stats refresh automatically from GitHub and OpenAlex. <a href="../../">Back to the Harmonization Zoo</a></p></footer>
+<script src="../../js/method-page.js"></script>
+</body>
+</html>
