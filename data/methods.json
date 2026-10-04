@@ -5120,7 +5120,7 @@
         "generalizes_to_new_site": true,
         "low_n_friendly": true,
         "requires_linear_signal": null,
-        "ml_compatible": true,
+        "ml_compatible": false,
         "needs_gpu": false,
         "longitudinal": false,
         "requires_paired_data": false
@@ -6224,7 +6224,7 @@
         "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": false,
-        "ml_compatible": true,
+        "ml_compatible": false,
         "needs_gpu": false,
         "longitudinal": false,
         "requires_paired_data": false
@@ -6607,6 +6607,97 @@
       "implements": null,
       "extends": [],
       "evidence": []
+    },
+    {
+      "id": "comcat",
+      "name": "ComCat",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "location-scale",
+        "continuous-nuisance",
+        "image-quality",
+        "b-spline",
+        "gam",
+        "voxel-wise",
+        "brain-age"
+      ],
+      "paper_title": "ComCat: Combating Covariate Effects in Brain Analysis",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.64898/2026.06.18.733200",
+      "github": "ChristianGaser/ComCat",
+      "language": [
+        "Python",
+        "MATLAB"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 0,
+      "stars": 2,
+      "forks": 0,
+      "open_issues": 0,
+      "license": "GPL-2.0",
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2024-11-29",
+      "first_commit_date": "2024-11-29",
+      "last_commit": "2026-09-21",
+      "repo_description": "ComCAT: Combating CovariATe effects",
+      "stats_fetched_at": "2026-10-04T09:00:00Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "ON-Harmony, Buchert traveling phantom, Tohoku, MR-ART, ABIDE",
+      "modality": "Structural MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": false,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": null,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T09:00:00Z",
+      "doi": "10.64898/2026.06.18.733200",
+      "arxiv_id": null,
+      "authors": [
+        "Christian Gaser",
+        "Robert Dahnke",
+        "Habib Ganjgahi",
+        "Thomas E. Nichols"
+      ],
+      "n_authors": 4,
+      "venue": "bioRxiv",
+      "publication_type": "preprint",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": true,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat"
+      ],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "ComCat: Combating Covariate Effects in Brain Analysis",
+          "year": 2026,
+          "doi": "10.64898/2026.06.18.733200"
+        }
+      ]
     }
   ],
   "stats_fetched_at": "2026-10-02T13:31:19Z",
