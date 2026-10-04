@@ -90,7 +90,7 @@ malformed `github` slugs, wrong value types, unknown categories/modalities, and
 |---|---|---|
 | `id` | yes | Lowercase, hyphenated, unique. Used as the box's key — don't change an existing one. |
 | `name` | yes | Shown on the box and in the detail panel. |
-| `category` | yes | One of `combat-family`, `classical-normalization`, `deep-learning`, `iqm-based`, `normative-modeling`, `interpolation-based`, `federated`, `ica-based`, `optimal-transport`, `acquisition-protocol`, or propose a new one — add it to `FAMILY_ORDER` in `js/app.js` (id, label, color) so it gets a legend entry and a color. |
+| `category` | yes | One of `combat-family`, `classical-normalization`, `deep-learning`, `iqm-based`, `normative-modeling`, `interpolation-based`, `federated`, `ica-based`, `optimal-transport`, `domain-adaptation` (site-invariant models / distribution matching rather than harmonized data), `acquisition-protocol`, or propose a new one — add it to `FAMILY_ORDER` in `js/app.js` (id, label, color) so it gets a legend entry and a color. |
 | `category_label` | yes | Human-readable version of `category`, shown as a cluster label. |
 | `method_type` | yes | `statistical`, `deep-learning`, `machine-learning`, or `other`. |
 | `level` | yes | `feature-level` (harmonizes extracted features/ROIs), `image-level` (harmonizes voxel data directly), or `acquisition-level` (harmonizes scanner protocol/sequence). |

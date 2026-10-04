@@ -24,6 +24,7 @@ const FAMILY_ORDER = [
   ["federated", "Federated Learning-compatible", "#6fa8dc"],
   ["ica-based", "ICA-based", "#e0a8f0"],
   ["optimal-transport", "Optimal transport-based", "#d8c26a"],
+  ["domain-adaptation", "Domain Adaptation & Distribution Matching", "#ef7d55"],
   ["acquisition-protocol", "Acquisition / Protocol Harmonization", "#a3b1c2"],
 ];
 const FAMILY_COLOR = new Map(FAMILY_ORDER.map(([id, , color]) => [id, color]));
@@ -34,6 +35,8 @@ const STAR_BUCKETS = ["0", "1–9", "10–49", "50–199", "200–999", "1000+"]
 const state = {
   data: [],
   toolboxes: [],
+  resources: [],
+  resourceScope: "all",
   groupBy: "category",
   search: "",
   activeLevels: new Set(LEVEL_ORDER),
@@ -73,6 +76,12 @@ async function init() {
   } catch (e) {
     state.toolboxes = []; // supplementary data — the rest of the site works fine without it
   }
+  try {
+    const resRes = await fetch("data/resources.json");
+    state.resources = resRes.ok ? (await resRes.json()).resources : [];
+  } catch (e) {
+    state.resources = []; // optional, like toolboxes
+  }
 
   document.getElementById("method-count").textContent = `${state.data.length} methods`;
 
@@ -88,6 +97,7 @@ async function init() {
   buildRecommender();
   buildHomeTab();
   buildToolboxesTab();
+  buildResourcesTab();
   buildAddModelTab();
   render();
 
@@ -325,6 +335,120 @@ function buildToolboxesTab() {
       }
     });
   });
+}
+
+/* ---------------- Resources tab ---------------- */
+// Curated reviews, surveys, benchmarks and guides (data/resources.json). Each
+// resource lists the zoo methods it discusses, so cards link into the
+// database and each method's drawer links back ("Reviewed in").
+
+const RESOURCE_TYPE_LABEL = {
+  "survey": "Survey", "systematic-review": "Systematic review", "review": "Review",
+  "benchmark": "Comparison study", "book-chapter": "Book chapter", "research": "Research article",
+  "guide": "Guide",
+};
+const RESOURCE_SCOPES = [
+  ["all", "All"], ["sMRI", "Structural MRI"], ["dMRI", "Diffusion MRI"], ["fMRI", "Functional MRI"],
+  ["radiomics", "Radiomics"], ["MRI-acquisition", "Acquisition"], ["ml", "Machine learning"],
+];
+
+function resourcesCovering(methodId) {
+  return state.resources.filter((r) => (r.methods || []).includes(methodId));
+}
+
+function resourceShortCite(r) {
+  const first = (r.authors && r.authors[0]) || "";
+  const last = first.split(/\s+/).pop();
+  return `${last}${r.authors && r.authors.length > 1 ? " et al." : ""} ${r.year || ""}`.trim();
+}
+
+function resourceMatchesScope(r, scope) {
+  if (scope === "all") return true;
+  if (scope === "ml") return (r.topics || []).some((t) => /machine learning|deep learning|domain adaptation|leakage/i.test(t));
+  return (r.scope || []).includes(scope);
+}
+
+function buildResourcesTab() {
+  const root = document.getElementById("resources-root");
+  if (!state.resources.length) {
+    root.innerHTML = `<div class="loading-placeholder">No resources listed yet.</div>`;
+    return;
+  }
+  const byId = new Map(state.data.map((d) => [d.id, d]));
+  const visible = state.resources
+    .filter((r) => resourceMatchesScope(r, state.resourceScope))
+    .sort((a, b) => (b.year || 0) - (a.year || 0) || a.title.localeCompare(b.title));
+
+  const cards = visible.map((r) => {
+    const methods = (r.methods || []).map((id) => byId.get(id)).filter(Boolean)
+      .sort((a, b) => a.name.localeCompare(b.name));
+    const shown = methods.slice(0, 14);
+    const chips = shown.map((m) => `<button type="button" class="toolbox-method-chip" data-id="${escapeHtml(m.id)}" style="--box-color:${FAMILY_COLOR.get(m.category) || "#888"}">${escapeHtml(m.name)}</button>`).join("");
+    const more = methods.length > shown.length
+      ? `<button type="button" class="resource-more" data-res="${escapeHtml(r.id)}">+ ${methods.length - shown.length} more</button>` : "";
+    const authors = (r.authors || []).length > 4 ? `${r.authors.slice(0, 3).join(", ")} et al.` : (r.authors || []).join(", ");
+    const url = r.doi ? `https://doi.org/${r.doi}` : r.url;
+    return `
+      <article class="resource-card" id="res-${escapeHtml(r.id)}">
+        <div class="resource-meta">
+          <span class="resource-type resource-type-${escapeHtml(r.type || "review")}">${escapeHtml(RESOURCE_TYPE_LABEL[r.type] || r.type || "Resource")}</span>
+          <span>${escapeHtml(r.year || "")}</span>
+          ${r.open_access ? `<span class="resource-oa" title="Free to read">Open access</span>` : ""}
+        </div>
+        <h3>${extLink(url, escapeHtml(r.title), "resource-title")}</h3>
+        <p class="resource-cite">${escapeHtml(authors)} · <em>${escapeHtml(r.venue || "")}</em></p>
+        <p class="resource-note">${escapeHtml(r.note || "")}</p>
+        <div class="chip-row">${(r.scope || []).map((s) => `<span class="chip">${escapeHtml(MODALITY_FACET_LABEL[s] || s)}</span>`).join("")}${(r.topics || []).map((t) => `<span class="chip chip-soft">${escapeHtml(t)}</span>`).join("")}</div>
+        ${methods.length ? `
+          <p class="toolbox-methods-label">Discusses ${methods.length} method${methods.length === 1 ? "" : "s"} in this database:</p>
+          <div class="toolbox-methods resource-methods" data-res="${escapeHtml(r.id)}">${chips}${more}</div>` : ""}
+      </article>`;
+  }).join("");
+
+  root.innerHTML = `
+    <div class="toolboxes-wrap resources-wrap">
+      <p class="toolboxes-intro">
+        Reviews, surveys and comparison studies worth reading before you pick a method.
+        Each card links to the methods it discusses that are in this database, and every
+        method's details show which of these resources cover it. Know a resource that
+        belongs here? Open an issue or a pull request adding it to <code>data/resources.json</code>.
+      </p>
+      <div class="rec-options resource-filter" role="group" aria-label="Filter resources by scope">
+        ${RESOURCE_SCOPES.filter(([s]) => s === "all" || state.resources.some((r) => resourceMatchesScope(r, s))).map(([s, label]) => `<button type="button" class="rec-pill${state.resourceScope === s ? " active" : ""}" aria-pressed="${state.resourceScope === s}" data-scope="${s}">${escapeHtml(label)}</button>`).join("")}
+      </div>
+      <div class="resource-list">${cards || `<p class="loading-placeholder">No resources for this scope.</p>`}</div>
+    </div>`;
+
+  root.querySelectorAll(".resource-filter .rec-pill").forEach((b) => b.addEventListener("click", () => {
+    state.resourceScope = b.dataset.scope;
+    buildResourcesTab();
+  }));
+  const bindChips = (scope) => scope.querySelectorAll(".toolbox-method-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const method = byId.get(chip.dataset.id);
+      if (method) { switchTab("explore"); openDrawer(method); }
+    });
+  });
+  bindChips(root);
+  root.querySelectorAll(".resource-more").forEach((btn) => btn.addEventListener("click", () => {
+    const r = state.resources.find((x) => x.id === btn.dataset.res);
+    const box = btn.parentElement;
+    box.innerHTML = (r.methods || []).map((id) => byId.get(id)).filter(Boolean)
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((m) => `<button type="button" class="toolbox-method-chip" data-id="${escapeHtml(m.id)}" style="--box-color:${FAMILY_COLOR.get(m.category) || "#888"}">${escapeHtml(m.name)}</button>`).join("");
+    bindChips(box);
+  }));
+}
+
+function showResource(id) {
+  if (state.resourceScope !== "all") { state.resourceScope = "all"; buildResourcesTab(); }
+  switchTab("resources");
+  const el = document.getElementById(`res-${id}`);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    el.classList.add("resource-flash");
+    setTimeout(() => el.classList.remove("resource-flash"), 1600);
+  }
 }
 
 function buildAddModelTab() {
@@ -1260,7 +1384,7 @@ function switchTab(tab, { pushHistory = true } = {}) {
   window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
 }
 
-const VALID_TABS = ["home", "explore", "recommend", "toolboxes", "add"];
+const VALID_TABS = ["home", "explore", "recommend", "toolboxes", "resources", "add"];
 
 function initialTabFromUrl() {
   const fromHash = location.hash.slice(1);
@@ -2003,7 +2127,7 @@ const FAMILY_SHORT = {
   "combat-family": "ComBat-family", "classical-normalization": "Classical normalization",
   "deep-learning": "Deep learning", "iqm-based": "IQM-based", "normative-modeling": "Normative modeling",
   "interpolation-based": "Interpolation", "federated": "Federated", "ica-based": "ICA",
-  "optimal-transport": "Optimal transport", "acquisition-protocol": "Acquisition",
+  "optimal-transport": "Optimal transport", "domain-adaptation": "Domain adaptation", "acquisition-protocol": "Acquisition",
 };
 const familyShort = (d) => FAMILY_SHORT[d.category] || FAMILY_LABEL.get(d.category) || d.category_label || "";
 
@@ -2537,6 +2661,7 @@ function openDrawer(d) {
       ${(() => { const h = codeHealth(d); return h ? `<dt>Code health</dt><dd>${healthBadge(h)}${healthBreakdownHtml(h)}</dd>` : ""; })()}
       <dt>Validation data</dt><dd>${escapeHtml(d.validation_data || "Agnostic")}</dd>
       <dt>Toolboxes</dt><dd>${toolboxLine}</dd>
+      ${(() => { const rs = resourcesCovering(d.id); return rs.length ? `<dt>Reviewed in</dt><dd>${rs.map((r) => `<button type="button" class="inline-link drawer-resource-link" data-res="${escapeHtml(r.id)}">${escapeHtml(resourceShortCite(r))}</button>`).join(", ")}</dd>` : ""; })()}
       <dt>Language</dt><dd><div class="chip-row">${languages}</div></dd>
       ${dlRows}
       <dt>Stars</dt><dd>${starsLine}</dd>
@@ -2565,6 +2690,11 @@ function openDrawer(d) {
   drawer.classList.add("open");
   scrim.classList.add("open");
   drawer.setAttribute("aria-hidden", "false");
+
+  content.querySelectorAll(".drawer-resource-link").forEach((b) => b.addEventListener("click", () => {
+    closeDrawer();
+    showResource(b.dataset.res);
+  }));
 
   document.getElementById("drawer-copy-link").addEventListener("click", (e) => {
     const shareUrl = new URL(`methods/${encodeURIComponent(d.id)}/`, location.href.split(/[?#]/)[0]).href;

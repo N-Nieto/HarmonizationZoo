@@ -8,10 +8,11 @@ debugging the pipelines, or changing how they work.
 
 ## What's in the database right now
 
-`data/methods.json` seeds **75 methods** across nine families (the
+`data/methods.json` holds **178 methods** (October 2026) across eleven families (the
 "Family" grouping) — **Location/Scale Models (ComBat-family)** /
 Deep-learning / IQM / Normative Modeling / Interpolation / Federated / ICA /
-Optimal-transport, plus a **Classical Intensity Normalization** family
+Optimal-transport / **Domain Adaptation & Distribution Matching** /
+Acquisition & Protocol, plus a **Classical Intensity Normalization** family
 (WhiteStripe, Nyúl–Udupa histogram matching) for the pre-"harmonization"-era
 baselines that most of the survey papers still cite and compare against.
 Color always encodes **Family**, no matter which "Group by" option is
@@ -312,6 +313,29 @@ site.
 Adding a new toolbox is a small, direct edit to `data/toolboxes.json` — no
 form for this yet (it's rare enough, and touches the source-of-truth
 registry directly enough, that a plain PR is the right weight for it).
+
+## Resources
+
+The **Resources** tab lists reviews, surveys, comparison studies and guides
+from `data/resources.json`. Each entry has `id`, `title`, `authors`, `year`,
+`venue`, `doi` (or `url`), `type` (`survey`, `systematic-review`, `review`,
+`benchmark`, `book-chapter`, `research`, `guide`), `open_access`, `scope`
+(controlled modality codes, as in `modalities_tested`), free-text `topics`,
+a short `note` on why it's worth reading, and `methods` — the ids of zoo
+entries the resource discusses. The site shows those as chips on the card,
+and every method's drawer and static page get a "Reviewed in" row pointing
+back. `scripts/validate_methods.py` checks ids, URLs, types, scopes and that
+every listed method id exists.
+
+The first eight resources (October 2026) were also mined for methods: every
+named harmonization method in their reference lists was matched against the
+database by DOI/title, and the missing ones were added (95 entries; papers
+verified through OpenAlex, code links through the GitHub API). Generic
+computer-vision building blocks (CycleGAN, pix2pix, MUNIT, StarGAN,
+Deep CORAL, …), datasets, reliability studies and pure evaluations were
+left out on purpose. The 20 "implicit" methods — site-invariant models
+rather than harmonized data, following the explicit/implicit split in Wen et
+al. 2023 — live in the **Domain Adaptation & Distribution Matching** family.
 
 ## Adding a method through the site
 
@@ -646,6 +670,7 @@ css/style.css                 styling
 js/app.js                     data loading, box layout, filters, compare mode, recommender, add-model form, detail drawer
 data/methods.json             the database — edit this to add/change methods
 data/toolboxes.json           registry of packages bundling multiple methods — see "Toolboxes"
+data/resources.json           curated reviews/surveys/benchmarks for the Resources tab — see "Resources"
 data/submissions/             pending method submissions land here as data/submissions/<id>.json, awaiting merge
 data/submissions-stats/       pending GitHub-stats/citation updates from the "Open PR with fetched data" button, awaiting merge
 scripts/build_seed.py         (re)generates the seed portion of methods.json — non-destructive, preserves other entries

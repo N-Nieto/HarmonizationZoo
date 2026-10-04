@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>SynthSeg (contrast-agnostic segmentation) — Harmonization Zoo</title>
+<meta name="description" content="SynthSeg (contrast-agnostic segmentation): a feature-level Deep learning-based harmonization method. published 2023 in Medical Image Analysis, 654 citations, tested on Structural MRI.">
+<link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/synthseg/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SynthSeg (contrast-agnostic segmentation) — Harmonization Zoo">
+<meta property="og:description" content="SynthSeg (contrast-agnostic segmentation): a feature-level Deep learning-based harmonization method. published 2023 in Medical Image Analysis, 654 citations, tested on Structural MRI.">
+<meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/synthseg/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0a0e13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='18' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.55'/%3E%3Ccircle cx='20' cy='20' r='12' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.75'/%3E%3Ccircle cx='20' cy='20' r='5.5' fill='%23f2a93b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/method-page.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "SynthSeg (contrast-agnostic segmentation)",
+  "url": "https://n-nieto.github.io/HarmonizationZoo/methods/synthseg/",
+  "description": "SynthSeg (contrast-agnostic segmentation): a feature-level Deep learning-based harmonization method. published 2023 in Medical Image Analysis, 654 citations, tested on Structural MRI.",
+  "codeRepository": "https://github.com/BBillot/SynthSeg",
+  "programmingLanguage": [
+    "Python"
+  ],
+  "license": "https://spdx.org/licenses/Apache-2.0.html",
+  "citation": {
+    "@type": "ScholarlyArticle",
+    "headline": "SynthSeg: Segmentation of brain MRI scans of any contrast and resolution without retraining",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Benjamin Billot"
+      },
+      {
+        "@type": "Person",
+        "name": "Douglas N. Greve"
+      },
+      {
+        "@type": "Person",
+        "name": "Oula Puonti"
+      },
+      {
+        "@type": "Person",
+        "name": "Axel Thielscher"
+      },
+      {
+        "@type": "Person",
+        "name": "Koen Van Leemput"
+      },
+      {
+        "@type": "Person",
+        "name": "Bruce R. Fischl"
+      },
+      {
+        "@type": "Person",
+        "name": "Adrian Vasile Dalca"
+      },
+      {
+        "@type": "Person",
+        "name": "Juan Eugenio Iglesias"
+      }
+    ],
+    "datePublished": "2023",
+    "isPartOf": {
+      "@type": "Periodical",
+      "name": "Medical Image Analysis"
+    },
+    "identifier": {
+      "@type": "PropertyValue",
+      "propertyID": "DOI",
+      "value": "10.1016/j.media.2023.102789"
+    },
+    "sameAs": "https://doi.org/10.1016/j.media.2023.102789"
+  }
+}
+</script>
+</head>
+<body>
+<header class="mp-top">
+  <a class="mp-home" href="../../">Harmonization <em>Zoo</em></a>
+  <nav class="mp-nav" aria-label="Site">
+    <a href="../../?method=synthseg#explore">Open in the map</a>
+    <a href="../../?view=table#explore">All methods</a>
+  </nav>
+</header>
+<main class="mp-main">
+  <p class="mp-eyebrow" style="--eyebrow-color:#5fc9c9">Deep learning-based · Feature-level</p>
+  <h1>SynthSeg (contrast-agnostic segmentation)</h1>
+  
+  <section class="mp-section mp-paper">
+    <p class="mp-paper-title">SynthSeg: Segmentation of brain MRI scans of any contrast and resolution without retraining</p><p class="mp-authors">Benjamin Billot, Douglas N. Greve, Oula Puonti, Axel Thielscher, Koen Van Leemput, Bruce R. Fischl, Adrian Vasile Dalca, Juan Eugenio Iglesias</p><p class="mp-venue">Medical Image Analysis · 2023</p>
+    <div class="mp-links"><a class="mp-btn" href="https://doi.org/10.1016/j.media.2023.102789" rel="noopener noreferrer">↗ doi:10.1016/j.media.2023.102789</a><a class="mp-btn" href="https://github.com/BBillot/SynthSeg" rel="noopener noreferrer">↗ BBillot/SynthSeg</a></div>
+  </section>
+  <section class="mp-stats"><div class="mp-stat"><span>Citations</span><strong>654</strong></div><div class="mp-stat"><span>GitHub stars</span><strong>578</strong></div><div class="mp-stat"><span>Last commit</span><strong><span class="maint-badge maint-stale">Stale</span> 2024-07-17</strong></div><div class="mp-stat"><span>Code health</span><strong><span class="health-badge health-B">B</span> 71/100</strong></div></section>
+  <p class="mp-repo-desc">Contrast-agnostic segmentation of MRI scans</p>
+  <section class="mp-section">
+    <h2>Details</h2>
+    <dl class="spec-table"><dt>Family</dt><dd>Deep learning-based</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>deep learning</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Structural MRI</span> <a href="https://doi.org/10.1016/j.media.2023.102789" rel="noopener noreferrer">SynthSeg: Segmentation of brain MRI scans of any contrast and resolution without retraining</a> (2023)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Language</dt><dd><div class="chip-row"><span class="chip">Python</span></div></dd><dt>Architecture</dt><dd>U-Net (CNN)</dd><dt>License</dt><dd>Apache-2.0</dd><dt>Code health</dt><dd><ul class="health-parts"><li><span>Recency</span><span class="health-bar"><span style="width:28%"></span></span><span class="health-num">11/40</span><span class="health-note">last commit 2024-07-17</span></li><li><span>Longevity</span><span class="health-bar"><span style="width:100%"></span></span><span class="health-num">15/15</span><span class="health-note">4.2 years of commits</span></li><li><span>License</span><span class="health-bar"><span style="width:100%"></span></span><span class="health-num">15/15</span><span class="health-note">Apache-2.0</span></li><li><span>Adoption</span><span class="health-bar"><span style="width:100%"></span></span><span class="health-num">20/20</span><span class="health-note">578 stars</span></li><li><span>Community</span><span class="health-bar"><span style="width:100%"></span></span><span class="health-num">10/10</span><span class="health-note">160 forks</span></li></ul></dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.1016/j.media.2026.104066" rel="noopener noreferrer">Harmonization in magnetic resonance imaging: A survey of acquisition, image-level, and feature-level methods</a> (2026)</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">domain-randomization</span><span class="chip">segmentation</span><span class="chip">contrast-agnostic</span></div></dd></dl>
+  </section>
+  
+    <section class="mp-section">
+      <div class="mp-section-head"><h2>Cite</h2>
+        <button type="button" class="mp-btn" data-copy="#bibtex">⧉ Copy BibTeX</button></div>
+      <pre class="mp-bibtex" id="bibtex">@article{billot2023synthseg,
+  title   = {{SynthSeg: Segmentation of brain MRI scans of any contrast and resolution without retraining}},
+  author  = {Billot, Benjamin and Greve, Douglas N. and Puonti, Oula and Thielscher, Axel and Van Leemput, Koen and Fischl, Bruce R. and Dalca, Adrian Vasile and Iglesias, Juan Eugenio},
+  journal = {Medical Image Analysis},
+  year    = {2023},
+  doi     = {10.1016/j.media.2023.102789}
+}</pre>
+      
+    </section>
+  <section class="mp-section mp-report">
+    <h2>Something wrong or missing?</h2>
+    <p>Corrections are reviewed in the open on GitHub.</p>
+    <div class="mp-links">
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/issues/new?title=Data%20issue%3A%20SynthSeg%20%28contrast-agnostic%20segmentation%29%20%28synthseg%29&amp;body=Method%20page%3A%20https%3A//n-nieto.github.io/HarmonizationZoo/methods/synthseg/%0A%0A%2A%2AWhat%20is%20wrong%20or%20missing%3F%2A%2A%0A%0A%0A%2A%2ACorrect%20value%20and%20a%20source%20%28DOI%2C%20paper%20section%2C%20repo%20link%29%3A%2A%2A%0A%0A&amp;labels=data" rel="noopener noreferrer">⚑ Report an error</a>
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/blob/main/data/methods.json" rel="noopener noreferrer">✎ Edit the data</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><p>Stats refresh automatically from GitHub and OpenAlex. <a href="../../">Back to the Harmonization Zoo</a></p></footer>
+<script src="../../js/method-page.js"></script>
+</body>
+</html>

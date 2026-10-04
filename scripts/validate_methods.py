@@ -10,6 +10,7 @@ Checks:
 - numbers are numbers, dates are YYYY-MM-DD
 - `extends` / `implements` / toolbox `methods` point at ids that exist
 - `modalities_proposed` / `modalities_tested` use the controlled list
+- data/resources.json (optional): ids, DOI/URL, type, scope, and method references
 - `evidence` entries (paper showing a method tested on a modality) have a modality + DOI/URL
 
 Exit code 1 on any error (CI fails); warnings are printed but don't fail.
@@ -25,7 +26,9 @@ LEVELS = {"feature-level", "image-level", "acquisition-level"}
 CATEGORIES = {
     "combat-family", "classical-normalization", "deep-learning", "iqm-based", "normative-modeling",
     "interpolation-based", "federated", "ica-based", "optimal-transport", "acquisition-protocol",
+    "domain-adaptation",
 }
+RESOURCE_TYPES = {"survey", "systematic-review", "review", "benchmark", "book-chapter", "research", "guide"}
 METHOD_TYPES = {"statistical", "deep-learning", "machine-learning", "other"}
 ENTRY_TYPES = {"method", "implementation", "toolbox", "protocol"}
 MODALITIES = {
@@ -122,11 +125,39 @@ def main():
             if ref not in id_set:
                 errors.append(f"toolbox {tid}: lists unknown method id `{ref}`")
 
+    # data/resources.json is optional (Resources tab)
+    try:
+        with open("data/resources.json", encoding="utf-8") as f:
+            resources = json.load(f)["resources"]
+    except FileNotFoundError:
+        resources = []
+    res_ids = [r.get("id") for r in resources]
+    for dup in sorted({i for i in res_ids if res_ids.count(i) > 1}):
+        errors.append(f"duplicate resource id: {dup}")
+    for r in resources:
+        rid = r.get("id", "<resource>")
+        if not r.get("id") or not ID_RE.match(r["id"]):
+            errors.append(f"resource {rid}: id must be lowercase letters, digits and hyphens")
+        if not r.get("title"):
+            errors.append(f"resource {rid}: missing title")
+        if not r.get("doi") and not is_http_url(r.get("url")):
+            errors.append(f"resource {rid}: needs a `doi` or an http(s) `url`")
+        if r.get("url") and not is_http_url(r["url"]):
+            errors.append(f"resource {rid}: `url` must be an http(s) URL")
+        if r.get("type") and r["type"] not in RESOURCE_TYPES:
+            errors.append(f"resource {rid}: unknown type `{r['type']}`")
+        for x in r.get("scope") or []:
+            if x not in MODALITIES:
+                errors.append(f"resource {rid}: unknown scope modality `{x}`")
+        for ref in r.get("methods") or []:
+            if ref not in id_set:
+                errors.append(f"resource {rid}: lists unknown method id `{ref}`")
+
     for w in warnings:
         print(f"warning: {w}")
     for e in errors:
         print(f"error: {e}", file=sys.stderr)
-    print(f"\nChecked {len(methods)} methods and {len(toolboxes)} toolboxes: "
+    print(f"\nChecked {len(methods)} methods, {len(toolboxes)} toolboxes and {len(resources)} resources: "
           f"{len(errors)} error(s), {len(warnings)} warning(s).")
     sys.exit(1 if errors else 0)
 

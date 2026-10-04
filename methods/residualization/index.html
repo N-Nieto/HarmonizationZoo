@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>Confound Regression / Residualization — Harmonization Zoo</title>
+<meta name="description" content="Confound Regression / Residualization: a feature-level Location/Scale Models (ComBat-family) harmonization method. published 2017 in NeuroImage, 129 citations, tested on Modality-agnostic.">
+<link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/residualization/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Confound Regression / Residualization — Harmonization Zoo">
+<meta property="og:description" content="Confound Regression / Residualization: a feature-level Location/Scale Models (ComBat-family) harmonization method. published 2017 in NeuroImage, 129 citations, tested on Modality-agnostic.">
+<meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/residualization/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0a0e13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='18' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.55'/%3E%3Ccircle cx='20' cy='20' r='12' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.75'/%3E%3Ccircle cx='20' cy='20' r='5.5' fill='%23f2a93b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/method-page.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "Confound Regression / Residualization",
+  "url": "https://n-nieto.github.io/HarmonizationZoo/methods/residualization/",
+  "description": "Confound Regression / Residualization: a feature-level Location/Scale Models (ComBat-family) harmonization method. published 2017 in NeuroImage, 129 citations, tested on Modality-agnostic.",
+  "citation": {
+    "@type": "ScholarlyArticle",
+    "headline": "Predictive modelling using neuroimaging data in the presence of confounds",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Anil W. Rao"
+      },
+      {
+        "@type": "Person",
+        "name": "João M. Monteiro"
+      },
+      {
+        "@type": "Person",
+        "name": "Janaı́na Mourão-Miranda"
+      }
+    ],
+    "datePublished": "2017",
+    "isPartOf": {
+      "@type": "Periodical",
+      "name": "NeuroImage"
+    },
+    "identifier": {
+      "@type": "PropertyValue",
+      "propertyID": "DOI",
+      "value": "10.1016/j.neuroimage.2017.01.066"
+    },
+    "sameAs": "https://doi.org/10.1016/j.neuroimage.2017.01.066"
+  }
+}
+</script>
+</head>
+<body>
+<header class="mp-top">
+  <a class="mp-home" href="../../">Harmonization <em>Zoo</em></a>
+  <nav class="mp-nav" aria-label="Site">
+    <a href="../../?method=residualization#explore">Open in the map</a>
+    <a href="../../?view=table#explore">All methods</a>
+  </nav>
+</header>
+<main class="mp-main">
+  <p class="mp-eyebrow" style="--eyebrow-color:#f2a93b">Location/Scale Models (ComBat-family) · Feature-level</p>
+  <h1>Confound Regression / Residualization</h1>
+  
+  <section class="mp-section mp-paper">
+    <p class="mp-paper-title">Predictive modelling using neuroimaging data in the presence of confounds</p><p class="mp-authors">Anil W. Rao, João M. Monteiro, Janaı́na Mourão-Miranda</p><p class="mp-venue">NeuroImage · 2017</p>
+    <div class="mp-links"><a class="mp-btn" href="https://doi.org/10.1016/j.neuroimage.2017.01.066" rel="noopener noreferrer">↗ doi:10.1016/j.neuroimage.2017.01.066</a></div>
+  </section>
+  <section class="mp-stats"><div class="mp-stat"><span>Citations</span><strong>129</strong></div></section>
+  
+  <section class="mp-section">
+    <h2>Details</h2>
+    <dl class="spec-table"><dt>Family</dt><dd>Location/Scale Models (ComBat-family)</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Modality-agnostic</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Modality-agnostic</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Modality-agnostic</span> <a href="https://doi.org/10.1016/j.neuroimage.2017.01.066" rel="noopener noreferrer">Predictive modelling using neuroimaging data in the presence of confounds</a> (2017)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.3389/fneur.2022.923988" rel="noopener noreferrer">Site effects how-to and when: An overview of retrospective techniques to accommodate site effects in multi-site neuroimaging analyses</a> (2022)</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">baseline</span><span class="chip">regression</span><span class="chip">confounds</span><span class="chip">linear-model</span></div></dd></dl>
+  </section>
+  
+    <section class="mp-section">
+      <div class="mp-section-head"><h2>Cite</h2>
+        <button type="button" class="mp-btn" data-copy="#bibtex">⧉ Copy BibTeX</button></div>
+      <pre class="mp-bibtex" id="bibtex">@article{rao2017predictive,
+  title   = {{Predictive modelling using neuroimaging data in the presence of confounds}},
+  author  = {Rao, Anil W. and Monteiro, João M. and Mourão-Miranda, Janaı́na},
+  journal = {NeuroImage},
+  year    = {2017},
+  doi     = {10.1016/j.neuroimage.2017.01.066}
+}</pre>
+      
+    </section>
+  <section class="mp-section mp-report">
+    <h2>Something wrong or missing?</h2>
+    <p>Corrections are reviewed in the open on GitHub.</p>
+    <div class="mp-links">
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/issues/new?title=Data%20issue%3A%20Confound%20Regression%20/%20Residualization%20%28residualization%29&amp;body=Method%20page%3A%20https%3A//n-nieto.github.io/HarmonizationZoo/methods/residualization/%0A%0A%2A%2AWhat%20is%20wrong%20or%20missing%3F%2A%2A%0A%0A%0A%2A%2ACorrect%20value%20and%20a%20source%20%28DOI%2C%20paper%20section%2C%20repo%20link%29%3A%2A%2A%0A%0A&amp;labels=data" rel="noopener noreferrer">⚑ Report an error</a>
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/blob/main/data/methods.json" rel="noopener noreferrer">✎ Edit the data</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><p>Stats refresh automatically from GitHub and OpenAlex. <a href="../../">Back to the Harmonization Zoo</a></p></footer>
+<script src="../../js/method-page.js"></script>
+</body>
+</html>

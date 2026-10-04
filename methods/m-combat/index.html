@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>M-ComBat (reference-batch ComBat) — Harmonization Zoo</title>
+<meta name="description" content="M-ComBat (reference-batch ComBat): a feature-level Location/Scale Models (ComBat-family) harmonization method. published 2015 in BMC Bioinformatics, 105 citations, tested on Omics.">
+<link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/m-combat/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="M-ComBat (reference-batch ComBat) — Harmonization Zoo">
+<meta property="og:description" content="M-ComBat (reference-batch ComBat): a feature-level Location/Scale Models (ComBat-family) harmonization method. published 2015 in BMC Bioinformatics, 105 citations, tested on Omics.">
+<meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/m-combat/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0a0e13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='18' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.55'/%3E%3Ccircle cx='20' cy='20' r='12' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.75'/%3E%3Ccircle cx='20' cy='20' r='5.5' fill='%23f2a93b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/method-page.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "M-ComBat (reference-batch ComBat)",
+  "url": "https://n-nieto.github.io/HarmonizationZoo/methods/m-combat/",
+  "description": "M-ComBat (reference-batch ComBat): a feature-level Location/Scale Models (ComBat-family) harmonization method. published 2015 in BMC Bioinformatics, 105 citations, tested on Omics.",
+  "citation": {
+    "@type": "ScholarlyArticle",
+    "headline": "Removing batch effects from purified plasma cell gene expression microarrays with modified ComBat",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Caleb K Stein"
+      },
+      {
+        "@type": "Person",
+        "name": "Pingping Qu"
+      },
+      {
+        "@type": "Person",
+        "name": "Joshua Epstein"
+      },
+      {
+        "@type": "Person",
+        "name": "Amy F. Buros"
+      },
+      {
+        "@type": "Person",
+        "name": "Adam Rosenthal"
+      },
+      {
+        "@type": "Person",
+        "name": "John Crowley"
+      },
+      {
+        "@type": "Person",
+        "name": "Gareth John Morgan"
+      },
+      {
+        "@type": "Person",
+        "name": "Bart Barlogie"
+      }
+    ],
+    "datePublished": "2015",
+    "isPartOf": {
+      "@type": "Periodical",
+      "name": "BMC Bioinformatics"
+    },
+    "identifier": {
+      "@type": "PropertyValue",
+      "propertyID": "DOI",
+      "value": "10.1186/s12859-015-0478-3"
+    },
+    "sameAs": "https://doi.org/10.1186/s12859-015-0478-3"
+  }
+}
+</script>
+</head>
+<body>
+<header class="mp-top">
+  <a class="mp-home" href="../../">Harmonization <em>Zoo</em></a>
+  <nav class="mp-nav" aria-label="Site">
+    <a href="../../?method=m-combat#explore">Open in the map</a>
+    <a href="../../?view=table#explore">All methods</a>
+  </nav>
+</header>
+<main class="mp-main">
+  <p class="mp-eyebrow" style="--eyebrow-color:#f2a93b">Location/Scale Models (ComBat-family) · Feature-level</p>
+  <h1>M-ComBat (reference-batch ComBat)</h1>
+  
+  <section class="mp-section mp-paper">
+    <p class="mp-paper-title">Removing batch effects from purified plasma cell gene expression microarrays with modified ComBat</p><p class="mp-authors">Caleb K Stein, Pingping Qu, Joshua Epstein, Amy F. Buros, Adam Rosenthal, John Crowley, Gareth John Morgan, Bart Barlogie</p><p class="mp-venue">BMC Bioinformatics · 2015</p>
+    <div class="mp-links"><a class="mp-btn" href="https://doi.org/10.1186/s12859-015-0478-3" rel="noopener noreferrer">↗ doi:10.1186/s12859-015-0478-3</a></div>
+  </section>
+  <section class="mp-stats"><div class="mp-stat"><span>Citations</span><strong>105</strong></div></section>
+  
+  <section class="mp-section">
+    <h2>Details</h2>
+    <dl class="spec-table"><dt>Family</dt><dd>Location/Scale Models (ComBat-family)</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Omics</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Omics</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Omics</span> <a href="https://doi.org/10.1186/s12859-015-0478-3" rel="noopener noreferrer">Removing batch effects from purified plasma cell gene expression microarrays with modified ComBat</a> (2015)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.1016/j.neuroimage.2023.119912" rel="noopener noreferrer">Cross–scanner harmonization methods for structural MRI may need further work: A comparison study</a> (2023), <a href="https://doi.org/10.3389/fneur.2022.923988" rel="noopener noreferrer">Site effects how-to and when: An overview of retrospective techniques to accommodate site effects in multi-site neuroimaging analyses</a> (2022)</dd><dt>Builds on</dt><dd><a href="../combat-eb/">ComBat (original, Johnson et al.)</a></dd><dt>Extended by</dt><dd><a href="../b-combat/">B-ComBat / BM-ComBat (bootstrapped ComBat)</a></dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">empirical-bayes</span><span class="chip">reference-batch</span><span class="chip">location-scale</span></div></dd></dl>
+  </section>
+  
+    <section class="mp-section">
+      <div class="mp-section-head"><h2>Cite</h2>
+        <button type="button" class="mp-btn" data-copy="#bibtex">⧉ Copy BibTeX</button></div>
+      <pre class="mp-bibtex" id="bibtex">@article{stein2015removing,
+  title   = {{Removing batch effects from purified plasma cell gene expression microarrays with modified ComBat}},
+  author  = {Stein, Caleb K and Qu, Pingping and Epstein, Joshua and Buros, Amy F. and Rosenthal, Adam and Crowley, John and Morgan, Gareth John and Barlogie, Bart},
+  journal = {BMC Bioinformatics},
+  year    = {2015},
+  doi     = {10.1186/s12859-015-0478-3}
+}</pre>
+      
+    </section>
+  <section class="mp-section mp-report">
+    <h2>Something wrong or missing?</h2>
+    <p>Corrections are reviewed in the open on GitHub.</p>
+    <div class="mp-links">
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/issues/new?title=Data%20issue%3A%20M-ComBat%20%28reference-batch%20ComBat%29%20%28m-combat%29&amp;body=Method%20page%3A%20https%3A//n-nieto.github.io/HarmonizationZoo/methods/m-combat/%0A%0A%2A%2AWhat%20is%20wrong%20or%20missing%3F%2A%2A%0A%0A%0A%2A%2ACorrect%20value%20and%20a%20source%20%28DOI%2C%20paper%20section%2C%20repo%20link%29%3A%2A%2A%0A%0A&amp;labels=data" rel="noopener noreferrer">⚑ Report an error</a>
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/blob/main/data/methods.json" rel="noopener noreferrer">✎ Edit the data</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><p>Stats refresh automatically from GitHub and OpenAlex. <a href="../../">Back to the Harmonization Zoo</a></p></footer>
+<script src="../../js/method-page.js"></script>
+</body>
+</html>

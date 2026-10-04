@@ -6,7 +6,7 @@ Why static pages: each method gets a real, shareable URL that search engines and
 citation tools can read (title, description, JSON-LD), with a BibTeX entry and a
 "report an error" link — no JavaScript needed to see the content.
 
-Run after any change to data/methods.json or data/toolboxes.json:
+Run after any change to data/methods.json, data/toolboxes.json or data/resources.json:
     python3 scripts/build_pages.py
 
 Pages for methods that no longer exist are deleted. Output is deterministic
@@ -23,6 +23,7 @@ from urllib.parse import quote, urlparse
 SITE = "https://n-nieto.github.io/HarmonizationZoo/"
 REPO = "N-Nieto/HarmonizationZoo"
 OUT_DIR = "methods"
+RESOURCES = []  # data/resources.json, loaded in main()
 
 FAMILY = {
     "combat-family": ("Location/Scale Models (ComBat-family)", "#f2a93b"),
@@ -34,6 +35,7 @@ FAMILY = {
     "federated": ("Federated Learning-compatible", "#6fa8dc"),
     "ica-based": ("ICA-based", "#e0a8f0"),
     "optimal-transport": ("Optimal transport-based", "#d8c26a"),
+    "domain-adaptation": ("Domain Adaptation & Distribution Matching", "#ef7d55"),
     "acquisition-protocol": ("Acquisition / Protocol Harmonization", "#a3b1c2"),
 }
 LEVEL = {"feature-level": "Feature-level", "image-level": "Image-level", "acquisition-level": "Acquisition-level"}
@@ -322,6 +324,10 @@ def render_page(m, by_id, extended_by, toolboxes, today):
     stat_html = "".join(f'<div class="mp-stat"><span>{esc(k)}</span><strong>{v if k in ("Last commit", "Code health") else esc(v)}</strong></div>'
                         for k, v in stats)
 
+    rs = [r for r in RESOURCES if m["id"] in (r.get("methods") or [])]
+    res_html = ", ".join(
+        f'<a href="{esc("https://doi.org/" + r["doi"] if r.get("doi") else r.get("url", ""))}" rel="noopener noreferrer">{esc(r["title"])}</a> ({esc(r.get("year", ""))})'
+        for r in rs if r.get("doi") or safe_url(r.get("url")))
     tbs = [tb for tb in toolboxes if m["id"] in tb.get("methods", [])]
     tb_html = ", ".join(f'<a href="{esc(tb["url"])}" rel="noopener noreferrer">{esc(tb["name"])}</a>'
                         for tb in tbs if safe_url(tb.get("url")))
@@ -350,6 +356,7 @@ def render_page(m, by_id, extended_by, toolboxes, today):
         row("First commit", esc(m["first_commit_date"]) if m.get("first_commit_date") else ""),
         row("Code health", health_html(health) if health else ""),
         row("Toolboxes", tb_html),
+        row("Reviewed in", res_html),
         "".join(lineage),
         row("Tags", chips(m.get("tags"))),
     ])
@@ -435,6 +442,11 @@ def main():
         db = json.load(f)
     with open("data/toolboxes.json", encoding="utf-8") as f:
         toolboxes = json.load(f)["toolboxes"]
+    try:
+        with open("data/resources.json", encoding="utf-8") as f:
+            RESOURCES[:] = json.load(f)["resources"]
+    except FileNotFoundError:
+        RESOURCES[:] = []
     methods = db["methods"]
     by_id = {m["id"]: m for m in methods}
     extended_by = {}

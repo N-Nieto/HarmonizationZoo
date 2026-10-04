@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>Brain Charts for the Human Lifespan (GAMLSS) — Harmonization Zoo</title>
+<meta name="description" content="Brain Charts for the Human Lifespan (GAMLSS): a feature-level Normative Modeling harmonization method. published 2022 in Nature, 1910 citations, tested on Structural MRI.">
+<link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/brain-charts-lifespan/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Brain Charts for the Human Lifespan (GAMLSS) — Harmonization Zoo">
+<meta property="og:description" content="Brain Charts for the Human Lifespan (GAMLSS): a feature-level Normative Modeling harmonization method. published 2022 in Nature, 1910 citations, tested on Structural MRI.">
+<meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/brain-charts-lifespan/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0a0e13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='18' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.55'/%3E%3Ccircle cx='20' cy='20' r='12' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.75'/%3E%3Ccircle cx='20' cy='20' r='5.5' fill='%23f2a93b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/method-page.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "Brain Charts for the Human Lifespan (GAMLSS)",
+  "url": "https://n-nieto.github.io/HarmonizationZoo/methods/brain-charts-lifespan/",
+  "description": "Brain Charts for the Human Lifespan (GAMLSS): a feature-level Normative Modeling harmonization method. published 2022 in Nature, 1910 citations, tested on Structural MRI.",
+  "codeRepository": "https://github.com/ucam-department-of-psychiatry/Lifespan",
+  "programmingLanguage": [
+    "R"
+  ],
+  "citation": {
+    "@type": "ScholarlyArticle",
+    "headline": "Brain charts for the human lifespan",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Richard A. I. Bethlehem"
+      },
+      {
+        "@type": "Person",
+        "name": "Jakob Seidlitz"
+      },
+      {
+        "@type": "Person",
+        "name": "Simon Richard White"
+      },
+      {
+        "@type": "Person",
+        "name": "Jacob W. Vogel"
+      },
+      {
+        "@type": "Person",
+        "name": "Karen Anderson"
+      },
+      {
+        "@type": "Person",
+        "name": "Chris L. Adamson"
+      },
+      {
+        "@type": "Person",
+        "name": "Sophie Adler"
+      },
+      {
+        "@type": "Person",
+        "name": "George S. Alexopoulos"
+      },
+      {
+        "@type": "Person",
+        "name": "Evdokia A. Anagnostou"
+      },
+      {
+        "@type": "Person",
+        "name": "Ariosky Areces-González"
+      },
+      {
+        "@type": "Person",
+        "name": "Duncan Edward Astle"
+      },
+      {
+        "@type": "Person",
+        "name": "Bonnie Auyeung"
+      },
+      {
+        "@type": "Person",
+        "name": "Muhammad Ahsin Ayub"
+      },
+      {
+        "@type": "Person",
+        "name": "Ji Hyun Bae"
+      },
+      {
+        "@type": "Person",
+        "name": "Gareth Ball"
+      },
+      {
+        "@type": "Person",
+        "name": "Simon Baron‐Cohen"
+      },
+      {
+        "@type": "Person",
+        "name": "Richard J Beare"
+      },
+      {
+        "@type": "Person",
+        "name": "Saashi A. Bedford"
+      },
+      {
+        "@type": "Person",
+        "name": "Vivek Benegal"
+      },
+      {
+        "@type": "Person",
+        "name": "Frauke Beyer"
+      },
+      {
+        "@type": "Person",
+        "name": "John Blangero"
+      },
+      {
+        "@type": "Person",
+        "name": "Manuel Blesa"
+      },
+      {
+        "@type": "Person",
+        "name": "James P. Boardman"
+      },
+      {
+        "@type": "Person",
+        "name": "Matthew Borzage"
+      },
+      {
+        "@type": "Person",
+        "name": "Jorge Bosch‐Bayard"
+      },
+      {
+        "@type": "Person",
+        "name": "Niall Bourke"
+      },
+      {
+        "@type": "Person",
+        "name": "Vince D. Calhoun"
+      },
+      {
+        "@type": "Person",
+        "name": "M. Mallar Chakravarty"
+      },
+      {
+        "@type": "Person",
+        "name": "C. Chen"
+      },
+      {
+        "@type": "Person",
+        "name": "Casey Chertavian"
+      },
+      {
+        "@type": "Person",
+        "name": "Gaël Chételat"
+      },
+      {
+        "@type": "Person",
+        "name": "Yap Seng Chong"
+      },
+      {
+        "@type": "Person",
+        "name": "James Howard Cole"
+      },
+      {
+        "@type": "Person",
+        "name": "Aiden P. Corvin"
+      },
+      {
+        "@type": "Person",
+        "name": "Manuela Costantino"
+      },
+      {
+        "@type": "Person",
+        "name": "E. Courchesne"
+      },
+      {
+        "@type": "Person",
+        "name": "Fabrice Crivello"
+      },
+      {
+        "@type": "Person",
+        "name": "Vanessa Cropley"
+      },
+      {
+        "@type": "Person",
+        "name": "Jennifer Crosbie"
+      },
+      {
+        "@type": "Person",
+        "name": "Nicolas Andres Crossley"
+      },
+      {
+        "@type": "Person",
+        "name": "Marion Delarue"
+      },
+      {
+        "@type": "Person",
+        "name": "Richard Delorme"
+      },
+      {
+        "@type": "Person",
+        "name": "Sylvane Desrivières"
+      },
+      {
+        "@type": "Person",
+        "name": "Gabriel A. Devenyi"
+      },
+      {
+        "@type": "Person",
+        "name": "Maria Angelique Di Biase"
+      },
+      {
+        "@type": "Person",
+        "name": "Raymond J. Dolan"
+      },
+      {
+        "@type": "Person",
+        "name": "Kirsten Ann Donald"
+      },
+      {
+        "@type": "Person",
+        "name": "Gary J Donohoe"
+      },
+      {
+        "@type": "Person",
+        "name": "Katharine Dunlop"
+      },
+      {
+        "@type": "Person",
+        "name": "A. David Edwards"
+      },
+      {
+        "@type": "Person",
+        "name": "Jed T. Elison"
+      },
+      {
+        "@type": "Person",
+        "name": "Cameron Thomas Ellis"
+      },
+      {
+        "@type": "Person",
+        "name": "Jeremy A. Elman"
+      },
+      {
+        "@type": "Person",
+        "name": "Lisa T. Eyler"
+      },
+      {
+        "@type": "Person",
+        "name": "Damien A. Fair"
+      },
+      {
+        "@type": "Person",
+        "name": "Eric Feczko"
+      },
+      {
+        "@type": "Person",
+        "name": "Paul Charles Fletcher"
+      },
+      {
+        "@type": "Person",
+        "name": "Peter Fonagy"
+      },
+      {
+        "@type": "Person",
+        "name": "Carol E. Franz"
+      },
+      {
+        "@type": "Person",
+        "name": "Lídice Galán‐Garcia"
+      },
+      {
+        "@type": "Person",
+        "name": "Ali Gholipour"
+      },
+      {
+        "@type": "Person",
+        "name": "Jay N. Giedd"
+      },
+      {
+        "@type": "Person",
+        "name": "John H. Gilmore"
+      },
+      {
+        "@type": "Person",
+        "name": "David C. Glahn"
+      },
+      {
+        "@type": "Person",
+        "name": "Ian Michael Goodyer"
+      },
+      {
+        "@type": "Person",
+        "name": "P. Ellen Grant"
+      },
+      {
+        "@type": "Person",
+        "name": "Nynke A. Groenewold"
+      },
+      {
+        "@type": "Person",
+        "name": "Faith M. Gunning"
+      },
+      {
+        "@type": "Person",
+        "name": "Ruben C. Gur"
+      },
+      {
+        "@type": "Person",
+        "name": "R. C. Gur"
+      },
+      {
+        "@type": "Person",
+        "name": "Christopher F. Hammill"
+      },
+      {
+        "@type": "Person",
+        "name": "Oskar Hansson"
+      },
+      {
+        "@type": "Person",
+        "name": "Trey Hedden"
+      },
+      {
+        "@type": "Person",
+        "name": "Andreas Heinz"
+      },
+      {
+        "@type": "Person",
+        "name": "Richard N. Henson"
+      },
+      {
+        "@type": "Person",
+        "name": "Katja Heuer"
+      },
+      {
+        "@type": "Person",
+        "name": "Jacqueline Hoare"
+      },
+      {
+        "@type": "Person",
+        "name": "Bharath Holla"
+      },
+      {
+        "@type": "Person",
+        "name": "Avram J. Holmes"
+      },
+      {
+        "@type": "Person",
+        "name": "Rosemary Holt"
+      },
+      {
+        "@type": "Person",
+        "name": "H. Huang"
+      },
+      {
+        "@type": "Person",
+        "name": "K. Im"
+      },
+      {
+        "@type": "Person",
+        "name": "Jonathan Ipser"
+      },
+      {
+        "@type": "Person",
+        "name": "Clifford R. Jack"
+      },
+      {
+        "@type": "Person",
+        "name": "Andrea Parolin Jackowski"
+      },
+      {
+        "@type": "Person",
+        "name": "Tianye Jia"
+      },
+      {
+        "@type": "Person",
+        "name": "Keith A. Johnson"
+      },
+      {
+        "@type": "Person",
+        "name": "Peter Brian Jones"
+      },
+      {
+        "@type": "Person",
+        "name": "D. T. Jones"
+      },
+      {
+        "@type": "Person",
+        "name": "R. S. Kahn"
+      },
+      {
+        "@type": "Person",
+        "name": "Hasse Karlsson"
+      },
+      {
+        "@type": "Person",
+        "name": "Linnéa Karlsson"
+      },
+      {
+        "@type": "Person",
+        "name": "Ryuta Kawashima"
+      },
+      {
+        "@type": "Person",
+        "name": "E. A. Kelley"
+      },
+      {
+        "@type": "Person",
+        "name": "S.J. Kern"
+      },
+      {
+        "@type": "Person",
+        "name": "Ki Woong Kim"
+      },
+      {
+        "@type": "Person",
+        "name": "Manfred G. Kitzbichler"
+      },
+      {
+        "@type": "Person",
+        "name": "William S. Kremen"
+      },
+      {
+        "@type": "Person",
+        "name": "François M. Lalonde"
+      },
+      {
+        "@type": "Person",
+        "name": "Brigitte Landeau"
+      }
+    ],
+    "datePublished": "2022",
+    "isPartOf": {
+      "@type": "Periodical",
+      "name": "Nature"
+    },
+    "identifier": {
+      "@type": "PropertyValue",
+      "propertyID": "DOI",
+      "value": "10.1038/s41586-022-04554-y"
+    },
+    "sameAs": "https://doi.org/10.1038/s41586-022-04554-y"
+  }
+}
+</script>
+</head>
+<body>
+<header class="mp-top">
+  <a class="mp-home" href="../../">Harmonization <em>Zoo</em></a>
+  <nav class="mp-nav" aria-label="Site">
+    <a href="../../?method=brain-charts-lifespan#explore">Open in the map</a>
+    <a href="../../?view=table#explore">All methods</a>
+  </nav>
+</header>
+<main class="mp-main">
+  <p class="mp-eyebrow" style="--eyebrow-color:#e0708a">Normative Modeling · Feature-level</p>
+  <h1>Brain Charts for the Human Lifespan (GAMLSS)</h1>
+  
+  <section class="mp-section mp-paper">
+    <p class="mp-paper-title">Brain charts for the human lifespan</p><p class="mp-authors">Richard A. I. Bethlehem, Jakob Seidlitz, Simon Richard White, Jacob W. Vogel, Karen Anderson, Chris L. Adamson, Sophie Adler, George S. Alexopoulos, Evdokia A. Anagnostou, Ariosky Areces-González, Duncan Edward Astle, Bonnie Auyeung, Muhammad Ahsin Ayub, Ji Hyun Bae, Gareth Ball, Simon Baron‐Cohen, Richard J Beare, Saashi A. Bedford, Vivek Benegal, Frauke Beyer, John Blangero, Manuel Blesa, James P. Boardman, Matthew Borzage, Jorge Bosch‐Bayard, Niall Bourke, Vince D. Calhoun, M. Mallar Chakravarty, C. Chen, Casey Chertavian, Gaël Chételat, Yap Seng Chong, James Howard Cole, Aiden P. Corvin, Manuela Costantino, E. Courchesne, Fabrice Crivello, Vanessa Cropley, Jennifer Crosbie, Nicolas Andres Crossley, Marion Delarue, Richard Delorme, Sylvane Desrivières, Gabriel A. Devenyi, Maria Angelique Di Biase, Raymond J. Dolan, Kirsten Ann Donald, Gary J Donohoe, Katharine Dunlop, A. David Edwards, Jed T. Elison, Cameron Thomas Ellis, Jeremy A. Elman, Lisa T. Eyler, Damien A. Fair, Eric Feczko, Paul Charles Fletcher, Peter Fonagy, Carol E. Franz, Lídice Galán‐Garcia, Ali Gholipour, Jay N. Giedd, John H. Gilmore, David C. Glahn, Ian Michael Goodyer, P. Ellen Grant, Nynke A. Groenewold, Faith M. Gunning, Ruben C. Gur, R. C. Gur, Christopher F. Hammill, Oskar Hansson, Trey Hedden, Andreas Heinz, Richard N. Henson, Katja Heuer, Jacqueline Hoare, Bharath Holla, Avram J. Holmes, Rosemary Holt, H. Huang, K. Im, Jonathan Ipser, Clifford R. Jack, Andrea Parolin Jackowski, Tianye Jia, Keith A. Johnson, Peter Brian Jones, D. T. Jones, R. S. Kahn, Hasse Karlsson, Linnéa Karlsson, Ryuta Kawashima, E. A. Kelley, S.J. Kern, Ki Woong Kim, Manfred G. Kitzbichler, William S. Kremen, François M. Lalonde, Brigitte Landeau</p><p class="mp-venue">Nature · 2022</p>
+    <div class="mp-links"><a class="mp-btn" href="https://doi.org/10.1038/s41586-022-04554-y" rel="noopener noreferrer">↗ doi:10.1038/s41586-022-04554-y</a><a class="mp-btn" href="https://github.com/ucam-department-of-psychiatry/Lifespan" rel="noopener noreferrer">↗ ucam-department-of-psychiatry/Lifespan</a></div>
+  </section>
+  <section class="mp-stats"><div class="mp-stat"><span>Citations</span><strong>1,910</strong></div><div class="mp-stat"><span>GitHub stars</span><strong>40</strong></div><div class="mp-stat"><span>Last commit</span><strong><span class="maint-badge maint-stale">Stale</span> 2022-10-11</strong></div><div class="mp-stat"><span>Code health</span><strong><span class="health-badge health-D">D</span> 33/100</strong></div></section>
+  <p class="mp-repo-desc">Code used in the lifespan brainchart project</p>
+  <section class="mp-section">
+    <h2>Details</h2>
+    <dl class="spec-table"><dt>Family</dt><dd>Normative Modeling</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Structural MRI</span> <a href="https://doi.org/10.1038/s41586-022-04554-y" rel="noopener noreferrer">Brain charts for the human lifespan</a> (2022)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Language</dt><dd><div class="chip-row"><span class="chip">R</span></div></dd><dt>Code health</dt><dd><ul class="health-parts"><li><span>Recency</span><span class="health-bar"><span style="width:0%"></span></span><span class="health-num">0/40</span><span class="health-note">last commit 2022-10-11</span></li><li><span>Longevity</span><span class="health-bar"><span style="width:47%"></span></span><span class="health-num">7/15</span><span class="health-note">1.4 years of commits</span></li><li><span>License</span><span class="health-bar"><span style="width:47%"></span></span><span class="health-num">7/15</span><span class="health-note">licence unclear</span></li><li><span>Adoption</span><span class="health-bar"><span style="width:60%"></span></span><span class="health-num">12/20</span><span class="health-note">40 stars</span></li><li><span>Community</span><span class="health-bar"><span style="width:80%"></span></span><span class="health-num">8/10</span><span class="health-note">33 forks</span></li></ul></dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.1016/j.media.2026.104066" rel="noopener noreferrer">Harmonization in magnetic resonance imaging: A survey of acquisition, image-level, and feature-level methods</a> (2026), <a href="https://doi.org/10.3389/fneur.2022.923988" rel="noopener noreferrer">Site effects how-to and when: An overview of retrospective techniques to accommodate site effects in multi-site neuroimaging analyses</a> (2022)</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">gamlss</span><span class="chip">lifespan</span><span class="chip">random-site-effects</span></div></dd></dl>
+  </section>
+  
+    <section class="mp-section">
+      <div class="mp-section-head"><h2>Cite</h2>
+        <button type="button" class="mp-btn" data-copy="#bibtex">⧉ Copy BibTeX</button></div>
+      <pre class="mp-bibtex" id="bibtex">@article{bethlehem2022brain,
+  title   = {{Brain charts for the human lifespan}},
+  author  = {Bethlehem, Richard A. I. and Seidlitz, Jakob and White, Simon Richard and Vogel, Jacob W. and Anderson, Karen and Adamson, Chris L. and Adler, Sophie and Alexopoulos, George S. and Anagnostou, Evdokia A. and Areces-González, Ariosky and Astle, Duncan Edward and Auyeung, Bonnie and Ayub, Muhammad Ahsin and Bae, Ji Hyun and Ball, Gareth and Baron‐Cohen, Simon and Beare, Richard J and Bedford, Saashi A. and Benegal, Vivek and Beyer, Frauke and Blangero, John and Blesa, Manuel and Boardman, James P. and Borzage, Matthew and Bosch‐Bayard, Jorge and Bourke, Niall and Calhoun, Vince D. and Chakravarty, M. Mallar and Chen, C. and Chertavian, Casey and Chételat, Gaël and Chong, Yap Seng and Cole, James Howard and Corvin, Aiden P. and Costantino, Manuela and Courchesne, E. and Crivello, Fabrice and Cropley, Vanessa and Crosbie, Jennifer and Crossley, Nicolas Andres and Delarue, Marion and Delorme, Richard and Desrivières, Sylvane and Devenyi, Gabriel A. and Di Biase, Maria Angelique and Dolan, Raymond J. and Donald, Kirsten Ann and Donohoe, Gary J and Dunlop, Katharine and Edwards, A. David and Elison, Jed T. and Ellis, Cameron Thomas and Elman, Jeremy A. and Eyler, Lisa T. and Fair, Damien A. and Feczko, Eric and Fletcher, Paul Charles and Fonagy, Peter and Franz, Carol E. and Galán‐Garcia, Lídice and Gholipour, Ali and Giedd, Jay N. and Gilmore, John H. and Glahn, David C. and Goodyer, Ian Michael and Grant, P. Ellen and Groenewold, Nynke A. and Gunning, Faith M. and Gur, Ruben C. and Gur, R. C. and Hammill, Christopher F. and Hansson, Oskar and Hedden, Trey and Heinz, Andreas and Henson, Richard N. and Heuer, Katja and Hoare, Jacqueline and Holla, Bharath and Holmes, Avram J. and Holt, Rosemary and Huang, H. and Im, K. and Ipser, Jonathan and Jack, Clifford R. and Jackowski, Andrea Parolin and Jia, Tianye and Johnson, Keith A. and Jones, Peter Brian and Jones, D. T. and Kahn, R. S. and Karlsson, Hasse and Karlsson, Linnéa and Kawashima, Ryuta and Kelley, E. A. and Kern, S.J. and Kim, Ki Woong and Kitzbichler, Manfred G. and Kremen, William S. and Lalonde, François M. and Landeau, Brigitte},
+  journal = {Nature},
+  year    = {2022},
+  doi     = {10.1038/s41586-022-04554-y}
+}</pre>
+      
+    </section>
+  <section class="mp-section mp-report">
+    <h2>Something wrong or missing?</h2>
+    <p>Corrections are reviewed in the open on GitHub.</p>
+    <div class="mp-links">
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/issues/new?title=Data%20issue%3A%20Brain%20Charts%20for%20the%20Human%20Lifespan%20%28GAMLSS%29%20%28brain-charts-lifespan%29&amp;body=Method%20page%3A%20https%3A//n-nieto.github.io/HarmonizationZoo/methods/brain-charts-lifespan/%0A%0A%2A%2AWhat%20is%20wrong%20or%20missing%3F%2A%2A%0A%0A%0A%2A%2ACorrect%20value%20and%20a%20source%20%28DOI%2C%20paper%20section%2C%20repo%20link%29%3A%2A%2A%0A%0A&amp;labels=data" rel="noopener noreferrer">⚑ Report an error</a>
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/blob/main/data/methods.json" rel="noopener noreferrer">✎ Edit the data</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><p>Stats refresh automatically from GitHub and OpenAlex. <a href="../../">Back to the Harmonization Zoo</a></p></footer>
+<script src="../../js/method-page.js"></script>
+</body>
+</html>

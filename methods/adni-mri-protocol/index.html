@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>ADNI Standardized MRI Protocol — Harmonization Zoo</title>
+<meta name="description" content="ADNI Standardized MRI Protocol: a acquisition-level Acquisition / Protocol Harmonization harmonization method. published 2008 in Journal of Magnetic Resonance Imaging, 4493 citations, tested on MRI acquisition.">
+<link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/adni-mri-protocol/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ADNI Standardized MRI Protocol — Harmonization Zoo">
+<meta property="og:description" content="ADNI Standardized MRI Protocol: a acquisition-level Acquisition / Protocol Harmonization harmonization method. published 2008 in Journal of Magnetic Resonance Imaging, 4493 citations, tested on MRI acquisition.">
+<meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/adni-mri-protocol/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0a0e13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='18' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.55'/%3E%3Ccircle cx='20' cy='20' r='12' fill='none' stroke='%23f2a93b' stroke-width='2.2' opacity='0.75'/%3E%3Ccircle cx='20' cy='20' r='5.5' fill='%23f2a93b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/method-page.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "ADNI Standardized MRI Protocol",
+  "url": "https://n-nieto.github.io/HarmonizationZoo/methods/adni-mri-protocol/",
+  "description": "ADNI Standardized MRI Protocol: a acquisition-level Acquisition / Protocol Harmonization harmonization method. published 2008 in Journal of Magnetic Resonance Imaging, 4493 citations, tested on MRI acquisition.",
+  "citation": {
+    "@type": "ScholarlyArticle",
+    "headline": "The Alzheimer's disease neuroimaging initiative (ADNI): MRI methods",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Clifford R. Jack"
+      },
+      {
+        "@type": "Person",
+        "name": "Matt A. Bernstein"
+      },
+      {
+        "@type": "Person",
+        "name": "Nick C. Fox"
+      },
+      {
+        "@type": "Person",
+        "name": "Paul M. Thompson"
+      },
+      {
+        "@type": "Person",
+        "name": "Gene E. Alexander"
+      },
+      {
+        "@type": "Person",
+        "name": "Danielle Jenine Harvey"
+      },
+      {
+        "@type": "Person",
+        "name": "Bret Borowski"
+      },
+      {
+        "@type": "Person",
+        "name": "Paula J. Britson"
+      },
+      {
+        "@type": "Person",
+        "name": "Jennifer Louise Whitwell"
+      },
+      {
+        "@type": "Person",
+        "name": "Chadwick P. Ward"
+      },
+      {
+        "@type": "Person",
+        "name": "Anders Martin Dale"
+      },
+      {
+        "@type": "Person",
+        "name": "Joel P. Felmlee"
+      },
+      {
+        "@type": "Person",
+        "name": "Jeffrey L. Gunter"
+      },
+      {
+        "@type": "Person",
+        "name": "David Hill"
+      },
+      {
+        "@type": "Person",
+        "name": "Ronald Killiany"
+      },
+      {
+        "@type": "Person",
+        "name": "Norbert W. Schuff"
+      },
+      {
+        "@type": "Person",
+        "name": "Sabrina Fox‐Bosetti"
+      },
+      {
+        "@type": "Person",
+        "name": "Chen Lin"
+      },
+      {
+        "@type": "Person",
+        "name": "Colin Studholme"
+      },
+      {
+        "@type": "Person",
+        "name": "Charles S DeCarli"
+      },
+      {
+        "@type": "Person",
+        "name": "Gunnar Krueger"
+      },
+      {
+        "@type": "Person",
+        "name": "Heidi A. Ward"
+      },
+      {
+        "@type": "Person",
+        "name": "Gregory J. Metzger"
+      },
+      {
+        "@type": "Person",
+        "name": "Katherine T. Scott"
+      },
+      {
+        "@type": "Person",
+        "name": "Richard P. Mallozzi"
+      },
+      {
+        "@type": "Person",
+        "name": "Daniel J. Blezek"
+      },
+      {
+        "@type": "Person",
+        "name": "Joshua R. Levy"
+      },
+      {
+        "@type": "Person",
+        "name": "Josef P. Debbins"
+      },
+      {
+        "@type": "Person",
+        "name": "Adam Fleisher"
+      },
+      {
+        "@type": "Person",
+        "name": "Marilyn Albert"
+      },
+      {
+        "@type": "Person",
+        "name": "Robert C. Green"
+      },
+      {
+        "@type": "Person",
+        "name": "George Bartzokis"
+      },
+      {
+        "@type": "Person",
+        "name": "Gary H. Glover"
+      },
+      {
+        "@type": "Person",
+        "name": "John P. Mugler"
+      },
+      {
+        "@type": "Person",
+        "name": "Michael Walter Weiner"
+      }
+    ],
+    "datePublished": "2008",
+    "isPartOf": {
+      "@type": "Periodical",
+      "name": "Journal of Magnetic Resonance Imaging"
+    },
+    "identifier": {
+      "@type": "PropertyValue",
+      "propertyID": "DOI",
+      "value": "10.1002/jmri.21049"
+    },
+    "sameAs": "https://doi.org/10.1002/jmri.21049"
+  }
+}
+</script>
+</head>
+<body>
+<header class="mp-top">
+  <a class="mp-home" href="../../">Harmonization <em>Zoo</em></a>
+  <nav class="mp-nav" aria-label="Site">
+    <a href="../../?method=adni-mri-protocol#explore">Open in the map</a>
+    <a href="../../?view=table#explore">All methods</a>
+  </nav>
+</header>
+<main class="mp-main">
+  <p class="mp-eyebrow" style="--eyebrow-color:#a3b1c2">Acquisition / Protocol Harmonization · Acquisition-level</p>
+  <h1>ADNI Standardized MRI Protocol</h1>
+  
+  <section class="mp-section mp-paper">
+    <p class="mp-paper-title">The Alzheimer&#x27;s disease neuroimaging initiative (ADNI): MRI methods</p><p class="mp-authors">Clifford R. Jack, Matt A. Bernstein, Nick C. Fox, Paul M. Thompson, Gene E. Alexander, Danielle Jenine Harvey, Bret Borowski, Paula J. Britson, Jennifer Louise Whitwell, Chadwick P. Ward, Anders Martin Dale, Joel P. Felmlee, Jeffrey L. Gunter, David Hill, Ronald Killiany, Norbert W. Schuff, Sabrina Fox‐Bosetti, Chen Lin, Colin Studholme, Charles S DeCarli, Gunnar Krueger, Heidi A. Ward, Gregory J. Metzger, Katherine T. Scott, Richard P. Mallozzi, Daniel J. Blezek, Joshua R. Levy, Josef P. Debbins, Adam Fleisher, Marilyn Albert, Robert C. Green, George Bartzokis, Gary H. Glover, John P. Mugler, Michael Walter Weiner</p><p class="mp-venue">Journal of Magnetic Resonance Imaging · 2008</p>
+    <div class="mp-links"><a class="mp-btn" href="https://doi.org/10.1002/jmri.21049" rel="noopener noreferrer">↗ doi:10.1002/jmri.21049</a></div>
+  </section>
+  <section class="mp-stats"><div class="mp-stat"><span>Citations</span><strong>4,493</strong></div></section>
+  
+  <section class="mp-section">
+    <h2>Details</h2>
+    <dl class="spec-table"><dt>Family</dt><dd>Acquisition / Protocol Harmonization</dd><dt>Level</dt><dd>Acquisition-level</dd><dt>Method type</dt><dd>other</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">MRI acquisition</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">MRI acquisition</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">MRI acquisition</span> <a href="https://doi.org/10.1002/jmri.21049" rel="noopener noreferrer">The Alzheimer&#x27;s disease neuroimaging initiative (ADNI): MRI methods</a> (2008)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.1016/j.media.2026.104066" rel="noopener noreferrer">Harmonization in magnetic resonance imaging: A survey of acquisition, image-level, and feature-level methods</a> (2026)</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">standardized-protocol</span><span class="chip">phantom</span><span class="chip">alzheimer</span></div></dd></dl>
+  </section>
+  
+    <section class="mp-section">
+      <div class="mp-section-head"><h2>Cite</h2>
+        <button type="button" class="mp-btn" data-copy="#bibtex">⧉ Copy BibTeX</button></div>
+      <pre class="mp-bibtex" id="bibtex">@article{jack2008alzheimer,
+  title   = {{The Alzheimer&#x27;s disease neuroimaging initiative (ADNI): MRI methods}},
+  author  = {Jack, Clifford R. and Bernstein, Matt A. and Fox, Nick C. and Thompson, Paul M. and Alexander, Gene E. and Harvey, Danielle Jenine and Borowski, Bret and Britson, Paula J. and Whitwell, Jennifer Louise and Ward, Chadwick P. and Dale, Anders Martin and Felmlee, Joel P. and Gunter, Jeffrey L. and Hill, David and Killiany, Ronald and Schuff, Norbert W. and Fox‐Bosetti, Sabrina and Lin, Chen and Studholme, Colin and DeCarli, Charles S and Krueger, Gunnar and Ward, Heidi A. and Metzger, Gregory J. and Scott, Katherine T. and Mallozzi, Richard P. and Blezek, Daniel J. and Levy, Joshua R. and Debbins, Josef P. and Fleisher, Adam and Albert, Marilyn and Green, Robert C. and Bartzokis, George and Glover, Gary H. and Mugler, John P. and Weiner, Michael Walter},
+  journal = {Journal of Magnetic Resonance Imaging},
+  year    = {2008},
+  doi     = {10.1002/jmri.21049}
+}</pre>
+      
+    </section>
+  <section class="mp-section mp-report">
+    <h2>Something wrong or missing?</h2>
+    <p>Corrections are reviewed in the open on GitHub.</p>
+    <div class="mp-links">
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/issues/new?title=Data%20issue%3A%20ADNI%20Standardized%20MRI%20Protocol%20%28adni-mri-protocol%29&amp;body=Method%20page%3A%20https%3A//n-nieto.github.io/HarmonizationZoo/methods/adni-mri-protocol/%0A%0A%2A%2AWhat%20is%20wrong%20or%20missing%3F%2A%2A%0A%0A%0A%2A%2ACorrect%20value%20and%20a%20source%20%28DOI%2C%20paper%20section%2C%20repo%20link%29%3A%2A%2A%0A%0A&amp;labels=data" rel="noopener noreferrer">⚑ Report an error</a>
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/blob/main/data/methods.json" rel="noopener noreferrer">✎ Edit the data</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><p>Stats refresh automatically from GitHub and OpenAlex. <a href="../../">Back to the Harmonization Zoo</a></p></footer>
+<script src="../../js/method-page.js"></script>
+</body>
+</html>
