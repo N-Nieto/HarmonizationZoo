@@ -11,7 +11,7 @@
       "year": 2026,
       "venue": "Medical Image Analysis",
       "doi": "10.1016/j.media.2026.104066",
-      "type": "survey",
+      "type": "review",
       "open_access": true,
       "scope": [
         "sMRI",
@@ -113,7 +113,7 @@
       "year": 2024,
       "venue": "BioMedical Engineering OnLine",
       "doi": "10.1186/s12938-024-01280-6",
-      "type": "survey",
+      "type": "review",
       "open_access": true,
       "scope": [
         "sMRI"
@@ -175,7 +175,7 @@
       "year": 2024,
       "venue": "Deep Learning for Medical Image Analysis (2nd ed.), Elsevier — book chapter",
       "doi": "10.1016/b978-0-32-385124-4.00014-3",
-      "type": "book-chapter",
+      "type": "review",
       "open_access": false,
       "scope": [
         "sMRI"
@@ -268,7 +268,7 @@
       "year": 2023,
       "venue": "Bioengineering",
       "doi": "10.3390/bioengineering10040397",
-      "type": "systematic-review",
+      "type": "review",
       "open_access": true,
       "scope": [
         "sMRI",
@@ -399,7 +399,7 @@
       "year": 2022,
       "venue": "Frontiers in Neurology",
       "doi": "10.3389/fneur.2022.923988",
-      "type": "review",
+      "type": "best-practice",
       "open_access": true,
       "scope": [
         "sMRI",
@@ -465,7 +465,7 @@
       "year": 2026,
       "venue": "Neurocomputing",
       "doi": "10.1016/j.neucom.2026.133146",
-      "type": "research",
+      "type": "best-practice",
       "open_access": true,
       "scope": [
         "sMRI",
@@ -714,7 +714,7 @@
       "year": 2024,
       "venue": "Scientific Data",
       "doi": "10.1038/s41597-024-02956-3",
-      "type": "guide",
+      "type": "best-practice",
       "open_access": true,
       "scope": [
         "general"
@@ -906,7 +906,7 @@
       "year": 2025,
       "venue": "Scientific Reports",
       "doi": "10.1038/s41598-025-25400-x",
-      "type": "guide",
+      "type": "best-practice",
       "open_access": true,
       "scope": [
         "dMRI"
@@ -951,7 +951,7 @@
       "year": 2026,
       "venue": "PsyArXiv (OSF preprint)",
       "doi": "10.31234/osf.io/uc5gb_v1",
-      "type": "research",
+      "type": "benchmark",
       "open_access": true,
       "scope": [
         "sMRI"

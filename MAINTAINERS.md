@@ -316,10 +316,16 @@ registry directly enough, that a plain PR is the right weight for it).
 
 ## Resources
 
-The **Resources** tab lists reviews, surveys, comparison studies and guides
-from `data/resources.json`. Each entry has `id`, `title`, `authors`, `year`,
-`venue`, `doi` (or `url`), `type` (`survey`, `systematic-review`, `review`,
-`benchmark`, `book-chapter`, `research`, `guide`), `open_access`, `scope`
+The **Resources** tab lists papers from `data/resources.json`, filtered by type
+with the pills on top: **Reviews** (`review` — surveys, systematic reviews and
+overviews are all filed here), **Comparison studies** (`benchmark`) and **Best
+practice** (`best-practice` — how to use methods without pitfalls, e.g. the
+leakage paper and the ComBat-for-dMRI paper). A fourth pill, **EEG / MEG**, shows
+the EEG/MEG notes from `data/guide.json` (`eeg`) above the EEG/MEG-scope papers.
+The old values `survey`, `systematic-review`, `book-chapter`, `research` and
+`guide` are still accepted and displayed as review / comparison study / best
+practice. Each entry has `id`, `title`, `authors`, `year`,
+`venue`, `doi` (or `url`), `type`, `open_access`, `scope`
 (controlled modality codes, as in `modalities_tested`), free-text `topics`,
 a short `note` on why it's worth reading, and `methods` — the ids of zoo
 entries the resource discusses. The site shows those as chips on the card,
@@ -353,10 +359,12 @@ were taken from each dataset paper's abstract (October 2026); leave a field
 empty rather than guess. The validator checks ids, categories, access values,
 URLs and modalities.
 
-## Guide
+## "Did harmonization work?", Glossary and EEG/MEG notes
 
-The **Guide** tab is rendered from `data/guide.json`, so its text can be edited
-without touching JavaScript. Three parts:
+`data/guide.json` feeds three places, so their text can be edited without
+touching JavaScript: the **Did harmonization work?** tab (`evaluation`; tab id
+and URL hash stay `#guide`), the **Glossary** tab (`glossary`, `#glossary`) and the
+EEG / MEG filter of the **Resources** tab (`eeg`).
 
 - `evaluation.steps[]` — the "Did harmonization work?" checklist. Each step has
   `id`, `title`, `do` (list of actions), `pitfall`, and optional links:
@@ -365,7 +373,8 @@ without touching JavaScript. Three parts:
 - `eeg` — EEG/MEG notes: `sources` of between-site variability and
   `approaches[]` (each with `title`, `text`, `methods`), plus `resources` and
   `datasets`.
-- `glossary[]` — `term` / `def` pairs (shown alphabetically, with a filter box).
+- `glossary[]` — `term` / `def` pairs (shown alphabetically in columns, with a
+  letter index and a filter box).
 
 Unknown ids are skipped on the page, and `scripts/validate_methods.py` reports
 them as errors, so renaming a method or resource can't silently break a link.
@@ -403,8 +412,8 @@ on the method pages. The validator warns when an abstract has no source.
 
 The site is designed for desktop screens first (research workstations): sticky
 tab bar, multi-column Toolboxes/Resources/Datasets, a sidebar table of contents
-in the Guide, a sticky question panel in "Which method?", a wider details drawer
-and a sticky outline in "Add a model". Keyboard: `/` search, `1`–`8` switch tabs,
+in "Did harmonization work?", a sticky question panel in "Which method?", a wider details drawer
+and a sticky outline in "Add a model". Keyboard: `/` search, `1`–`9` switch tabs,
 `Esc` close panels. The rules live at the end of `css/style.css` ("Desktop-first
 layout"); narrow-screen rules earlier in the file still work but aren't a priority.
 

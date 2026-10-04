@@ -32,7 +32,8 @@ CATEGORIES = {
 }
 DATASET_CATEGORIES = {"traveling-subjects", "harmonization-benchmark", "phantom", "multisite-cohort"}
 DATASET_ACCESS = {None, "open", "registration", "application", "private"}
-RESOURCE_TYPES = {"survey", "systematic-review", "review", "benchmark", "book-chapter", "research", "guide"}
+RESOURCE_TYPES = {"review", "benchmark", "best-practice",
+                  "survey", "systematic-review", "book-chapter", "research", "guide"}  # last five: legacy, shown as review/benchmark/best-practice
 METHOD_TYPES = {"statistical", "deep-learning", "machine-learning", "other"}
 ENTRY_TYPES = {"method", "implementation", "toolbox", "protocol"}
 MODALITIES = {

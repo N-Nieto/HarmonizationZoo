@@ -49,7 +49,7 @@ const state = {
   data: [],
   toolboxes: [],
   resources: [],
-  resourceScope: "all",
+  resourceFilter: "all",
   datasets: [],
   datasetCategory: "all",
   groupBy: "category",
@@ -127,6 +127,7 @@ async function init() {
   buildResourcesTab();
   buildDatasetsTab();
   buildGuideTab();
+  buildGlossaryTab();
   buildAddModelTab();
   render();
 
@@ -251,8 +252,8 @@ function buildHomeTab() {
         </button>
         <button type="button" class="home-cta" data-tab="resources">
           <span class="home-cta-title">Resources →</span>
-          <span class="home-cta-desc">Reviews, surveys and comparison studies worth reading before you
-            pick a method, each linked to the methods it discusses.</span>
+          <span class="home-cta-desc">Reviews, comparison studies and best-practice papers, each linked to the
+            methods it discusses, plus notes on EEG/MEG harmonization.</span>
         </button>
         <button type="button" class="home-cta" data-tab="datasets">
           <span class="home-cta-title">Datasets →</span>
@@ -260,9 +261,14 @@ function buildHomeTab() {
             large multisite cohorts to develop and test methods on.</span>
         </button>
         <button type="button" class="home-cta" data-tab="guide">
-          <span class="home-cta-title">Did it work? →</span>
-          <span class="home-cta-desc">A step-by-step guide to checking harmonization: site effects removed,
-            biology kept, paired-data checks and leakage-safe evaluation, plus EEG/MEG notes and a glossary.</span>
+          <span class="home-cta-title">Did harmonization work? →</span>
+          <span class="home-cta-desc">A step-by-step checklist: site effects removed, biology kept,
+            paired-data checks, anatomy preservation and leakage-safe evaluation.</span>
+        </button>
+        <button type="button" class="home-cta" data-tab="glossary">
+          <span class="home-cta-title">Glossary →</span>
+          <span class="home-cta-desc">Batch effect, traveling subjects, empirical Bayes, data leakage, confound
+            removal… the terms used across the site, in plain language.</span>
         </button>
         <button type="button" class="home-cta" data-tab="add">
           <span class="home-cta-title">Add a model →</span>
@@ -402,14 +408,19 @@ function buildToolboxesTab() {
 // resource lists the zoo methods it discusses, so cards link into the
 // database and each method's drawer links back ("Reviewed in").
 
+// Resource types (data/resources.json `type`). Surveys, systematic reviews and
+// overviews are all "Review"; old values still map for older forks of the data.
 const RESOURCE_TYPE_LABEL = {
-  "survey": "Survey", "systematic-review": "Systematic review", "review": "Review",
-  "benchmark": "Comparison study", "book-chapter": "Book chapter", "research": "Research article",
-  "guide": "Guide",
+  "review": "Review", "benchmark": "Comparison study", "best-practice": "Best practice",
+  "survey": "Review", "systematic-review": "Review", "book-chapter": "Review",
+  "research": "Comparison study", "guide": "Best practice",
 };
-const RESOURCE_SCOPES = [
-  ["all", "All"], ["sMRI", "Structural MRI"], ["dMRI", "Diffusion MRI"], ["fMRI", "Functional MRI"],
-  ["radiomics", "Radiomics"], ["MRI-acquisition", "Acquisition"], ["ml", "Machine learning"],
+const RESOURCE_TYPE_NORMAL = { survey: "review", "systematic-review": "review", "book-chapter": "review", research: "benchmark", guide: "best-practice" };
+const resourceType = (r) => RESOURCE_TYPE_NORMAL[r.type] || r.type || "review";
+// Filter pills on top of the Resources tab: one per type, plus the EEG/MEG notes.
+const RESOURCE_FILTERS = [
+  ["all", "All"], ["review", "Reviews"], ["benchmark", "Comparison studies"],
+  ["best-practice", "Best practice"], ["eeg-meg", "EEG / MEG"],
 ];
 
 function resourcesCovering(methodId) {
@@ -422,10 +433,38 @@ function resourceShortCite(r) {
   return `${last}${r.authors && r.authors.length > 1 ? " et al." : ""} ${r.year || ""}`.trim();
 }
 
-function resourceMatchesScope(r, scope) {
-  if (scope === "all") return true;
-  if (scope === "ml") return (r.topics || []).some((t) => /machine learning|deep learning|domain adaptation|leakage/i.test(t));
-  return (r.scope || []).includes(scope);
+function resourceMatchesFilter(r, f) {
+  if (f === "all") return true;
+  if (f === "eeg-meg") return (r.scope || []).some((x) => x === "EEG" || x === "MEG");
+  return resourceType(r) === f;
+}
+
+// EEG/MEG notes (data/guide.json `eeg`), shown above the list when the EEG / MEG filter is on.
+function eegNotesHtml(L) {
+  const eeg = state.guide && state.guide.eeg;
+  if (!eeg) return "";
+  return `
+    <section class="eeg-notes">
+      <h2>${escapeHtml(eeg.title)}</h2>
+      <p class="toolboxes-intro">${escapeHtml(eeg.intro || "")}</p>
+      <div class="eeg-notes-cols">
+        <div>
+          <h3 class="guide-sub">Where between-site differences come from</h3>
+          <ul class="guide-do">${(eeg.sources || []).map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
+          ${L.links({ datasets: eeg.datasets })}
+        </div>
+        <div>
+          <h3 class="guide-sub">Approaches</h3>
+          <div class="guide-approaches">${(eeg.approaches || []).map((a) => `
+            <article class="guide-approach">
+              <h4>${escapeHtml(a.title)}</h4>
+              <p>${escapeHtml(a.text)}</p>
+              ${L.links(a)}
+            </article>`).join("")}</div>
+        </div>
+      </div>
+      <h3 class="guide-sub">EEG / MEG papers</h3>
+    </section>`;
 }
 
 function buildResourcesTab() {
@@ -435,8 +474,9 @@ function buildResourcesTab() {
     return;
   }
   const byId = new Map(state.data.map((d) => [d.id, d]));
+  const L = makeContentLinker();
   const visible = state.resources
-    .filter((r) => resourceMatchesScope(r, state.resourceScope))
+    .filter((r) => resourceMatchesFilter(r, state.resourceFilter))
     .sort((a, b) => (b.year || 0) - (a.year || 0) || a.title.localeCompare(b.title));
 
   const cards = visible.map((r) => {
@@ -451,7 +491,7 @@ function buildResourcesTab() {
     return `
       <article class="resource-card" id="res-${escapeHtml(r.id)}">
         <div class="resource-meta">
-          <span class="resource-type resource-type-${escapeHtml(r.type || "review")}">${escapeHtml(RESOURCE_TYPE_LABEL[r.type] || r.type || "Resource")}</span>
+          <span class="resource-type resource-type-${escapeHtml(resourceType(r))}">${escapeHtml(RESOURCE_TYPE_LABEL[resourceType(r)] || "Resource")}</span>
           <span>${escapeHtml(r.year || "")}</span>
           ${r.open_access ? `<span class="resource-oa" title="Free to read">Open access</span>` : ""}
         </div>
@@ -468,21 +508,30 @@ function buildResourcesTab() {
   root.innerHTML = `
     <div class="toolboxes-wrap resources-wrap">
       <p class="toolboxes-intro">
-        Reviews, surveys and comparison studies worth reading before you pick a method.
-        Each card links to the methods it discusses that are in this database, and every
-        method's details show which of these resources cover it. Know a resource that
+        Papers worth reading before and while you harmonize: <strong>reviews</strong> map the field,
+        <strong>comparison studies</strong> test methods against each other, and <strong>best-practice</strong>
+        papers say how to use them without pitfalls. Each card links to the methods it discusses that are in
+        this database, and every method's details show which of these resources cover it. Know a resource that
         belongs here? Open an issue or a pull request adding it to <code>data/resources.json</code>.
       </p>
-      <div class="rec-options resource-filter" role="group" aria-label="Filter resources by scope">
-        ${RESOURCE_SCOPES.filter(([s]) => s === "all" || state.resources.some((r) => resourceMatchesScope(r, s))).map(([s, label]) => `<button type="button" class="rec-pill${state.resourceScope === s ? " active" : ""}" aria-pressed="${state.resourceScope === s}" data-scope="${s}">${escapeHtml(label)}</button>`).join("")}
+      <div class="rec-options resource-filter" role="group" aria-label="Filter resources by type">
+        ${RESOURCE_FILTERS.filter(([f]) => f === "all" || state.resources.some((r) => resourceMatchesFilter(r, f))).map(([f, label]) => {
+          const n = state.resources.filter((r) => resourceMatchesFilter(r, f)).length;
+          return `<button type="button" class="rec-pill${state.resourceFilter === f ? " active" : ""}" aria-pressed="${state.resourceFilter === f}" data-filter="${f}">${escapeHtml(label)} (${n})</button>`;
+        }).join("")}
       </div>
-      <div class="resource-list">${cards || `<p class="loading-placeholder">No resources for this scope.</p>`}</div>
+      ${state.resourceFilter === "eeg-meg" ? eegNotesHtml(L) : ""}
+      <div class="resource-list">${cards || `<p class="loading-placeholder">No resources of this type yet.</p>`}</div>
     </div>`;
 
   root.querySelectorAll(".resource-filter .rec-pill").forEach((b) => b.addEventListener("click", () => {
-    state.resourceScope = b.dataset.scope;
+    state.resourceFilter = b.dataset.filter;
     buildResourcesTab();
   }));
+  if (state.resourceFilter === "eeg-meg") {
+    const notes = root.querySelector(".eeg-notes");
+    if (notes) L.bind(notes);
+  }
   const bindChips = (scope) => scope.querySelectorAll(".toolbox-method-chip").forEach((chip) => {
     chip.addEventListener("click", () => {
       const method = byId.get(chip.dataset.id);
@@ -501,7 +550,8 @@ function buildResourcesTab() {
 }
 
 function showResource(id) {
-  if (state.resourceScope !== "all") { state.resourceScope = "all"; buildResourcesTab(); }
+  const r = state.resources.find((x) => x.id === id);
+  if (state.resourceFilter !== "all" && !(r && resourceMatchesFilter(r, state.resourceFilter))) { state.resourceFilter = "all"; buildResourcesTab(); }
   switchTab("resources");
   const el = document.getElementById(`res-${id}`);
   if (el) {
@@ -608,13 +658,9 @@ function buildDatasetsTab() {
 // a glossary. Steps link to methods, resources and datasets by id; unknown
 // ids are skipped so the guide never shows broken links.
 
-function buildGuideTab() {
-  const root = document.getElementById("guide-root");
-  const g = state.guide;
-  if (!g) {
-    root.innerHTML = `<div class="loading-placeholder">Guide not available.</div>`;
-    return;
-  }
+// Shared helpers for content that links to methods, resources and datasets by id
+// (Guide steps, EEG/MEG notes). Unknown ids are skipped.
+function makeContentLinker() {
   const byId = new Map(state.data.map((d) => [d.id, d]));
   const resById = new Map(state.resources.map((r) => [r.id, r]));
   const dsById = new Map(state.datasets.map((d) => [d.id, d]));
@@ -638,56 +684,53 @@ function buildGuideTab() {
     if (dl) parts.push(`<div class="guide-links-row"><span class="guide-links-label">Data</span><span>${dl}</span></div>`);
     return parts.join("");
   };
+  const bind = (root) => {
+    root.querySelectorAll(".toolbox-method-chip").forEach((chip) => chip.addEventListener("click", () => {
+      const m = byId.get(chip.dataset.id);
+      if (m) { switchTab("explore"); openDrawer(m); }
+    }));
+    root.querySelectorAll(".guide-res-link").forEach((b) => b.addEventListener("click", () => showResource(b.dataset.res)));
+    root.querySelectorAll(".guide-ds-link").forEach((b) => b.addEventListener("click", () => {
+      state.datasetCategory = b.dataset.cat || "all";
+      buildDatasetsTab();
+      switchTab("datasets");
+    }));
+  };
+  return { links, bind, byId };
+}
 
-  const ev = g.evaluation || { steps: [] };
+/* "Did harmonization work?" tab (id: guide) — evaluation checklist from data/guide.json */
+function buildGuideTab() {
+  const root = document.getElementById("guide-root");
+  const g = state.guide;
+  if (!g || !g.evaluation) {
+    root.innerHTML = `<div class="loading-placeholder">Guide not available.</div>`;
+    return;
+  }
+  const L = makeContentLinker();
+  const ev = g.evaluation;
   const steps = ev.steps.map((s, i) => `
     <li class="guide-step" id="guide-${escapeHtml(s.id)}">
       <h3><span class="guide-step-n">${i + 1}</span>${escapeHtml(s.title)}</h3>
       <ul class="guide-do">${(s.do || []).map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
       ${s.pitfall ? `<p class="guide-pitfall"><strong>Watch out:</strong> ${escapeHtml(s.pitfall)}</p>` : ""}
-      ${links(s)}
+      ${L.links(s)}
     </li>`).join("");
-
-  const eeg = g.eeg;
-  const eegHtml = eeg ? `
-    <section class="guide-section" id="guide-eeg">
-      <h2>${escapeHtml(eeg.title)}</h2>
-      <p class="toolboxes-intro">${escapeHtml(eeg.intro || "")}</p>
-      <h3 class="guide-sub">Where between-site differences come from</h3>
-      <ul class="guide-do">${(eeg.sources || []).map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
-      <h3 class="guide-sub">Approaches</h3>
-      <div class="guide-approaches">${(eeg.approaches || []).map((a) => `
-        <article class="guide-approach">
-          <h4>${escapeHtml(a.title)}</h4>
-          <p>${escapeHtml(a.text)}</p>
-          ${links(a)}
-        </article>`).join("")}</div>
-      ${links({ resources: eeg.resources, datasets: eeg.datasets })}
-    </section>` : "";
-
-  const gloss = [...(g.glossary || [])].sort((a, b) => a.term.localeCompare(b.term));
-  const glossHtml = gloss.length ? `
-    <section class="guide-section" id="guide-glossary">
-      <h2>Glossary</h2>
-      <input type="search" id="guide-gloss-search" class="guide-gloss-search" placeholder="Filter terms…" aria-label="Filter glossary terms">
-      <dl class="guide-glossary">${gloss.map((t) => `<div class="guide-term" data-q="${escapeHtml((t.term + " " + t.def).toLowerCase())}"><dt>${escapeHtml(t.term)}</dt><dd>${escapeHtml(t.def)}</dd></div>`).join("")}</dl>
-    </section>` : "";
 
   root.innerHTML = `
     <div class="toolboxes-wrap guide-wrap">
-      <nav class="guide-toc" aria-label="Guide sections">
+      <nav class="guide-toc" aria-label="Checklist steps">
         <a href="#guide-evaluation" data-jump="guide-evaluation">${escapeHtml(ev.title || "Evaluation")}</a>
         ${ev.steps.map((st, i) => `<a href="#guide-${escapeHtml(st.id)}" data-jump="guide-${escapeHtml(st.id)}" class="guide-toc-sub">${i + 1}. ${escapeHtml(st.title)}</a>`).join("")}
-        ${eeg ? `<a href="#guide-eeg" data-jump="guide-eeg">${escapeHtml(eeg.title)}</a>` : ""}
-        ${gloss.length ? `<a href="#guide-glossary" data-jump="guide-glossary">Glossary</a>` : ""}
+        <a href="#glossary" data-tab-link="glossary">Glossary →</a>
       </nav>
       <section class="guide-section" id="guide-evaluation">
         <h2>${escapeHtml(ev.title || "")}</h2>
-        <p class="toolboxes-intro">${escapeHtml(ev.intro || "")}</p>
+        <p class="toolboxes-intro">${escapeHtml(ev.intro || "")}
+          Unfamiliar terms are explained in the <button type="button" class="inline-link guide-tab-link" data-tab-link="glossary">Glossary</button>;
+          best-practice papers are in <button type="button" class="inline-link guide-tab-link" data-tab-link="resources" data-res-filter="best-practice">Resources → Best practice</button>.</p>
         <ol class="guide-steps">${steps}</ol>
       </section>
-      ${eegHtml}
-      ${glossHtml}
     </div>`;
 
   root.querySelectorAll("[data-jump]").forEach((a) => a.addEventListener("click", (e) => {
@@ -695,20 +738,63 @@ function buildGuideTab() {
     const el = document.getElementById(a.dataset.jump);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   }));
-  root.querySelectorAll(".toolbox-method-chip").forEach((chip) => chip.addEventListener("click", () => {
-    const m = byId.get(chip.dataset.id);
-    if (m) { switchTab("explore"); openDrawer(m); }
+  bindTabLinks(root);
+  L.bind(root);
+}
+
+// Elements with data-tab-link switch tab (optionally pre-selecting a Resources filter).
+function bindTabLinks(root) {
+  root.querySelectorAll("[data-tab-link]").forEach((a) => a.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (a.dataset.resFilter) { state.resourceFilter = a.dataset.resFilter; buildResourcesTab(); }
+    switchTab(a.dataset.tabLink);
   }));
-  root.querySelectorAll(".guide-res-link").forEach((b) => b.addEventListener("click", () => showResource(b.dataset.res)));
-  root.querySelectorAll(".guide-ds-link").forEach((b) => b.addEventListener("click", () => {
-    state.datasetCategory = b.dataset.cat || "all";
-    buildDatasetsTab();
-    switchTab("datasets");
+}
+
+/* Glossary tab — terms from data/guide.json `glossary` */
+function buildGlossaryTab() {
+  const root = document.getElementById("glossary-root");
+  const gloss = [...((state.guide && state.guide.glossary) || [])].sort((a, b) => a.term.localeCompare(b.term));
+  if (!gloss.length) {
+    root.innerHTML = `<div class="loading-placeholder">Glossary not available.</div>`;
+    return;
+  }
+  const letterOf = (t) => t.term.replace(/^[^A-Za-z]+/, "").charAt(0).toUpperCase() || "#";
+  const letters = [...new Set(gloss.map(letterOf))];
+  const groups = letters.map((L) => `
+      <section class="gloss-group" id="gloss-${L}" data-letter="${L}">
+        <h2 class="gloss-letter">${L}</h2>
+        <dl class="guide-glossary">${gloss.filter((t) => letterOf(t) === L).map((t) => `
+          <div class="guide-term" id="term-${escapeHtml(t.term.toLowerCase().replace(/[^a-z0-9]+/g, "-"))}" data-q="${escapeHtml((t.term + " " + t.def).toLowerCase())}">
+            <dt>${escapeHtml(t.term)}</dt><dd>${escapeHtml(t.def)}</dd>
+          </div>`).join("")}</dl>
+      </section>`).join("");
+  root.innerHTML = `
+    <div class="toolboxes-wrap glossary-wrap">
+      <p class="toolboxes-intro">The terms used across the site, in plain language. ${gloss.length} entries —
+        missing one? Add it to the <code>glossary</code> list in <code>data/guide.json</code>.</p>
+      <div class="gloss-bar">
+        <input type="search" id="gloss-search" class="guide-gloss-search" placeholder="Filter terms…" aria-label="Filter glossary terms">
+        <nav class="gloss-index" aria-label="Jump to letter">${letters.map((L) => `<a href="#gloss-${L}" data-letter="${L}">${L}</a>`).join("")}</nav>
+      </div>
+      <div class="gloss-groups">${groups}</div>
+      <p class="gloss-empty" hidden>No term matches.</p>
+    </div>`;
+  root.querySelectorAll(".gloss-index a").forEach((a) => a.addEventListener("click", (e) => {
+    e.preventDefault();
+    const el = document.getElementById(`gloss-${a.dataset.letter}`);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   }));
-  const search = root.querySelector("#guide-gloss-search");
-  if (search) search.addEventListener("input", () => {
+  const search = root.querySelector("#gloss-search");
+  search.addEventListener("input", () => {
     const q = search.value.trim().toLowerCase();
-    root.querySelectorAll(".guide-term").forEach((t) => { t.hidden = q && !t.dataset.q.includes(q); });
+    let shown = 0;
+    root.querySelectorAll(".gloss-group").forEach((grp) => {
+      let any = false;
+      grp.querySelectorAll(".guide-term").forEach((t) => { const ok = !q || t.dataset.q.includes(q); t.hidden = !ok; if (ok) { any = true; shown++; } });
+      grp.hidden = !any;
+    });
+    root.querySelector(".gloss-empty").hidden = shown > 0;
   });
 }
 
@@ -1707,7 +1793,7 @@ function switchTab(tab, { pushHistory = true } = {}) {
   window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
 }
 
-const VALID_TABS = ["home", "explore", "recommend", "toolboxes", "resources", "datasets", "guide", "add"];
+const VALID_TABS = ["home", "explore", "recommend", "toolboxes", "resources", "datasets", "guide", "glossary", "add"];
 
 function initialTabFromUrl() {
   const fromHash = location.hash.slice(1);

@@ -1765,3 +1765,38 @@ select:focus, input[type="search"]:focus, button:focus-visible {
 .drawer-abstract summary { cursor: pointer; font-family: var(--font-mono); font-size: 11.5px; color: var(--paper-dim); text-transform: uppercase; letter-spacing: 0.05em; }
 .drawer-abstract summary span { text-transform: none; letter-spacing: 0; opacity: 0.7; margin-left: 6px; }
 .drawer-abstract p { font-size: 13.5px; line-height: 1.6; margin: 8px 0 2px; }
+
+/* Resources: type colours and the EEG / MEG notes panel */
+.resource-type-best-practice { color: var(--cyan); }
+.resource-type-benchmark { color: #c3a6f5; }
+.eeg-notes { border: 1px solid var(--line); border-radius: 12px; padding: 20px 24px 4px; background: var(--panel); margin: 0 0 24px; }
+.eeg-notes h2 { font-family: var(--font-display); font-size: 20px; margin: 0 0 6px; }
+.eeg-notes .toolboxes-intro { margin-bottom: 10px; }
+@media (min-width: 1200px) { .eeg-notes-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 32px; } }
+
+/* Glossary tab */
+.gloss-bar {
+  position: sticky; top: var(--nav-h); z-index: 5; background: var(--ink);
+  display: flex; gap: 18px; align-items: center; flex-wrap: wrap; padding: 8px 0 10px; margin-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.gloss-bar .guide-gloss-search { margin: 0; }
+.gloss-index { display: flex; gap: 4px; flex-wrap: wrap; }
+.gloss-index a {
+  font-family: var(--font-mono); font-size: 12px; color: var(--paper-dim); text-decoration: none;
+  border: 1px solid var(--line); border-radius: 6px; min-width: 26px; text-align: center; padding: 2px 6px;
+}
+.gloss-index a:hover { color: var(--phosphor); border-color: var(--phosphor); }
+.gloss-group { scroll-margin-top: calc(var(--nav-h) + 64px); margin: 18px 0 8px; }
+.gloss-group[hidden] { display: none; }
+.gloss-letter { font-family: var(--font-display); font-size: 18px; color: var(--phosphor); margin: 0 0 10px; }
+.glossary-wrap .guide-glossary { grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); display: grid; gap: 14px 28px; }
+.glossary-wrap .guide-term { border-left: 2px solid var(--line); padding-left: 12px; }
+.gloss-empty { color: var(--paper-dim); }
+.guide-tab-link { background: none; border: none; padding: 0; cursor: pointer; font: inherit; }
+/* Glossary: one continuous multi-column flow, letters as inline headings */
+.gloss-groups { columns: 3 340px; column-gap: 36px; }
+.gloss-group { margin: 0 0 10px; }
+.glossary-wrap .guide-glossary { display: block; }
+.glossary-wrap .guide-term { break-inside: avoid; margin: 0 0 16px; }
+.gloss-letter { break-after: avoid; margin: 6px 0 8px; }
