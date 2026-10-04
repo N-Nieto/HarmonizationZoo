@@ -72,6 +72,11 @@ def main():
             err(f"unknown level `{m['level']}`")
         if m.get("category") and m["category"] not in CATEGORIES:
             err(f"unknown category `{m['category']}` (add it here and to FAMILY_ORDER in js/app.js)")
+        for sc in m.get("secondary_categories") or []:
+            if sc not in CATEGORIES:
+                err(f"unknown secondary category `{sc}`")
+            elif sc == m.get("category"):
+                err(f"secondary category `{sc}` repeats the primary category")
         if m.get("method_type") and m["method_type"] not in METHOD_TYPES:
             err(f"unknown method_type `{m['method_type']}`")
         if m.get("entry_type") and m["entry_type"] not in ENTRY_TYPES:

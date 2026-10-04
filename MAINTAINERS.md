@@ -8,7 +8,7 @@ debugging the pipelines, or changing how they work.
 
 ## What's in the database right now
 
-`data/methods.json` holds **178 methods** (October 2026) across eleven families (the
+`data/methods.json` holds **179 methods** (October 2026) across eleven families (the
 "Family" grouping) — **Location/Scale Models (ComBat-family)** /
 Deep-learning / IQM / Normative Modeling / Interpolation / Federated / ICA /
 Optimal-transport / **Domain Adaptation & Distribution Matching** /
@@ -336,6 +336,38 @@ Deep CORAL, …), datasets, reliability studies and pure evaluations were
 left out on purpose. The 20 "implicit" methods — site-invariant models
 rather than harmonized data, following the explicit/implicit split in Wen et
 al. 2023 — live in the **Domain Adaptation & Distribution Matching** family.
+
+### Overlapping families
+
+Families are not mutually exclusive — a deep network can be "domain
+adaptation", an optimal-transport method can be domain adaptation too, a
+federated method can be ComBat underneath. Each entry keeps one primary
+`category` (colour, map cluster, table column) and may list others in
+`secondary_categories`. The **Family** filter in Explore matches either, the
+drawer shows "Also fits: …", and method pages show an "Also fits" row.
+
+### Paper-only methods (no public code)
+
+About half of the database is paper-only. Visitors can hide those with the
+**`</> Code only`** button next to Filters in Explore (same as the Code
+filter, shareable as `?f=code:yes`) or the *"Do you need a public
+implementation?"* question in "Which method?". "Has code" means a `github`
+or `other_url`, or membership of a toolbox.
+
+To remove them from the database itself:
+
+```bash
+python3 scripts/prune_no_code.py                       # list them
+python3 scripts/prune_no_code.py --family deep-learning --before 2020   # narrow the list
+python3 scripts/prune_no_code.py --apply               # remove the listed ones
+python3 scripts/prune_no_code.py --restore all         # undo (or --restore id1,id2)
+python3 scripts/validate_methods.py && python3 scripts/build_pages.py
+```
+
+`--apply` archives every removed entry in `data/archive/no_code_methods.json`
+together with the links that pointed at it, and cleans those links from
+other methods, `data/resources.json` and `data/toolboxes.json`, so the
+validator keeps passing; `--restore` puts entries and links back.
 
 ## Adding a method through the site
 
@@ -679,6 +711,7 @@ scripts/fetch_citations.py    fills in citation counts via Semantic Scholar (ser
 scripts/check_duplicates.py   flags likely-duplicate entries; run in CI on every PR
 scripts/merge_submissions.py  folds data/submissions/*.json into methods.json after a submission PR is merged
 scripts/merge_stats_updates.py folds data/submissions-stats/*.json field updates into methods.json after that PR is merged
+scripts/prune_no_code.py      lists (default) or removes (--apply) methods with no public code; archives them in data/archive/ and can --restore them
 .github/workflows/refresh-stats.yml       runs fetch_github_stats.py weekly + on push to methods.json, and commits the result
 .github/workflows/refresh-citations.yml   runs fetch_citations.py monthly (server-side — not subject to the browser CORS block)
 .github/workflows/check-duplicates.yml    runs check_duplicates.py on PRs touching the database

@@ -13,8 +13,8 @@
       "name": "ComBatFamily (R)",
       "url": "https://github.com/andy1764/ComBatFamily",
       "language": ["R"],
-      "description": "R package unifying ComBat and its extensions under one modeling framework and a consistent API: ComBat (Johnson et al., 2007), ComBat-GAM (Pomponio et al., 2020), Longitudinal ComBat (Beer et al., 2020), Robust ComBat (work-in-progress), and ComBatLS (Gardner et al., preprint).",
-      "methods": ["combat", "combat-gam", "longcombat", "robust-combat", "combatls"]
+      "description": "R package unifying ComBat and its extensions under one modeling framework and a consistent API: ComBat (Johnson et al., 2007), ComBat-GAM (Pomponio et al., 2020), Longitudinal ComBat (Beer et al., 2020), Robust ComBat (work-in-progress), ComBatLS (Gardner et al., preprint), and ComBat-Predict for new, unseen sites (Xin et al., 2026).",
+      "methods": ["combat", "combat-gam", "longcombat", "robust-combat", "combatls", "combat-predict"]
     },
     {
       "id": "intensity-normalization-toolbox",

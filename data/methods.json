@@ -138,7 +138,8 @@
           "year": 2026,
           "doi": "10.1162/imag.a.1099"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "neurocombat",
@@ -225,7 +226,8 @@
       "entry_type": "implementation",
       "implements": "combat",
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "combat-gam",
@@ -335,7 +337,8 @@
           "year": 2026,
           "doi": "10.1162/imag.a.1099"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "harmonizer",
@@ -414,7 +417,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "covbat",
@@ -532,7 +536,8 @@
           "year": 2026,
           "doi": "10.1007/s10278-026-01934-y"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "prettyharmonize",
@@ -611,7 +616,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "pycombat",
@@ -683,7 +689,8 @@
       "entry_type": "implementation",
       "implements": "combat",
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "longcombat",
@@ -785,7 +792,8 @@
           "year": 2025,
           "doi": "10.3389/fnins.2025.1610401"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "relief",
@@ -864,7 +872,8 @@
       "extends": [
         "combat"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "combat-mega",
@@ -945,7 +954,8 @@
       "extends": [
         "combat"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "combatls",
@@ -1025,7 +1035,8 @@
       "extends": [
         "combat-gam"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "robust-combat",
@@ -1103,7 +1114,8 @@
       "extends": [
         "combat"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "opnestedcombat",
@@ -1201,7 +1213,8 @@
           "year": 2025,
           "doi": "10.1162/imag.a.964"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "harmonizr",
@@ -1273,7 +1286,8 @@
       "extends": [
         "combat"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "whitestripe",
@@ -1361,7 +1375,8 @@
           "year": 2020,
           "doi": "10.1038/s41598-020-69298-z"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "nyul",
@@ -1444,7 +1459,8 @@
           "year": 2020,
           "doi": "10.1038/s41598-020-69298-z"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "ravel",
@@ -1532,7 +1548,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "zscore-normalization",
@@ -1602,7 +1619,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "fcm-normalization",
@@ -1673,7 +1691,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "kde-normalization",
@@ -1743,7 +1762,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "lsq-normalization",
@@ -1812,7 +1832,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "deepharmony",
@@ -1888,7 +1909,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "imunity",
@@ -1962,7 +1984,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "cyclegan-brainmri",
@@ -2039,7 +2062,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "mispel",
@@ -2118,7 +2142,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "harmless",
@@ -2193,7 +2218,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "xcov-disentanglement",
@@ -2274,12 +2300,13 @@
       "extends": [],
       "evidence": [],
       "citations_source": "openalex",
-      "citations_fetched_at": "2026-10-03T12:27:55Z"
+      "citations_fetched_at": "2026-10-03T12:27:55Z",
+      "secondary_categories": []
     },
     {
       "id": "unlearning-mri",
       "name": "Unlearning for MRI Harmonisation",
-      "category": "deep-learning",
+      "category": "domain-adaptation",
       "method_type": "deep-learning",
       "level": "feature-level",
       "tags": [
@@ -2312,7 +2339,7 @@
       "last_commit": "2021-06-21",
       "repo_description": "Code for implementation of Unlearning Scanner Bias for MRI Harmonisation",
       "stats_fetched_at": "2026-10-02T11:26:10Z",
-      "category_label": "Deep learning-based",
+      "category_label": "Domain Adaptation & Distribution Matching",
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
@@ -2354,12 +2381,15 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": [
+        "deep-learning"
+      ]
     },
     {
       "id": "sfharmony",
       "name": "SFHarmony",
-      "category": "deep-learning",
+      "category": "domain-adaptation",
       "method_type": "deep-learning",
       "level": "feature-level",
       "tags": [
@@ -2388,7 +2418,7 @@
       "last_commit": "2024-03-25",
       "repo_description": "Source code for SFHarmony",
       "stats_fetched_at": "2026-10-02T11:26:10Z",
-      "category_label": "Deep learning-based",
+      "category_label": "Domain Adaptation & Distribution Matching",
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
@@ -2432,7 +2462,10 @@
       "extends": [
         "unlearning-mri"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": [
+        "deep-learning"
+      ]
     },
     {
       "id": "harmonized-fmri",
@@ -2505,7 +2538,8 @@
       "entry_type": "protocol",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "dmri-harmonization",
@@ -2589,7 +2623,8 @@
       "extends": [
         "rish"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "dictionary-learning-harmonization",
@@ -2666,7 +2701,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "b0shimming",
@@ -2738,7 +2774,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "needs_review": "Paper title 'An open toolbox for harmonized B0 shimming' could not be found in OpenAlex; add the reference (DOI or ISMRM abstract) if one exists."
+      "needs_review": "Paper title 'An open toolbox for harmonized B0 shimming' could not be found in OpenAlex; add the reference (DOI or ISMRM abstract) if one exists.",
+      "secondary_categories": []
     },
     {
       "id": "intensity-normalization",
@@ -2825,7 +2862,8 @@
       "entry_type": "toolbox",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "calamiti",
@@ -2906,7 +2944,8 @@
       "extends": [
         "dewey-disentangled-latent"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "dewey-disentangled-latent",
@@ -2982,7 +3021,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "murd",
@@ -3056,7 +3096,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "stgan",
@@ -3135,7 +3176,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "disarm",
@@ -3214,7 +3256,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "disarmpp",
@@ -3295,7 +3338,8 @@
       "extends": [
         "disarm"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "iguane",
@@ -3371,7 +3415,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "haca3",
@@ -3455,7 +3500,8 @@
       "extends": [
         "calamiti"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "scanner-invariant-repr",
@@ -3530,7 +3576,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "flow-causal-harmonization",
@@ -3603,7 +3650,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "bashyam-stargan-harmonization",
@@ -3680,7 +3728,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "modanwal-cyclegan",
@@ -3754,7 +3803,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "dlest",
@@ -3830,7 +3880,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "deepresbat",
@@ -3913,7 +3964,10 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": [
+        "combat-family"
+      ]
     },
     {
       "id": "harmonizing-flows",
@@ -3990,7 +4044,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "simix",
@@ -4067,7 +4122,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "ssimh",
@@ -4143,7 +4199,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "diffusion-autoencoder-harmonization",
@@ -4220,7 +4277,8 @@
       "extends": [],
       "evidence": [],
       "citations_source": "openalex",
-      "citations_fetched_at": "2026-10-03T12:27:55Z"
+      "citations_fetched_at": "2026-10-03T12:27:55Z",
+      "secondary_categories": []
     },
     {
       "id": "style-guided-latent-diffusion",
@@ -4296,12 +4354,13 @@
       "extends": [],
       "evidence": [],
       "citations_source": "openalex",
-      "citations_fetched_at": "2026-10-03T12:27:55Z"
+      "citations_fetched_at": "2026-10-03T12:27:55Z",
+      "secondary_categories": []
     },
     {
       "id": "attention-guided-domain-adaptation",
       "name": "Attention-Guided Deep Domain Adaptation (Guan et al.)",
-      "category": "deep-learning",
+      "category": "domain-adaptation",
       "method_type": "deep-learning",
       "level": "feature-level",
       "tags": [
@@ -4328,7 +4387,7 @@
       "last_commit": null,
       "repo_description": null,
       "stats_fetched_at": null,
-      "category_label": "Deep learning-based",
+      "category_label": "Domain Adaptation & Distribution Matching",
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
@@ -4373,7 +4432,10 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": [
+        "deep-learning"
+      ]
     },
     {
       "id": "blindharmony",
@@ -4448,7 +4510,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "blindharmonydiff",
@@ -4523,7 +4586,8 @@
       "extends": [
         "blindharmony"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "tgtfreeharmony",
@@ -4602,7 +4666,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "gnn-connectome-harmonization",
@@ -4682,7 +4747,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "connectome-distribution-matching",
@@ -4758,7 +4824,10 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": [
+        "domain-adaptation"
+      ]
     },
     {
       "id": "ssim-guided-disentanglement",
@@ -4830,7 +4899,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "dist-clip",
@@ -4908,7 +4978,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "bartharm",
@@ -4986,7 +5057,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "neuroharmony",
@@ -5065,7 +5137,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "autocombat",
@@ -5154,7 +5227,8 @@
       "extends": [
         "combat"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "bayesian-normative",
@@ -5234,7 +5308,8 @@
       "extends": [
         "hbr"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "ismi",
@@ -5311,7 +5386,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "isi",
@@ -5379,7 +5455,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "fedharmony",
@@ -5457,7 +5534,11 @@
       "extends": [
         "unlearning-mri"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": [
+        "domain-adaptation",
+        "deep-learning"
+      ]
     },
     {
       "id": "fedcombat",
@@ -5537,7 +5618,10 @@
         "combat",
         "d-combat"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": [
+        "combat-family"
+      ]
     },
     {
       "id": "d-combat",
@@ -5618,7 +5702,10 @@
       "extends": [
         "combat"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": [
+        "combat-family"
+      ]
     },
     {
       "id": "harmofl",
@@ -5696,7 +5783,10 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": [
+        "deep-learning"
+      ]
     },
     {
       "id": "ica-dp",
@@ -5775,7 +5865,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "ica-dp-fmri",
@@ -5853,7 +5944,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "otda",
@@ -5930,7 +6022,10 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": [
+        "domain-adaptation"
+      ]
     },
     {
       "id": "botda",
@@ -6011,7 +6106,10 @@
       "extends": [
         "otda"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": [
+        "domain-adaptation"
+      ]
     },
     {
       "id": "combat-eb",
@@ -6089,7 +6187,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "combat-seq",
@@ -6173,7 +6272,8 @@
       "extends": [
         "combat-eb"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "deepcombat",
@@ -6256,7 +6356,10 @@
       "extends": [
         "combat"
       ],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": [
+        "deep-learning"
+      ]
     },
     {
       "id": "nested-gmm-combat",
@@ -6349,7 +6452,8 @@
           "year": 2024,
           "doi": "10.1016/j.clinph.2024.09.019"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "rish",
@@ -6430,7 +6534,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "hbr",
@@ -6525,7 +6630,8 @@
           "year": 2026,
           "doi": "10.1038/s42003-026-09825-2"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "synthsr",
@@ -6606,7 +6712,8 @@
       "entry_type": "method",
       "implements": null,
       "extends": [],
-      "evidence": []
+      "evidence": [],
+      "secondary_categories": []
     },
     {
       "id": "comcat",
@@ -6697,7 +6804,8 @@
           "year": 2026,
           "doi": "10.64898/2026.06.18.733200"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "m-combat",
@@ -6785,7 +6893,8 @@
           "year": 2015,
           "doi": "10.1186/s12859-015-0478-3"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "b-combat",
@@ -6883,7 +6992,8 @@
           "year": 2020,
           "doi": "10.1038/s41598-020-66110-w"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "transfer-learning-combat",
@@ -6975,7 +7085,8 @@
           "year": 2021,
           "doi": "10.1371/journal.pone.0253653"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "fully-bayes-combat",
@@ -7062,7 +7173,8 @@
           "year": 2023,
           "doi": "10.1016/j.nicl.2023.103472"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "sva",
@@ -7144,7 +7256,8 @@
           "year": 2007,
           "doi": "10.1371/journal.pgen.0030161"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "traveling-subject-harmonization",
@@ -7249,7 +7362,8 @@
           "year": 2019,
           "doi": "10.1371/journal.pbio.3000042"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "mmd-pooling",
@@ -7427,7 +7541,8 @@
           "year": 2018,
           "doi": "10.1073/pnas.1719747115"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "residualization",
@@ -7509,7 +7624,8 @@
           "year": 2017,
           "doi": "10.1016/j.neuroimage.2017.01.066"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "wharmpa",
@@ -7602,7 +7718,8 @@
           "year": 2022,
           "doi": "10.1002/hbm.25838"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "multiclass-neuroharmony",
@@ -7699,7 +7816,8 @@
           "year": 2024,
           "doi": "10.1148/ryai.240030"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "abcd-harmonizer",
@@ -7709,6 +7827,7 @@
       "level": "feature-level",
       "tags": [
         "abcd",
+        "site-effect-quantification",
         "scanner-variance",
         "tool"
       ],
@@ -7736,7 +7855,7 @@
       "category_label": "Location/Scale Models (ComBat-family)",
       "in_uniharmony": false,
       "also_implemented_in": [],
-      "validation_data": "Agnostic",
+      "validation_data": "ABCD",
       "modality": "Structural MRI",
       "needs_gpu": false,
       "architecture_backbone": null,
@@ -7771,19 +7890,17 @@
       "venue": "Neuroinformatics",
       "publication_type": "article",
       "modalities_proposed": [
-        "sMRI",
-        "dMRI",
-        "fMRI"
+        "sMRI"
       ],
       "modalities_tested": [
-        "sMRI",
-        "dMRI",
-        "fMRI"
+        "sMRI"
       ],
       "modalities_verified": false,
       "entry_type": "toolbox",
       "implements": null,
-      "extends": [],
+      "extends": [
+        "combat"
+      ],
       "evidence": [
         {
           "modality": "sMRI",
@@ -7792,7 +7909,7 @@
           "doi": "10.1007/s12021-023-09624-8"
         }
       ],
-      "needs_review": "Method details not verified beyond the abstract (scanner-variance mapping tool for ABCD)."
+      "secondary_categories": []
     },
     {
       "id": "per-site-feature-standardization",
@@ -7880,7 +7997,8 @@
           "year": 2019,
           "doi": "10.1109/trpms.2019.2893860"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "intensity-warping",
@@ -7979,7 +8097,8 @@
           "year": 2020,
           "doi": "10.1016/j.neuroimage.2020.117242"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "linked-ica-scanner-denoising",
@@ -8067,7 +8186,8 @@
           "year": 2019,
           "doi": "10.1016/j.neuroimage.2019.116388"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "nm-mri-harmonization",
@@ -8152,7 +8272,8 @@
           "year": 2021,
           "doi": "10.1002/jmri.27679"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "dmri-method-of-moments",
@@ -8235,7 +8356,8 @@
           "year": 2019,
           "doi": "10.1109/tmi.2019.2895020"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "dmri-registration-framework",
@@ -8338,7 +8460,8 @@
           "year": 2017,
           "doi": "10.1007/s11682-016-9670-y"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "dmri-harmonization-unmatched",
@@ -8427,7 +8550,8 @@
           "year": 2025,
           "doi": "10.1002/mrm.30575"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "dmri-sup2unsup",
@@ -8507,7 +8631,8 @@
           "year": 2022,
           "doi": "10.1109/isbi52829.2022.9761445"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "shresnet",
@@ -8591,7 +8716,8 @@
           "year": 2019,
           "doi": "10.1007/978-3-030-05831-9_14"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "dki-dl-harmonization",
@@ -8679,7 +8805,8 @@
           "year": 2020,
           "doi": "10.1016/j.mri.2020.08.001"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "dual-gan-dti",
@@ -8767,7 +8894,8 @@
           "year": 2020,
           "doi": "10.1186/s12938-020-0748-9"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "s2s-cyclegan",
@@ -8853,7 +8981,8 @@
           "year": 2019,
           "doi": "10.1007/978-3-030-32251-9_52"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "cycle-aae-cortical",
@@ -8939,7 +9068,8 @@
           "year": 2023,
           "doi": "10.1007/978-3-031-43993-3_36"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "style-encoding-gan",
@@ -9024,7 +9154,8 @@
           "year": 2021,
           "doi": "10.1007/978-3-030-87199-4_30"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "ts-net",
@@ -9111,7 +9242,8 @@
           "year": 2022,
           "doi": "10.1016/j.neuroimage.2022.119297"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "deep-harmonization-seg",
@@ -9195,7 +9327,8 @@
           "year": 2018,
           "doi": "10.1007/978-3-030-00536-8_3"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "ssl-harmonization-no-phantom",
@@ -9279,7 +9412,8 @@
           "year": 2022,
           "doi": "10.1088/1361-6560/ac7b66"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "goal-specific-harmonization",
@@ -9370,7 +9504,8 @@
           "year": 2022,
           "doi": "10.1016/j.neuroimage.2022.119570"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "style-blind-autoencoder",
@@ -9455,7 +9590,8 @@
           "year": 2022,
           "doi": "10.1016/j.phro.2022.05.005"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "aggan-harmonization",
@@ -9538,7 +9674,8 @@
           "year": 2021,
           "doi": "10.1117/12.2606155"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "attention-image-harmonization",
@@ -9626,7 +9763,8 @@
           "year": 2023,
           "doi": "10.1117/12.2654392"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "transformer-harmonization",
@@ -9710,7 +9848,8 @@
           "year": 2023,
           "doi": "10.1109/icma57826.2023.10215948"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "hail",
@@ -9799,7 +9938,8 @@
           "year": 2023,
           "doi": "10.48550/arxiv.2308.11047"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "cyclegan-3d-intersite",
@@ -9883,7 +10023,8 @@
           "year": 2023,
           "doi": "10.1016/j.heliyon.2023.e22647"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "homogenisation-uncertainty",
@@ -9970,7 +10111,8 @@
           "year": 2021,
           "doi": "10.1007/978-3-030-87735-4_5"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "mri-homogenization-pediatric",
@@ -10053,7 +10195,8 @@
           "year": 2020,
           "doi": "10.1007/978-3-030-59861-7_19"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "neonatal-harmonized-seg",
@@ -10141,7 +10284,8 @@
           "year": 2021,
           "doi": "10.3389/fnins.2021.662005"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "single-mr-disentangle",
@@ -10228,7 +10372,8 @@
           "year": 2022,
           "doi": "10.1007/978-3-031-17027-0_6"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "segrenorm",
@@ -10312,7 +10457,8 @@
           "year": 2021,
           "doi": "10.1109/tmi.2021.3059726"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "realistic-image-normalization",
@@ -10393,7 +10539,8 @@
           "year": 2021,
           "doi": "10.1016/j.media.2021.102191"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "adversarial-normalization",
@@ -10474,7 +10621,8 @@
           "year": 2020,
           "doi": "10.1109/isbi45749.2020.9098651"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "istn-harmonization",
@@ -10561,7 +10709,8 @@
           "year": 2020,
           "doi": "10.1007/978-3-030-59728-3_69"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "weak-paired-cyclegan",
@@ -10644,7 +10793,8 @@
           "year": 2019,
           "doi": "10.1109/tmi.2019.2894692"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "di-pss",
@@ -10727,7 +10877,8 @@
           "year": 2021,
           "doi": "10.1109/access.2021.3129105"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "cdw-contrast-homogenization",
@@ -10812,7 +10963,8 @@
           "year": 2022,
           "doi": "10.1117/12.2608565"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "phycharm",
@@ -10894,7 +11046,8 @@
           "year": 2025,
           "doi": "10.1016/j.neuroimage.2025.121361"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "phyre",
@@ -10978,7 +11131,8 @@
           "year": 2023,
           "doi": "10.1007/978-3-031-44689-4_6"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "diffusion-multidomain-harmonization",
@@ -11062,7 +11216,8 @@
           "year": 2025,
           "doi": "10.1016/j.neuroimage.2025.121297"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "conditional-latent-diffusion-harmonization",
@@ -11148,7 +11303,8 @@
           "year": 2025,
           "doi": "10.1016/j.media.2025.103849"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "espa",
@@ -11234,7 +11390,8 @@
           "year": 2024,
           "doi": "10.1007/978-3-031-72069-7_18"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "bme-x",
@@ -11321,7 +11478,8 @@
           "year": 2024,
           "doi": "10.1038/s41551-024-01283-7"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "synthseg",
@@ -11409,7 +11567,8 @@
           "year": 2023,
           "doi": "10.1016/j.media.2023.102789"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "nst-cardiac-mr",
@@ -11490,7 +11649,8 @@
           "year": 2019,
           "doi": "10.1007/978-3-030-32245-8_15"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "radiomic-feature-std-nn",
@@ -11573,7 +11733,8 @@
           "year": 2019,
           "doi": "10.1117/1.jmi.6.2.024008"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "stain-transfer-adversarial",
@@ -11653,7 +11814,8 @@
           "year": 2020,
           "doi": "10.1007/978-3-030-59722-1_32"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "embracing-disharmony",
@@ -11733,6 +11895,9 @@
           "year": 2021,
           "doi": "10.1016/j.media.2021.102309"
         }
+      ],
+      "secondary_categories": [
+        "deep-learning"
       ]
     },
     {
@@ -11820,6 +11985,9 @@
           "year": 2022,
           "doi": "10.1007/978-3-031-16449-1_69"
         }
+      ],
+      "secondary_categories": [
+        "deep-learning"
       ]
     },
     {
@@ -11904,6 +12072,9 @@
           "year": 2020,
           "doi": "10.1007/978-3-030-59710-8_43"
         }
+      ],
+      "secondary_categories": [
+        "deep-learning"
       ]
     },
     {
@@ -11988,6 +12159,9 @@
           "year": 2021,
           "doi": "10.1016/j.media.2021.102136"
         }
+      ],
+      "secondary_categories": [
+        "deep-learning"
       ]
     },
     {
@@ -12071,6 +12245,9 @@
           "year": 2020,
           "doi": "10.1038/s41467-020-19784-9"
         }
+      ],
+      "secondary_categories": [
+        "deep-learning"
       ]
     },
     {
@@ -12158,6 +12335,9 @@
           "year": 2021,
           "doi": "10.1109/wacv48630.2021.00256"
         }
+      ],
+      "secondary_categories": [
+        "deep-learning"
       ]
     },
     {
@@ -12238,7 +12418,8 @@
           "year": 2016,
           "doi": "10.1016/j.neuroimage.2016.05.053"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "multitask-multisite",
@@ -12326,7 +12507,8 @@
           "year": 2018,
           "doi": "10.1016/j.nicl.2018.04.037"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "low-rank-domain-adaptation",
@@ -12410,7 +12592,8 @@
           "year": 2019,
           "doi": "10.1109/tmi.2019.2933160"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "cdat-adhd",
@@ -12491,6 +12674,9 @@
           "year": 2020,
           "doi": "10.1109/icassp40776.2020.9054606"
         }
+      ],
+      "secondary_categories": [
+        "deep-learning"
       ]
     },
     {
@@ -12574,7 +12760,8 @@
           "year": 2020,
           "doi": "10.48550/arxiv.2010.15594"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "three-way-decision-da",
@@ -12654,7 +12841,8 @@
           "year": 2021,
           "doi": "10.3390/brainsci11050603"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "msc-nfe",
@@ -12736,7 +12924,8 @@
           "year": 2021,
           "doi": "10.1016/j.media.2021.102279"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "rai-ot",
@@ -12817,6 +13006,9 @@
           "year": 2022,
           "doi": "10.1016/j.cmpb.2021.106615"
         }
+      ],
+      "secondary_categories": [
+        "domain-adaptation"
       ]
     },
     {
@@ -12901,6 +13093,10 @@
           "year": 2020,
           "doi": "10.3389/fncom.2020.00019"
         }
+      ],
+      "secondary_categories": [
+        "domain-adaptation",
+        "deep-learning"
       ]
     },
     {
@@ -12982,7 +13178,8 @@
           "year": 2015,
           "doi": "10.1016/j.media.2015.06.010"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "transfer-learning-across-protocols",
@@ -13063,7 +13260,8 @@
           "year": 2014,
           "doi": "10.1109/tmi.2014.2366792"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "ucan",
@@ -13144,6 +13342,9 @@
           "year": 2019,
           "doi": "10.1007/978-3-030-32692-0_45"
         }
+      ],
+      "secondary_categories": [
+        "deep-learning"
       ]
     },
     {
@@ -13230,6 +13431,9 @@
           "year": 2024,
           "doi": "10.1117/12.3011291"
         }
+      ],
+      "secondary_categories": [
+        "deep-learning"
       ]
     },
     {
@@ -13320,6 +13524,9 @@
           "year": 2019,
           "doi": "10.1007/978-3-030-33391-1_7"
         }
+      ],
+      "secondary_categories": [
+        "deep-learning"
       ]
     },
     {
@@ -13405,6 +13612,9 @@
           "year": 2019,
           "doi": "10.1007/978-3-030-32245-8_69"
         }
+      ],
+      "secondary_categories": [
+        "deep-learning"
       ]
     },
     {
@@ -13585,7 +13795,8 @@
           "year": 2022,
           "doi": "10.1038/s41586-022-04554-y"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "gamlss-normative",
@@ -13670,7 +13881,8 @@
           "year": 2021,
           "doi": "10.1101/2021.06.14.448106"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "warped-blr",
@@ -13760,7 +13972,8 @@
           "year": 2021,
           "doi": "10.1016/j.neuroimage.2021.118715"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "braincharts-pcn",
@@ -13874,7 +14087,8 @@
           "year": 2022,
           "doi": "10.7554/elife.72904"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "federated-hbr",
@@ -13972,6 +14186,9 @@
           "year": 2021,
           "doi": "10.1101/2021.05.28.446120"
         }
+      ],
+      "secondary_categories": [
+        "normative-modeling"
       ]
     },
     {
@@ -14060,7 +14277,8 @@
           "year": 2016,
           "doi": "10.1002/mrm.26235"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "pulseq-cest",
@@ -14156,7 +14374,8 @@
           "year": 2021,
           "doi": "10.1002/mrm.28825"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "ptx-pulseq",
@@ -14247,7 +14466,8 @@
           "year": 2025,
           "doi": "10.1002/mrm.30601"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "gammastar",
@@ -14329,7 +14549,8 @@
           "year": 2025,
           "doi": "10.1002/mrm.30573"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "mtrk",
@@ -14411,7 +14632,8 @@
           "year": 2025,
           "doi": "10.1002/mrm.70067"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "pulseq-3d-qalas",
@@ -14510,7 +14732,8 @@
           "year": 2025,
           "doi": "10.1002/mrm.30566"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "gadgetron",
@@ -14591,7 +14814,8 @@
           "year": 2012,
           "doi": "10.1002/mrm.24389"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "bart",
@@ -14682,7 +14906,8 @@
           "year": 2022,
           "doi": "10.1002/mrm.29485"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "ismrmrd",
@@ -14775,7 +15000,8 @@
           "year": 2016,
           "doi": "10.1002/mrm.26089"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "uk7t-protocols",
@@ -14865,7 +15091,8 @@
           "year": 2019,
           "doi": "10.1016/j.neuroimage.2019.116335"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "adni-mri-protocol",
@@ -14978,7 +15205,8 @@
           "year": 2008,
           "doi": "10.1002/jmri.21049"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "abcd-imaging-protocol",
@@ -15090,7 +15318,8 @@
           "year": 2018,
           "doi": "10.1016/j.dcn.2018.03.001"
         }
-      ]
+      ],
+      "secondary_categories": []
     },
     {
       "id": "earl-pet-harmonization",
@@ -15175,7 +15404,105 @@
           "year": 2018,
           "doi": "10.1007/s00259-018-3977-4"
         }
-      ]
+      ],
+      "secondary_categories": []
+    },
+    {
+      "id": "combat-predict",
+      "name": "ComBat-Predict (CB-Predict)",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "empirical-bayes",
+        "new-site",
+        "out-of-sample",
+        "normative-modeling",
+        "location-scale"
+      ],
+      "paper_title": "ComBat-Predict Enhances Generalizability of Neuroimaging Models to New Sites",
+      "paper_year": 2026,
+      "paper_url": "https://doi.org/10.1002/hbm.70546",
+      "github": "andy1764/ComBatFamily",
+      "language": [
+        "R"
+      ],
+      "other_url": null,
+      "abstract": null,
+      "citations": 2,
+      "stars": 36,
+      "forks": 8,
+      "open_issues": 0,
+      "license": null,
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2023-02-10",
+      "first_commit_date": null,
+      "last_commit": "2026-07-01",
+      "repo_description": "ComBat Family of Harmonization Methods",
+      "stats_fetched_at": "2026-10-04T13:00:00Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "ADNI, Lifespan Brain Chart Consortium",
+      "modality": "Structural MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-04T13:00:00Z",
+      "doi": "10.1002/hbm.70546",
+      "arxiv_id": null,
+      "authors": [
+        "Yao Xin",
+        "Margaret Gardner",
+        "Nicholas J. Tustison",
+        "Philip Cook",
+        "James Gee",
+        "Andreana M. Benitez",
+        "Jens H. Jensen",
+        "Alzheimer’s Disease Neuroimaging Initiative",
+        "Richard A. I. Bethlehem",
+        "Jakob Seidlitz",
+        "Aaron F. Alexander‐Bloch",
+        "Andrew A. Chen"
+      ],
+      "n_authors": 12,
+      "venue": "Human Brain Mapping",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "sMRI"
+      ],
+      "modalities_tested": [
+        "sMRI"
+      ],
+      "modalities_verified": true,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat"
+      ],
+      "evidence": [
+        {
+          "modality": "sMRI",
+          "title": "ComBat-Predict Enhances Generalizability of Neuroimaging Models to New Sites",
+          "year": 2026,
+          "doi": "10.1002/hbm.70546"
+        }
+      ],
+      "secondary_categories": []
     }
   ],
   "stats_fetched_at": "2026-10-02T13:31:19Z",

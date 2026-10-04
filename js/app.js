@@ -267,7 +267,7 @@ const PUBLICATION_TYPE_OPTIONS = [
 
 const addModelState = {
   entryType: "method", level: "feature-level",
-  proposed: new Set(), tested: new Set(), extends: new Set(), toolboxes: new Set(),
+  proposed: new Set(), tested: new Set(), extends: new Set(), toolboxes: new Set(), secondary: new Set(),
   evidence: [],
   needsGpu: null, hasPretrainedWeights: null,
   requiresSiteId: null, generalizesToNewSite: null, lowNFriendly: null,
@@ -547,6 +547,10 @@ function buildAddModelTab() {
           </label>
         </div>
         <div class="addmodel-field">
+          <span>Also fits these families <em class="addmodel-hint">optional — families overlap (e.g. an optimal-transport method that is also domain adaptation)</em></span>
+          <div class="rec-options" id="am-secondary"></div>
+        </div>
+        <div class="addmodel-field">
           <span>Harmonization level</span>
           <div class="rec-options" id="am-level"></div>
         </div>
@@ -701,6 +705,8 @@ function buildAddModelTab() {
   makeToggleGroup("am-linear", [["yes", "Yes"], ["no", "No"], ["na", "N/A"]], S, "requiresLinearSignal");
   makeToggleGroup("am-mlok", yn, S, "mlCompatible");
 
+  makeChipSet("am-secondary", FAMILY_ORDER.map(([id]) => [id, FAMILY_SHORT[id] || id]), S.secondary, null,
+    () => new Set());
   const modalityOpts = MODALITY_CODES.map((c) => [c, MODALITY_FACET_LABEL[c] || c]);
   makeChipSet("am-proposed", modalityOpts, S.proposed, () => syncChipSet("am-tested"));
   makeChipSet("am-tested", modalityOpts, S.tested, null, () => impliedTested());
@@ -1135,6 +1141,7 @@ function generateSubmission() {
     implements: implementsId,
     extends: [...S.extends],
     evidence,
+    secondary_categories: [...S.secondary].filter((c) => c !== category),
     _toolboxes: toolboxes,
     _notes: val("am-notes") || null,
     _submitted_via: "add-a-model form",
@@ -1565,11 +1572,11 @@ function publicationFacet(d) {
 const FACETS = [
   { key: "modality", label: "Tested on", values: (d) => d.modalities_tested || [],
     labelOf: (v) => MODALITY_FACET_LABEL[v] || v },
-  { key: "family", label: "Family", values: (d) => [d.category],
+  { key: "family", label: "Family (incl. overlaps)", values: (d) => [d.category, ...(d.secondary_categories || [])],
     labelOf: (v) => FAMILY_SHORT[v] || FAMILY_LABEL.get(v) || v },
   { key: "language", label: "Language", values: (d) => (d.language && d.language.length ? d.language : ["none"]),
     labelOf: (v) => (v === "none" ? "No code listed" : v) },
-  { key: "code", label: "Code", values: (d) => [d.github || d.other_url || isToolboxMember(d.id) ? "yes" : "no"],
+  { key: "code", label: "Code", values: (d) => [hasPublicCode(d) ? "yes" : "no"],
     labelOf: (v) => (v === "yes" ? "Has public code" : "No public code"), order: ["yes", "no"] },
   { key: "maintenance", label: "Maintenance", values: maintenanceFacet,
     labelOf: (v) => ({ active: "Active (< 6 mo)", slowing: "Slowing (< 2 y)", stale: "Stale (2 y+)", toolbox: "Via a toolbox", unknown: "Unknown" })[v] || v,
@@ -1583,6 +1590,10 @@ const FACETS = [
   { key: "gpu", label: "Hardware", values: (d) => [d.recommend && d.recommend.needs_gpu ? "gpu" : "cpu"],
     labelOf: (v) => (v === "gpu" ? "Needs a GPU" : "Runs on CPU"), order: ["cpu", "gpu"] },
 ];
+
+function hasPublicCode(d) {
+  return !!(d.github || d.other_url || isToolboxMember(d.id));
+}
 
 function passesFacets(d, skipKey = null) {
   for (const f of FACETS) {
@@ -1703,6 +1714,13 @@ function renderActiveFilters() {
   const n = activeFacetCount();
   const btn = document.getElementById("filters-toggle");
   btn.textContent = n ? `⚲ Filters (${n})` : "⚲ Filters";
+  const codeOnly = !!(state.facets.code && state.facets.code.has("yes") && state.facets.code.size === 1);
+  const noCode = state.data.filter((d) => !hasPublicCode(d)).length;
+  const codeBtn = document.getElementById("code-only-toggle");
+  codeBtn.classList.toggle("active", codeOnly);
+  codeBtn.setAttribute("aria-pressed", String(codeOnly));
+  codeBtn.textContent = codeOnly ? `</> Code only (hiding ${noCode})` : "</> Code only";
+  codeBtn.title = codeOnly ? "Show paper-only methods again" : `Hide the ${noCode} methods that have no public code`;
   btn.classList.toggle("active", n > 0);
   bar.classList.toggle("hidden", n === 0);
   bar.innerHTML = "";
@@ -1733,14 +1751,20 @@ function bindFacets() {
     btn.setAttribute("aria-expanded", String(open));
   });
   if (activeFacetCount()) { panel.classList.remove("hidden"); btn.setAttribute("aria-expanded", "true"); }
+  document.getElementById("code-only-toggle").addEventListener("click", () => {
+    const set = state.facets.code;
+    const on = set && set.has("yes") && set.size === 1;
+    state.facets.code = on ? new Set() : new Set(["yes"]);
+    facetsToUrl();
+    render();
+  });
 }
 
 /* ---------------- Impact view (citations × maintenance) ---------------- */
 // One dot per method with both a citation count and a last-commit date.
-// x = last commit (older left → recent right), y = citations on a log scale.
+// x = time since the last commit (today left → older right, sqrt scale), y = citations (log).
 // Background bands reuse the Active / Slowing / Stale thresholds of the badges.
-// Dots are one neutral hue: the chart's question is "cited and maintained?",
-// family is in the tooltip (10 family colours would not be distinguishable here).
+// Dots are coloured by (primary) family, with a legend above the chart.
 
 function timeAgo(ms) {
   const days = Math.round(ms / 86400000);
@@ -2646,6 +2670,7 @@ function openDrawer(d) {
   content.innerHTML = `
     <div class="drawer-eyebrow" style="--eyebrow-color:${FAMILY_COLOR.get(d.category) || "#888"}">${escapeHtml(d.category_label)} · ${escapeHtml(LEVEL_LABELS[d.level] || d.level)}</div>
     <h2>${escapeHtml(d.name)} ${archivedBadge}</h2>
+    ${(d.secondary_categories || []).length ? `<p class="drawer-also-fits">Also fits: ${d.secondary_categories.map((c) => `<span class="chip" style="border-color:${FAMILY_COLOR.get(c) || "#888"}">${escapeHtml(FAMILY_SHORT[c] || FAMILY_LABEL.get(c) || c)}</span>`).join(" ")}</p>` : ""}
     ${d.paper_title ? `<p class="paper-title">"${escapeHtml(d.paper_title)}"</p>` : ""}
     ${d.abstract ? `<p>${escapeHtml(d.abstract)}</p>` : ""}
     ${d.repo_description ? `<p class="repo-description">${escapeHtml(d.repo_description)}</p>` : ""}
@@ -3003,6 +3028,16 @@ REC_STEPS.push(
       if (v !== "yes") return { pool, message: null };
       pool.forEach((d) => { if (recHasPretrained(d)) ctx.boost(d, 2, "Pretrained weights available"); else if (d.method_type === "deep-learning") ctx.caution(d, "You'd need to train it on your data"); });
       return { pool, message: "Kept every method; ready-to-use models now rank first." };
+    },
+  },
+  {
+    key: "code", group: "software", legend: "Do you need a public implementation?",
+    help: "Many methods in the database are paper-only. Say yes to keep only methods with a public repository, package or toolbox.",
+    options: [["yes", "Yes, only methods with public code"], ["no", "No, a paper is enough"]],
+    apply(pool, v) {
+      if (v !== "yes") return { pool, message: null };
+      const after = pool.filter(hasPublicCode);
+      return { pool: after, message: pool.length > after.length ? `Removed ${plural(pool.length - after.length, "method")} with no public code.` : null };
     },
   },
   {

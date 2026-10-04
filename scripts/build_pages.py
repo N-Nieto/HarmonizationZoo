@@ -344,6 +344,7 @@ def render_page(m, by_id, extended_by, toolboxes, today):
 
     details = "".join([
         row("Family", esc(fam_label)),
+        row("Also fits", esc(", ".join(FAMILY.get(c, (c, ""))[0] for c in (m.get("secondary_categories") or [])))),
         row("Level", esc(LEVEL.get(m["level"], m["level"]))),
         row("Method type", esc(m.get("method_type", "").replace("-", " "))),
         row("Proposed for", chips(m.get("modalities_proposed"), MODALITY_LABEL)),

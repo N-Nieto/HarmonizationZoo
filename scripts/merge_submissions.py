@@ -61,7 +61,7 @@ DEFAULTS = {
     "doi": None, "arxiv_id": None, "authors": [], "n_authors": None, "venue": None,
     "publication_type": None, "modalities_proposed": [], "modalities_tested": [],
     "modalities_verified": False, "entry_type": "method", "implements": None,
-    "extends": [], "evidence": [],
+    "extends": [], "evidence": [], "secondary_categories": [],
 }
 RECOMMEND_DEFAULTS = {
     "requires_site_id": True, "generalizes_to_new_site": False, "low_n_friendly": False,
@@ -115,6 +115,9 @@ def normalize(entry, category_labels):
                            ("method_type", METHOD_TYPES), ("entry_type", ENTRY_TYPES)):
         if entry.get(field) and entry[field] not in allowed:
             problems.append(f"unknown {field} '{entry[field]}'")
+    for sc in entry.get("secondary_categories") or []:
+        if sc not in CATEGORIES:
+            problems.append(f"unknown secondary category '{sc}'")
     for field in ("paper_url", "other_url", "pretrained_weights_url"):
         if entry.get(field) and not is_http_url(entry[field]):
             problems.append(f"'{field}' must be an http(s) URL")
