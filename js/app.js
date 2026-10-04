@@ -34,7 +34,7 @@ const STAR_BUCKETS = ["0", "1–9", "10–49", "50–199", "200–999", "1000+"]
 const state = {
   data: [],
   toolboxes: [],
-  groupBy: "level",
+  groupBy: "category",
   search: "",
   activeLevels: new Set(LEVEL_ORDER),
   fontSize: 13,
@@ -1618,6 +1618,14 @@ function bindFacets() {
 // Dots are one neutral hue: the chart's question is "cited and maintained?",
 // family is in the tooltip (10 family colours would not be distinguishable here).
 
+function timeAgo(ms) {
+  const days = Math.round(ms / 86400000);
+  if (days < 1) return "today";
+  if (days < 60) return `${days} day${days === 1 ? "" : "s"} ago`;
+  if (days < 730) return `${Math.round(days / 30.44)} months ago`;
+  return `${(days / 365.25).toFixed(1)} years ago`;
+}
+
 function renderImpact(visible) {
   const wrap = document.createElement("div");
   wrap.className = "impact-wrap";
@@ -1628,27 +1636,29 @@ function renderImpact(visible) {
   const pw = W - m.l - m.r, ph = H - m.t - m.b;
   const DAY = 86400000;
   const now = Date.now();
-  const t = (d) => new Date(`${d.last_commit}T00:00:00Z`).getTime();
-  const tMinData = plotted.length ? Math.min(...plotted.map(t)) : now - 5 * 365 * DAY;
-  const startYear = new Date(tMinData).getUTCFullYear();
-  const tMin = Date.UTC(startYear, 0, 1), tMax = now + 20 * DAY;
-  const xOf = (ms) => m.l + ((ms - tMin) / (tMax - tMin)) * pw;
+  const YEAR = 365.25 * DAY;
+  // x = time since the last commit (0 = today, older to the right)
+  const age = (d) => Math.max(0, now - new Date(`${d.last_commit}T00:00:00Z`).getTime());
+  const ageMaxData = plotted.length ? Math.max(...plotted.map(age)) : 5 * YEAR;
+  const ageMax = Math.max(2, Math.ceil(ageMaxData / YEAR + 0.05)) * YEAR;
+  // square-root scale: spreads out the crowded first months, compresses the long stale tail
+  const xOf = (a) => m.l + Math.sqrt(Math.min(a, ageMax) / ageMax) * pw;
   const cMax = Math.max(10, ...plotted.map((d) => d.citations));
   const logMax = Math.ceil(Math.log10(cMax + 1));
   const yOf = (c) => m.t + ph - (Math.log10(c + 1) / logMax) * ph;
 
   const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, class: "impact-svg", role: "img",
-    "aria-label": "Citations versus last commit date for each method" });
+    "aria-label": "Citations versus time since the last commit, one dot per method, coloured by family" });
 
   // maintenance bands
   const bands = [
-    { from: tMin, to: now - 730 * DAY, cls: "stale", label: "Stale · no commit in 2+ years" },
-    { from: now - 730 * DAY, to: now - 182 * DAY, cls: "slowing", label: "Slowing" },
-    { from: now - 182 * DAY, to: tMax, cls: "active", label: "Active" },
+    { from: 0, to: 182 * DAY, cls: "active", label: "Active" },
+    { from: 182 * DAY, to: 730 * DAY, cls: "slowing", label: "Slowing" },
+    { from: 730 * DAY, to: ageMax, cls: "stale", label: "Stale · no commit in 2+ years" },
   ];
   const bandG = svgEl("g", { class: "imp-bands" });
   bands.forEach((b) => {
-    const x1 = xOf(Math.max(b.from, tMin)), x2 = xOf(Math.min(b.to, tMax));
+    const x1 = xOf(b.from), x2 = xOf(Math.min(b.to, ageMax));
     if (x2 <= x1) return;
     bandG.appendChild(svgEl("rect", { x: x1, y: m.t, width: x2 - x1, height: ph, class: `imp-band imp-band-${b.cls}` }));
     const lab = svgEl("text", { x: x1 + 8, y: m.t + 16, class: `imp-band-label imp-band-label-${b.cls}` });
@@ -1667,18 +1677,19 @@ function renderImpact(visible) {
     tx.textContent = v.toLocaleString();
     grid.appendChild(tx);
   }
-  const endYear = new Date(tMax).getUTCFullYear();
-  for (let yr = startYear; yr <= endYear; yr++) {
-    const x = xOf(Date.UTC(yr, 0, 1));
-    if (x < m.l || x > W - m.r) continue;
+  const nYears = Math.round(ageMax / YEAR);
+  const ticks = [[0, "today"], [0.5, "6 mo"]];
+  for (let yr = 1; yr <= nYears; yr++) ticks.push([yr, `${yr} yr`]);
+  ticks.forEach(([yr, label]) => {
+    const x = xOf(yr * YEAR);
     grid.appendChild(svgEl("line", { x1: x, x2: x, y1: m.t + ph, y2: m.t + ph + 5 }));
-    const tx = svgEl("text", { x, y: m.t + ph + 20, "text-anchor": "middle" });
-    tx.textContent = String(yr);
+    const tx = svgEl("text", { x, y: m.t + ph + 20, "text-anchor": yr === 0 ? "start" : "middle" });
+    tx.textContent = label;
     grid.appendChild(tx);
-  }
+  });
   grid.appendChild(svgEl("line", { x1: m.l, x2: W - m.r, y1: m.t + ph, y2: m.t + ph, class: "imp-axis" }));
   const xl = svgEl("text", { x: m.l + pw / 2, y: H - 10, "text-anchor": "middle", class: "imp-axis-title" });
-  xl.textContent = "Last commit to the repository →  more recent";
+  xl.textContent = "Time since the last commit to the repository (square-root scale)  →  less maintained";
   grid.appendChild(xl);
   const yl = svgEl("text", { x: 16, y: m.t + ph / 2, "text-anchor": "middle", class: "imp-axis-title",
     transform: `rotate(-90 16 ${m.t + ph / 2})` });
@@ -1687,10 +1698,11 @@ function renderImpact(visible) {
   svg.appendChild(grid);
 
   // dots
-  const pts = plotted.map((d) => ({ d, x: xOf(t(d)), y: yOf(d.citations) }));
+  const pts = plotted.map((d) => ({ d, x: xOf(age(d)), y: yOf(d.citations) }));
   const dotG = svgEl("g", { class: "imp-dots" });
   pts.forEach((p) => {
     const c = svgEl("circle", { cx: p.x, cy: p.y, r: 5, class: "imp-dot" });
+    c.style.fill = FAMILY_COLOR.get(p.d.category) || "#888";
     if (state.compareMode && state.selectedIds.has(p.d.id)) c.classList.add("selected");
     p.el = c;
     dotG.appendChild(c);
@@ -1736,7 +1748,7 @@ function renderImpact(visible) {
       <strong>${escapeHtml(p.d.name)}</strong>
       <span class="imp-tip-family"><span class="tbl-dot" style="background:${FAMILY_COLOR.get(p.d.category) || "#888"}"></span>${escapeHtml(familyShort(p.d))}</span>
       <span>${p.d.citations.toLocaleString()} citations${typeof p.d.stars === "number" ? ` · ${p.d.stars.toLocaleString()} ★` : ""}</span>
-      <span><span class="maint-badge maint-${maint.status}">${STATUS_LABEL[maint.status]}</span> last commit ${escapeHtml(p.d.last_commit)}</span>
+      <span><span class="maint-badge maint-${maint.status}">${STATUS_LABEL[maint.status]}</span> last commit ${escapeHtml(p.d.last_commit)} (${escapeHtml(timeAgo(age(p.d)))})</span>
       ${codeHealth(p.d) ? `<span>Code health ${healthBadge(codeHealth(p.d))}</span>` : ""}
       <em>Click for details</em>`;
     tip.classList.remove("hidden");
@@ -1767,7 +1779,9 @@ function renderImpact(visible) {
     }
   });
 
-  wrap.innerHTML = `<p class="tbl-caption">${plotted.length} methods with both a citation count and a repository · ${missing ? `${missing} more in the current filter have no repo or no citation data yet · ` : ""}hover a dot for details</p>`;
+  const famPresent = FAMILY_ORDER.filter(([id]) => plotted.some((d) => d.category === id));
+  wrap.innerHTML = `<p class="tbl-caption">${plotted.length} methods with both a citation count and a repository · ${missing ? `${missing} more in the current filter have no repo or no citation data yet · ` : ""}hover a dot for details</p>
+    <div class="imp-legend" aria-label="Family colours">${famPresent.map(([id]) => `<span><span class="tbl-dot" style="background:${FAMILY_COLOR.get(id) || "#888"}"></span>${escapeHtml(FAMILY_SHORT[id] || id)}</span>`).join("")}</div>`;
   const scroller = document.createElement("div");
   scroller.className = "impact-scroll";
   scroller.appendChild(svg);
@@ -1775,7 +1789,7 @@ function renderImpact(visible) {
   wrap.appendChild(tip);
   const note = document.createElement("p");
   note.className = "imp-note";
-  note.textContent = "Top-right: well cited and still maintained. Bottom-right: new or niche but active. Top-left: influential but no longer maintained — check forks or toolboxes before relying on it. Exact numbers for every method are in the Table view.";
+  note.textContent = "Top-left: well cited and still maintained. Bottom-left: new or niche but active. Top-right: influential but no longer maintained — check forks or toolboxes before relying on it. Exact numbers for every method are in the Table view.";
   wrap.appendChild(note);
   return wrap;
 }
@@ -1939,14 +1953,12 @@ function renderLineage(visible) {
   });
   svg.appendChild(nodes);
 
-  // hover: light up the whole ancestry + descendants of a node
-  const childIds = new Map();
-  parentsOf.forEach((ps, c) => ps.forEach((p) => { if (!childIds.has(p.id)) childIds.set(p.id, []); childIds.get(p.id).push(c); }));
+  // hover: light up the path from the roots down to this node (its ancestry only —
+  // methods that build on it are not highlighted)
   function related(id) {
     const out = new Set([id]);
-    const up = [id], down = [id];
+    const up = [id];
     while (up.length) (parentsOf.get(up.pop()) || []).forEach((p) => { if (!out.has(p.id)) { out.add(p.id); up.push(p.id); } });
-    while (down.length) (childIds.get(down.pop()) || []).forEach((c) => { if (!out.has(c)) { out.add(c); down.push(c); } });
     return out;
   }
   function highlight(id) {
@@ -1958,7 +1970,7 @@ function renderLineage(visible) {
 
   const n = rows.length;
   wrap.innerHTML = `
-    <p class="tbl-caption">${n} methods with a recorded lineage · ${rows.filter((r) => r.depth === 0).length} roots · hover to trace a branch, click for details</p>
+    <p class="tbl-caption">${n} methods with a recorded lineage · ${rows.filter((r) => r.depth === 0).length} roots · hover to trace a method's ancestry, click for details</p>
     <div class="lineage-legend">
       <span><svg width="34" height="10" aria-hidden="true"><line x1="0" y1="5" x2="34" y2="5" class="lin-edge lin-extends"/></svg>builds on</span>
       <span><svg width="34" height="10" aria-hidden="true"><line x1="0" y1="5" x2="34" y2="5" class="lin-edge lin-implements"/></svg>implementation of</span>
@@ -2520,7 +2532,6 @@ function openDrawer(d) {
       ${d.venue ? `<dt>Published in</dt><dd>${escapeHtml(d.venue)}</dd>` : ""}
       ${d.authors && d.authors.length ? `<dt>Authors</dt><dd>${escapeHtml(d.authors.slice(0, 3).join(", "))}${d.n_authors > 3 ? " et al." : ""}</dd>` : ""}
       ${d.modalities_tested && d.modalities_tested.length ? `<dt>Tested on</dt><dd><div class="chip-row">${d.modalities_tested.map((x) => `<span class="chip">${escapeHtml(x)}</span>`).join("")}</div></dd>` : ""}
-      ${(d.evidence || []).length ? `<dt>Evidence</dt><dd><ul class="evidence-list">${d.evidence.map((ev) => `<li><span class="chip">${escapeHtml(MODALITY_FACET_LABEL[ev.modality] || ev.modality)}</span> ${extLink(ev.doi ? `https://doi.org/${ev.doi}` : ev.url, `${escapeHtml(ev.title || "paper")}${ev.year ? ` (${escapeHtml(ev.year)})` : ""}`, "inline-link")}</li>`).join("")}</ul></dd>` : ""}
       <dt>First commit</dt><dd>${escapeHtml(firstCommitLine)}</dd>
       <dt>Last maintained</dt><dd>${maintLine}</dd>
       ${(() => { const h = codeHealth(d); return h ? `<dt>Code health</dt><dd>${healthBadge(h)}${healthBreakdownHtml(h)}</dd>` : ""; })()}
@@ -2544,6 +2555,11 @@ function openDrawer(d) {
       <a href="methods/${encodeURIComponent(d.id)}/">▤ Full page, BibTeX &amp; corrections</a>
       <button type="button" id="drawer-copy-link" class="drawer-share-btn">⧉ Copy link to this method</button>
     </div>
+    ${(d.evidence || []).length ? `
+    <section class="drawer-evidence">
+      <h3>Evidence <span class="drawer-evidence-count">${d.evidence.length} paper${d.evidence.length === 1 ? "" : "s"} applying it per modality</span></h3>
+      <ul class="evidence-list">${d.evidence.map((ev) => `<li><span class="chip">${escapeHtml(MODALITY_FACET_LABEL[ev.modality] || ev.modality)}</span> ${extLink(ev.doi ? `https://doi.org/${ev.doi}` : ev.url, `${escapeHtml(ev.title || "paper")}${ev.year ? ` (${escapeHtml(ev.year)})` : ""}`, "inline-link")}</li>`).join("")}</ul>
+    </section>` : ""}
   `;
 
   drawer.classList.add("open");
