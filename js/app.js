@@ -36,6 +36,7 @@ const FAMILY_NOTE = {
 };
 // preserves_biology flag: does the method explicitly protect biological variability
 // (e.g. by modelling biological covariates)? null = not assessed.
+const BIOLOGY_WARNING = "Does not explicitly preserve biological variability: site effects are removed without modelling biological covariates, so biology that differs between sites can be removed too.";
 const BIOLOGY_LABEL = {
   true: "Yes — biological covariates are modelled explicitly",
   false: "No — no explicit biological preservation",
@@ -220,6 +221,15 @@ function buildHomeTab() {
         activity, and licensing, and built to grow — anyone can propose a new method.
       </p>
 
+      <div class="home-stats">
+        <button type="button" class="home-stat" data-tab="explore"><strong>${state.data.length}</strong><span>methods</span></button>
+        <button type="button" class="home-stat" data-tab="explore" data-code-only="1"><strong>${state.data.filter(hasPublicCode).length}</strong><span>with public code</span></button>
+        <button type="button" class="home-stat" data-tab="toolboxes"><strong>${state.toolboxes.length}</strong><span>toolboxes</span></button>
+        <button type="button" class="home-stat" data-tab="resources"><strong>${state.resources.length}</strong><span>reviews &amp; benchmarks</span></button>
+        <button type="button" class="home-stat" data-tab="datasets"><strong>${state.datasets.length}</strong><span>datasets</span></button>
+      </div>
+      <p class="home-kbd">Keyboard: <kbd>/</kbd> search methods · <kbd>1</kbd>–<kbd>${VALID_TABS.length}</kbd> switch tabs · <kbd>Esc</kbd> close panels</p>
+
       <div class="home-cta-grid">
         <button type="button" class="home-cta" data-tab="explore">
           <span class="home-cta-title">Explore →</span>
@@ -238,6 +248,16 @@ function buildHomeTab() {
           <span class="home-cta-desc">Several methods aren't standalone repos — they're bundled inside
             larger packages (UniHarmony, ComBatFamily, NeuroHarm-kit, …). See what's
             implemented where, in which language.</span>
+        </button>
+        <button type="button" class="home-cta" data-tab="resources">
+          <span class="home-cta-title">Resources →</span>
+          <span class="home-cta-desc">Reviews, surveys and comparison studies worth reading before you
+            pick a method, each linked to the methods it discusses.</span>
+        </button>
+        <button type="button" class="home-cta" data-tab="datasets">
+          <span class="home-cta-title">Datasets →</span>
+          <span class="home-cta-desc">Traveling-subject resources, harmonization benchmarks, phantoms and
+            large multisite cohorts to develop and test methods on.</span>
         </button>
         <button type="button" class="home-cta" data-tab="guide">
           <span class="home-cta-title">Did it work? →</span>
@@ -261,8 +281,14 @@ function buildHomeTab() {
     </div>
   `;
 
-  root.querySelectorAll(".home-cta").forEach((btn) => {
-    btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+  root.querySelectorAll(".home-cta, .home-stat").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (btn.dataset.codeOnly && !(state.facets.code && state.facets.code.has("yes"))) {
+        const t = document.getElementById("code-only-toggle");
+        if (t) t.click();
+      }
+      switchTab(btn.dataset.tab);
+    });
   });
 }
 
@@ -651,6 +677,7 @@ function buildGuideTab() {
     <div class="toolboxes-wrap guide-wrap">
       <nav class="guide-toc" aria-label="Guide sections">
         <a href="#guide-evaluation" data-jump="guide-evaluation">${escapeHtml(ev.title || "Evaluation")}</a>
+        ${ev.steps.map((st, i) => `<a href="#guide-${escapeHtml(st.id)}" data-jump="guide-${escapeHtml(st.id)}" class="guide-toc-sub">${i + 1}. ${escapeHtml(st.title)}</a>`).join("")}
         ${eeg ? `<a href="#guide-eeg" data-jump="guide-eeg">${escapeHtml(eeg.title)}</a>` : ""}
         ${gloss.length ? `<a href="#guide-glossary" data-jump="guide-glossary">Glossary</a>` : ""}
       </nav>
@@ -691,6 +718,7 @@ function buildAddModelTab() {
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((m) => `<option value="${escapeHtml(m.name)}"></option>`).join("");
   root.innerHTML = `
+    <div class="addmodel-layout">
     <div class="addmodel-wrap">
       <p class="addmodel-intro">
         Know a harmonization method that's missing? Only the name, paper link and source
@@ -919,6 +947,14 @@ function buildAddModelTab() {
         <pre id="am-json-preview" class="addmodel-json"></pre>
       </div>
     </div>
+    <aside class="addmodel-aside" aria-label="Form outline">
+      <h4>Required</h4>
+      <ul id="am-req-list"></ul>
+      <h4>Sections</h4>
+      <ol id="am-toc"></ol>
+      <button type="button" id="am-generate-aside">Check &amp; generate submission</button>
+    </aside>
+    </div>
   `;
 
   populateSelect("am-category", FAMILY_ORDER.map(([id, label]) => [id, label]), "combat-family");
@@ -1004,6 +1040,28 @@ function buildAddModelTab() {
   document.getElementById("am-code").addEventListener("change", (e) => { fetchRepoPreview(e.target.value.trim()); updateDuplicateStatus(); });
 
   document.getElementById("am-generate").addEventListener("click", generateSubmission);
+  // Desktop outline: section links + live required-field checklist.
+  document.getElementById("am-generate-aside").addEventListener("click", generateSubmission);
+  const toc = document.getElementById("am-toc");
+  root.querySelectorAll(".addmodel-section > h3").forEach((h, i) => {
+    h.id = h.id || `am-sec-${i + 1}`;
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = `#${h.id}`;
+    a.textContent = h.childNodes[0].textContent.replace(/^\s*\d+\s*·\s*/, "").trim();
+    a.addEventListener("click", (e) => { e.preventDefault(); h.scrollIntoView({ behavior: "smooth", block: "start" }); });
+    li.appendChild(a);
+    toc.appendChild(li);
+  });
+  const REQ = [["am-name", "Method name"], ["am-paper", "Paper link"], ["am-code", "Source code link"]];
+  const updateReq = () => {
+    document.getElementById("am-req-list").innerHTML = REQ.map(([id, label]) => {
+      const ok = !!document.getElementById(id).value.trim();
+      return `<li class="${ok ? "req-ok" : "req-miss"}">${ok ? "✓" : "○"} ${escapeHtml(label)}</li>`;
+    }).join("");
+  };
+  REQ.forEach(([id]) => document.getElementById(id).addEventListener("input", updateReq));
+  updateReq();
   document.getElementById("am-download").addEventListener("click", () => {
     if (S.last) downloadJsonFile(S.last.filename, S.last.json);
   });
@@ -1563,7 +1621,22 @@ function bindControls() {
   document.getElementById("drawer-close").addEventListener("click", closeDrawer);
   document.getElementById("drawer-scrim").addEventListener("click", closeDrawer);
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") { closeDrawer(); closeComparePanel(); }
+    if (e.key === "Escape") { closeDrawer(); closeComparePanel(); return; }
+    // Desktop shortcuts, ignored while typing or with modifier keys.
+    const t = e.target;
+    if (e.ctrlKey || e.metaKey || e.altKey || (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))) return;
+    if (e.key === "/") {
+      e.preventDefault();
+      switchTab("explore");
+      const search = document.getElementById("search");
+      if (search) { search.focus(); search.select(); }
+    } else if (/^[1-9]$/.test(e.key) && VALID_TABS[Number(e.key) - 1]) {
+      switchTab(VALID_TABS[Number(e.key) - 1]);
+    }
+  });
+  document.querySelectorAll(".tab-btn").forEach((b) => {
+    const i = VALID_TABS.indexOf(b.dataset.tab);
+    if (i >= 0 && i < 9) b.title = `Shortcut: ${i + 1}`;
   });
 
   document.getElementById("compare-toggle").addEventListener("click", toggleCompareMode);
@@ -1855,11 +1928,15 @@ function passesFacets(d, skipKey = null) {
 function passesSearchAndLevel(d) {
   if (!state.activeLevels.has(d.level)) return false;
   if (!state.search) return true;
-  const haystack = [
-    d.name, d.category_label, d.method_type, d.level, d.venue || "",
-    ...(d.tags || []), ...(d.language || []), ...(d.authors || []),
-    ...(d.modalities_tested || []),
-  ].join(" ").toLowerCase();
+  if (d._hay === undefined) {
+    d._hay = [
+      d.name, d.category_label, d.method_type, d.level, d.venue || "",
+      d.paper_title || "", d.repo_description || "", d.abstract || "",
+      ...(d.tags || []), ...(d.language || []), ...(d.authors || []),
+      ...(d.modalities_tested || []),
+    ].join(" ").toLowerCase();
+  }
+  const haystack = d._hay;
   return haystack.includes(state.search);
 }
 
@@ -2950,7 +3027,7 @@ function openDrawer(d) {
     ${FAMILY_NOTE[d.category] ? `<p class="drawer-family-note">${escapeHtml(FAMILY_NOTE[d.category])}</p>` : ""}
     ${(d.secondary_categories || []).length ? `<p class="drawer-also-fits">Also fits: ${d.secondary_categories.map((c) => `<span class="chip" style="border-color:${FAMILY_COLOR.get(c) || "#888"}">${escapeHtml(FAMILY_SHORT[c] || FAMILY_LABEL.get(c) || c)}</span>`).join(" ")}</p>` : ""}
     ${d.paper_title ? `<p class="paper-title">"${escapeHtml(d.paper_title)}"</p>` : ""}
-    ${d.abstract ? `<p>${escapeHtml(d.abstract)}</p>` : ""}
+    ${d.abstract ? `<details class="drawer-abstract"><summary>Abstract <span>${d.abstract_source ? `via ${escapeHtml(d.abstract_source)}` : ""}</span></summary><p>${escapeHtml(d.abstract)}</p></details>` : ""}
     ${d.repo_description ? `<p class="repo-description">${escapeHtml(d.repo_description)}</p>` : ""}
     ${noPaperNote}
 
@@ -3570,7 +3647,19 @@ function renderMethodsPanel(container, pool, ctx = recContext(), finished = fals
     more.innerHTML = `<summary>${plural(rest.length, "more method")} in the running</summary>`;
     const flow = document.createElement("div");
     flow.className = "box-flow";
-    rest.forEach(({ d }) => flow.appendChild(makeBox(d)));
+    rest.forEach(({ d }) => {
+      const box = makeBox(d);
+      if (d.preserves_biology === false) {
+        box.classList.add("box-bio-warn");
+        box.title = `${d.name}: ${BIOLOGY_WARNING}`;
+        const w = document.createElement("span");
+        w.className = "box-bio-flag";
+        w.setAttribute("aria-label", BIOLOGY_WARNING);
+        w.textContent = "⚠";
+        box.appendChild(w);
+      }
+      flow.appendChild(box);
+    });
     more.appendChild(flow);
     container.appendChild(more);
   }
@@ -3586,7 +3675,8 @@ function recCard(d, ctx, rank) {
   li.tabIndex = 0;
   li.setAttribute("role", "button");
   const reasons = (ctx.boosts.get(d.id) || []).map((b) => b.why);
-  const cautions = ctx.cautions.get(d.id) || [];
+  const cautions = [...(ctx.cautions.get(d.id) || [])];
+  if (d.preserves_biology === false) cautions.unshift(BIOLOGY_WARNING);
   const maint = d.last_commit ? formatMaintenance(d.last_commit) : null;
   const meta = [
     d.paper_year ? String(d.paper_year) : null,

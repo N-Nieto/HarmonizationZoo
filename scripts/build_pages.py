@@ -440,7 +440,7 @@ def render_page(m, by_id, extended_by, toolboxes, today):
     {"".join(paper_bits)}
     <div class="mp-links">{"".join(links)}</div>
   </section>
-  {f'<section class="mp-stats">{stat_html}</section>' if stat_html else ""}
+  {f'<section class="mp-section"><h2>Abstract</h2><p class="mp-abstract">{esc(m["abstract"])}</p><p class="mp-muted">Abstract via {esc(m.get("abstract_source") or "the publisher")}; see the paper for the authoritative version.</p></section>' if m.get("abstract") else ""}{f'<section class="mp-stats">{stat_html}</section>' if stat_html else ""}
   {f'<p class="mp-repo-desc">{esc(m["repo_description"])}</p>' if m.get("repo_description") else ""}
   <section class="mp-section">
     <h2>Details</h2>

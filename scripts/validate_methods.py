@@ -81,6 +81,10 @@ def main():
                 err(f"unknown secondary category `{sc}`")
             elif sc == m.get("category"):
                 err(f"secondary category `{sc}` repeats the primary category")
+        if m.get("abstract") is not None and (not isinstance(m["abstract"], str) or not m["abstract"].strip()):
+            err("`abstract` must be a non-empty string or null")
+        if m.get("abstract") and not m.get("abstract_source"):
+            warnings.append(f"{mid}: abstract has no `abstract_source`")
         if m.get("preserves_biology") not in (True, False, None):
             err("`preserves_biology` must be true, false or null")
         if m.get("category") == "confound-removal" and m.get("preserves_biology") is True:

@@ -391,6 +391,23 @@ lines, usage ≤ 16 lines), copy them from the README rather than writing new
 code, and update `fetched` when you re-check one. `source` must be an http(s)
 URL (validated). Repos without a usable README example simply have no block.
 
+### Abstracts
+
+`abstract` holds the paper abstract and `abstract_source` where it came from
+(OpenAlex, Crossref, Europe PMC, Semantic Scholar or the publisher page). The 40
+entries added in October 2026 have one; older entries are still empty. Abstracts
+are searchable from Explore, shown collapsed in the method details and in full
+on the method pages. The validator warns when an abstract has no source.
+
+### Desktop layout
+
+The site is designed for desktop screens first (research workstations): sticky
+tab bar, multi-column Toolboxes/Resources/Datasets, a sidebar table of contents
+in the Guide, a sticky question panel in "Which method?", a wider details drawer
+and a sticky outline in "Add a model". Keyboard: `/` search, `1`–`8` switch tabs,
+`Esc` close panels. The rules live at the end of `css/style.css` ("Desktop-first
+layout"); narrow-screen rules earlier in the file still work but aren't a priority.
+
 ### Confound Removal family and the `preserves_biology` flag
 
 **Confound Removal** (`confound-removal`) holds methods that remove site or

@@ -1662,3 +1662,106 @@ select:focus, input[type="search"]:focus, button:focus-visible {
 .guide-term dd { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--paper-dim); }
 .guide-term[hidden] { display: none; }
 .drawer-family-note { font-size: 12.5px; line-height: 1.5; color: var(--paper-dim); border-left: 3px solid #8e98a6; padding: 4px 10px; margin: -4px 0 12px; }
+.method-box .box-bio-flag { margin-left: 6px; color: var(--amber, #e0b050); font-size: 11px; }
+
+/* =====================================================================
+   Desktop-first layout (Oct 2026): the site is mostly used on research
+   workstations, so wide screens get multi-column layouts, a sticky tab
+   bar and sticky side panels. Narrow-screen rules above still apply.
+   ===================================================================== */
+:root { --content-max: 1680px; --nav-h: 42px; }
+
+/* Sticky tab bar so every tab is one click away on long pages */
+.tab-nav {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  background: rgba(10, 14, 19, 0.94);
+  backdrop-filter: blur(6px);
+}
+.tab-kbd {
+  font-family: var(--font-mono); font-size: 10px; color: var(--paper-dim);
+  opacity: 0.55; margin-left: 6px;
+}
+
+/* Wider content areas; long prose stays at a readable measure */
+.toolboxes-wrap { max-width: var(--content-max); }
+.home-wrap { max-width: 1320px; }
+.toolboxes-intro, .home-lede { max-width: 820px; }
+
+/* Toolboxes and Resources: card grids instead of a single column */
+@media (min-width: 1200px) {
+  /* masonry-style columns: cards of different heights pack without gaps */
+  .toolbox-grid, .resource-list { display: block; columns: 2 560px; column-gap: 20px; }
+  .toolbox-grid > .toolbox-card, .resource-list > .resource-card { break-inside: avoid; margin-bottom: 20px; }
+  .dataset-grid { grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); }
+}
+
+/* Home: three CTA columns and a numbers band */
+@media (min-width: 1100px) { .home-cta-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1500px) { .home-cta-grid { grid-template-columns: repeat(4, 1fr); } }
+.home-stats {
+  display: flex; flex-wrap: wrap; gap: 12px; margin: -20px 0 40px;
+}
+.home-stat {
+  border: 1px solid var(--line); border-radius: 10px; padding: 10px 16px; background: var(--panel);
+  min-width: 120px; cursor: pointer; text-align: left; color: var(--paper); font: inherit;
+}
+.home-stat:hover { border-color: var(--phosphor); }
+.home-stat strong { display: block; font-family: var(--font-display); font-size: 22px; }
+.home-stat span { font-family: var(--font-mono); font-size: 11px; color: var(--paper-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+.home-kbd { font-family: var(--font-mono); font-size: 11.5px; color: var(--paper-dim); margin: -24px 0 36px; }
+.home-kbd kbd, .kbd {
+  font-family: var(--font-mono); font-size: 11px; border: 1px solid var(--line); border-bottom-width: 2px;
+  border-radius: 4px; padding: 0 5px; background: var(--panel); color: var(--paper);
+}
+
+/* Guide: sticky table of contents in a sidebar */
+@media (min-width: 1100px) {
+  .guide-wrap { display: grid; grid-template-columns: 210px minmax(0, 1fr); column-gap: 40px; align-items: start; }
+  .guide-wrap > .guide-toc {
+    grid-row: 1 / span 10; flex-direction: column; align-items: stretch;
+    top: calc(var(--nav-h) + 16px); padding: 0; background: none; margin: 0;
+  }
+  .guide-wrap > .guide-toc a { border-radius: 8px; }
+  .guide-wrap > .guide-section { grid-column: 2; max-width: 1180px; }
+  .guide-glossary { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+}
+.guide-toc { top: var(--nav-h); }
+.guide-toc .guide-toc-sub { display: none; }
+@media (min-width: 1100px) {
+  .guide-wrap > .guide-toc .guide-toc-sub {
+    display: block; border: none; padding: 2px 12px 2px 22px; font-size: 11.5px; border-radius: 6px;
+  }
+  .guide-wrap > .guide-toc { gap: 6px; }
+}
+.guide-section, .guide-step { scroll-margin-top: calc(var(--nav-h) + 20px); }
+
+/* Which method?: the questions stay in view while the results scroll */
+@media (min-width: 1100px) {
+  .rec-tree { position: sticky; top: calc(var(--nav-h) + 14px); max-height: calc(100vh - var(--nav-h) - 28px); overflow-y: auto; padding-right: 4px; }
+}
+
+/* Detail drawer: more room on large monitors */
+@media (min-width: 1400px) { .drawer { width: 560px; } }
+
+/* Add a model: form + sticky outline with the required-field checklist */
+.addmodel-layout { display: block; }
+@media (min-width: 1100px) {
+  .addmodel-layout { display: grid; grid-template-columns: minmax(0, 760px) 280px; gap: 40px; align-items: start; padding-right: clamp(18px, 4vw, 48px); }
+  .addmodel-layout > .addmodel-wrap { max-width: none; }
+  .addmodel-aside { display: block; position: sticky; top: calc(var(--nav-h) + 30px); margin-top: 30px; }
+}
+.addmodel-aside { display: none; border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; background: var(--panel); font-size: 13px; }
+.addmodel-aside h4 { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--paper-dim); margin: 0 0 8px; }
+.addmodel-aside ol, .addmodel-aside ul { margin: 0 0 16px; padding-left: 18px; line-height: 1.8; }
+.addmodel-aside a { color: var(--paper); text-decoration: none; }
+.addmodel-aside a:hover { color: var(--phosphor); }
+.addmodel-aside .req-ok { color: var(--cyan); }
+.addmodel-aside .req-miss { color: var(--paper-dim); }
+.addmodel-aside button { width: 100%; }
+.addmodel-section h3 { scroll-margin-top: calc(var(--nav-h) + 20px); }
+.drawer-abstract { margin: 0 0 14px; border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; background: var(--panel); }
+.drawer-abstract summary { cursor: pointer; font-family: var(--font-mono); font-size: 11.5px; color: var(--paper-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+.drawer-abstract summary span { text-transform: none; letter-spacing: 0; opacity: 0.7; margin-left: 6px; }
+.drawer-abstract p { font-size: 13.5px; line-height: 1.6; margin: 8px 0 2px; }

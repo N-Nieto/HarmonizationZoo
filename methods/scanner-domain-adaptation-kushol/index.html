@@ -22,10 +22,15 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "CreativeWork",
+  "@type": "SoftwareSourceCode",
   "name": "Scanner domain adaptation instead of harmonization (Kushol et al.)",
   "url": "https://n-nieto.github.io/HarmonizationZoo/methods/scanner-domain-adaptation-kushol/",
   "description": "Scanner domain adaptation instead of harmonization (Kushol et al.): a feature-level Domain Adaptation & Distribution Matching harmonization method. published 2023 in Lecture Notes in Computer Science, 7 citations, tested on Structural MRI.",
+  "codeRepository": "https://github.com/rkushol/DAMS",
+  "programmingLanguage": [
+    "Python"
+  ],
+  "license": "https://spdx.org/licenses/MIT.html",
   "citation": {
     "@type": "ScholarlyArticle",
     "headline": "Domain Adaptation of MRI Scanners as an Alternative to MRI Harmonization",
@@ -84,13 +89,13 @@
   
   <section class="mp-section mp-paper">
     <p class="mp-paper-title">Domain Adaptation of MRI Scanners as an Alternative to MRI Harmonization</p><p class="mp-authors">Rafsanjany Kushol, Richard Frayne, Simon J. Graham, Alan H. Wilman, Sanjay Kalra, Yee‐Hong Yang</p><p class="mp-venue">Lecture Notes in Computer Science · 2023</p>
-    <div class="mp-links"><a class="mp-btn" href="https://doi.org/10.1007/978-3-031-45857-6_1" rel="noopener noreferrer">↗ doi:10.1007/978-3-031-45857-6_1</a></div>
+    <div class="mp-links"><a class="mp-btn" href="https://doi.org/10.1007/978-3-031-45857-6_1" rel="noopener noreferrer">↗ doi:10.1007/978-3-031-45857-6_1</a><a class="mp-btn" href="https://github.com/rkushol/DAMS" rel="noopener noreferrer">↗ rkushol/DAMS</a></div>
   </section>
-  <section class="mp-stats"><div class="mp-stat"><span>Citations</span><strong>7</strong></div></section>
-  
+  <section class="mp-section"><h2>Abstract</h2><p class="mp-abstract">Combining large multi-center datasets can enhance statistical power, particularly in the field of neurology, where data can be scarce. However, applying a deep learning model trained on existing neuroimaging data often leads to inconsistent results when tested on new data due to domain shift caused by differences between the training (source domain) and testing (target domain) data. Existing literature offers several solutions based on domain adaptation (DA) techniques, which ignore complex practical scenarios where heterogeneity may exist in the source or target domain. This study proposes a new perspective in solving the domain shift issue for MRI data by identifying and addressing the dominant factor causing heterogeneity in the dataset. We design an unsupervised DA method leveraging the maximum mean discrepancy and correlation alignment loss in order to align domain-invariant features. Instead of regarding the entire dataset as a source or target domain, the dataset is processed based on the dominant factor of data variations, which is the scanner manufacturer. Afterwards, the target domain’s feature space is aligned pairwise with respect to each source domain’s feature map. Experimental results demonstrate significant performance gain for multiple inter- and intra-study neurodegenerative disease classification tasks. Source code available at (https://github.com/rkushol/DAMS).</p><p class="mp-muted">Abstract via Springer; see the paper for the authoritative version.</p></section><section class="mp-stats"><div class="mp-stat"><span>Citations</span><strong>7</strong></div><div class="mp-stat"><span>GitHub stars</span><strong>5</strong></div><div class="mp-stat"><span>Last commit</span><strong><span class="maint-badge maint-stale">Stale</span> 2024-02-13</strong></div><div class="mp-stat"><span>Code health</span><strong><span class="health-badge health-D">D</span> 33/100</strong></div></section>
+  <p class="mp-repo-desc">Domain adaptation of MRI scanners as an alternative to MRI harmonization</p>
   <section class="mp-section">
     <h2>Details</h2>
-    <dl class="spec-table"><dt>Family</dt><dd>Domain Adaptation &amp; Distribution Matching</dd><dt>Preserves biology</dt><dd>Not assessed</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>deep learning</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Structural MRI</span> <a href="https://doi.org/10.1007/978-3-031-45857-6_1" rel="noopener noreferrer">Domain Adaptation of MRI Scanners as an Alternative to MRI Harmonization</a> (2023)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">domain-adaptation</span><span class="chip">alzheimers</span><span class="chip">classification</span></div></dd></dl>
+    <dl class="spec-table"><dt>Family</dt><dd>Domain Adaptation &amp; Distribution Matching</dd><dt>Preserves biology</dt><dd>Not assessed</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>deep learning</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Structural MRI</span> <a href="https://doi.org/10.1007/978-3-031-45857-6_1" rel="noopener noreferrer">Domain Adaptation of MRI Scanners as an Alternative to MRI Harmonization</a> (2023)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Language</dt><dd><div class="chip-row"><span class="chip">Python</span></div></dd><dt>License</dt><dd>MIT</dd><dt>Code health</dt><dd><ul class="health-parts"><li><span>Recency</span><span class="health-bar"><span style="width:12%"></span></span><span class="health-num">5/40</span><span class="health-note">last commit 2024-02-13</span></li><li><span>Longevity</span><span class="health-bar"><span style="width:33%"></span></span><span class="health-num">5/15</span><span class="health-note">1.0 years of commits</span></li><li><span>License</span><span class="health-bar"><span style="width:100%"></span></span><span class="health-num">15/15</span><span class="health-note">MIT</span></li><li><span>Adoption</span><span class="health-bar"><span style="width:30%"></span></span><span class="health-num">6/20</span><span class="health-note">5 stars</span></li><li><span>Community</span><span class="health-bar"><span style="width:20%"></span></span><span class="health-num">2/10</span><span class="health-note">2 forks</span></li></ul></dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">domain-adaptation</span><span class="chip">alzheimers</span><span class="chip">classification</span></div></dd></dl>
   </section>
   
   
