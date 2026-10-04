@@ -36,8 +36,16 @@ FAMILY = {
     "ica-based": ("ICA-based", "#e0a8f0"),
     "optimal-transport": ("Optimal transport-based", "#d8c26a"),
     "domain-adaptation": ("Domain Adaptation & Distribution Matching", "#ef7d55"),
+    "confound-removal": ("Confound Removal", "#8e98a6"),
     "acquisition-protocol": ("Acquisition / Protocol Harmonization", "#a3b1c2"),
 }
+FAMILY_NOTE = {
+    "confound-removal": "Removes site/scanner effects (e.g. by regression or per-site standardization) without explicitly "
+                        "protecting biological variability: no biological covariates are modelled, so biology that differs "
+                        "between sites can be removed too. Often used as a baseline.",
+}
+BIOLOGY = {True: "Yes — biological covariates are modelled explicitly",
+           False: "No — no explicit biological preservation", None: "Not assessed"}
 LEVEL = {"feature-level": "Feature-level", "image-level": "Image-level", "acquisition-level": "Acquisition-level"}
 MODALITY_LABEL = {
     "sMRI": "Structural MRI", "dMRI": "Diffusion MRI", "fMRI": "Functional MRI", "connectome": "Connectomes",
@@ -344,6 +352,8 @@ def render_page(m, by_id, extended_by, toolboxes, today):
 
     details = "".join([
         row("Family", esc(fam_label)),
+        row("About this family", esc(FAMILY_NOTE[m["category"]]) if m["category"] in FAMILY_NOTE else ""),
+        row("Preserves biology", esc(BIOLOGY.get(m.get("preserves_biology")))),
         row("Also fits", esc(", ".join(FAMILY.get(c, (c, ""))[0] for c in (m.get("secondary_categories") or [])))),
         row("Level", esc(LEVEL.get(m["level"], m["level"]))),
         row("Method type", esc(m.get("method_type", "").replace("-", " "))),

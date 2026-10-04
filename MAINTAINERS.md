@@ -8,11 +8,11 @@ debugging the pipelines, or changing how they work.
 
 ## What's in the database right now
 
-`data/methods.json` holds **219 methods** (October 2026) across eleven families (the
+`data/methods.json` holds **219 methods** (October 2026) across twelve families (the
 "Family" grouping) — **Location/Scale Models (ComBat-family)** /
 Deep-learning / IQM / Normative Modeling / Interpolation / Federated / ICA /
 Optimal-transport / **Domain Adaptation & Distribution Matching** /
-Acquisition & Protocol, plus a **Classical Intensity Normalization** family
+**Confound Removal** / Acquisition & Protocol, plus a **Classical Intensity Normalization** family
 (WhiteStripe, Nyúl–Udupa histogram matching) for the pre-"harmonization"-era
 baselines that most of the survey papers still cite and compare against.
 Color always encodes **Family**, no matter which "Group by" option is
@@ -390,6 +390,26 @@ dropped, and a few install blocks were shortened. Keep them short (install ≤ 7
 lines, usage ≤ 16 lines), copy them from the README rather than writing new
 code, and update `fetched` when you re-check one. `source` must be an http(s)
 URL (validated). Repos without a usable README example simply have no block.
+
+### Confound Removal family and the `preserves_biology` flag
+
+**Confound Removal** (`confound-removal`) holds methods that remove site or
+scanner effects without explicitly protecting biological variability —
+residualization (regressing site out), per-site feature standardization and
+linked-ICA scanner denoising. The family's note (legend tooltip, method
+details, method pages; `FAMILY_NOTE` in `js/app.js` and `scripts/build_pages.py`)
+says that no explicit biological preservation is made.
+
+Separately, every method has `preserves_biology`: `true` (biological
+covariates are modelled explicitly so they are not removed with the site
+effect), `false` (no explicit preservation) or `null` (not assessed). Initial
+values (October 2026): `true` for the ComBat family (except WHARMPA, unclear),
+normative models and the federated ComBat/HBR variants; `false` for Confound
+Removal and single-image intensity normalizations (z-score, FCM, KDE,
+WhiteStripe, Nyúl, LSQ); `null` for everything else, including deep-learning
+methods, whose papers rarely state it. Explore has a "Preserves biology" filter
+and the Add-a-model form asks for it. The validator rejects `true` for a
+Confound Removal method.
 
 ### Overlapping families
 

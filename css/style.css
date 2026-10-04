@@ -1661,3 +1661,4 @@ select:focus, input[type="search"]:focus, button:focus-visible {
 .guide-term dt { font-family: var(--font-display); font-weight: 600; font-size: 14.5px; margin-bottom: 2px; }
 .guide-term dd { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--paper-dim); }
 .guide-term[hidden] { display: none; }
+.drawer-family-note { font-size: 12.5px; line-height: 1.5; color: var(--paper-dim); border-left: 3px solid #8e98a6; padding: 4px 10px; margin: -4px 0 12px; }

@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>Linked ICA Scanner Denoising — Harmonization Zoo</title>
-<meta name="description" content="Linked ICA Scanner Denoising: a feature-level ICA-based harmonization method. published 2019 in NeuroImage, 47 citations, tested on Structural MRI, Diffusion MRI.">
+<meta name="description" content="Linked ICA Scanner Denoising: a feature-level Confound Removal harmonization method. published 2019 in NeuroImage, 47 citations, tested on Structural MRI, Diffusion MRI.">
 <link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/linked-ica-scanner-denoising/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linked ICA Scanner Denoising — Harmonization Zoo">
-<meta property="og:description" content="Linked ICA Scanner Denoising: a feature-level ICA-based harmonization method. published 2019 in NeuroImage, 47 citations, tested on Structural MRI, Diffusion MRI.">
+<meta property="og:description" content="Linked ICA Scanner Denoising: a feature-level Confound Removal harmonization method. published 2019 in NeuroImage, 47 citations, tested on Structural MRI, Diffusion MRI.">
 <meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/linked-ica-scanner-denoising/">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0a0e13">
@@ -25,7 +25,7 @@
   "@type": "CreativeWork",
   "name": "Linked ICA Scanner Denoising",
   "url": "https://n-nieto.github.io/HarmonizationZoo/methods/linked-ica-scanner-denoising/",
-  "description": "Linked ICA Scanner Denoising: a feature-level ICA-based harmonization method. published 2019 in NeuroImage, 47 citations, tested on Structural MRI, Diffusion MRI.",
+  "description": "Linked ICA Scanner Denoising: a feature-level Confound Removal harmonization method. published 2019 in NeuroImage, 47 citations, tested on Structural MRI, Diffusion MRI.",
   "citation": {
     "@type": "ScholarlyArticle",
     "headline": "Denoising scanner effects from multimodal MRI data using linked independent component analysis",
@@ -87,7 +87,7 @@
   </nav>
 </header>
 <main class="mp-main">
-  <p class="mp-eyebrow" style="--eyebrow-color:#e0a8f0">ICA-based · Feature-level</p>
+  <p class="mp-eyebrow" style="--eyebrow-color:#8e98a6">Confound Removal · Feature-level</p>
   <h1>Linked ICA Scanner Denoising</h1>
   
   <section class="mp-section mp-paper">
@@ -98,8 +98,9 @@
   
   <section class="mp-section">
     <h2>Details</h2>
-    <dl class="spec-table"><dt>Family</dt><dd>ICA-based</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span><span class="chip">Diffusion MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span><span class="chip">Diffusion MRI</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Structural MRI</span> <a href="https://doi.org/10.1016/j.neuroimage.2019.116388" rel="noopener noreferrer">Denoising scanner effects from multimodal MRI data using linked independent component analysis</a> (2019)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.1016/j.neucom.2026.133146" rel="noopener noreferrer">Impact of leakage on data harmonization in machine learning pipelines in class imbalance across sites</a> (2026)</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">linked-ica</span><span class="chip">multimodal</span><span class="chip">denoising</span></div></dd></dl>
+    <dl class="spec-table"><dt>Family</dt><dd>Confound Removal</dd><dt>About this family</dt><dd>Removes site/scanner effects (e.g. by regression or per-site standardization) without explicitly protecting biological variability: no biological covariates are modelled, so biology that differs between sites can be removed too. Often used as a baseline.</dd><dt>Preserves biology</dt><dd>No — no explicit biological preservation</dd><dt>Also fits</dt><dd>ICA-based</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span><span class="chip">Diffusion MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span><span class="chip">Diffusion MRI</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Structural MRI</span> <a href="https://doi.org/10.1016/j.neuroimage.2019.116388" rel="noopener noreferrer">Denoising scanner effects from multimodal MRI data using linked independent component analysis</a> (2019)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.1016/j.neucom.2026.133146" rel="noopener noreferrer">Impact of leakage on data harmonization in machine learning pipelines in class imbalance across sites</a> (2026)</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">linked-ica</span><span class="chip">multimodal</span><span class="chip">denoising</span></div></dd></dl>
   </section>
+  
   
     <section class="mp-section">
       <div class="mp-section-head"><h2>Cite</h2>

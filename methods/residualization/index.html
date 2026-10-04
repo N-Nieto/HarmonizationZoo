@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>Confound Regression / Residualization — Harmonization Zoo</title>
-<meta name="description" content="Confound Regression / Residualization: a feature-level Location/Scale Models (ComBat-family) harmonization method. published 2017 in NeuroImage, 129 citations, tested on Modality-agnostic.">
+<meta name="description" content="Confound Regression / Residualization: a feature-level Confound Removal harmonization method. published 2017 in NeuroImage, 129 citations, tested on Modality-agnostic.">
 <link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/residualization/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Confound Regression / Residualization — Harmonization Zoo">
-<meta property="og:description" content="Confound Regression / Residualization: a feature-level Location/Scale Models (ComBat-family) harmonization method. published 2017 in NeuroImage, 129 citations, tested on Modality-agnostic.">
+<meta property="og:description" content="Confound Regression / Residualization: a feature-level Confound Removal harmonization method. published 2017 in NeuroImage, 129 citations, tested on Modality-agnostic.">
 <meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/residualization/">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0a0e13">
@@ -25,7 +25,7 @@
   "@type": "CreativeWork",
   "name": "Confound Regression / Residualization",
   "url": "https://n-nieto.github.io/HarmonizationZoo/methods/residualization/",
-  "description": "Confound Regression / Residualization: a feature-level Location/Scale Models (ComBat-family) harmonization method. published 2017 in NeuroImage, 129 citations, tested on Modality-agnostic.",
+  "description": "Confound Regression / Residualization: a feature-level Confound Removal harmonization method. published 2017 in NeuroImage, 129 citations, tested on Modality-agnostic.",
   "citation": {
     "@type": "ScholarlyArticle",
     "headline": "Predictive modelling using neuroimaging data in the presence of confounds",
@@ -67,7 +67,7 @@
   </nav>
 </header>
 <main class="mp-main">
-  <p class="mp-eyebrow" style="--eyebrow-color:#f2a93b">Location/Scale Models (ComBat-family) · Feature-level</p>
+  <p class="mp-eyebrow" style="--eyebrow-color:#8e98a6">Confound Removal · Feature-level</p>
   <h1>Confound Regression / Residualization</h1>
   
   <section class="mp-section mp-paper">
@@ -78,8 +78,9 @@
   
   <section class="mp-section">
     <h2>Details</h2>
-    <dl class="spec-table"><dt>Family</dt><dd>Location/Scale Models (ComBat-family)</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Modality-agnostic</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Modality-agnostic</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Modality-agnostic</span> <a href="https://doi.org/10.1016/j.neuroimage.2017.01.066" rel="noopener noreferrer">Predictive modelling using neuroimaging data in the presence of confounds</a> (2017)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.3389/fneur.2022.923988" rel="noopener noreferrer">Site effects how-to and when: An overview of retrospective techniques to accommodate site effects in multi-site neuroimaging analyses</a> (2022)</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">baseline</span><span class="chip">regression</span><span class="chip">confounds</span><span class="chip">linear-model</span></div></dd></dl>
+    <dl class="spec-table"><dt>Family</dt><dd>Confound Removal</dd><dt>About this family</dt><dd>Removes site/scanner effects (e.g. by regression or per-site standardization) without explicitly protecting biological variability: no biological covariates are modelled, so biology that differs between sites can be removed too. Often used as a baseline.</dd><dt>Preserves biology</dt><dd>No — no explicit biological preservation</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Modality-agnostic</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Modality-agnostic</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Modality-agnostic</span> <a href="https://doi.org/10.1016/j.neuroimage.2017.01.066" rel="noopener noreferrer">Predictive modelling using neuroimaging data in the presence of confounds</a> (2017)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.3389/fneur.2022.923988" rel="noopener noreferrer">Site effects how-to and when: An overview of retrospective techniques to accommodate site effects in multi-site neuroimaging analyses</a> (2022)</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">baseline</span><span class="chip">regression</span><span class="chip">confounds</span><span class="chip">linear-model</span></div></dd></dl>
   </section>
+  
   
     <section class="mp-section">
       <div class="mp-section-head"><h2>Cite</h2>

@@ -61,7 +61,7 @@ DEFAULTS = {
     "doi": None, "arxiv_id": None, "authors": [], "n_authors": None, "venue": None,
     "publication_type": None, "modalities_proposed": [], "modalities_tested": [],
     "modalities_verified": False, "entry_type": "method", "implements": None,
-    "extends": [], "evidence": [], "secondary_categories": [],
+    "extends": [], "evidence": [], "secondary_categories": [], "preserves_biology": None,
 }
 RECOMMEND_DEFAULTS = {
     "requires_site_id": True, "generalizes_to_new_site": False, "low_n_friendly": False,
@@ -118,6 +118,10 @@ def normalize(entry, category_labels):
     for sc in entry.get("secondary_categories") or []:
         if sc not in CATEGORIES:
             problems.append(f"unknown secondary category '{sc}'")
+    if entry.get("preserves_biology") not in (True, False, None):
+        problems.append("'preserves_biology' must be true, false or null")
+    if entry.get("category") == "confound-removal" and entry.get("preserves_biology") is True:
+        problems.append("confound-removal methods can't have preserves_biology = true")
     for field in ("paper_url", "other_url", "pretrained_weights_url"):
         if entry.get(field) and not is_http_url(entry[field]):
             problems.append(f"'{field}' must be an http(s) URL")

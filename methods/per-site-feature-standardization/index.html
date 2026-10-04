@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>Per-site Feature Standardization (radiomics) — Harmonization Zoo</title>
-<meta name="description" content="Per-site Feature Standardization (radiomics): a feature-level Classical Intensity Normalization harmonization method. published 2019 in IEEE Transactions on Radiation and Plasma Medical Sciences, 53 citations, tested on Radiomics, CT.">
+<meta name="description" content="Per-site Feature Standardization (radiomics): a feature-level Confound Removal harmonization method. published 2019 in IEEE Transactions on Radiation and Plasma Medical Sciences, 53 citations, tested on Radiomics, CT.">
 <link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/per-site-feature-standardization/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Per-site Feature Standardization (radiomics) — Harmonization Zoo">
-<meta property="og:description" content="Per-site Feature Standardization (radiomics): a feature-level Classical Intensity Normalization harmonization method. published 2019 in IEEE Transactions on Radiation and Plasma Medical Sciences, 53 citations, tested on Radiomics, CT.">
+<meta property="og:description" content="Per-site Feature Standardization (radiomics): a feature-level Confound Removal harmonization method. published 2019 in IEEE Transactions on Radiation and Plasma Medical Sciences, 53 citations, tested on Radiomics, CT.">
 <meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/per-site-feature-standardization/">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0a0e13">
@@ -25,7 +25,7 @@
   "@type": "CreativeWork",
   "name": "Per-site Feature Standardization (radiomics)",
   "url": "https://n-nieto.github.io/HarmonizationZoo/methods/per-site-feature-standardization/",
-  "description": "Per-site Feature Standardization (radiomics): a feature-level Classical Intensity Normalization harmonization method. published 2019 in IEEE Transactions on Radiation and Plasma Medical Sciences, 53 citations, tested on Radiomics, CT.",
+  "description": "Per-site Feature Standardization (radiomics): a feature-level Confound Removal harmonization method. published 2019 in IEEE Transactions on Radiation and Plasma Medical Sciences, 53 citations, tested on Radiomics, CT.",
   "citation": {
     "@type": "ScholarlyArticle",
     "headline": "Creating Robust Predictive Radiomic Models for Data From Independent Institutions Using Normalization",
@@ -87,7 +87,7 @@
   </nav>
 </header>
 <main class="mp-main">
-  <p class="mp-eyebrow" style="--eyebrow-color:#c98f5e">Classical Intensity Normalization · Feature-level</p>
+  <p class="mp-eyebrow" style="--eyebrow-color:#8e98a6">Confound Removal · Feature-level</p>
   <h1>Per-site Feature Standardization (radiomics)</h1>
   
   <section class="mp-section mp-paper">
@@ -98,7 +98,7 @@
   
   <section class="mp-section">
     <h2>Details</h2>
-    <dl class="spec-table"><dt>Family</dt><dd>Classical Intensity Normalization</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Radiomics</span><span class="chip">CT</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Radiomics</span><span class="chip">CT</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Radiomics</span> <a href="https://doi.org/10.1109/trpms.2019.2893860" rel="noopener noreferrer">Creating Robust Predictive Radiomic Models for Data From Independent Institutions Using Normalization</a> (2019)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.3390/jimaging8110303" rel="noopener noreferrer">Harmonization Strategies in Multicenter MRI-Based Radiomics</a> (2022), <a href="https://doi.org/10.3390/jpm11090842" rel="noopener noreferrer">Making Radiomics More Reproducible across Scanner and Imaging Protocol Variations: A Review of Harmonization Methods</a> (2021), <a href="https://doi.org/10.1088/1361-6560/aba798" rel="noopener noreferrer">Harmonization strategies for multicenter radiomics investigations</a> (2020)</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">standardization</span><span class="chip">rescaling</span><span class="chip">external-validation</span></div></dd></dl>
+    <dl class="spec-table"><dt>Family</dt><dd>Confound Removal</dd><dt>About this family</dt><dd>Removes site/scanner effects (e.g. by regression or per-site standardization) without explicitly protecting biological variability: no biological covariates are modelled, so biology that differs between sites can be removed too. Often used as a baseline.</dd><dt>Preserves biology</dt><dd>No — no explicit biological preservation</dd><dt>Also fits</dt><dd>Classical Intensity Normalization</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Radiomics</span><span class="chip">CT</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Radiomics</span><span class="chip">CT</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Radiomics</span> <a href="https://doi.org/10.1109/trpms.2019.2893860" rel="noopener noreferrer">Creating Robust Predictive Radiomic Models for Data From Independent Institutions Using Normalization</a> (2019)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.3390/jimaging8110303" rel="noopener noreferrer">Harmonization Strategies in Multicenter MRI-Based Radiomics</a> (2022), <a href="https://doi.org/10.3390/jpm11090842" rel="noopener noreferrer">Making Radiomics More Reproducible across Scanner and Imaging Protocol Variations: A Review of Harmonization Methods</a> (2021), <a href="https://doi.org/10.1088/1361-6560/aba798" rel="noopener noreferrer">Harmonization strategies for multicenter radiomics investigations</a> (2020)</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">standardization</span><span class="chip">rescaling</span><span class="chip">external-validation</span></div></dd></dl>
   </section>
   
   

@@ -139,7 +139,8 @@
           "doi": "10.1162/imag.a.1099"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "neurocombat",
@@ -228,6 +229,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "pip install neuroCombat",
         "install_lang": "bash",
@@ -347,6 +349,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "pip install neuroHarmonize\npip install git+https://github.com/rpomponio/neuroHarmonize",
         "install_lang": "bash",
@@ -434,7 +437,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "covbat",
@@ -554,6 +558,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "devtools::install_github(\"andy1764/CovBat_Harmonization/R\")",
         "install_lang": "r",
@@ -642,6 +647,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "git clone https://github.com/juaml/PrettYharmonize.git\ncd PrettYharmonize\npip install .",
         "install_lang": "bash",
@@ -723,6 +729,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "pip install pycombat",
         "install_lang": "bash",
@@ -834,6 +841,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "install.packages(\"devtools\")\ndevtools::install_github(\"jcbeer/longCombat\")",
         "install_lang": "r",
@@ -922,6 +930,7 @@
       ],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "if (!require(\"devtools\"))\ninstall.packages(\"devtools\")\ndevtools::install_github(\"junjypark/RELIEF\")\ndevtools::install_github(\"julierennes/denoiseR\")",
         "install_lang": "r",
@@ -1011,7 +1020,8 @@
         "combat"
       ],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "combatls",
@@ -1093,6 +1103,7 @@
       ],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "# install.packages(\"remotes\")\nremotes::install_github(\"andy1764/ComBatFamily\")",
         "install_lang": "r",
@@ -1180,6 +1191,7 @@
       ],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "python -m venv .venv\nsource .venv/bin/activate\nuv pip install -e .",
         "install_lang": "bash",
@@ -1286,7 +1298,8 @@
           "doi": "10.1162/imag.a.964"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "harmonizr",
@@ -1359,7 +1372,8 @@
         "combat"
       ],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "whitestripe",
@@ -1449,6 +1463,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": false,
       "get_started": {
         "install": "devtools::install_github(\"muschellij2/WhiteStripe\")",
         "install_lang": "r",
@@ -1540,7 +1555,8 @@
           "doi": "10.1038/s41598-020-69298-z"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": false
     },
     {
       "id": "ravel",
@@ -1630,6 +1646,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "install.packages(\"devtools\")\ndevtools::install_github(\"muschellij2/neurobase\")\ndevtools::install_github(\"muschellij2/WhiteStripe\")\ndevtools::install_github(\"jfortin1/RAVEL\")",
         "install_lang": "r",
@@ -1708,7 +1725,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": false
     },
     {
       "id": "fcm-normalization",
@@ -1780,7 +1798,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": false
     },
     {
       "id": "kde-normalization",
@@ -1851,7 +1870,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": false
     },
     {
       "id": "lsq-normalization",
@@ -1921,7 +1941,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": false
     },
     {
       "id": "deepharmony",
@@ -1998,7 +2019,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "imunity",
@@ -2073,7 +2095,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "cyclegan-brainmri",
@@ -2151,7 +2174,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "mispel",
@@ -2231,7 +2255,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "harmless",
@@ -2307,7 +2332,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "xcov-disentanglement",
@@ -2389,7 +2415,8 @@
       "evidence": [],
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-03T12:27:55Z",
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "unlearning-mri",
@@ -2472,7 +2499,8 @@
       "evidence": [],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "sfharmony",
@@ -2553,7 +2581,8 @@
       "evidence": [],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "harmonized-fmri",
@@ -2627,7 +2656,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "dmri-harmonization",
@@ -2712,7 +2742,8 @@
         "rish"
       ],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "dictionary-learning-harmonization",
@@ -2790,7 +2821,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "b0shimming",
@@ -2863,7 +2895,8 @@
       "extends": [],
       "evidence": [],
       "needs_review": "Paper title 'An open toolbox for harmonized B0 shimming' could not be found in OpenAlex; add the reference (DOI or ISMRM abstract) if one exists.",
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "intensity-normalization",
@@ -2952,6 +2985,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "pip install intensity-normalization            # or: uv add intensity-normalization\npip install \"intensity-normalization[ants]\"  # ravel registration, preprocess, coregister\npip install \"intensity-normalization[plot]\"  # histogram plotting",
         "install_lang": "bash",
@@ -3041,7 +3075,8 @@
         "dewey-disentangled-latent"
       ],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "dewey-disentangled-latent",
@@ -3118,7 +3153,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "murd",
@@ -3193,7 +3229,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "stgan",
@@ -3274,6 +3311,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/USCLoBeS/style_transfer_harmonization.git\ncd style_transfer_harmonization/\nconda env create -n style-harmonization --file ENV.yml\nconda activate style-harmonization",
         "install_lang": "bash",
@@ -3362,6 +3400,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/luca2245/DISARM_Harmonization.git\ncd DISARM_Harmonization/Code",
         "install_lang": "bash",
@@ -3452,6 +3491,7 @@
       ],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/luca2245/DISARMpp_Harmonization.git\ncd DISARMpp_Harmonization\npip install -r requirements.txt",
         "install_lang": "bash",
@@ -3536,7 +3576,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "haca3",
@@ -3622,6 +3663,7 @@
       ],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/lianruizuo/haca3.git\ncd haca3\npip install .",
         "install_lang": "bash",
@@ -3705,7 +3747,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "flow-causal-harmonization",
@@ -3779,7 +3822,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "bashyam-stargan-harmonization",
@@ -3857,7 +3901,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "modanwal-cyclegan",
@@ -3932,7 +3977,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "dlest",
@@ -4009,7 +4055,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "deepresbat",
@@ -4095,7 +4142,8 @@
       "evidence": [],
       "secondary_categories": [
         "combat-family"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "harmonizing-flows",
@@ -4173,7 +4221,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "simix",
@@ -4251,7 +4300,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "ssimh",
@@ -4328,7 +4378,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "diffusion-autoencoder-harmonization",
@@ -4406,7 +4457,8 @@
       "evidence": [],
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-03T12:27:55Z",
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "style-guided-latent-diffusion",
@@ -4483,7 +4535,8 @@
       "evidence": [],
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-03T12:27:55Z",
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "attention-guided-domain-adaptation",
@@ -4563,7 +4616,8 @@
       "evidence": [],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "blindharmony",
@@ -4639,7 +4693,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "blindharmonydiff",
@@ -4715,7 +4770,8 @@
         "blindharmony"
       ],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "tgtfreeharmony",
@@ -4795,7 +4851,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "gnn-connectome-harmonization",
@@ -4876,7 +4933,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "connectome-distribution-matching",
@@ -4955,7 +5013,8 @@
       "evidence": [],
       "secondary_categories": [
         "domain-adaptation"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "ssim-guided-disentanglement",
@@ -5028,7 +5087,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "dist-clip",
@@ -5107,7 +5167,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "bartharm",
@@ -5186,7 +5247,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "neuroharmony",
@@ -5267,6 +5329,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "pip install neuroharmony",
         "install_lang": "bash",
@@ -5365,6 +5428,7 @@
       ],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "pip install git+https://github.com/Alxaline/ComScan.git",
         "install_lang": "bash",
@@ -5453,7 +5517,8 @@
         "hbr"
       ],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "ismi",
@@ -5531,7 +5596,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "isi",
@@ -5600,7 +5666,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "fedharmony",
@@ -5682,7 +5749,8 @@
       "secondary_categories": [
         "domain-adaptation",
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "fedcombat",
@@ -5765,7 +5833,8 @@
       "evidence": [],
       "secondary_categories": [
         "combat-family"
-      ]
+      ],
+      "preserves_biology": true
     },
     {
       "id": "d-combat",
@@ -5849,7 +5918,8 @@
       "evidence": [],
       "secondary_categories": [
         "combat-family"
-      ]
+      ],
+      "preserves_biology": true
     },
     {
       "id": "harmofl",
@@ -5931,6 +6001,7 @@
       "secondary_categories": [
         "deep-learning"
       ],
+      "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/med-air/HarmoFL.git\ncd HarmoFL\nconda env create -f environment.yaml\nconda activate harmofl",
         "install_lang": "bash",
@@ -6018,7 +6089,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "ica-dp-fmri",
@@ -6097,7 +6169,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "otda",
@@ -6177,7 +6250,8 @@
       "evidence": [],
       "secondary_categories": [
         "domain-adaptation"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "botda",
@@ -6262,6 +6336,7 @@
       "secondary_categories": [
         "domain-adaptation"
       ],
+      "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/vpeterson/otda-mibci.git\ncd otda-mibci\nconda env create -f environment_otda.yml\nconda activate otda",
         "install_lang": "bash",
@@ -6348,7 +6423,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "combat-seq",
@@ -6434,6 +6510,7 @@
       ],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "devtools::install_github(\"zhangyuqing/sva-devel\")",
         "install_lang": "r",
@@ -6528,6 +6605,7 @@
       "secondary_categories": [
         "deep-learning"
       ],
+      "preserves_biology": true,
       "get_started": {
         "install": "devtools::install_github(\"hufengling/DeepComBat\")",
         "install_lang": "r",
@@ -6629,7 +6707,8 @@
           "doi": "10.1016/j.clinph.2024.09.019"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "rish",
@@ -6711,7 +6790,8 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "hbr",
@@ -6808,6 +6888,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "pip install pcntoolkit",
         "install_lang": "bash",
@@ -6898,6 +6979,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "# Ships with FreeSurfer 7.3+ as `mri_synthsr`, or standalone:\ngit clone https://github.com/BBillot/SynthSR.git\ncd SynthSR\npip install tensorflow-gpu==2.2.0 keras==2.3.1 protobuf==3.20.3 numpy==1.23.5 nibabel==5.0.1 matplotlib==3.6.2",
         "install_lang": "bash",
@@ -6998,6 +7080,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "git clone https://github.com/ChristianGaser/ComCat.git\ncd ComCat\npip install -r requirements.txt",
         "install_lang": "bash",
@@ -7094,7 +7177,8 @@
           "doi": "10.1186/s12859-015-0478-3"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "b-combat",
@@ -7193,7 +7277,8 @@
           "doi": "10.1038/s41598-020-66110-w"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "transfer-learning-combat",
@@ -7286,7 +7371,8 @@
           "doi": "10.1371/journal.pone.0253653"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "fully-bayes-combat",
@@ -7375,6 +7461,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "git clone https://github.com/batmanlab/BayesComBat\npip install BayesComBat",
         "install_lang": "bash",
@@ -7465,7 +7552,8 @@
           "doi": "10.1371/journal.pgen.0030161"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "traveling-subject-harmonization",
@@ -7571,7 +7659,8 @@
           "doi": "10.1371/journal.pbio.3000042"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "mmd-pooling",
@@ -7750,12 +7839,13 @@
           "doi": "10.1073/pnas.1719747115"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "residualization",
       "name": "Confound Regression / Residualization",
-      "category": "combat-family",
+      "category": "confound-removal",
       "method_type": "statistical",
       "level": "feature-level",
       "tags": [
@@ -7783,7 +7873,7 @@
       "last_commit": null,
       "repo_description": null,
       "stats_fetched_at": null,
-      "category_label": "Location/Scale Models (ComBat-family)",
+      "category_label": "Confound Removal",
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
@@ -7833,7 +7923,8 @@
           "doi": "10.1016/j.neuroimage.2017.01.066"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": false
     },
     {
       "id": "wharmpa",
@@ -7927,7 +8018,8 @@
           "doi": "10.1002/hbm.25838"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "multiclass-neuroharmony",
@@ -8025,7 +8117,8 @@
           "doi": "10.1148/ryai.240030"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "abcd-harmonizer",
@@ -8117,12 +8210,13 @@
           "doi": "10.1007/s12021-023-09624-8"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "per-site-feature-standardization",
       "name": "Per-site Feature Standardization (radiomics)",
-      "category": "classical-normalization",
+      "category": "confound-removal",
       "method_type": "statistical",
       "level": "feature-level",
       "tags": [
@@ -8149,7 +8243,7 @@
       "last_commit": null,
       "repo_description": null,
       "stats_fetched_at": null,
-      "category_label": "Classical Intensity Normalization",
+      "category_label": "Confound Removal",
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
@@ -8206,7 +8300,10 @@
           "doi": "10.1109/trpms.2019.2893860"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [
+        "classical-normalization"
+      ],
+      "preserves_biology": false
     },
     {
       "id": "intensity-warping",
@@ -8306,12 +8403,13 @@
           "doi": "10.1016/j.neuroimage.2020.117242"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "linked-ica-scanner-denoising",
       "name": "Linked ICA Scanner Denoising",
-      "category": "ica-based",
+      "category": "confound-removal",
       "method_type": "statistical",
       "level": "feature-level",
       "tags": [
@@ -8338,7 +8436,7 @@
       "last_commit": null,
       "repo_description": null,
       "stats_fetched_at": null,
-      "category_label": "ICA-based",
+      "category_label": "Confound Removal",
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
@@ -8395,7 +8493,10 @@
           "doi": "10.1016/j.neuroimage.2019.116388"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [
+        "ica-based"
+      ],
+      "preserves_biology": false
     },
     {
       "id": "nm-mri-harmonization",
@@ -8481,7 +8582,8 @@
           "doi": "10.1002/jmri.27679"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "dmri-method-of-moments",
@@ -8565,7 +8667,8 @@
           "doi": "10.1109/tmi.2019.2895020"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "dmri-registration-framework",
@@ -8669,7 +8772,8 @@
           "doi": "10.1007/s11682-016-9670-y"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "dmri-harmonization-unmatched",
@@ -8759,7 +8863,8 @@
           "doi": "10.1002/mrm.30575"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "dmri-sup2unsup",
@@ -8840,7 +8945,8 @@
           "doi": "10.1109/isbi52829.2022.9761445"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "shresnet",
@@ -8925,7 +9031,8 @@
           "doi": "10.1007/978-3-030-05831-9_14"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "dki-dl-harmonization",
@@ -9014,7 +9121,8 @@
           "doi": "10.1016/j.mri.2020.08.001"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "dual-gan-dti",
@@ -9103,7 +9211,8 @@
           "doi": "10.1186/s12938-020-0748-9"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "s2s-cyclegan",
@@ -9190,7 +9299,8 @@
           "doi": "10.1007/978-3-030-32251-9_52"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "cycle-aae-cortical",
@@ -9277,7 +9387,8 @@
           "doi": "10.1007/978-3-031-43993-3_36"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "style-encoding-gan",
@@ -9363,7 +9474,8 @@
           "doi": "10.1007/978-3-030-87199-4_30"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "ts-net",
@@ -9451,7 +9563,8 @@
           "doi": "10.1016/j.neuroimage.2022.119297"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "deep-harmonization-seg",
@@ -9536,7 +9649,8 @@
           "doi": "10.1007/978-3-030-00536-8_3"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "ssl-harmonization-no-phantom",
@@ -9621,7 +9735,8 @@
           "doi": "10.1088/1361-6560/ac7b66"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "goal-specific-harmonization",
@@ -9713,7 +9828,8 @@
           "doi": "10.1016/j.neuroimage.2022.119570"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "style-blind-autoencoder",
@@ -9799,7 +9915,8 @@
           "doi": "10.1016/j.phro.2022.05.005"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "aggan-harmonization",
@@ -9883,7 +10000,8 @@
           "doi": "10.1117/12.2606155"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "attention-image-harmonization",
@@ -9972,7 +10090,8 @@
           "doi": "10.1117/12.2654392"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "transformer-harmonization",
@@ -10057,7 +10176,8 @@
           "doi": "10.1109/icma57826.2023.10215948"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "hail",
@@ -10147,7 +10267,8 @@
           "doi": "10.48550/arxiv.2308.11047"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "cyclegan-3d-intersite",
@@ -10232,7 +10353,8 @@
           "doi": "10.1016/j.heliyon.2023.e22647"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "homogenisation-uncertainty",
@@ -10320,7 +10442,8 @@
           "doi": "10.1007/978-3-030-87735-4_5"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "mri-homogenization-pediatric",
@@ -10404,7 +10527,8 @@
           "doi": "10.1007/978-3-030-59861-7_19"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "neonatal-harmonized-seg",
@@ -10493,7 +10617,8 @@
           "doi": "10.3389/fnins.2021.662005"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "single-mr-disentangle",
@@ -10581,7 +10706,8 @@
           "doi": "10.1007/978-3-031-17027-0_6"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "segrenorm",
@@ -10667,6 +10793,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/mengweiren/segmentation-renormalized-harmonization.git\ncd segmentation-renormalized-harmonization\nconda env create -f environment.yml",
         "install_lang": "bash",
@@ -10756,7 +10883,8 @@
           "doi": "10.1016/j.media.2021.102191"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "adversarial-normalization",
@@ -10838,7 +10966,8 @@
           "doi": "10.1109/isbi45749.2020.9098651"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "istn-harmonization",
@@ -10926,7 +11055,8 @@
           "doi": "10.1007/978-3-030-59728-3_69"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "weak-paired-cyclegan",
@@ -11010,7 +11140,8 @@
           "doi": "10.1109/tmi.2019.2894692"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "di-pss",
@@ -11094,7 +11225,8 @@
           "doi": "10.1109/access.2021.3129105"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "cdw-contrast-homogenization",
@@ -11180,7 +11312,8 @@
           "doi": "10.1117/12.2608565"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "phycharm",
@@ -11263,7 +11396,8 @@
           "doi": "10.1016/j.neuroimage.2025.121361"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "phyre",
@@ -11348,7 +11482,8 @@
           "doi": "10.1007/978-3-031-44689-4_6"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "diffusion-multidomain-harmonization",
@@ -11433,7 +11568,8 @@
           "doi": "10.1016/j.neuroimage.2025.121297"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "conditional-latent-diffusion-harmonization",
@@ -11520,7 +11656,8 @@
           "doi": "10.1016/j.media.2025.103849"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "espa",
@@ -11607,7 +11744,8 @@
           "doi": "10.1007/978-3-031-72069-7_18"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "bme-x",
@@ -11695,7 +11833,8 @@
           "doi": "10.1038/s41551-024-01283-7"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "synthseg",
@@ -11785,6 +11924,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "# Ships with FreeSurfer 7.3+ as `mri_synthseg`, or standalone:\ngit clone https://github.com/BBillot/SynthSeg.git\ncd SynthSeg\npip install tensorflow-gpu==2.2.0 keras==2.3.1 protobuf==3.20.3 numpy==1.23.5 nibabel==5.0.1 matplotlib==3.6.2",
         "install_lang": "bash",
@@ -11874,7 +12014,8 @@
           "doi": "10.1007/978-3-030-32245-8_15"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "radiomic-feature-std-nn",
@@ -11958,7 +12099,8 @@
           "doi": "10.1117/1.jmi.6.2.024008"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "stain-transfer-adversarial",
@@ -12039,7 +12181,8 @@
           "doi": "10.1007/978-3-030-59722-1_32"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "embracing-disharmony",
@@ -12122,7 +12265,8 @@
       ],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "learn-to-ignore",
@@ -12212,7 +12356,8 @@
       ],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "sdanet",
@@ -12299,7 +12444,8 @@
       ],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "autoencoder-tta",
@@ -12386,7 +12532,8 @@
       ],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "cf-net",
@@ -12472,7 +12619,8 @@
       ],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "br-net",
@@ -12562,7 +12710,8 @@
       ],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "wachinger-domain-adaptation",
@@ -12643,7 +12792,8 @@
           "doi": "10.1016/j.neuroimage.2016.05.053"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "multitask-multisite",
@@ -12732,7 +12882,8 @@
           "doi": "10.1016/j.nicl.2018.04.037"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "low-rank-domain-adaptation",
@@ -12817,7 +12968,8 @@
           "doi": "10.1109/tmi.2019.2933160"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "cdat-adhd",
@@ -12901,7 +13053,8 @@
       ],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "sstl",
@@ -12985,7 +13138,8 @@
           "doi": "10.48550/arxiv.2010.15594"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "three-way-decision-da",
@@ -13066,7 +13220,8 @@
           "doi": "10.3390/brainsci11050603"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "msc-nfe",
@@ -13149,7 +13304,8 @@
           "doi": "10.1016/j.media.2021.102279"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "rai-ot",
@@ -13233,7 +13389,8 @@
       ],
       "secondary_categories": [
         "domain-adaptation"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "ot-ms-lesion-da",
@@ -13321,7 +13478,8 @@
       "secondary_categories": [
         "domain-adaptation",
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "distribution-weighting-da",
@@ -13403,7 +13561,8 @@
           "doi": "10.1016/j.media.2015.06.010"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "transfer-learning-across-protocols",
@@ -13485,7 +13644,8 @@
           "doi": "10.1109/tmi.2014.2366792"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "ucan",
@@ -13569,7 +13729,8 @@
       ],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "harmonization-enriched-da",
@@ -13658,7 +13819,8 @@
       ],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "paired-consistency-da",
@@ -13751,7 +13913,8 @@
       ],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "unet-gan-vendor-adaptation",
@@ -13839,7 +14002,8 @@
       ],
       "secondary_categories": [
         "deep-learning"
-      ]
+      ],
+      "preserves_biology": null
     },
     {
       "id": "brain-charts-lifespan",
@@ -14020,7 +14184,8 @@
           "doi": "10.1038/s41586-022-04554-y"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "gamlss-normative",
@@ -14106,7 +14271,8 @@
           "doi": "10.1101/2021.06.14.448106"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "warped-blr",
@@ -14198,6 +14364,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "pip install pcntoolkit",
         "install_lang": "bash",
@@ -14320,7 +14487,8 @@
           "doi": "10.7554/elife.72904"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "federated-hbr",
@@ -14422,6 +14590,7 @@
       "secondary_categories": [
         "normative-modeling"
       ],
+      "preserves_biology": true,
       "get_started": {
         "install": "pip install pcntoolkit",
         "install_lang": "bash",
@@ -14518,7 +14687,8 @@
           "doi": "10.1002/mrm.26235"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "pulseq-cest",
@@ -14616,6 +14786,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": null,
         "install_lang": null,
@@ -14715,7 +14886,8 @@
           "doi": "10.1002/mrm.30601"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "gammastar",
@@ -14798,7 +14970,8 @@
           "doi": "10.1002/mrm.30573"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "mtrk",
@@ -14881,7 +15054,8 @@
           "doi": "10.1002/mrm.70067"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "pulseq-3d-qalas",
@@ -14981,7 +15155,8 @@
           "doi": "10.1002/mrm.30566"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "gadgetron",
@@ -15063,7 +15238,8 @@
           "doi": "10.1002/mrm.24389"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "bart",
@@ -15155,7 +15331,8 @@
           "doi": "10.1002/mrm.29485"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "ismrmrd",
@@ -15249,7 +15426,8 @@
           "doi": "10.1002/mrm.26089"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "uk7t-protocols",
@@ -15340,7 +15518,8 @@
           "doi": "10.1016/j.neuroimage.2019.116335"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "adni-mri-protocol",
@@ -15454,7 +15633,8 @@
           "doi": "10.1002/jmri.21049"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "abcd-imaging-protocol",
@@ -15567,7 +15747,8 @@
           "doi": "10.1016/j.dcn.2018.03.001"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "earl-pet-harmonization",
@@ -15653,7 +15834,8 @@
           "doi": "10.1007/s00259-018-3977-4"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "combat-predict",
@@ -15751,6 +15933,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "# install.packages(\"remotes\")\nremotes::install_github(\"andy1764/ComBatFamily\")",
         "install_lang": "r",
@@ -15848,7 +16031,8 @@
           "doi": "10.1162/imag_a_00040"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "riemannian-fmri-harmonization",
@@ -15939,7 +16123,8 @@
           "doi": "10.1016/j.media.2023.103043"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "b-pip",
@@ -16037,7 +16222,8 @@
           "doi": "10.1002/alz.14378"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "sp-combat",
@@ -16136,7 +16322,8 @@
           "doi": "10.1162/imag_a_00306"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "pwgan-harmonization",
@@ -16227,7 +16414,8 @@
           "doi": "10.1016/j.neuroimage.2024.120635"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "personalized-template-mapping",
@@ -16311,7 +16499,8 @@
           "doi": "10.1002/hbm.26661"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "buan-combat",
@@ -16403,7 +16592,8 @@
           "doi": "10.1109/embc53108.2024.10782419"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "daw-fa",
@@ -16492,7 +16682,8 @@
           "doi": "10.1016/j.jksuci.2024.102157"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "dwi-contrast-sr-harmonization",
@@ -16583,7 +16774,8 @@
           "doi": "10.1002/jmri.29088"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "scanner-domain-adaptation-kushol",
@@ -16668,7 +16860,8 @@
           "doi": "10.1007/978-3-031-45857-6_1"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "clinical-combat",
@@ -16763,6 +16956,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "git clone https://github.com/scil-vital/clinical-ComBAT.git\ncd clinical-ComBAT\npython -m venv .venv && source .venv/bin/activate\nuv pip install -e .",
         "install_lang": "bash",
@@ -16864,7 +17058,8 @@
           "doi": "10.1109/isbi60581.2025.10980997"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "linear-rice",
@@ -16955,7 +17150,8 @@
           "doi": "10.58530/2025/0700"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "mm-combat",
@@ -17041,7 +17237,8 @@
           "doi": "10.64898/2026.02.05.704069"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "cam-combat",
@@ -17130,7 +17327,8 @@
           "doi": "10.64898/2026.06.03.729396"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "frugal-combat",
@@ -17215,7 +17413,8 @@
           "doi": "10.1109/isbi61048.2026.11516003"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "anatomy-site-patch-diffusion",
@@ -17301,7 +17500,8 @@
           "doi": "10.1007/978-3-032-38072-2_2"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "unifcharm",
@@ -17390,7 +17590,8 @@
           "doi": "10.1007/978-3-032-38072-2_58"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "probabilistic-cgan-harmonization",
@@ -17473,7 +17674,8 @@
           "doi": "10.1016/j.compmedimag.2026.102777"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "mmh-harmonization",
@@ -17561,6 +17763,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/MW1798/MMH_Harmonization.git\ncd MMH_Harmonization\nconda env create -f environment.yml\nconda activate MMH_env",
         "install_lang": "bash",
@@ -17655,7 +17858,8 @@
           "doi": "10.48550/arxiv.2604.01546"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "sa-cyclegan-2-5d",
@@ -17754,6 +17958,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/ishrith-gowda/SA-CycleGAN-2.5D.git\ncd SA-CycleGAN-2.5D\npython -m venv venv && source venv/bin/activate",
         "install_lang": "bash",
@@ -17850,7 +18055,8 @@
           "doi": "10.48550/arxiv.2603.06696"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "cross-field-flow-matching",
@@ -17936,7 +18142,8 @@
           "doi": "10.48550/arxiv.2609.00960"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "atlasgs",
@@ -18028,6 +18235,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/yfgao76/AtlasGS.git\ncd AtlasGS\npython -m pip install -e .",
         "install_lang": "bash",
@@ -18125,7 +18333,8 @@
           "doi": "10.21203/rs.3.rs-7559470/v1"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "ritex",
@@ -18211,7 +18420,8 @@
           "doi": "10.3390/jimaging12060264"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "petharmony",
@@ -18299,7 +18509,8 @@
           "doi": "10.1002/mp.70545"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "tanzanite",
@@ -18390,7 +18601,8 @@
           "doi": "10.1002/mp.70403"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "ac-diff",
@@ -18475,7 +18687,8 @@
           "doi": "10.64898/2026.09.28.755033"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "gcn-eeg-montage-harmonization",
@@ -18559,7 +18772,8 @@
           "doi": "10.1088/1741-2552/ae9344"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "esf-eeg",
@@ -18645,6 +18859,7 @@
       "secondary_categories": [
         "acquisition-protocol"
       ],
+      "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/h5371h/esf-recoverability.git && cd esf-recoverability\npython3 -m venv .venv && source .venv/bin/activate && pip install -r v2/requirements.txt",
         "install_lang": "bash",
@@ -18753,6 +18968,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/shays15/haca3-plus.git\ncd haca3-plus\npip install .",
         "install_lang": "bash",
@@ -18846,7 +19062,8 @@
           "doi": "10.1162/imag_a_00388"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "combatfamqc",
@@ -18942,6 +19159,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": true,
       "get_started": {
         "install": "install.packages(\"ComBatFamQC\")\n# development version:\n# devtools::install_github(\"Zheng206/ComBatFamQC\", build_vignettes = TRUE)",
         "install_lang": "r",
@@ -19032,7 +19250,8 @@
           "doi": "10.32614/cran.package.combat.enigma"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "qcalamiti",
@@ -19115,7 +19334,8 @@
           "doi": "10.5281/zenodo.22899755"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     },
     {
       "id": "harmnqeeg",
@@ -19238,7 +19458,8 @@
           "doi": "10.1016/j.neuroimage.2022.119190"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": true
     },
     {
       "id": "riemannian-procrustes-analysis",
@@ -19325,6 +19546,7 @@
         }
       ],
       "secondary_categories": [],
+      "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/plcrodrigues/RPA.git\ncd RPA\npip install -r requirements.txt\npython setup.py develop",
         "install_lang": "bash",
@@ -19415,7 +19637,8 @@
           "doi": "10.1109/tbme.2019.2913914"
         }
       ],
-      "secondary_categories": []
+      "secondary_categories": [],
+      "preserves_biology": null
     }
   ],
   "stats_fetched_at": "2026-10-02T13:31:19Z",

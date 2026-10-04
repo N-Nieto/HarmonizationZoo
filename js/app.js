@@ -25,10 +25,22 @@ const FAMILY_ORDER = [
   ["ica-based", "ICA-based", "#e0a8f0"],
   ["optimal-transport", "Optimal transport-based", "#d8c26a"],
   ["domain-adaptation", "Domain Adaptation & Distribution Matching", "#ef7d55"],
+  ["confound-removal", "Confound Removal", "#8e98a6"],
   ["acquisition-protocol", "Acquisition / Protocol Harmonization", "#a3b1c2"],
 ];
 const FAMILY_COLOR = new Map(FAMILY_ORDER.map(([id, , color]) => [id, color]));
 const FAMILY_LABEL = new Map(FAMILY_ORDER.map(([id, label]) => [id, label]));
+// Extra information shown with a family (legend tooltip, method details).
+const FAMILY_NOTE = {
+  "confound-removal": "Removes site/scanner effects (e.g. by regression or per-site standardization) without explicitly protecting biological variability: no biological covariates are modelled, so biology that differs between sites can be removed too. Often used as a baseline.",
+};
+// preserves_biology flag: does the method explicitly protect biological variability
+// (e.g. by modelling biological covariates)? null = not assessed.
+const BIOLOGY_LABEL = {
+  true: "Yes — biological covariates are modelled explicitly",
+  false: "No — no explicit biological preservation",
+  null: "Not assessed",
+};
 
 const STAR_BUCKETS = ["0", "1–9", "10–49", "50–199", "200–999", "1000+"];
 
@@ -170,6 +182,7 @@ function buildFamilyLegend() {
     const item = document.createElement("span");
     item.className = "legend-item";
     item.innerHTML = `<span class="legend-swatch" style="background:${escapeHtml(color)}"></span>${escapeHtml(label)}`;
+    if (FAMILY_NOTE[id]) item.title = FAMILY_NOTE[id];
     legend.appendChild(item);
   });
 }
@@ -771,6 +784,14 @@ function buildAddModelTab() {
           <span>Also fits these families <em class="addmodel-hint">optional — families overlap (e.g. an optimal-transport method that is also domain adaptation)</em></span>
           <div class="rec-options" id="am-secondary"></div>
         </div>
+        <label class="addmodel-field">
+          <span>Does it explicitly preserve biological variability? <em class="addmodel-hint">e.g. biological covariates (age, sex, diagnosis) are modelled so they are not removed with the site effect</em></span>
+          <select id="am-biology">
+            <option value="">Not sure</option>
+            <option value="yes">Yes</option>
+            <option value="no">No (confound removal)</option>
+          </select>
+        </label>
         <div class="addmodel-field">
           <span>Harmonization level</span>
           <div class="rec-options" id="am-level"></div>
@@ -1363,6 +1384,7 @@ function generateSubmission() {
     extends: [...S.extends],
     evidence,
     secondary_categories: [...S.secondary].filter((c) => c !== category),
+    preserves_biology: val("am-biology") === "yes" ? true : val("am-biology") === "no" ? false : null,
     _toolboxes: toolboxes,
     _notes: val("am-notes") || null,
     _submitted_via: "add-a-model form",
@@ -1809,6 +1831,9 @@ const FACETS = [
   { key: "health", label: "Code health", values: (d) => { const h = codeHealth(d); return [h ? h.grade : (isToolboxMember(d.id) ? "toolbox" : "none")]; },
     labelOf: (v) => ({ A: "A (80+)", B: "B (60–79)", C: "C (40–59)", D: "D (20–39)", E: "E (< 20)", toolbox: "Via a toolbox", none: "No repo data" })[v] || v,
     order: ["A", "B", "C", "D", "E", "toolbox", "none"] },
+  { key: "biology", label: "Preserves biology", values: (d) => [d.preserves_biology === true ? "yes" : d.preserves_biology === false ? "no" : "unknown"],
+    labelOf: (v) => ({ yes: "Yes (explicit)", no: "No explicit preservation", unknown: "Not assessed" })[v] || v,
+    order: ["yes", "no", "unknown"] },
   { key: "gpu", label: "Hardware", values: (d) => [d.recommend && d.recommend.needs_gpu ? "gpu" : "cpu"],
     labelOf: (v) => (v === "gpu" ? "Needs a GPU" : "Runs on CPU"), order: ["cpu", "gpu"] },
 ];
@@ -2373,7 +2398,7 @@ const FAMILY_SHORT = {
   "combat-family": "ComBat-family", "classical-normalization": "Classical normalization",
   "deep-learning": "Deep learning", "iqm-based": "IQM-based", "normative-modeling": "Normative modeling",
   "interpolation-based": "Interpolation", "federated": "Federated", "ica-based": "ICA",
-  "optimal-transport": "Optimal transport", "domain-adaptation": "Domain adaptation", "acquisition-protocol": "Acquisition",
+  "optimal-transport": "Optimal transport", "domain-adaptation": "Domain adaptation", "confound-removal": "Confound removal", "acquisition-protocol": "Acquisition",
 };
 const familyShort = (d) => FAMILY_SHORT[d.category] || FAMILY_LABEL.get(d.category) || d.category_label || "";
 
@@ -2922,6 +2947,7 @@ function openDrawer(d) {
   content.innerHTML = `
     <div class="drawer-eyebrow" style="--eyebrow-color:${FAMILY_COLOR.get(d.category) || "#888"}">${escapeHtml(d.category_label)} · ${escapeHtml(LEVEL_LABELS[d.level] || d.level)}</div>
     <h2>${escapeHtml(d.name)} ${archivedBadge}</h2>
+    ${FAMILY_NOTE[d.category] ? `<p class="drawer-family-note">${escapeHtml(FAMILY_NOTE[d.category])}</p>` : ""}
     ${(d.secondary_categories || []).length ? `<p class="drawer-also-fits">Also fits: ${d.secondary_categories.map((c) => `<span class="chip" style="border-color:${FAMILY_COLOR.get(c) || "#888"}">${escapeHtml(FAMILY_SHORT[c] || FAMILY_LABEL.get(c) || c)}</span>`).join(" ")}</p>` : ""}
     ${d.paper_title ? `<p class="paper-title">"${escapeHtml(d.paper_title)}"</p>` : ""}
     ${d.abstract ? `<p>${escapeHtml(d.abstract)}</p>` : ""}
@@ -2936,6 +2962,7 @@ function openDrawer(d) {
       <dt>First commit</dt><dd>${escapeHtml(firstCommitLine)}</dd>
       <dt>Last maintained</dt><dd>${maintLine}</dd>
       ${(() => { const h = codeHealth(d); return h ? `<dt>Code health</dt><dd>${healthBadge(h)}${healthBreakdownHtml(h)}</dd>` : ""; })()}
+      <dt>Preserves biology</dt><dd>${escapeHtml(BIOLOGY_LABEL[d.preserves_biology === true ? "true" : d.preserves_biology === false ? "false" : "null"])}</dd>
       <dt>Validation data</dt><dd>${escapeHtml(d.validation_data || "Agnostic")}</dd>
       <dt>Toolboxes</dt><dd>${toolboxLine}</dd>
       ${(() => { const rs = resourcesCovering(d.id); return rs.length ? `<dt>Reviewed in</dt><dd>${rs.map((r) => `<button type="button" class="inline-link drawer-resource-link" data-res="${escapeHtml(r.id)}">${escapeHtml(resourceShortCite(r))}</button>`).join(", ")}</dd>` : ""; })()}

@@ -13,8 +13,12 @@
           "Check site × covariate balance: if diagnosis, age or another variable of interest differs strongly between sites, site and biology are confounded and any method will have to guess which is which."
         ],
         "pitfall": "Skipping this step makes it impossible to tell whether harmonization helped, did nothing, or hurt.",
-        "methods": ["combatfamqc"],
-        "resources": ["bayer-2022-site-effects-how-to"]
+        "methods": [
+          "combatfamqc"
+        ],
+        "resources": [
+          "bayer-2022-site-effects-how-to"
+        ]
       },
       {
         "id": "site-removed",
@@ -26,7 +30,10 @@
         ],
         "pitfall": "Harmonize inside each cross-validation fold (fit on the training fold, apply to the test fold). Fitting on all data first makes site prediction look like chance even when the method would not generalize. And chance-level site prediction is easy to reach by destroying signal, so never stop here.",
         "methods": [],
-        "resources": ["nieto-2026-leakage-harmonization", "won-2023-harmonization-ml-comparison"]
+        "resources": [
+          "nieto-2026-leakage-harmonization",
+          "won-2023-harmonization-ml-comparison"
+        ]
       },
       {
         "id": "biology-kept",
@@ -34,11 +41,21 @@
         "do": [
           "Pick effects you trust (age, sex, a well-replicated diagnosis effect) and compare their effect size or correlation before and after harmonization.",
           "Compare against two baselines: pooled raw data and a model with site as a covariate (or random effect).",
-          "For nonlinear effects such as lifespan age curves, check the shape of the curve, not only its slope."
+          "For nonlinear effects such as lifespan age curves, check the shape of the curve, not only its slope.",
+          "Methods in the Confound Removal family (e.g. residualization) do not protect biology by design; use them as a baseline and check this step with extra care."
         ],
         "pitfall": "When covariates are unbalanced across sites, ComBat-type methods need those covariates in the model; leaving them out removes real biology together with the site effect, and putting the prediction target in the model leaks it into the features.",
-        "methods": ["combat", "combat-gam", "combatls"],
-        "resources": ["combat-dmri-best-practices-2025", "lammer-2026-combat-potential-limitations", "psyshared-2026-mri-harmonisation-evaluation"]
+        "methods": [
+          "combat",
+          "combat-gam",
+          "combatls",
+          "residualization"
+        ],
+        "resources": [
+          "combat-dmri-best-practices-2025",
+          "lammer-2026-combat-potential-limitations",
+          "psyshared-2026-mri-harmonisation-evaluation"
+        ]
       },
       {
         "id": "paired-data",
@@ -50,9 +67,13 @@
           "Phantoms do the same for quantitative MRI and PET values, without biological variability."
         ],
         "pitfall": "Do not train and evaluate on the same traveling subjects. Keep some subjects (or a whole dataset) for testing only.",
-        "methods": ["traveling-subject-harmonization"],
+        "methods": [
+          "traveling-subject-harmonization"
+        ],
         "datasets_category": "traveling-subjects",
-        "resources": ["limited-sample-smri-harmonisation-2026"]
+        "resources": [
+          "limited-sample-smri-harmonisation-2026"
+        ]
       },
       {
         "id": "anatomy",
@@ -63,8 +84,14 @@
           "Use metrics that separate intensity harmonization from anatomy preservation when no paired data exist."
         ],
         "pitfall": "Good-looking images are not proof; small systematic changes in contrast can move segmentation boundaries and bias every downstream measure.",
-        "methods": ["haca3", "calamiti"],
-        "resources": ["parida-2024-harmonization-metrics", "ho-2026-image-level-harmonization-evaluation"]
+        "methods": [
+          "haca3",
+          "calamiti"
+        ],
+        "resources": [
+          "parida-2024-harmonization-metrics",
+          "ho-2026-image-level-harmonization-evaluation"
+        ]
       },
       {
         "id": "downstream",
@@ -75,8 +102,14 @@
           "If the model will be used on new sites, test on held-out sites (leave-site-out) and choose a method that can be applied to unseen sites."
         ],
         "pitfall": "Using the prediction target as a covariate during harmonization, or fitting on the test set, inflates accuracy. With class imbalance across sites, a target-free ComBat can also remove real signal; see the leakage resource for safe options.",
-        "methods": ["prettyharmonize", "combat-predict"],
-        "resources": ["nieto-2026-leakage-harmonization", "elgazzar-2023-fmri-ml-harmonization"]
+        "methods": [
+          "prettyharmonize",
+          "combat-predict"
+        ],
+        "resources": [
+          "nieto-2026-leakage-harmonization",
+          "elgazzar-2023-fmri-ml-harmonization"
+        ]
       },
       {
         "id": "report",
@@ -88,7 +121,9 @@
         ],
         "pitfall": "\"Data were harmonized with ComBat\" is not enough for anyone to reproduce or judge the result.",
         "methods": [],
-        "resources": ["gebre-2023-cross-scanner-comparison"]
+        "resources": [
+          "gebre-2023-cross-scanner-comparison"
+        ]
       }
     ]
   },
@@ -103,41 +138,167 @@
       "Protocol: eyes open vs closed, task, recording length and preprocessing pipeline."
     ],
     "approaches": [
-      {"title": "Standardize the preprocessing", "text": "Resample, re-reference, filter and select a common channel set the same way for every dataset. Cheap, and it removes several differences completely.", "methods": ["esf-eeg"]},
-      {"title": "Align covariance matrices", "text": "Represent each recording by covariance matrices and re-center, re-scale and rotate each site's (or subject's) distribution on the Riemannian manifold. Works without labels from the new site.", "methods": ["meeg-covariance-alignment", "riemannian-procrustes-analysis", "euclidean-alignment"]},
-      {"title": "Map to a common montage", "text": "Learn a mapping from each dataset's electrode layout to a shared one, so models trained on one montage can use the others.", "methods": ["gcn-eeg-montage-harmonization"]},
-      {"title": "Correct spectral features", "text": "ComBat-family models applied to band power, aperiodic or cross-spectral features, or normative z-scores computed with site as a random effect.", "methods": ["combat", "combat-gam", "harmnqeeg"]},
-      {"title": "Distribution matching", "text": "Optimal-transport and domain-adaptation methods that match feature distributions between datasets.", "methods": ["botda"]}
+      {
+        "title": "Standardize the preprocessing",
+        "text": "Resample, re-reference, filter and select a common channel set the same way for every dataset. Cheap, and it removes several differences completely.",
+        "methods": [
+          "esf-eeg"
+        ]
+      },
+      {
+        "title": "Align covariance matrices",
+        "text": "Represent each recording by covariance matrices and re-center, re-scale and rotate each site's (or subject's) distribution on the Riemannian manifold. Works without labels from the new site.",
+        "methods": [
+          "meeg-covariance-alignment",
+          "riemannian-procrustes-analysis",
+          "euclidean-alignment"
+        ]
+      },
+      {
+        "title": "Map to a common montage",
+        "text": "Learn a mapping from each dataset's electrode layout to a shared one, so models trained on one montage can use the others.",
+        "methods": [
+          "gcn-eeg-montage-harmonization"
+        ]
+      },
+      {
+        "title": "Correct spectral features",
+        "text": "ComBat-family models applied to band power, aperiodic or cross-spectral features, or normative z-scores computed with site as a random effect.",
+        "methods": [
+          "combat",
+          "combat-gam",
+          "harmnqeeg"
+        ]
+      },
+      {
+        "title": "Distribution matching",
+        "text": "Optimal-transport and domain-adaptation methods that match feature distributions between datasets.",
+        "methods": [
+          "botda"
+        ]
+      }
     ],
-    "resources": ["jaramillo-2024-combat-rseeg", "nugent-2025-meg-harmonization"],
-    "datasets": ["eeg-cross-hardware-benchmark", "moabb"]
+    "resources": [
+      "jaramillo-2024-combat-rseeg",
+      "nugent-2025-meg-harmonization"
+    ],
+    "datasets": [
+      "eeg-cross-hardware-benchmark",
+      "moabb"
+    ]
   },
   "glossary": [
-    {"term": "Batch effect", "def": "Systematic, non-biological differences between groups of data that were acquired or processed differently. In neuroimaging the batch is usually the site, scanner or protocol."},
-    {"term": "Site effect / scanner effect", "def": "The batch effect caused by where (site) or on what hardware and protocol (scanner) the data were acquired. Several scanners at one site, or one scanner upgraded mid-study, are common reasons to define batches by scanner rather than site."},
-    {"term": "Harmonization", "def": "Removing or reducing batch effects while keeping the biological variability of interest. Retrospective harmonization works on data already collected; prospective harmonization aligns acquisition protocols before collection."},
-    {"term": "Covariates to preserve", "def": "Biological variables (age, sex, diagnosis...) that a method is told to protect, so their effect is not removed together with the site effect."},
-    {"term": "Confounding", "def": "When a biological variable and site are correlated (for example, all patients scanned at one site), the data cannot tell which differences are biological and which are technical."},
-    {"term": "Location / scale", "def": "The mean (location) and variance (scale) of a feature. ComBat-family methods model a site-specific shift in location and scale for each feature and remove it."},
-    {"term": "Empirical Bayes", "def": "Estimating each feature's site effect by borrowing strength from all features, which stabilizes estimates when sites are small. The 'EB' in ComBat."},
-    {"term": "Reference batch", "def": "A site whose data are left unchanged; all other sites are mapped onto it. Useful when one site is the standard or when new sites are added later."},
-    {"term": "Feature-level vs image-level", "def": "Feature-level methods correct derived measures (volumes, thickness, connectivity, radiomic features). Image-level methods change the images themselves, so any later pipeline can use them."},
-    {"term": "Acquisition-level", "def": "Harmonization done at the scanner: matched or vendor-neutral sequences, shared protocols, phantoms and calibration."},
-    {"term": "Traveling subjects", "def": "The same participants scanned on several scanners or sites. They give a direct measurement of scanner effects and are required by methods that learn from paired data."},
-    {"term": "Test–retest", "def": "Repeated scans of the same person on the same scanner. Their variability is the floor any harmonization method can reach."},
-    {"term": "Phantom", "def": "An object with known physical properties scanned instead of (or alongside) people, used to measure and calibrate scanner differences."},
-    {"term": "Unseen site / out-of-sample harmonization", "def": "Applying a fitted harmonization model to data from a site that was not in the training data. Many ComBat variants cannot do this without refitting."},
-    {"term": "Data leakage", "def": "Information from the test set (or the prediction target) reaching the training process, for example by harmonizing all data before cross-validation. It produces over-optimistic results."},
-    {"term": "Domain shift / dataset shift", "def": "A change in data distribution between training and deployment. Site effects are one kind; differences in population or task are others."},
-    {"term": "Domain adaptation", "def": "Machine-learning methods that make a model work on a new domain (site, scanner, dataset), either by aligning features or by adapting the model, often without labels from the new domain."},
-    {"term": "Disentanglement", "def": "Deep-learning approach that splits an image into an anatomy (content) part and a contrast or scanner (style) part, then recombines anatomy with a target style."},
-    {"term": "Normative modeling", "def": "Modeling the expected range of a measure across the population (often as a function of age and sex, with site as a random effect) and expressing each person as a deviation (z-score)."},
-    {"term": "IQM (image quality metric)", "def": "Automatically computed measures of image quality (noise, contrast, artefacts). Some methods use them to model scanner effects without site labels."},
-    {"term": "RISH features", "def": "Rotationally invariant spherical-harmonic features of diffusion MRI signals. Scaling them between sites is a standard diffusion-MRI harmonization approach."},
-    {"term": "ICC / CoV", "def": "Intraclass correlation and coefficient of variation: agreement measures used with traveling-subject and test–retest data."},
-    {"term": "Site predictability", "def": "How well a classifier can tell which site a sample came from. A common, but incomplete, measure of residual site effects."},
-    {"term": "Federated harmonization", "def": "Fitting a harmonization model without pooling raw data: each site shares only summary statistics or model updates."},
-    {"term": "Montage", "def": "In EEG, the set and placement of electrodes and the reference used. Different montages make channels from different datasets not directly comparable."},
-    {"term": "Riemannian re-centering", "def": "For covariance-based EEG/MEG features: moving each site's (or subject's) covariance matrices so their mean is the identity, which removes a large part of between-domain shift."}
+    {
+      "term": "Batch effect",
+      "def": "Systematic, non-biological differences between groups of data that were acquired or processed differently. In neuroimaging the batch is usually the site, scanner or protocol."
+    },
+    {
+      "term": "Site effect / scanner effect",
+      "def": "The batch effect caused by where (site) or on what hardware and protocol (scanner) the data were acquired. Several scanners at one site, or one scanner upgraded mid-study, are common reasons to define batches by scanner rather than site."
+    },
+    {
+      "term": "Harmonization",
+      "def": "Removing or reducing batch effects while keeping the biological variability of interest. Retrospective harmonization works on data already collected; prospective harmonization aligns acquisition protocols before collection."
+    },
+    {
+      "term": "Covariates to preserve",
+      "def": "Biological variables (age, sex, diagnosis...) that a method is told to protect, so their effect is not removed together with the site effect."
+    },
+    {
+      "term": "Confounding",
+      "def": "When a biological variable and site are correlated (for example, all patients scanned at one site), the data cannot tell which differences are biological and which are technical."
+    },
+    {
+      "term": "Location / scale",
+      "def": "The mean (location) and variance (scale) of a feature. ComBat-family methods model a site-specific shift in location and scale for each feature and remove it."
+    },
+    {
+      "term": "Empirical Bayes",
+      "def": "Estimating each feature's site effect by borrowing strength from all features, which stabilizes estimates when sites are small. The 'EB' in ComBat."
+    },
+    {
+      "term": "Reference batch",
+      "def": "A site whose data are left unchanged; all other sites are mapped onto it. Useful when one site is the standard or when new sites are added later."
+    },
+    {
+      "term": "Feature-level vs image-level",
+      "def": "Feature-level methods correct derived measures (volumes, thickness, connectivity, radiomic features). Image-level methods change the images themselves, so any later pipeline can use them."
+    },
+    {
+      "term": "Acquisition-level",
+      "def": "Harmonization done at the scanner: matched or vendor-neutral sequences, shared protocols, phantoms and calibration."
+    },
+    {
+      "term": "Traveling subjects",
+      "def": "The same participants scanned on several scanners or sites. They give a direct measurement of scanner effects and are required by methods that learn from paired data."
+    },
+    {
+      "term": "Test–retest",
+      "def": "Repeated scans of the same person on the same scanner. Their variability is the floor any harmonization method can reach."
+    },
+    {
+      "term": "Phantom",
+      "def": "An object with known physical properties scanned instead of (or alongside) people, used to measure and calibrate scanner differences."
+    },
+    {
+      "term": "Unseen site / out-of-sample harmonization",
+      "def": "Applying a fitted harmonization model to data from a site that was not in the training data. Many ComBat variants cannot do this without refitting."
+    },
+    {
+      "term": "Data leakage",
+      "def": "Information from the test set (or the prediction target) reaching the training process, for example by harmonizing all data before cross-validation. It produces over-optimistic results."
+    },
+    {
+      "term": "Domain shift / dataset shift",
+      "def": "A change in data distribution between training and deployment. Site effects are one kind; differences in population or task are others."
+    },
+    {
+      "term": "Domain adaptation",
+      "def": "Machine-learning methods that make a model work on a new domain (site, scanner, dataset), either by aligning features or by adapting the model, often without labels from the new domain."
+    },
+    {
+      "term": "Disentanglement",
+      "def": "Deep-learning approach that splits an image into an anatomy (content) part and a contrast or scanner (style) part, then recombines anatomy with a target style."
+    },
+    {
+      "term": "Normative modeling",
+      "def": "Modeling the expected range of a measure across the population (often as a function of age and sex, with site as a random effect) and expressing each person as a deviation (z-score)."
+    },
+    {
+      "term": "IQM (image quality metric)",
+      "def": "Automatically computed measures of image quality (noise, contrast, artefacts). Some methods use them to model scanner effects without site labels."
+    },
+    {
+      "term": "RISH features",
+      "def": "Rotationally invariant spherical-harmonic features of diffusion MRI signals. Scaling them between sites is a standard diffusion-MRI harmonization approach."
+    },
+    {
+      "term": "ICC / CoV",
+      "def": "Intraclass correlation and coefficient of variation: agreement measures used with traveling-subject and test–retest data."
+    },
+    {
+      "term": "Site predictability",
+      "def": "How well a classifier can tell which site a sample came from. A common, but incomplete, measure of residual site effects."
+    },
+    {
+      "term": "Federated harmonization",
+      "def": "Fitting a harmonization model without pooling raw data: each site shares only summary statistics or model updates."
+    },
+    {
+      "term": "Montage",
+      "def": "In EEG, the set and placement of electrodes and the reference used. Different montages make channels from different datasets not directly comparable."
+    },
+    {
+      "term": "Riemannian re-centering",
+      "def": "For covariance-based EEG/MEG features: moving each site's (or subject's) covariance matrices so their mean is the identity, which removes a large part of between-domain shift."
+    },
+    {
+      "term": "Confound removal",
+      "def": "Removing site or scanner effects (for example by regressing them out or standardizing each site separately) without explicitly protecting biological variability. Biology that differs between sites can be removed too. In this database these methods form the Confound Removal family and have preserves_biology = false."
+    },
+    {
+      "term": "Preserves biology (flag)",
+      "def": "Whether a method explicitly protects biological variability, usually by modelling biological covariates such as age, sex or diagnosis. Yes / No / Not assessed; use the 'Preserves biology' filter in Explore."
+    }
   ]
 }

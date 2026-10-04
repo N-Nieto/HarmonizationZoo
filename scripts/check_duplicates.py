@@ -33,6 +33,7 @@ NAME_THRESHOLD = 0.92
 ALLOWED = {
     frozenset({"combat", "neurocombat"}),   # same Fortin et al. 2018 paper, R vs Python/MATLAB implementations
     frozenset({"harmonizer", "harmonizr"}), # different tools (MRI benchmark vs. omics/proteomics), just similarly named
+    frozenset({"calamiti", "qcalamiti"}),   # qCALAMITI extends CALAMITI to quantitative multi-parameter MRI (separate method)
 }
 
 

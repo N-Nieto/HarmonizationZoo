@@ -28,7 +28,7 @@ LEVELS = {"feature-level", "image-level", "acquisition-level"}
 CATEGORIES = {
     "combat-family", "classical-normalization", "deep-learning", "iqm-based", "normative-modeling",
     "interpolation-based", "federated", "ica-based", "optimal-transport", "acquisition-protocol",
-    "domain-adaptation",
+    "domain-adaptation", "confound-removal",
 }
 DATASET_CATEGORIES = {"traveling-subjects", "harmonization-benchmark", "phantom", "multisite-cohort"}
 DATASET_ACCESS = {None, "open", "registration", "application", "private"}
@@ -81,6 +81,10 @@ def main():
                 err(f"unknown secondary category `{sc}`")
             elif sc == m.get("category"):
                 err(f"secondary category `{sc}` repeats the primary category")
+        if m.get("preserves_biology") not in (True, False, None):
+            err("`preserves_biology` must be true, false or null")
+        if m.get("category") == "confound-removal" and m.get("preserves_biology") is True:
+            err("confound-removal methods make no explicit biological preservation; `preserves_biology` can't be true")
         gs = m.get("get_started")
         if gs is not None:
             if not isinstance(gs, dict) or not (gs.get("install") or gs.get("usage")):
