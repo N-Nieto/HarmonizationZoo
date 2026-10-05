@@ -49,7 +49,7 @@ BIOLOGY = {True: "Yes — biological covariates are modelled explicitly",
 LEVEL = {"feature-level": "Feature-level", "image-level": "Image-level", "acquisition-level": "Acquisition-level"}
 MODALITY_LABEL = {
     "sMRI": "Structural MRI", "dMRI": "Diffusion MRI", "fMRI": "Functional MRI", "connectome": "Connectomes",
-    "EEG": "EEG", "MEG": "MEG", "PET": "PET", "CT": "CT", "radiomics": "Radiomics", "omics": "Omics",
+    "EEG": "EEG", "MEG": "MEG", "PET": "PET", "CT": "CT", "radiomics": "Radiomics", "genomics": "Genomics (gene expression, sequencing)", "omics": "Other omics (proteomics, …)",
     "histopathology": "Histopathology", "breast-MRI": "Breast MRI", "cardiac-MRI": "Cardiac MRI",
     "abdominal-MRI": "Abdominal / pelvic MRI", "general-imaging": "Medical imaging (general)",
     "general": "Modality-agnostic", "MRI-acquisition": "MRI acquisition",

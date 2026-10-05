@@ -467,6 +467,12 @@ They are in the controlled vocabulary in `scripts/validate_methods.py`, `scripts
 `scripts/build_pages.py` and `js/app.js` (MODALITY_CODES, facet labels and the "Which method?" modality
 question). Their legacy `modality` group is "Body MRI (breast, cardiac, abdominal)".
 
+**Genomics** (`genomics`) is its own modality: ComBat itself (Johnson et al. 2007, `combat-eb`) was built
+for microarray batch effects, and ComBat-seq (RNA-seq counts), M-ComBat (reference-batch, gene expression)
+and SVA come from the same genomics batch-correction line. `omics` is kept for other omics (e.g. the
+proteomics tool HarmonizR, CSF protein biomarkers in MMD pooling). Picking "Genomics" in "Which method?"
+returns these plus modality-agnostic methods.
+
 ### Overlapping families
 
 Families are not mutually exclusive — a deep network can be "domain

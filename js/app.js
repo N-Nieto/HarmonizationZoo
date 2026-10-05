@@ -310,14 +310,14 @@ const SUBMIT_REPO = "N-Nieto/HarmonizationZoo";
 const SUBMIT_BRANCH = "main";
 // Controlled modality vocabulary — keep in sync with MODALITIES in scripts/validate_methods.py.
 const MODALITY_CODES = [
-  "sMRI", "dMRI", "fMRI", "connectome", "EEG", "MEG", "PET", "CT", "radiomics", "omics",
+  "sMRI", "dMRI", "fMRI", "connectome", "EEG", "MEG", "PET", "CT", "radiomics", "genomics", "omics",
   "histopathology", "breast-MRI", "cardiac-MRI", "abdominal-MRI", "general-imaging", "general", "MRI-acquisition",
 ];
 // Legacy free-text `modality` field (used by "Group by → modality") derived from the first proposed modality.
 const LEGACY_MODALITY = {
   sMRI: "Structural MRI", dMRI: "Diffusion MRI", fMRI: "Functional MRI", connectome: "Functional MRI",
   EEG: "EEG", MEG: "MEG", PET: "Medical imaging (general, not MRI-brain-specific)",
-  CT: "Radiomics (CT/MRI)", radiomics: "Radiomics (CT/MRI)", omics: "Omics/Proteomics",
+  CT: "Radiomics (CT/MRI)", radiomics: "Radiomics (CT/MRI)", genomics: "Genomics", omics: "Omics/Proteomics",
   histopathology: "Medical imaging (general, not MRI-brain-specific)",
   "general-imaging": "Medical imaging (general, not MRI-brain-specific)",
   "breast-MRI": "Body MRI (breast, cardiac, abdominal)", "cardiac-MRI": "Body MRI (breast, cardiac, abdominal)",
@@ -2089,7 +2089,7 @@ function healthBreakdownHtml(h) {
 // option show how many methods you'd get if you added it (given the other facets).
 const MODALITY_FACET_LABEL = {
   sMRI: "Structural MRI", dMRI: "Diffusion MRI", fMRI: "Functional MRI", connectome: "Connectomes",
-  EEG: "EEG", MEG: "MEG", PET: "PET", CT: "CT", radiomics: "Radiomics", omics: "Omics",
+  EEG: "EEG", MEG: "MEG", PET: "PET", CT: "CT", radiomics: "Radiomics", genomics: "Genomics (gene expression, sequencing)", omics: "Other omics (proteomics, …)",
   histopathology: "Histopathology", "breast-MRI": "Breast MRI", "cardiac-MRI": "Cardiac MRI",
   "abdominal-MRI": "Abdominal / pelvic MRI", "general-imaging": "Medical imaging (general)",
   general: "Modality-agnostic", "MRI-acquisition": "MRI acquisition",
@@ -3452,7 +3452,7 @@ REC_STEPS.push(
     dynamicOptions(pool) {
       const counts = new Map();
       pool.forEach((d) => (d.modalities_tested || []).forEach((m) => counts.set(m, (counts.get(m) || 0) + 1)));
-      const order = ["sMRI", "dMRI", "fMRI", "connectome", "EEG", "MEG", "PET", "CT", "radiomics", "omics", "histopathology", "breast-MRI", "cardiac-MRI", "abdominal-MRI"];
+      const order = ["sMRI", "dMRI", "fMRI", "connectome", "EEG", "MEG", "PET", "CT", "radiomics", "genomics", "omics", "histopathology", "breast-MRI", "cardiac-MRI", "abdominal-MRI"];
       return order.filter((m) => counts.has(m)).map((m) => [m, `${MODALITY_FACET_LABEL[m] || m}`]);
     },
     apply(pool, v, ctx) {

@@ -37,7 +37,7 @@ RESOURCE_TYPES = {"review", "benchmark", "best-practice", "background",
 METHOD_TYPES = {"statistical", "deep-learning", "machine-learning", "other"}
 ENTRY_TYPES = {"method", "implementation", "toolbox", "protocol"}
 MODALITIES = {
-    "sMRI", "dMRI", "fMRI", "connectome", "EEG", "MEG", "PET", "CT", "radiomics", "omics",
+    "sMRI", "dMRI", "fMRI", "connectome", "EEG", "MEG", "PET", "CT", "radiomics", "genomics", "omics",
     "histopathology", "breast-MRI", "cardiac-MRI", "abdominal-MRI", "general-imaging", "general", "MRI-acquisition",
 }
 URL_FIELDS = ["paper_url", "other_url", "pretrained_weights_url"]

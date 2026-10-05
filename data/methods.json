@@ -6385,7 +6385,7 @@
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
-      "modality": "Omics/Proteomics",
+      "modality": "Genomics",
       "needs_gpu": false,
       "architecture_backbone": null,
       "framework": null,
@@ -6414,10 +6414,10 @@
       "venue": "Biostatistics",
       "publication_type": "article",
       "modalities_proposed": [
-        "omics"
+        "genomics"
       ],
       "modalities_tested": [
-        "omics"
+        "genomics"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -6470,7 +6470,7 @@
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
-      "modality": "Omics/Proteomics",
+      "modality": "Genomics",
       "needs_gpu": false,
       "architecture_backbone": null,
       "framework": null,
@@ -6499,10 +6499,10 @@
       "venue": "NAR Genomics and Bioinformatics",
       "publication_type": "article",
       "modalities_proposed": [
-        "omics"
+        "genomics"
       ],
       "modalities_tested": [
-        "omics"
+        "genomics"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -7133,7 +7133,7 @@
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
-      "modality": "Omics/Proteomics",
+      "modality": "Genomics",
       "needs_gpu": false,
       "architecture_backbone": null,
       "framework": null,
@@ -7167,10 +7167,10 @@
       "venue": "BMC Bioinformatics",
       "publication_type": "article",
       "modalities_proposed": [
-        "omics"
+        "genomics"
       ],
       "modalities_tested": [
-        "omics"
+        "genomics"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -7180,7 +7180,7 @@
       ],
       "evidence": [
         {
-          "modality": "omics",
+          "modality": "genomics",
           "title": "Removing batch effects from purified plasma cell gene expression microarrays with modified ComBat",
           "year": 2015,
           "doi": "10.1186/s12859-015-0478-3"
@@ -7522,7 +7522,7 @@
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
-      "modality": "Omics/Proteomics",
+      "modality": "Genomics",
       "needs_gpu": false,
       "architecture_backbone": null,
       "framework": null,
@@ -7550,10 +7550,10 @@
       "venue": "PLoS Genetics",
       "publication_type": "article",
       "modalities_proposed": [
-        "omics"
+        "genomics"
       ],
       "modalities_tested": [
-        "omics"
+        "genomics"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -7561,7 +7561,7 @@
       "extends": [],
       "evidence": [
         {
-          "modality": "omics",
+          "modality": "genomics",
           "title": "Capturing Heterogeneity in Gene Expression Studies by Surrogate Variable Analysis",
           "year": 2007,
           "doi": "10.1371/journal.pgen.0030161"
