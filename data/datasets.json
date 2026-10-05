@@ -376,6 +376,44 @@
       ]
     },
     {
+      "id": "nako",
+      "name": "NAKO",
+      "full_name": "German National Cohort (NAKO Gesundheitsstudie)",
+      "category": "multisite-cohort",
+      "modalities": [
+        "sMRI",
+        "fMRI",
+        "cardiac-MRI",
+        "abdominal-MRI"
+      ],
+      "participants": "205,000+ adults aged 19–74 at baseline (2014); whole-body MRI in ~30,000",
+      "sites": "18 study centres; MRI at 5 imaging centres with identical 3 T scanners and protocol",
+      "vendors": [
+        "Siemens"
+      ],
+      "sessions": "Baseline plus repeat examinations; ~1 h whole-body MRI protocol (12 native series)",
+      "longitudinal": true,
+      "description": "Germany's population cohort with whole-body MRI: brain (3D T1w MPRAGE, FLAIR, resting-state fMRI) plus cardiac, thoracoabdominal and musculoskeletal imaging. Like UK Biobank, identical scanners and a single protocol make it a near-best case of prospective harmonization, with residual site effects across the five imaging centres.",
+      "access": "application",
+      "access_note": "Project application through the NAKO TransferHub; MRI data have their own request procedure.",
+      "url": "https://transfer.nako.de/",
+      "doi": "10.1148/radiol.2015142272",
+      "paper_title": "Whole-Body MR Imaging in the German National Cohort: Rationale, Design, and Technical Background",
+      "year": 2015,
+      "extra_papers": [
+        {
+          "title": "NAKO study overview",
+          "url": "https://nako.de/en/study/"
+        }
+      ],
+      "aliases": [
+        "NAKO",
+        "German National Cohort",
+        "GNC",
+        "NAKO Gesundheitsstudie"
+      ]
+    },
+    {
       "id": "ixi",
       "name": "IXI",
       "full_name": "Information eXtraction from Images dataset",

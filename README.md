@@ -12,7 +12,7 @@ to deep-learning image translation, normative models, domain adaptation and EEG/
 ![methods](https://img.shields.io/badge/methods-217-f2a93b)
 ![families](https://img.shields.io/badge/families-12-5fc9c9)
 ![resources](https://img.shields.io/badge/papers_to_read-55-9c8cf0)
-![datasets](https://img.shields.io/badge/datasets-34-e0708a)
+![datasets](https://img.shields.io/badge/datasets-35-e0708a)
 ![license](https://img.shields.io/badge/license-MIT-a3b1c2)
 
 ![Explore view: every method grouped by family](docs/img/explore.png)
