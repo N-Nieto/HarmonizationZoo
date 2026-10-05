@@ -650,7 +650,9 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": [],
+      "extends": [
+        "combat"
+      ],
       "evidence": [],
       "secondary_categories": [],
       "preserves_biology": true,
@@ -1627,7 +1629,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": false,
-        "generalizes_to_new_site": true,
+        "generalizes_to_new_site": false,
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -1661,7 +1663,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null,
+      "preserves_biology": true,
       "get_started": {
         "install": "install.packages(\"devtools\")\ndevtools::install_github(\"muschellij2/neurobase\")\ndevtools::install_github(\"muschellij2/WhiteStripe\")\ndevtools::install_github(\"jfortin1/RAVEL\")",
         "install_lang": "r",
@@ -2036,7 +2038,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "imunity",
@@ -2080,7 +2082,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": false,
+        "generalizes_to_new_site": true,
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -2113,7 +2115,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "cyclegan-brainmri",
@@ -2193,7 +2195,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": false
     },
     {
       "id": "mispel",
@@ -2275,7 +2277,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "harmless",
@@ -2569,7 +2571,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": true,
+        "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -2767,7 +2769,7 @@
       ],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "dictionary-learning-harmonization",
@@ -2847,7 +2849,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "b0shimming",
@@ -2977,9 +2979,9 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": true,
-        "generalizes_to_new_site": false,
-        "low_n_friendly": false,
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
         "needs_gpu": false,
@@ -3103,7 +3105,7 @@
       ],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "dewey-disentangled-latent",
@@ -3182,7 +3184,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "murd",
@@ -3259,7 +3261,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "stgan",
@@ -3341,7 +3343,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null,
+      "preserves_biology": true,
       "get_started": {
         "install": "git clone https://github.com/USCLoBeS/style_transfer_harmonization.git\ncd style_transfer_harmonization/\nconda env create -n style-harmonization --file ENV.yml\nconda activate style-harmonization",
         "install_lang": "bash",
@@ -3431,7 +3433,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null,
+      "preserves_biology": true,
       "get_started": {
         "install": "git clone https://github.com/luca2245/DISARM_Harmonization.git\ncd DISARM_Harmonization/Code",
         "install_lang": "bash",
@@ -3486,7 +3488,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": false,
+        "generalizes_to_new_site": true,
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -3523,7 +3525,7 @@
       ],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null,
+      "preserves_biology": true,
       "get_started": {
         "install": "git clone https://github.com/luca2245/DISARMpp_Harmonization.git\ncd DISARMpp_Harmonization\npip install -r requirements.txt",
         "install_lang": "bash",
@@ -3578,7 +3580,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": false,
+        "generalizes_to_new_site": true,
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -3610,7 +3612,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "haca3",
@@ -3697,7 +3699,7 @@
       ],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null,
+      "preserves_biology": true,
       "get_started": {
         "install": "git clone https://github.com/lianruizuo/haca3.git\ncd haca3\npip install .",
         "install_lang": "bash",
@@ -3712,7 +3714,7 @@
       "name": "Scanner Invariant Representations (Moyer et al.)",
       "category": "deep-learning",
       "method_type": "deep-learning",
-      "level": "feature-level",
+      "level": "image-level",
       "tags": [
         "diffusion-MRI",
         "adversarial",
@@ -3782,7 +3784,9 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": [],
+      "secondary_categories": [
+        "domain-adaptation"
+      ],
       "preserves_biology": null
     },
     {
@@ -3859,7 +3863,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "bashyam-stargan-harmonization",
@@ -4005,10 +4009,10 @@
       "venue": "Medical Imaging 2020: Computer-Aided Diagnosis (SPIE)",
       "publication_type": "conference-paper",
       "modalities_proposed": [
-        "sMRI"
+        "general-imaging"
       ],
       "modalities_tested": [
-        "sMRI"
+        "general-imaging"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -4149,7 +4153,7 @@
         "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": null,
-        "ml_compatible": true,
+        "ml_compatible": false,
         "needs_gpu": true,
         "longitudinal": false,
         "requires_paired_data": false
@@ -4178,12 +4182,14 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": [],
+      "extends": [
+        "combat"
+      ],
       "evidence": [],
       "secondary_categories": [
         "combat-family"
       ],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "harmonizing-flows",
@@ -4227,8 +4233,8 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": true,
-        "generalizes_to_new_site": false,
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -4314,7 +4320,7 @@
         "ml_compatible": true,
         "needs_gpu": true,
         "longitudinal": false,
-        "requires_paired_data": false
+        "requires_paired_data": true
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-02T11:26:10Z",
@@ -4343,7 +4349,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "ssimh",
@@ -4388,8 +4394,8 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": false,
-        "low_n_friendly": false,
+        "generalizes_to_new_site": true,
+        "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
         "needs_gpu": false,
@@ -4426,7 +4432,7 @@
     },
     {
       "id": "diffusion-autoencoder-harmonization",
-      "name": "Conditioned Diffusion Autoencoder Harmonization (Scholz et al.)",
+      "name": "Contrastive Anatomy-Contrast Disentanglement (Scholz et al.)",
       "category": "deep-learning",
       "method_type": "deep-learning",
       "level": "image-level",
@@ -4466,7 +4472,7 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": true,
+        "requires_site_id": false,
         "generalizes_to_new_site": true,
         "low_n_friendly": false,
         "requires_linear_signal": null,
@@ -4502,7 +4508,7 @@
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-03T12:27:55Z",
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "style-guided-latent-diffusion",
@@ -4707,7 +4713,7 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": true,
+        "requires_site_id": false,
         "generalizes_to_new_site": true,
         "low_n_friendly": false,
         "requires_linear_signal": null,
@@ -4785,7 +4791,7 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": true,
+        "requires_site_id": false,
         "generalizes_to_new_site": true,
         "low_n_friendly": false,
         "requires_linear_signal": null,
@@ -5029,7 +5035,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": true,
+        "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -5140,7 +5146,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "dist-clip",
@@ -5185,7 +5191,7 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": true,
+        "requires_site_id": false,
         "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": null,
@@ -5221,7 +5227,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "bartharm",
@@ -5270,7 +5276,7 @@
         "generalizes_to_new_site": true,
         "low_n_friendly": true,
         "requires_linear_signal": null,
-        "ml_compatible": true,
+        "ml_compatible": false,
         "needs_gpu": false,
         "longitudinal": false,
         "requires_paired_data": false
@@ -5302,7 +5308,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "neuroharmony",
@@ -5483,7 +5489,9 @@
         "combat"
       ],
       "evidence": [],
-      "secondary_categories": [],
+      "secondary_categories": [
+        "combat-family"
+      ],
       "preserves_biology": null,
       "get_started": {
         "install": "pip install git+https://github.com/Alxaline/ComScan.git",
@@ -5537,8 +5545,8 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": false,
-        "generalizes_to_new_site": true,
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -5622,7 +5630,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": false,
+        "generalizes_to_new_site": true,
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -5654,8 +5662,10 @@
       "implements": null,
       "extends": [],
       "evidence": [],
-      "secondary_categories": [],
-      "preserves_biology": null
+      "secondary_categories": [
+        "domain-adaptation"
+      ],
+      "preserves_biology": true
     },
     {
       "id": "isi",
@@ -5765,7 +5775,7 @@
       "also_implemented_in": [],
       "validation_data": "Agnostic",
       "modality": "Structural MRI",
-      "needs_gpu": false,
+      "needs_gpu": true,
       "architecture_backbone": "Adversarial network",
       "framework": null,
       "has_pretrained_weights": null,
@@ -5776,7 +5786,7 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false,
+        "needs_gpu": true,
         "longitudinal": false,
         "requires_paired_data": false
       },
@@ -5888,7 +5898,8 @@
       "implements": null,
       "extends": [
         "combat",
-        "d-combat"
+        "d-combat",
+        "combat-gam"
       ],
       "evidence": [],
       "secondary_categories": [
@@ -6020,7 +6031,7 @@
       "also_implemented_in": [],
       "validation_data": "Agnostic",
       "modality": "Medical imaging (general, not MRI-brain-specific)",
-      "needs_gpu": false,
+      "needs_gpu": true,
       "architecture_backbone": "CNN (frequency-domain augmentation)",
       "framework": null,
       "has_pretrained_weights": null,
@@ -6031,7 +6042,7 @@
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
-        "needs_gpu": false,
+        "needs_gpu": true,
         "longitudinal": false,
         "requires_paired_data": false
       },
@@ -6061,7 +6072,8 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [
-        "deep-learning"
+        "deep-learning",
+        "domain-adaptation"
       ],
       "preserves_biology": null,
       "get_started": {
@@ -6231,7 +6243,9 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": [],
+      "extends": [
+        "ica-dp"
+      ],
       "evidence": [],
       "secondary_categories": [],
       "preserves_biology": null
@@ -6280,7 +6294,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": true,
+        "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -6460,7 +6474,7 @@
       "recommend": {
         "requires_site_id": true,
         "generalizes_to_new_site": false,
-        "low_n_friendly": false,
+        "low_n_friendly": true,
         "requires_linear_signal": true,
         "ml_compatible": false,
         "needs_gpu": false,
@@ -6546,7 +6560,7 @@
         "requires_site_id": true,
         "generalizes_to_new_site": false,
         "low_n_friendly": false,
-        "requires_linear_signal": true,
+        "requires_linear_signal": false,
         "ml_compatible": false,
         "needs_gpu": false,
         "longitudinal": false,
@@ -6862,7 +6876,7 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "hbr",
@@ -6909,8 +6923,8 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": false,
-        "generalizes_to_new_site": true,
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
         "low_n_friendly": true,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -7111,7 +7125,7 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": false,
+        "requires_site_id": true,
         "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": null,
@@ -7399,7 +7413,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": true,
+        "generalizes_to_new_site": false,
         "low_n_friendly": true,
         "requires_linear_signal": true,
         "ml_compatible": false,
@@ -7438,7 +7452,9 @@
       "entry_type": "method",
       "implements": null,
       "extends": [
-        "combat"
+        "combat",
+        "m-combat",
+        "b-combat"
       ],
       "evidence": [
         {
@@ -7722,10 +7738,12 @@
       "venue": "PLoS Biology",
       "publication_type": "article",
       "modalities_proposed": [
-        "fMRI"
+        "fMRI",
+        "connectome"
       ],
       "modalities_tested": [
-        "fMRI"
+        "fMRI",
+        "connectome"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -7903,10 +7921,11 @@
       "venue": "Proceedings of the National Academy of Sciences",
       "publication_type": "article",
       "modalities_proposed": [
-        "sMRI"
+        "omics"
       ],
       "modalities_tested": [
-        "sMRI"
+        "sMRI",
+        "omics"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -7970,7 +7989,7 @@
         "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": true,
-        "ml_compatible": false,
+        "ml_compatible": true,
         "needs_gpu": false,
         "longitudinal": false,
         "requires_paired_data": false
@@ -8011,7 +8030,7 @@
     {
       "id": "wharmpa",
       "name": "WHARMPA (site-classification harmonization parameters)",
-      "category": "combat-family",
+      "category": "confound-removal",
       "method_type": "machine-learning",
       "level": "feature-level",
       "tags": [
@@ -8039,7 +8058,7 @@
       "last_commit": null,
       "repo_description": null,
       "stats_fetched_at": null,
-      "category_label": "Location/Scale Models (ComBat-family)",
+      "category_label": "Confound Removal",
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
@@ -8053,8 +8072,8 @@
         "requires_site_id": true,
         "generalizes_to_new_site": false,
         "low_n_friendly": false,
-        "requires_linear_signal": true,
-        "ml_compatible": false,
+        "requires_linear_signal": null,
+        "ml_compatible": true,
         "needs_gpu": false,
         "longitudinal": false,
         "requires_paired_data": false
@@ -8102,7 +8121,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": false
     },
     {
       "id": "multiclass-neuroharmony",
@@ -8151,7 +8170,7 @@
         "generalizes_to_new_site": true,
         "low_n_friendly": true,
         "requires_linear_signal": null,
-        "ml_compatible": true,
+        "ml_compatible": false,
         "needs_gpu": false,
         "longitudinal": false,
         "requires_paired_data": false
@@ -8202,7 +8221,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "abcd-harmonizer",
@@ -8276,14 +8295,16 @@
       "venue": "Neuroinformatics",
       "publication_type": "article",
       "modalities_proposed": [
-        "sMRI"
+        "sMRI",
+        "dMRI"
       ],
       "modalities_tested": [
-        "sMRI"
+        "sMRI",
+        "dMRI"
       ],
       "modalities_verified": false,
-      "entry_type": "toolbox",
-      "implements": null,
+      "entry_type": "implementation",
+      "implements": "combat",
       "extends": [
         "combat"
       ],
@@ -8341,7 +8362,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": true,
+        "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": true,
         "ml_compatible": true,
@@ -8440,7 +8461,7 @@
         "ml_compatible": true,
         "needs_gpu": false,
         "longitudinal": false,
-        "requires_paired_data": false
+        "requires_paired_data": true
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-04T12:00:00Z",
@@ -8491,7 +8512,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "linked-ica-scanner-denoising",
@@ -8809,7 +8830,7 @@
         "ml_compatible": true,
         "needs_gpu": false,
         "longitudinal": false,
-        "requires_paired_data": true
+        "requires_paired_data": false
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-04T12:00:00Z",
@@ -8868,7 +8889,7 @@
     },
     {
       "id": "dmri-harmonization-unmatched",
-      "name": "dMRI Harmonization without Matched Subjects",
+      "name": "RISH-GLM (dMRI harmonization without matched subjects)",
       "category": "classical-normalization",
       "method_type": "statistical",
       "level": "image-level",
@@ -8956,7 +8977,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "dmri-sup2unsup",
@@ -8994,7 +9015,7 @@
       "validation_data": "Agnostic",
       "modality": "Diffusion MRI",
       "needs_gpu": true,
-      "architecture_backbone": null,
+      "architecture_backbone": "CycleGAN",
       "framework": null,
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
@@ -9126,7 +9147,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "dki-dl-harmonization",
@@ -9164,7 +9185,7 @@
       "validation_data": "Agnostic",
       "modality": "Diffusion MRI",
       "needs_gpu": true,
-      "architecture_backbone": null,
+      "architecture_backbone": "CNN",
       "framework": null,
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
@@ -9217,7 +9238,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "dual-gan-dti",
@@ -9486,7 +9507,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "style-encoding-gan",
@@ -9574,7 +9595,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "ts-net",
@@ -9664,7 +9685,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "deep-harmonization-seg",
@@ -9702,7 +9723,7 @@
       "validation_data": "Agnostic",
       "modality": "Structural MRI",
       "needs_gpu": true,
-      "architecture_backbone": null,
+      "architecture_backbone": "U-Net",
       "framework": null,
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
@@ -9789,7 +9810,7 @@
       "validation_data": "Agnostic",
       "modality": "Structural MRI",
       "needs_gpu": true,
-      "architecture_backbone": null,
+      "architecture_backbone": "CycleGAN",
       "framework": null,
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
@@ -9820,9 +9841,10 @@
       "venue": "Physics in Medicine and Biology",
       "publication_type": "article",
       "modalities_proposed": [
-        "sMRI"
+        "general-imaging"
       ],
       "modalities_tested": [
+        "general-imaging",
         "sMRI"
       ],
       "modalities_verified": false,
@@ -9922,7 +9944,9 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": [],
+      "extends": [
+        "scanner-invariant-repr"
+      ],
       "evidence": [
         {
           "modality": "sMRI",
@@ -10020,7 +10044,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "aggan-harmonization",
@@ -10325,7 +10349,7 @@
       "validation_data": "Agnostic",
       "modality": "Structural MRI",
       "needs_gpu": true,
-      "architecture_backbone": null,
+      "architecture_backbone": "Style transfer (AdaIN)",
       "framework": null,
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
@@ -10553,7 +10577,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "mri-homogenization-pediatric",
@@ -10644,7 +10668,7 @@
     {
       "id": "neonatal-harmonized-seg",
       "name": "Harmonized Segmentation of Neonatal Brain MRI",
-      "category": "deep-learning",
+      "category": "domain-adaptation",
       "method_type": "deep-learning",
       "level": "image-level",
       "tags": [
@@ -10672,7 +10696,7 @@
       "last_commit": null,
       "repo_description": null,
       "stats_fetched_at": null,
-      "category_label": "Deep learning-based",
+      "category_label": "Domain Adaptation & Distribution Matching",
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
@@ -10729,7 +10753,9 @@
           "doi": "10.3389/fnins.2021.662005"
         }
       ],
-      "secondary_categories": [],
+      "secondary_categories": [
+        "deep-learning"
+      ],
       "preserves_biology": null
     },
     {
@@ -10820,7 +10846,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "segrenorm",
@@ -10907,7 +10933,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null,
+      "preserves_biology": true,
       "get_started": {
         "install": "git clone https://github.com/mengweiren/segmentation-renormalized-harmonization.git\ncd segmentation-renormalized-harmonization\nconda env create -f environment.yml",
         "install_lang": "bash",
@@ -10989,7 +11015,9 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": [],
+      "extends": [
+        "adversarial-normalization"
+      ],
       "evidence": [
         {
           "modality": "sMRI",
@@ -11302,7 +11330,7 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": true,
+        "requires_site_id": false,
         "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": null,
@@ -11485,7 +11513,7 @@
         "ml_compatible": true,
         "needs_gpu": true,
         "longitudinal": false,
-        "requires_paired_data": false
+        "requires_paired_data": true
       },
       "citations_source": "openalex",
       "citations_fetched_at": "2026-10-04T12:00:00Z",
@@ -11518,7 +11546,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "phyre",
@@ -11692,11 +11720,11 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "conditional-latent-diffusion-harmonization",
-      "name": "Conditional Latent Diffusion Volumetric Harmonization",
+      "name": "HCLD (conditional latent diffusion harmonization)",
       "category": "deep-learning",
       "method_type": "deep-learning",
       "level": "image-level",
@@ -11781,7 +11809,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "espa",
@@ -11870,7 +11898,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "bme-x",
@@ -11965,7 +11993,7 @@
     {
       "id": "synthseg",
       "name": "SynthSeg (contrast-agnostic segmentation)",
-      "category": "deep-learning",
+      "category": "domain-adaptation",
       "method_type": "deep-learning",
       "level": "feature-level",
       "tags": [
@@ -11995,7 +12023,7 @@
       "last_commit": "2024-07-17",
       "repo_description": "Contrast-agnostic segmentation of MRI scans",
       "stats_fetched_at": "2026-10-04T11:10:16Z",
-      "category_label": "Deep learning-based",
+      "category_label": "Domain Adaptation & Distribution Matching",
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
@@ -12050,7 +12078,9 @@
           "doi": "10.1016/j.media.2023.102789"
         }
       ],
-      "secondary_categories": [],
+      "secondary_categories": [
+        "deep-learning"
+      ],
       "preserves_biology": null,
       "get_started": {
         "install": "# Ships with FreeSurfer 7.3+ as `mri_synthseg`, or standalone:\ngit clone https://github.com/BBillot/SynthSeg.git\ncd SynthSeg\npip install tensorflow-gpu==2.2.0 keras==2.3.1 protobuf==3.20.3 numpy==1.23.5 nibabel==5.0.1 matplotlib==3.6.2",
@@ -12063,7 +12093,7 @@
     },
     {
       "id": "nst-cardiac-mr",
-      "name": "Neural Style Transfer for Cardiac MR Segmentation",
+      "name": "StyleSegor (neural style transfer for cardiac MR segmentation)",
       "category": "deep-learning",
       "method_type": "deep-learning",
       "level": "image-level",
@@ -12188,7 +12218,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": false,
+        "generalizes_to_new_site": true,
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -12228,8 +12258,10 @@
           "doi": "10.1117/1.jmi.6.2.024008"
         }
       ],
-      "secondary_categories": [],
-      "preserves_biology": null
+      "secondary_categories": [
+        "domain-adaptation"
+      ],
+      "preserves_biology": true
     },
     {
       "id": "stain-transfer-adversarial",
@@ -12743,7 +12775,9 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": [],
+      "extends": [
+        "br-net"
+      ],
       "evidence": [
         {
           "modality": "sMRI",
@@ -12755,7 +12789,7 @@
       "secondary_categories": [
         "deep-learning"
       ],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "br-net",
@@ -13493,7 +13527,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": true,
+        "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -13538,7 +13572,7 @@
     },
     {
       "id": "ot-ms-lesion-da",
-      "name": "Optimal-Transport Domain Adaptation for MS Lesion Segmentation",
+      "name": "Seg-JDOT (OT domain adaptation for MS lesion segmentation)",
       "category": "optimal-transport",
       "method_type": "deep-learning",
       "level": "feature-level",
@@ -13579,7 +13613,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": true,
+        "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -13885,7 +13919,7 @@
       "name": "Harmonization-Enriched Domain Adaptation with Light Fine-Tuning",
       "category": "domain-adaptation",
       "method_type": "deep-learning",
-      "level": "feature-level",
+      "level": "image-level",
       "tags": [
         "fine-tuning",
         "multiple-sclerosis",
@@ -14200,7 +14234,7 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": false,
+        "requires_site_id": true,
         "generalizes_to_new_site": true,
         "low_n_friendly": true,
         "requires_linear_signal": null,
@@ -14382,7 +14416,7 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": false,
+        "requires_site_id": true,
         "generalizes_to_new_site": true,
         "low_n_friendly": true,
         "requires_linear_signal": null,
@@ -14477,7 +14511,7 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": false,
+        "requires_site_id": true,
         "generalizes_to_new_site": true,
         "low_n_friendly": true,
         "requires_linear_signal": null,
@@ -14572,7 +14606,7 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": false,
+        "requires_site_id": true,
         "generalizes_to_new_site": true,
         "low_n_friendly": true,
         "requires_linear_signal": null,
@@ -14630,7 +14664,7 @@
       ],
       "modalities_verified": false,
       "entry_type": "implementation",
-      "implements": null,
+      "implements": "warped-blr",
       "extends": [
         "warped-blr"
       ],
@@ -14695,7 +14729,7 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": false,
+        "requires_site_id": true,
         "generalizes_to_new_site": true,
         "low_n_friendly": true,
         "requires_linear_signal": null,
@@ -15735,7 +15769,7 @@
         "requires_linear_signal": null,
         "ml_compatible": true,
         "needs_gpu": false,
-        "longitudinal": false,
+        "longitudinal": true,
         "requires_paired_data": false
       },
       "citations_source": "openalex",
@@ -15851,7 +15885,7 @@
         "requires_linear_signal": null,
         "ml_compatible": true,
         "needs_gpu": false,
-        "longitudinal": false,
+        "longitudinal": true,
         "requires_paired_data": false
       },
       "citations_source": "openalex",
@@ -16193,7 +16227,9 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": [],
+      "extends": [
+        "riemannian-procrustes-analysis"
+      ],
       "evidence": [
         {
           "modality": "EEG",
@@ -16203,7 +16239,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": false
     },
     {
       "id": "riemannian-fmri-harmonization",
@@ -16447,7 +16483,7 @@
         "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": null,
-        "ml_compatible": true,
+        "ml_compatible": false,
         "needs_gpu": false,
         "longitudinal": false,
         "requires_paired_data": true
@@ -16676,7 +16712,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "buan-combat",
@@ -16861,7 +16897,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "dwi-contrast-sr-harmonization",
@@ -16906,8 +16942,8 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": true,
-        "generalizes_to_new_site": false,
+        "requires_site_id": false,
+        "generalizes_to_new_site": true,
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -17209,7 +17245,7 @@
       "pretrained_weights_url": null,
       "recommend": {
         "requires_site_id": true,
-        "generalizes_to_new_site": false,
+        "generalizes_to_new_site": true,
         "low_n_friendly": false,
         "requires_linear_signal": null,
         "ml_compatible": true,
@@ -17250,7 +17286,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "linear-rice",
@@ -17697,7 +17733,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "unifcharm",
@@ -17917,7 +17953,7 @@
       "validation_data": "Agnostic",
       "modality": "Structural MRI",
       "needs_gpu": true,
-      "architecture_backbone": "Autoencoder",
+      "architecture_backbone": "Diffusion model",
       "framework": null,
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
@@ -17964,7 +18000,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null,
+      "preserves_biology": true,
       "get_started": {
         "install": "git clone https://github.com/MW1798/MMH_Harmonization.git\ncd MMH_Harmonization\nconda env create -f environment.yml\nconda activate MMH_env",
         "install_lang": "bash",
@@ -18023,7 +18059,7 @@
         "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": null,
-        "ml_compatible": true,
+        "ml_compatible": false,
         "needs_gpu": false,
         "longitudinal": false,
         "requires_paired_data": false
@@ -18521,10 +18557,12 @@
       "venue": "Research Square",
       "publication_type": "preprint",
       "modalities_proposed": [
+        "CT",
         "radiomics"
       ],
       "modalities_tested": [
-        "radiomics"
+        "radiomics",
+        "CT"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -18590,7 +18628,7 @@
         "generalizes_to_new_site": false,
         "low_n_friendly": false,
         "requires_linear_signal": null,
-        "ml_compatible": true,
+        "ml_compatible": false,
         "needs_gpu": false,
         "longitudinal": false,
         "requires_paired_data": false
@@ -18629,7 +18667,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "petharmony",
@@ -18719,7 +18757,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "tanzanite",
@@ -18899,7 +18937,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "gcn-eeg-montage-harmonization",
@@ -19069,9 +19107,7 @@
           "doi": "10.5281/zenodo.22772008"
         }
       ],
-      "secondary_categories": [
-        "acquisition-protocol"
-      ],
+      "secondary_categories": [],
       "preserves_biology": null,
       "get_started": {
         "install": "git clone https://github.com/h5371h/esf-recoverability.git && cd esf-recoverability\npython3 -m venv .venv && source .venv/bin/activate && pip install -r v2/requirements.txt",
@@ -19182,7 +19218,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null,
+      "preserves_biology": true,
       "get_started": {
         "install": "git clone https://github.com/shays15/haca3-plus.git\ncd haca3-plus\npip install .",
         "install_lang": "bash",
@@ -19277,7 +19313,11 @@
           "doi": "10.1162/imag_a_00388"
         }
       ],
-      "secondary_categories": [],
+      "secondary_categories": [
+        "domain-adaptation",
+        "deep-learning",
+        "confound-removal"
+      ],
       "preserves_biology": true
     },
     {
@@ -19553,7 +19593,7 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": true
     },
     {
       "id": "harmnqeeg",
@@ -19602,7 +19642,7 @@
       "has_pretrained_weights": null,
       "pretrained_weights_url": null,
       "recommend": {
-        "requires_site_id": false,
+        "requires_site_id": true,
         "generalizes_to_new_site": true,
         "low_n_friendly": true,
         "requires_linear_signal": null,

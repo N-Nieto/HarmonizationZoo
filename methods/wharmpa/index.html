@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>WHARMPA (site-classification harmonization parameters) — Harmonization Zoo</title>
-<meta name="description" content="WHARMPA (site-classification harmonization parameters): a feature-level Location/Scale Models (ComBat-family) harmonization method. published 2022 in Human Brain Mapping, 13 citations, tested on Structural MRI.">
+<meta name="description" content="WHARMPA (site-classification harmonization parameters): a feature-level Confound Removal harmonization method. published 2022 in Human Brain Mapping, 13 citations, tested on Structural MRI.">
 <link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/wharmpa/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WHARMPA (site-classification harmonization parameters) — Harmonization Zoo">
-<meta property="og:description" content="WHARMPA (site-classification harmonization parameters): a feature-level Location/Scale Models (ComBat-family) harmonization method. published 2022 in Human Brain Mapping, 13 citations, tested on Structural MRI.">
+<meta property="og:description" content="WHARMPA (site-classification harmonization parameters): a feature-level Confound Removal harmonization method. published 2022 in Human Brain Mapping, 13 citations, tested on Structural MRI.">
 <meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/wharmpa/">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0a0e13">
@@ -25,7 +25,7 @@
   "@type": "CreativeWork",
   "name": "WHARMPA (site-classification harmonization parameters)",
   "url": "https://n-nieto.github.io/HarmonizationZoo/methods/wharmpa/",
-  "description": "WHARMPA (site-classification harmonization parameters): a feature-level Location/Scale Models (ComBat-family) harmonization method. published 2022 in Human Brain Mapping, 13 citations, tested on Structural MRI.",
+  "description": "WHARMPA (site-classification harmonization parameters): a feature-level Confound Removal harmonization method. published 2022 in Human Brain Mapping, 13 citations, tested on Structural MRI.",
   "citation": {
     "@type": "ScholarlyArticle",
     "headline": "Parameters from site classification to harmonize MRI clinical studies: Application to a multi‐site Parkinson's disease dataset",
@@ -115,7 +115,7 @@
   </nav>
 </header>
 <main class="mp-main">
-  <p class="mp-eyebrow" style="--eyebrow-color:#f2a93b">Location/Scale Models (ComBat-family) · Feature-level</p>
+  <p class="mp-eyebrow" style="--eyebrow-color:#8e98a6">Confound Removal · Feature-level</p>
   <h1>WHARMPA (site-classification harmonization parameters)</h1>
   
   <section class="mp-section mp-paper">
@@ -126,7 +126,7 @@
   
   <section class="mp-section">
     <h2>Details</h2>
-    <dl class="spec-table"><dt>Family</dt><dd>Location/Scale Models (ComBat-family)</dd><dt>Preserves biology</dt><dd>Not assessed</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>machine learning</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Structural MRI</span> <a href="https://doi.org/10.1002/hbm.25838" rel="noopener noreferrer">Parameters from site classification to harmonize MRI clinical studies: Application to a multi‐site Parkinson&#x27;s disease dataset</a> (2022)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.3390/bioengineering10040397" rel="noopener noreferrer">Machine Learning for Brain MRI Data Harmonisation: A Systematic Review</a> (2023)</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">gaussian-process</span><span class="chip">site-classification</span><span class="chip">parkinson</span></div></dd></dl>
+    <dl class="spec-table"><dt>Family</dt><dd>Confound Removal</dd><dt>About this family</dt><dd>Removes site/scanner effects (e.g. by regression or per-site standardization) without explicitly protecting biological variability: no biological covariates are modelled, so biology that differs between sites can be removed too. Often used as a baseline.</dd><dt>Preserves biology</dt><dd>No — no explicit biological preservation</dd><dt>Level</dt><dd>Feature-level</dd><dt>Method type</dt><dd>machine learning</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Structural MRI</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Structural MRI</span> <a href="https://doi.org/10.1002/hbm.25838" rel="noopener noreferrer">Parameters from site classification to harmonize MRI clinical studies: Application to a multi‐site Parkinson&#x27;s disease dataset</a> (2022)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.3390/bioengineering10040397" rel="noopener noreferrer">Machine Learning for Brain MRI Data Harmonisation: A Systematic Review</a> (2023)</dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">gaussian-process</span><span class="chip">site-classification</span><span class="chip">parkinson</span></div></dd></dl>
   </section>
   
   

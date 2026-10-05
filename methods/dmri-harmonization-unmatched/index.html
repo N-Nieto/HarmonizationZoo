@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
-<title>dMRI Harmonization without Matched Subjects — Harmonization Zoo</title>
-<meta name="description" content="dMRI Harmonization without Matched Subjects: a image-level Classical Intensity Normalization harmonization method. published 2025 in Magnetic Resonance in Medicine, 3 citations, tested on Diffusion MRI.">
+<title>RISH-GLM (dMRI harmonization without matched subjects) — Harmonization Zoo</title>
+<meta name="description" content="RISH-GLM (dMRI harmonization without matched subjects): a image-level Classical Intensity Normalization harmonization method. published 2025 in Magnetic Resonance in Medicine, 3 citations, tested on Diffusion MRI.">
 <link rel="canonical" href="https://n-nieto.github.io/HarmonizationZoo/methods/dmri-harmonization-unmatched/">
 <meta property="og:type" content="article">
-<meta property="og:title" content="dMRI Harmonization without Matched Subjects — Harmonization Zoo">
-<meta property="og:description" content="dMRI Harmonization without Matched Subjects: a image-level Classical Intensity Normalization harmonization method. published 2025 in Magnetic Resonance in Medicine, 3 citations, tested on Diffusion MRI.">
+<meta property="og:title" content="RISH-GLM (dMRI harmonization without matched subjects) — Harmonization Zoo">
+<meta property="og:description" content="RISH-GLM (dMRI harmonization without matched subjects): a image-level Classical Intensity Normalization harmonization method. published 2025 in Magnetic Resonance in Medicine, 3 citations, tested on Diffusion MRI.">
 <meta property="og:url" content="https://n-nieto.github.io/HarmonizationZoo/methods/dmri-harmonization-unmatched/">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0a0e13">
@@ -23,9 +23,9 @@
 {
   "@context": "https://schema.org",
   "@type": "CreativeWork",
-  "name": "dMRI Harmonization without Matched Subjects",
+  "name": "RISH-GLM (dMRI harmonization without matched subjects)",
   "url": "https://n-nieto.github.io/HarmonizationZoo/methods/dmri-harmonization-unmatched/",
-  "description": "dMRI Harmonization without Matched Subjects: a image-level Classical Intensity Normalization harmonization method. published 2025 in Magnetic Resonance in Medicine, 3 citations, tested on Diffusion MRI.",
+  "description": "RISH-GLM (dMRI harmonization without matched subjects): a image-level Classical Intensity Normalization harmonization method. published 2025 in Magnetic Resonance in Medicine, 3 citations, tested on Diffusion MRI.",
   "citation": {
     "@type": "ScholarlyArticle",
     "headline": "Cross‐site harmonization of diffusion MRI data without matched training subjects",
@@ -92,7 +92,7 @@
 </header>
 <main class="mp-main">
   <p class="mp-eyebrow" style="--eyebrow-color:#c98f5e">Classical Intensity Normalization · Image-level</p>
-  <h1>dMRI Harmonization without Matched Subjects</h1>
+  <h1>RISH-GLM (dMRI harmonization without matched subjects)</h1>
   
   <section class="mp-section mp-paper">
     <p class="mp-paper-title">Cross‐site harmonization of diffusion MRI data without matched training subjects</p><p class="mp-authors">Alberto De Luca, Tine Swartenbroekx, Harro Seelaar, John Cornelis Van Swieten, Suheyla Cetin Karayumak, Yogesh Rathi, Ofer Pasternak, Lize Corrine Jiskoot, Alexander Leemans</p><p class="mp-venue">Magnetic Resonance in Medicine · 2025</p>
@@ -102,7 +102,7 @@
   
   <section class="mp-section">
     <h2>Details</h2>
-    <dl class="spec-table"><dt>Family</dt><dd>Classical Intensity Normalization</dd><dt>Preserves biology</dt><dd>Not assessed</dd><dt>Level</dt><dd>Image-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Diffusion MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Diffusion MRI</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Diffusion MRI</span> <a href="https://doi.org/10.1002/mrm.30575" rel="noopener noreferrer">Cross‐site harmonization of diffusion MRI data without matched training subjects</a> (2025)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.1016/j.media.2026.104066" rel="noopener noreferrer">Harmonization in magnetic resonance imaging: A survey of acquisition, image-level, and feature-level methods</a> (2026)</dd><dt>Builds on</dt><dd><a href="../rish/">RISH (Rotation-Invariant Spherical Harmonics)</a></dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">rish</span><span class="chip">covariates</span><span class="chip">signal-level</span></div></dd></dl>
+    <dl class="spec-table"><dt>Family</dt><dd>Classical Intensity Normalization</dd><dt>Preserves biology</dt><dd>Yes — biological covariates are modelled explicitly</dd><dt>Level</dt><dd>Image-level</dd><dt>Method type</dt><dd>statistical</dd><dt>Proposed for</dt><dd><div class="chip-row"><span class="chip">Diffusion MRI</span></div></dd><dt>Tested on</dt><dd><div class="chip-row"><span class="chip">Diffusion MRI</span></div></dd><dt>Evidence</dt><dd><ul class="mp-evidence"><li><span class="chip">Diffusion MRI</span> <a href="https://doi.org/10.1002/mrm.30575" rel="noopener noreferrer">Cross‐site harmonization of diffusion MRI data without matched training subjects</a> (2025)</li></ul></dd><dt>Validation data</dt><dd>Agnostic</dd><dt>Reviewed in</dt><dd><a href="https://doi.org/10.1016/j.media.2026.104066" rel="noopener noreferrer">Harmonization in magnetic resonance imaging: A survey of acquisition, image-level, and feature-level methods</a> (2026)</dd><dt>Builds on</dt><dd><a href="../rish/">RISH (Rotation-Invariant Spherical Harmonics)</a></dd><dt>Tags</dt><dd><div class="chip-row"><span class="chip">rish</span><span class="chip">covariates</span><span class="chip">signal-level</span></div></dd></dl>
   </section>
   
   
@@ -122,7 +122,7 @@
     <h2>Something wrong or missing?</h2>
     <p>Corrections are reviewed in the open on GitHub.</p>
     <div class="mp-links">
-      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/issues/new?title=Data%20issue%3A%20dMRI%20Harmonization%20without%20Matched%20Subjects%20%28dmri-harmonization-unmatched%29&amp;body=Method%20page%3A%20https%3A//n-nieto.github.io/HarmonizationZoo/methods/dmri-harmonization-unmatched/%0A%0A%2A%2AWhat%20is%20wrong%20or%20missing%3F%2A%2A%0A%0A%0A%2A%2ACorrect%20value%20and%20a%20source%20%28DOI%2C%20paper%20section%2C%20repo%20link%29%3A%2A%2A%0A%0A&amp;labels=data" rel="noopener noreferrer">⚑ Report an error</a>
+      <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/issues/new?title=Data%20issue%3A%20RISH-GLM%20%28dMRI%20harmonization%20without%20matched%20subjects%29%20%28dmri-harmonization-unmatched%29&amp;body=Method%20page%3A%20https%3A//n-nieto.github.io/HarmonizationZoo/methods/dmri-harmonization-unmatched/%0A%0A%2A%2AWhat%20is%20wrong%20or%20missing%3F%2A%2A%0A%0A%0A%2A%2ACorrect%20value%20and%20a%20source%20%28DOI%2C%20paper%20section%2C%20repo%20link%29%3A%2A%2A%0A%0A&amp;labels=data" rel="noopener noreferrer">⚑ Report an error</a>
       <a class="mp-btn" href="https://github.com/N-Nieto/HarmonizationZoo/blob/main/data/methods.json" rel="noopener noreferrer">✎ Edit the data</a>
     </div>
   </section>
