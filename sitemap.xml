@@ -82,6 +82,7 @@
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/esf-eeg/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/espa/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/euclidean-alignment/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/fc-harmony-block-combat-fc-covbat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/fcm-normalization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/fedcombat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/federated-hbr/</loc></url>
@@ -150,6 +151,7 @@
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/ot-ms-lesion-da/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/otda/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/paired-consistency-da/</loc></url>
+  <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/pairwise-combat/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/per-site-feature-standardization/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/personalized-template-mapping/</loc></url>
   <url><loc>https://n-nieto.github.io/HarmonizationZoo/methods/petharmony/</loc></url>

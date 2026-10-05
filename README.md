@@ -9,7 +9,7 @@ to deep-learning image translation, normative models, domain adaptation and EEG/
 
 [**Open the Zoo →**](https://n-nieto.github.io/HarmonizationZoo/)
 
-![methods](https://img.shields.io/badge/methods-219-f2a93b)
+![methods](https://img.shields.io/badge/methods-221-f2a93b)
 ![families](https://img.shields.io/badge/families-12-5fc9c9)
 ![resources](https://img.shields.io/badge/papers_to_read-51-9c8cf0)
 ![datasets](https://img.shields.io/badge/datasets-34-e0708a)
@@ -36,7 +36,7 @@ The Zoo puts them in one place, with the information you need to pick one.
 | 🗺️ **Explore** | Every method as a map, table, family tree (lineage) or impact plot. Filter by modality, family, language, code availability, maintenance, code health and whether biology is explicitly preserved. Compare methods side by side. |
 | 🧭 **Which method?** | Answer a few questions about your data and constraints; the list narrows live and explains every method it removes. |
 | 📦 **Toolboxes** | Packages that bundle several methods (UniHarmony, ComBatFamily, NeuroHarm-kit, pyRiemann, …) and what each implements. |
-| 📚 **Resources** | Reviews, comparison studies and best-practice papers, each linked to the methods it discusses — plus notes on EEG/MEG harmonization. |
+| 📚 **Resources** | Reviews, comparison studies and best-practice papers, each linked to the methods it discusses. Search by author, keyword or year, export as CSV — plus notes on EEG/MEG harmonization. |
 | 🧪 **Datasets** | Traveling-subject resources, benchmarks, phantoms and large multisite cohorts to develop and test methods on. |
 | ✅ **Did harmonization work?** | A step-by-step checklist: site effects removed, biology kept, paired-data checks, leakage-safe evaluation. |
 | 📖 **Glossary** | Batch effect, empirical Bayes, traveling subjects, confound removal… in plain language. |

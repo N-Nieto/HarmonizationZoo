@@ -8,7 +8,7 @@ debugging the pipelines, or changing how they work.
 
 ## What's in the database right now
 
-`data/methods.json` holds **219 methods** (October 2026) across twelve families (the
+`data/methods.json` holds **221 methods** (October 2026) across twelve families (the
 "Family" grouping) — **Location/Scale Models (ComBat-family)** /
 Deep-learning / IQM / Normative Modeling / Interpolation / Federated / ICA /
 Optimal-transport / **Domain Adaptation & Distribution Matching** /
@@ -333,6 +333,17 @@ entries the resource discusses. The site shows those as chips on the card,
 and every method's drawer and static page get a "Reviewed in" row pointing
 back. `scripts/validate_methods.py` checks ids, URLs, types, scopes and that
 every listed method id exists.
+
+Above the pills, a **search box** works like the one in Explore: words are
+ANDed and matched against title, authors, venue, note, DOI, type, topics,
+modality and the names of linked methods (so `Edde`, `leakage` or `ComBat`
+all work). A four-digit token is a year (`2024`), and ranges / bounds are
+supported: `2020-2023`, `2020..2023`, `>=2025`, `<2018`. Search, type pill and
+modality pill combine. A **Sort** menu (newest, oldest, title, first author,
+most methods linked) and a **Download CSV** button sit next to it; the CSV
+holds the papers currently shown, in the current order (columns `id, title,
+authors, year, venue, type, doi, url, open_access, modalities, topics, note,
+methods_in_zoo`).
 
 The first eight resources (October 2026) were also mined for methods: every
 named harmonization method in their reference lists was matched against the

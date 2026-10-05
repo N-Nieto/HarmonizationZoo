@@ -51,6 +51,8 @@ const state = {
   resources: [],
   resourceFilter: "all",
   resourceModality: "all",
+  resourceQuery: "",
+  resourceSort: "newest",
   datasets: [],
   datasetCategory: "all",
   groupBy: "category",
@@ -480,28 +482,82 @@ function eegNotesHtml(L) {
     </section>`;
 }
 
-function buildResourcesTab() {
-  const root = document.getElementById("resources-root");
-  if (!state.resources.length) {
-    root.innerHTML = `<div class="loading-placeholder">No resources listed yet.</div>`;
-    return;
+// Free-text search for Resources. Tokens are ANDed; a 4-digit year ("2024") or a
+// range ("2020-2023") matches the publication year; anything else is matched against
+// title, authors, venue, note, topics, modality, type, DOI and linked method names.
+function resourceHaystack(r, byId) {
+  if (r._hay === undefined) {
+    r._hay = [
+      r.title, (r.authors || []).join(" "), r.venue || "", r.note || "", r.doi || "",
+      RESOURCE_TYPE_LABEL[resourceType(r)] || "", (r.topics || []).join(" "),
+      (r.scope || []).map((x) => `${x} ${MODALITY_FACET_LABEL[x] || ""}`).join(" "),
+      (r.methods || []).map((id) => (byId.get(id) || {}).name || "").join(" "),
+    ].join(" ").toLowerCase();
   }
-  const byId = new Map(state.data.map((d) => [d.id, d]));
-  const L = makeContentLinker();
-  const visible = state.resources
-    .filter((r) => resourceMatchesFilter(r, state.resourceFilter) && resourceMatchesModality(r, state.resourceModality))
-    .sort((a, b) => (b.year || 0) - (a.year || 0) || a.title.localeCompare(b.title));
+  return r._hay;
+}
+function resourceMatchesQuery(r, q, byId) {
+  if (!q) return true;
+  return q.toLowerCase().split(/\s+/).filter(Boolean).every((tok) => {
+    let m = tok.match(/^(\d{4})(?:-|–|\.\.)(\d{4})$/);
+    if (m) return r.year >= Number(m[1]) && r.year <= Number(m[2]);
+    m = tok.match(/^(>=|<=|>|<)(\d{4})$/);
+    if (m) { const y = Number(m[2]); return { ">=": r.year >= y, "<=": r.year <= y, ">": r.year > y, "<": r.year < y }[m[1]]; }
+    if (/^\d{4}$/.test(tok)) return String(r.year) === tok;
+    return resourceHaystack(r, byId).includes(tok);
+  });
+}
+const RESOURCE_SORTS = [
+  ["newest", "Newest first"], ["oldest", "Oldest first"], ["title", "Title A–Z"],
+  ["author", "First author A–Z"], ["methods", "Most linked methods"],
+];
+function sortResources(list, how) {
+  const by = {
+    newest: (a, b) => (b.year || 0) - (a.year || 0) || a.title.localeCompare(b.title),
+    oldest: (a, b) => (a.year || 0) - (b.year || 0) || a.title.localeCompare(b.title),
+    title: (a, b) => a.title.localeCompare(b.title),
+    author: (a, b) => resourceShortCite(a).localeCompare(resourceShortCite(b)),
+    methods: (a, b) => (b.methods || []).length - (a.methods || []).length || (b.year || 0) - (a.year || 0),
+  }[how] || ((a, b) => (b.year || 0) - (a.year || 0));
+  return [...list].sort(by);
+}
+function visibleResources(byId) {
+  return sortResources(state.resources.filter((r) =>
+    resourceMatchesFilter(r, state.resourceFilter) && resourceMatchesModality(r, state.resourceModality)
+    && resourceMatchesQuery(r, state.resourceQuery, byId)), state.resourceSort);
+}
 
-  const cards = visible.map((r) => {
-    const methods = (r.methods || []).map((id) => byId.get(id)).filter(Boolean)
-      .sort((a, b) => a.name.localeCompare(b.name));
-    const shown = methods.slice(0, 14);
-    const chips = shown.map((m) => `<button type="button" class="toolbox-method-chip" data-id="${escapeHtml(m.id)}" style="--box-color:${FAMILY_COLOR.get(m.category) || "#888"}">${escapeHtml(m.name)}</button>`).join("");
-    const more = methods.length > shown.length
-      ? `<button type="button" class="resource-more" data-res="${escapeHtml(r.id)}">+ ${methods.length - shown.length} more</button>` : "";
-    const authors = (r.authors || []).length > 4 ? `${r.authors.slice(0, 3).join(", ")} et al.` : (r.authors || []).join(", ");
-    const url = r.doi ? `https://doi.org/${r.doi}` : r.url;
-    return `
+function downloadResourcesCsv() {
+  const byId = new Map(state.data.map((d) => [d.id, d]));
+  const rows = visibleResources(byId);
+  const fields = [
+    ["id", (r) => r.id], ["title", (r) => r.title], ["authors", (r) => (r.authors || []).join("; ")],
+    ["year", (r) => r.year], ["venue", (r) => r.venue], ["type", (r) => RESOURCE_TYPE_LABEL[resourceType(r)] || r.type],
+    ["doi", (r) => r.doi], ["url", (r) => (r.doi ? `https://doi.org/${r.doi}` : r.url)], ["open_access", (r) => (r.open_access ? "yes" : "no")],
+    ["modalities", (r) => (r.scope || []).join("; ")], ["topics", (r) => (r.topics || []).join("; ")], ["note", (r) => r.note],
+    ["methods_in_zoo", (r) => (r.methods || []).map((id) => (byId.get(id) || {}).name || id).join("; ")],
+  ];
+  const lines = [fields.map(([k]) => k).join(",")].concat(rows.map((r) => fields.map(([, get]) => csvCell(get(r))).join(",")));
+  const blob = new Blob(["﻿" + lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `harmonization-zoo-resources-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+function resourceCardHtml(r, byId) {
+  const methods = (r.methods || []).map((id) => byId.get(id)).filter(Boolean)
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const shown = methods.slice(0, 14);
+  const chips = shown.map((m) => `<button type="button" class="toolbox-method-chip" data-id="${escapeHtml(m.id)}" style="--box-color:${FAMILY_COLOR.get(m.category) || "#888"}">${escapeHtml(m.name)}</button>`).join("");
+  const more = methods.length > shown.length
+    ? `<button type="button" class="resource-more" data-res="${escapeHtml(r.id)}">+ ${methods.length - shown.length} more</button>` : "";
+  const authors = (r.authors || []).length > 4 ? `${r.authors.slice(0, 3).join(", ")} et al.` : (r.authors || []).join(", ");
+  const url = r.doi ? `https://doi.org/${r.doi}` : r.url;
+  return `
       <article class="resource-card" id="res-${escapeHtml(r.id)}">
         <div class="resource-meta">
           <span class="resource-type resource-type-${escapeHtml(resourceType(r))}">${escapeHtml(RESOURCE_TYPE_LABEL[resourceType(r)] || "Resource")}</span>
@@ -511,13 +567,48 @@ function buildResourcesTab() {
         <h3>${extLink(url, escapeHtml(r.title), "resource-title")}</h3>
         <p class="resource-cite">${escapeHtml(authors)} · <em>${escapeHtml(r.venue || "")}</em></p>
         <p class="resource-note">${escapeHtml(r.note || "")}</p>
-        <div class="chip-row">${(r.scope || []).map((s) => `<span class="chip">${escapeHtml(MODALITY_FACET_LABEL[s] || s)}</span>`).join("")}${(r.topics || []).map((t) => `<span class="chip chip-soft">${escapeHtml(t)}</span>`).join("")}</div>
+        <div class="chip-row">${(r.scope || []).map((x) => `<span class="chip">${escapeHtml(MODALITY_FACET_LABEL[x] || x)}</span>`).join("")}${(r.topics || []).map((t) => `<span class="chip chip-soft">${escapeHtml(t)}</span>`).join("")}</div>
         ${methods.length ? `
           <p class="toolbox-methods-label">Discusses ${methods.length} method${methods.length === 1 ? "" : "s"} in this database:</p>
           <div class="toolbox-methods resource-methods" data-res="${escapeHtml(r.id)}">${chips}${more}</div>` : ""}
       </article>`;
-  }).join("");
+}
 
+// Re-renders only the result list + count, so typing in the search box keeps focus.
+function renderResourceList() {
+  const root = document.getElementById("resources-root");
+  const list = root.querySelector(".resource-list");
+  if (!list) return;
+  const byId = new Map(state.data.map((d) => [d.id, d]));
+  const visible = visibleResources(byId);
+  list.innerHTML = visible.map((r) => resourceCardHtml(r, byId)).join("")
+    || `<p class="loading-placeholder">No resource matches. Try fewer words, a year (2024) or a range (2020-2023).</p>`;
+  const count = root.querySelector(".resource-count");
+  if (count) count.textContent = `${visible.length} of ${state.resources.length} papers`;
+  const bindChips = (scope) => scope.querySelectorAll(".toolbox-method-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const method = byId.get(chip.dataset.id);
+      if (method) { switchTab("explore"); openDrawer(method); }
+    });
+  });
+  bindChips(list);
+  list.querySelectorAll(".resource-more").forEach((btn) => btn.addEventListener("click", () => {
+    const r = state.resources.find((x) => x.id === btn.dataset.res);
+    const box = btn.parentElement;
+    box.innerHTML = (r.methods || []).map((id) => byId.get(id)).filter(Boolean)
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((m) => `<button type="button" class="toolbox-method-chip" data-id="${escapeHtml(m.id)}" style="--box-color:${FAMILY_COLOR.get(m.category) || "#888"}">${escapeHtml(m.name)}</button>`).join("");
+    bindChips(box);
+  }));
+}
+
+function buildResourcesTab() {
+  const root = document.getElementById("resources-root");
+  if (!state.resources.length) {
+    root.innerHTML = `<div class="loading-placeholder">No resources listed yet.</div>`;
+    return;
+  }
+  const L = makeContentLinker();
   root.innerHTML = `
     <div class="toolboxes-wrap resources-wrap">
       <p class="toolboxes-intro">
@@ -527,6 +618,18 @@ function buildResourcesTab() {
         this database, and every method's details show which of these resources cover it. Know a resource that
         belongs here? Open an issue or a pull request adding it to <code>data/resources.json</code>.
       </p>
+      <div class="resource-toolbar">
+        <label class="resource-search">
+          <span class="control-label">Search</span>
+          <input type="search" id="resource-search" placeholder="author, keyword, method, year (2024) or range (2020-2023)…" autocomplete="off" value="${escapeHtml(state.resourceQuery)}">
+        </label>
+        <label class="resource-sort">
+          <span class="control-label">Sort</span>
+          <select id="resource-sort">${RESOURCE_SORTS.map(([k, label]) => `<option value="${k}"${state.resourceSort === k ? " selected" : ""}>${escapeHtml(label)}</option>`).join("")}</select>
+        </label>
+        <span class="resource-count" aria-live="polite"></span>
+        <button type="button" id="resource-csv" class="compare-toggle-btn resource-csv-btn" title="Download the papers currently shown, in the current sort order">⇩ Download CSV</button>
+      </div>
       <div class="rec-options resource-filter" role="group" aria-label="Filter resources by type">
         ${RESOURCE_FILTERS.filter(([f]) => f === "all" || state.resources.some((r) => resourceMatchesFilter(r, f))).map(([f, label]) => {
           const n = state.resources.filter((r) => resourceMatchesFilter(r, f)).length;
@@ -540,7 +643,7 @@ function buildResourcesTab() {
         }).join("")}
       </div>`}
       ${state.resourceFilter === "eeg-meg" ? eegNotesHtml(L) : ""}
-      <div class="resource-list">${cards || `<p class="loading-placeholder">No resources of this type yet.</p>`}</div>
+      <div class="resource-list"></div>
     </div>`;
 
   root.querySelectorAll(".resource-filter .rec-pill[data-filter]").forEach((b) => b.addEventListener("click", () => {
@@ -556,27 +659,22 @@ function buildResourcesTab() {
     const notes = root.querySelector(".eeg-notes");
     if (notes) L.bind(notes);
   }
-  const bindChips = (scope) => scope.querySelectorAll(".toolbox-method-chip").forEach((chip) => {
-    chip.addEventListener("click", () => {
-      const method = byId.get(chip.dataset.id);
-      if (method) { switchTab("explore"); openDrawer(method); }
-    });
+  const search = root.querySelector("#resource-search");
+  let t = null;
+  search.addEventListener("input", () => {
+    clearTimeout(t);
+    t = setTimeout(() => { state.resourceQuery = search.value.trim(); renderResourceList(); }, 120);
   });
-  bindChips(root);
-  root.querySelectorAll(".resource-more").forEach((btn) => btn.addEventListener("click", () => {
-    const r = state.resources.find((x) => x.id === btn.dataset.res);
-    const box = btn.parentElement;
-    box.innerHTML = (r.methods || []).map((id) => byId.get(id)).filter(Boolean)
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map((m) => `<button type="button" class="toolbox-method-chip" data-id="${escapeHtml(m.id)}" style="--box-color:${FAMILY_COLOR.get(m.category) || "#888"}">${escapeHtml(m.name)}</button>`).join("");
-    bindChips(box);
-  }));
+  root.querySelector("#resource-sort").addEventListener("change", (e) => { state.resourceSort = e.target.value; renderResourceList(); });
+  root.querySelector("#resource-csv").addEventListener("click", downloadResourcesCsv);
+  renderResourceList();
 }
 
 function showResource(id) {
   const r = state.resources.find((x) => x.id === id);
-  if (!(r && resourceMatchesFilter(r, state.resourceFilter) && resourceMatchesModality(r, state.resourceModality))) {
-    state.resourceFilter = "all"; state.resourceModality = "all"; buildResourcesTab();
+  if (!(r && resourceMatchesFilter(r, state.resourceFilter) && resourceMatchesModality(r, state.resourceModality)
+        && resourceMatchesQuery(r, state.resourceQuery, new Map(state.data.map((d) => [d.id, d]))))) {
+    state.resourceFilter = "all"; state.resourceModality = "all"; state.resourceQuery = ""; buildResourcesTab();
   }
   switchTab("resources");
   const el = document.getElementById(`res-${id}`);

@@ -19860,6 +19860,215 @@
       ],
       "secondary_categories": [],
       "preserves_biology": null
+    },
+    {
+      "id": "fc-harmony-block-combat-fc-covbat",
+      "name": "Block-ComBat & FC-CovBat (FCHarmony)",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "functional-connectivity",
+        "community-detection",
+        "network-structure",
+        "covariance",
+        "location-scale"
+      ],
+      "paper_title": "Harmonizing functional connectivity reduces scanner effects in community detection",
+      "paper_year": 2022,
+      "paper_url": "https://doi.org/10.1016/j.neuroimage.2022.119198",
+      "github": "andy1764/FCHarmony",
+      "language": [
+        "R"
+      ],
+      "other_url": null,
+      "abstract": "Community detection on graphs constructed from functional magnetic resonance imaging (fMRI) data has led to important insights into brain functional organization. Large studies of brain community structure often include images acquired on multiple scanners across different studies. Differences in scanner can introduce variability into the downstream results, and these differences are often referred to as scanner effects. Such effects have been previously shown to significantly impact common network metrics. In this study, we identify scanner effects in data-driven community detection results and related network metrics. We assess a commonly employed harmonization method and propose new methodology for harmonizing functional connectivity that leverage existing knowledge about network structure as well as patterns of covariance in the data. Finally, we demonstrate that our new methods reduce scanner effects in community structure and network metrics. Our results highlight scanner effects in studies of brain functional organization and provide additional tools to address these unwanted effects. These findings and methods can be incorporated into future functional connectivity studies, potentially preventing spurious findings and improving reliability of results.",
+      "abstract_source": "OpenAlex",
+      "citations": 43,
+      "stars": 6,
+      "forks": 3,
+      "open_issues": 0,
+      "license": "Artistic-2.0",
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2020-02-20",
+      "first_commit_date": null,
+      "last_commit": "2022-03-08",
+      "repo_description": "Methods for harmonization of functional connectivity matrices",
+      "stats_fetched_at": "2026-10-05T10:00:00Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Functional MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-05T10:00:00Z",
+      "doi": "10.1016/j.neuroimage.2022.119198",
+      "arxiv_id": null,
+      "authors": [
+        "Andrew An Chen",
+        "Dhivya Srinivasan",
+        "Raymond Pomponio",
+        "Yong Fan",
+        "Ilya M. Nasrallah",
+        "Susan M. Resnick",
+        "Lori L. Beason‐Held",
+        "Christos A. Davatzikos",
+        "Theodore Daniel Satterthwaite",
+        "Dani S. Bassett",
+        "Russell Taki Shinohara",
+        "Haochang Shou"
+      ],
+      "n_authors": 12,
+      "venue": "NeuroImage",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "fMRI",
+        "connectome"
+      ],
+      "modalities_tested": [
+        "fMRI",
+        "connectome"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat",
+        "covbat"
+      ],
+      "evidence": [
+        {
+          "modality": "fMRI",
+          "title": "Harmonizing functional connectivity reduces scanner effects in community detection",
+          "year": 2022,
+          "doi": "10.1016/j.neuroimage.2022.119198"
+        }
+      ],
+      "secondary_categories": [],
+      "preserves_biology": true,
+      "get_started": {
+        "install": "# install.packages(\"devtools\")\ndevtools::install_github(\"andy1764/CovBat_Harmonization/R\")\ndevtools::install_github(\"andy1764/FCHarmony\")",
+        "install_lang": "r",
+        "usage": "library(FCHarmony)\n# fcComBat(), blComBat() and fcCovBat() harmonize functional connectivity;\n# test_regress() evaluates residual site effects, plot_fc() plots results.",
+        "usage_lang": "r",
+        "source": "https://github.com/andy1764/FCHarmony#readme",
+        "fetched": "2026-10-05"
+      }
+    },
+    {
+      "id": "pairwise-combat",
+      "name": "Pairwise-ComBAT",
+      "category": "combat-family",
+      "method_type": "statistical",
+      "level": "feature-level",
+      "tags": [
+        "reference-site",
+        "normative-modeling",
+        "diffusion-mri",
+        "location-scale"
+      ],
+      "paper_title": "Challenges and best practices when using ComBAT to harmonize diffusion MRI data",
+      "paper_year": 2025,
+      "paper_url": "https://doi.org/10.1038/s41598-025-25400-x",
+      "github": "scil-vital/Pairwise-ComBAT",
+      "language": [
+        "Python"
+      ],
+      "other_url": null,
+      "abstract": "Over the years, ComBAT has become the standard method for harmonizing MRI-derived measurements, with its ability to compensate for site-related additive and multiplicative biases while preserving biological variability. However, ComBAT relies on a set of assumptions that, when violated, can result in flawed harmonization. In this paper, we thoroughly review ComBAT's mathematical foundation, outlining these assumptions, and exploring their implications for the demographic composition necessary for optimal results. Through a series of experiments involving a slightly modified version of ComBAT called Pairwise-ComBAT tailored for normative modeling applications, we assess the impact of various population characteristics, including population size, age distribution, the absence of certain covariates, and the magnitude of additive and multiplicative factors. Based on these experiments, we present five essential recommendations that should be carefully considered to enhance consistency and supporting reproducibility, two essential factors for open science, collaborative research, and real-life clinical deployment.",
+      "abstract_source": "OpenAlex",
+      "citations": 8,
+      "stars": 4,
+      "forks": 0,
+      "open_issues": 0,
+      "license": "Apache-2.0",
+      "topics": [],
+      "archived": false,
+      "repo_created_at": "2024-07-16",
+      "first_commit_date": null,
+      "last_commit": "2026-04-13",
+      "repo_description": "Pairwise-ComBat: harmonizes a moving site onto a target (reference) site, for normative modeling",
+      "stats_fetched_at": "2026-10-05T10:00:00Z",
+      "category_label": "Location/Scale Models (ComBat-family)",
+      "in_uniharmony": false,
+      "also_implemented_in": [],
+      "validation_data": "Agnostic",
+      "modality": "Diffusion MRI",
+      "needs_gpu": false,
+      "architecture_backbone": null,
+      "framework": null,
+      "has_pretrained_weights": null,
+      "pretrained_weights_url": null,
+      "recommend": {
+        "requires_site_id": true,
+        "generalizes_to_new_site": false,
+        "low_n_friendly": false,
+        "requires_linear_signal": true,
+        "ml_compatible": false,
+        "needs_gpu": false,
+        "longitudinal": false,
+        "requires_paired_data": false
+      },
+      "citations_source": "openalex",
+      "citations_fetched_at": "2026-10-05T10:00:00Z",
+      "doi": "10.1038/s41598-025-25400-x",
+      "arxiv_id": "2505.14722",
+      "authors": [
+        "Manon Edde",
+        "Gabriel Girard",
+        "Yoan David",
+        "Maxime Descoteaux",
+        "Pierre-Marc Jodoin"
+      ],
+      "n_authors": 5,
+      "venue": "Scientific Reports",
+      "publication_type": "article",
+      "modalities_proposed": [
+        "dMRI"
+      ],
+      "modalities_tested": [
+        "dMRI"
+      ],
+      "modalities_verified": false,
+      "entry_type": "method",
+      "implements": null,
+      "extends": [
+        "combat"
+      ],
+      "evidence": [
+        {
+          "modality": "dMRI",
+          "title": "Challenges and best practices when using ComBAT to harmonize diffusion MRI data",
+          "year": 2025,
+          "doi": "10.1038/s41598-025-25400-x"
+        }
+      ],
+      "secondary_categories": [],
+      "preserves_biology": true,
+      "get_started": {
+        "install": "git clone https://github.com/scil-vital/Pairwise-ComBAT.git\ncd Pairwise-ComBAT\npython -m venv .venv && source .venv/bin/activate\nuv pip install -e .",
+        "install_lang": "bash",
+        "usage": "combat_pipeline \\\n    src/pairwise_combat/data/CamCAN.md.raw.csv.gz \\\n    src/pairwise_combat/data/ModifiedCamCAN.md.raw.csv.gz \\\n    --out_dir quickstart_demo/",
+        "usage_lang": "bash",
+        "source": "https://github.com/scil-vital/Pairwise-ComBAT#readme",
+        "fetched": "2026-10-05"
+      }
     }
   ],
   "stats_fetched_at": "2026-10-02T13:31:19Z",
