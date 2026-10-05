@@ -1305,6 +1305,1258 @@
         "covbat",
         "relief"
       ]
+    },
+    {
+      "id": "orlhac-2022-combat-guide",
+      "title": "A Guide to ComBat Harmonization of Imaging Biomarkers in Multicenter Studies",
+      "authors": [
+        "Fanny Orlhac",
+        "Jakoba Johanna Eertink",
+        "Anne‐Ségolène Cottereau",
+        "Josée M. Zijlstra",
+        "Catherine Thiéblemont",
+        "Michel Meignan",
+        "Ronald Boellaard",
+        "Irène Buvat"
+      ],
+      "year": 2021,
+      "venue": "Journal of Nuclear Medicine",
+      "doi": "10.2967/jnumed.121.262464",
+      "type": "best-practice",
+      "open_access": true,
+      "scope": [
+        "PET",
+        "radiomics",
+        "CT"
+      ],
+      "topics": [
+        "ComBat",
+        "assumptions",
+        "worked examples"
+      ],
+      "note": "Practical guide to ComBat for imaging biomarkers (SUVs, radiomic features): how to apply it on worked examples, and the situations where its assumptions are not met and it should not be used.",
+      "methods": [
+        "b-combat",
+        "combat",
+        "combat-eb",
+        "dual-gan-dti",
+        "earl-pet-harmonization",
+        "m-combat",
+        "modanwal-cyclegan",
+        "neurocombat",
+        "per-site-feature-standardization"
+      ]
+    },
+    {
+      "id": "magnims-2022-ms-harmonization",
+      "title": "MAGNIMS recommendations for harmonization of MRI data in MS multicenter studies",
+      "authors": [
+        "Nicola De Stefano",
+        "Marco Battaglini",
+        "Deborah Pareto",
+        "Rosa Cortese",
+        "Jian Zhang",
+        "Niels Oesingmann",
+        "Ferrán Prados",
+        "Maria Assunta Rocca",
+        "Paola Valsasina",
+        "Hugo Vrenken",
+        "Claudia A. M. Gandini Wheeler‐Kingshott",
+        "Massimo Filippi",
+        "Frederik Barkhof",
+        "Àlex Rovira"
+      ],
+      "year": 2022,
+      "venue": "NeuroImage Clinical",
+      "doi": "10.1016/j.nicl.2022.102972",
+      "type": "best-practice",
+      "open_access": true,
+      "scope": [
+        "sMRI",
+        "MRI-acquisition"
+      ],
+      "topics": [
+        "multiple sclerosis",
+        "acquisition",
+        "recommendations",
+        "multicentre"
+      ],
+      "note": "MAGNIMS consensus recommendations for harmonizing MRI in multicentre multiple-sclerosis studies, from acquisition protocols and image analysis to data storage; useful for prospective harmonization.",
+      "methods": [
+        "combat",
+        "deepharmony",
+        "intensity-warping",
+        "neurocombat",
+        "ravel"
+      ]
+    },
+    {
+      "id": "earl-2017-pet-harmonization-strategies",
+      "title": "EANM/EARL harmonization strategies in PET quantification: from daily practice to multicentre oncological studies",
+      "authors": [
+        "Nicolas Aide",
+        "Charline Lasnon",
+        "Patrick Veit‐Haibach",
+        "Teréz Séra",
+        "Bernhard Sattler",
+        "Ronald Boellaard"
+      ],
+      "year": 2017,
+      "venue": "European Journal of Nuclear Medicine and Molecular Imaging",
+      "doi": "10.1007/s00259-017-3740-2",
+      "type": "best-practice",
+      "open_access": true,
+      "scope": [
+        "PET"
+      ],
+      "topics": [
+        "EARL",
+        "quantification",
+        "SUV",
+        "accreditation"
+      ],
+      "note": "EANM/EARL review of how to harmonize quantitative PET/CT (SUV, tumour volume, TLG) across sites, from daily quality control and accreditation to multicentre oncology trials.",
+      "methods": [
+        "earl-pet-harmonization"
+      ]
+    },
+    {
+      "id": "conneegtome-2021-eeg-harmonization",
+      "title": "Dementia ConnEEGtome: Towards multicentric harmonization of EEG connectivity in neurodegeneration",
+      "authors": [
+        "Pavel Prado",
+        "Agustina Birba",
+        "Josephine Cruzat",
+        "Hernando A Santamaría‐García",
+        "Mario A. Parra",
+        "Sebastián Moguilner",
+        "Enzo Tagliazucchi",
+        "Agustín M. Ibáñez"
+      ],
+      "year": 2021,
+      "venue": "International Journal of Psychophysiology",
+      "doi": "10.1016/j.ijpsycho.2021.12.008",
+      "type": "best-practice",
+      "open_access": true,
+      "scope": [
+        "EEG"
+      ],
+      "topics": [
+        "connectivity",
+        "dementia",
+        "protocol",
+        "guidelines"
+      ],
+      "note": "Reviews the sources of variability in multicentre EEG connectivity studies and gives general guidelines for harmonizing acquisition and processing protocols across sites.",
+      "methods": []
+    },
+    {
+      "id": "pet-2023-harmonization-review",
+      "title": "A review of harmonization strategies for quantitative PET",
+      "authors": [
+        "Go Akamatsu",
+        "Yuji Tsutsui",
+        "Hiromitsu Daisaki",
+        "Katsuhiko Mitsumoto",
+        "Shingo Baba",
+        "Masayuki Sasaki"
+      ],
+      "year": 2023,
+      "venue": "Annals of Nuclear Medicine",
+      "doi": "10.1007/s12149-022-01820-x",
+      "type": "review",
+      "open_access": true,
+      "scope": [
+        "PET"
+      ],
+      "topics": [
+        "quantitative PET",
+        "calibration",
+        "protocols",
+        "post-reconstruction"
+      ],
+      "note": "Review of harmonization strategies for quantitative PET: scanner calibration and QC, protocol standardization, and post-reconstruction or feature-level harmonization.",
+      "methods": [
+        "combat-eb",
+        "earl-pet-harmonization"
+      ]
+    },
+    {
+      "id": "dmri-2019-harmonization-challenges",
+      "title": "Challenges and Opportunities in dMRI Data Harmonization",
+      "authors": [
+        "Alyssa H. Zhu",
+        "Daniel Moyer",
+        "Talia M. Nir",
+        "Paul M. Thompson",
+        "Neda Jahanshad"
+      ],
+      "year": 2019,
+      "venue": "Computational Diffusion MRI (MICCAI workshop)",
+      "doi": "10.1007/978-3-030-05831-9_13",
+      "type": "review",
+      "open_access": false,
+      "scope": [
+        "dMRI"
+      ],
+      "topics": [
+        "diffusion MRI",
+        "challenges",
+        "opportunities"
+      ],
+      "note": "Book chapter laying out the open problems in diffusion MRI harmonization: where the variability comes from, what retrospective methods can and cannot fix, and how to evaluate them.",
+      "methods": [
+        "combat-eb",
+        "dmri-registration-framework"
+      ]
+    },
+    {
+      "id": "bento-2022-dl-multisite-smri",
+      "title": "Deep Learning in Large and Multi-Site Structural Brain MR Imaging Datasets",
+      "authors": [
+        "Mariana Bento",
+        "Irene Fantini",
+        "Justin Park",
+        "Letícia Rittner",
+        "Richard Frayne"
+      ],
+      "year": 2022,
+      "venue": "Frontiers in Neuroinformatics",
+      "doi": "10.3389/fninf.2021.805669",
+      "type": "review",
+      "open_access": true,
+      "scope": [
+        "sMRI"
+      ],
+      "topics": [
+        "deep learning",
+        "batch effects",
+        "multi-site datasets"
+      ],
+      "note": "Reviews deep-learning studies that pooled multi-site structural MRI and how they handled batch effects; argues that variability can help generalization but its impact must be evaluated.",
+      "methods": [
+        "combat",
+        "combat-eb",
+        "deepharmony",
+        "linked-ica-scanner-denoising",
+        "neurocombat",
+        "ot-ms-lesion-da",
+        "ucan"
+      ]
+    },
+    {
+      "id": "papadimitroulas-2021-ai-radiomics",
+      "title": "Artificial intelligence: Deep learning in oncological radiomics and challenges of interpretability and data harmonization",
+      "authors": [
+        "Panagiotis Papadimitroulas",
+        "Lennart Brocki",
+        "Neo Christopher Chung",
+        "Wistan Marchadour",
+        "Franck Vermet",
+        "Laurent Gaubert",
+        "Vasileios Eleftheriadis",
+        "Dimitris Plachouris",
+        "Dimitris Visvikis",
+        "George C. Kagadis",
+        "Mathieu Hatt"
+      ],
+      "year": 2021,
+      "venue": "Physica Medica",
+      "doi": "10.1016/j.ejmp.2021.03.009",
+      "type": "review",
+      "open_access": true,
+      "scope": [
+        "radiomics",
+        "CT",
+        "PET"
+      ],
+      "topics": [
+        "deep learning",
+        "oncology",
+        "interpretability"
+      ],
+      "note": "Review of deep learning in oncological radiomics with a section on data harmonization across centres and scanners, alongside interpretability.",
+      "methods": [
+        "b-combat",
+        "combat-eb",
+        "dual-gan-dti",
+        "earl-pet-harmonization",
+        "modanwal-cyclegan",
+        "radiomic-feature-std-nn"
+      ]
+    },
+    {
+      "id": "nan-2022-harmonisation-systematic-review",
+      "title": "Data harmonisation for information fusion in digital healthcare: A state-of-the-art systematic review, meta-analysis and future research directions",
+      "authors": [
+        "Nan Yang",
+        "Javier Del Ser",
+        "Simon L. F. Walsh",
+        "Carola‐Bibiane Schönlieb",
+        "Michael T. Roberts",
+        "IAN A. SELBY",
+        "Kit Howard",
+        "John Owen",
+        "Jon Neville",
+        "Julien Guiot",
+        "Benoit Ernst",
+        "Ana Pastor",
+        "Ángel Alberich‐Bayarri",
+        "Marion Irene Menzel",
+        "Seán Walsh",
+        "Wim G. Vos",
+        "Nina C. Flerin",
+        "Jean‐Paul Charbonnier",
+        "Eva M. van Rikxoort",
+        "Avishek Chatterjee",
+        "Henry C. Woodruff",
+        "Philippe Lambin",
+        "Leonor Cerdá-Alberich",
+        "Luis Martí‐Bonmatí",
+        "Francisco Herrera",
+        "Guang Zhong Yang"
+      ],
+      "year": 2022,
+      "venue": "Information Fusion",
+      "doi": "10.1016/j.inffus.2022.01.001",
+      "type": "review",
+      "open_access": true,
+      "scope": [
+        "general-imaging",
+        "sMRI",
+        "radiomics"
+      ],
+      "topics": [
+        "systematic review",
+        "meta-analysis",
+        "evaluation metrics",
+        "checklist"
+      ],
+      "note": "Systematic review and meta-analysis of computational data harmonization in digital healthcare, with a checklist for reporting harmonization studies and flowcharts for choosing methods and metrics.",
+      "methods": [
+        "attention-guided-domain-adaptation",
+        "b-combat",
+        "combat",
+        "combat-eb",
+        "combat-mega",
+        "combat-seq",
+        "deepharmony",
+        "dictionary-learning-harmonization",
+        "dki-dl-harmonization",
+        "dmri-harmonization",
+        "dmri-method-of-moments",
+        "dmri-registration-framework",
+        "dual-gan-dti",
+        "intensity-warping",
+        "longcombat",
+        "m-combat",
+        "neurocombat",
+        "neuroharmony",
+        "nm-mri-harmonization",
+        "ravel",
+        "rish",
+        "s2s-cyclegan",
+        "scanner-invariant-repr",
+        "segrenorm",
+        "uk7t-protocols",
+        "unlearning-mri",
+        "whitestripe"
+      ]
+    },
+    {
+      "id": "tax-2019-dmri-harmonisation-benchmark",
+      "title": "Cross-scanner and cross-protocol diffusion MRI data harmonisation: A benchmark database and evaluation of algorithms",
+      "authors": [
+        "Chantal M. W. Tax",
+        "Francesco Grussu",
+        "Enrico Kaden",
+        "Lipeng Ning",
+        "Umesh S. Rudrapatna",
+        "John Evans",
+        "Samuel St‐Jean",
+        "Alexander Leemans",
+        "Simon Koppers",
+        "Dorit Merhof",
+        "Aurobrata Ghosh",
+        "Ryutaro Tanno",
+        "Daniel C. Alexander",
+        "Stefano Zappalá",
+        "Cyril Charron",
+        "Sławomir Kuśmia",
+        "David E.J. Linden",
+        "Derek Kenton Jones",
+        "Jelle Veraart"
+      ],
+      "year": 2019,
+      "venue": "NeuroImage",
+      "doi": "10.1016/j.neuroimage.2019.01.077",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "dMRI"
+      ],
+      "topics": [
+        "benchmark database",
+        "cross-scanner",
+        "cross-protocol"
+      ],
+      "note": "Benchmark dMRI database (same subjects, three scanners with 40/80/300 mT/m gradients, standard and state-of-the-art protocols) and a comparison of five cross-scanner/protocol mapping methods.",
+      "methods": [
+        "dmri-harmonization",
+        "dmri-registration-framework",
+        "rish",
+        "shresnet"
+      ]
+    },
+    {
+      "id": "ning-2020-multishell-dmri-harmonization",
+      "title": "Cross-scanner and cross-protocol multi-shell diffusion MRI data harmonization: Algorithms and results",
+      "authors": [
+        "Lipeng Ning",
+        "Elisenda Bonet-Carné",
+        "Francesco Grussu",
+        "Farshid Sepehrband",
+        "Enrico Kaden",
+        "Jelle Veraart",
+        "Stefano B. Blumberg",
+        "Can Son Khoo",
+        "Marco Palombo",
+        "Iasonas Kokkinos",
+        "Daniel C. Alexander",
+        "Jaume Coll‐Font",
+        "Benoît Scherrer",
+        "Simon Keith Warfield",
+        "Suheyla Cetin Karayumak",
+        "Yogesh Rathi",
+        "Simon Koppers",
+        "Leon Weninger",
+        "Julia Ebert",
+        "Dorit Merhof",
+        "Daniel Moyer",
+        "Maximilian Pietsch",
+        "Daan Christiaens",
+        "Rui Pedro A. G. Teixeira",
+        "Jacques‐Donald Tournier",
+        "Kurt G. Schilling",
+        "Yuankai Huo",
+        "Vishwesh Nath",
+        "Colin B. Hansen",
+        "Justin A. Blaber",
+        "Bennett A. Landman",
+        "Andrey Zhylka",
+        "Josien P. W. Pluim",
+        "Greg D. Parker",
+        "Umesh S. Rudrapatna",
+        "John Evans",
+        "Cyril Charron",
+        "Derek Kenton Jones",
+        "Chantal M. W. Tax"
+      ],
+      "year": 2020,
+      "venue": "NeuroImage",
+      "doi": "10.1016/j.neuroimage.2020.117128",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "dMRI"
+      ],
+      "topics": [
+        "multi-shell",
+        "challenge",
+        "19 algorithms"
+      ],
+      "note": "Evaluation of 19 algorithms (RISH-based, deep learning, hybrid) for harmonizing multi-shell diffusion MRI across scanners and protocols on a common benchmark.",
+      "methods": [
+        "dmri-harmonization",
+        "dmri-registration-framework",
+        "rish",
+        "scanner-invariant-repr",
+        "shresnet"
+      ]
+    },
+    {
+      "id": "mushac-2019-results",
+      "title": "Muti-shell Diffusion MRI Harmonisation and Enhancement Challenge (MUSHAC): Progress and Results",
+      "authors": [
+        "Lipeng Ning",
+        "Elisenda Bonet-Carné",
+        "Francesco Grussu",
+        "Farshid Sepehrband",
+        "Enrico Kaden",
+        "Jelle Veraart",
+        "Stefano B. Blumberg",
+        "Can Son Khoo",
+        "Marco Palombo",
+        "Jaume Coll‐Font",
+        "Benoît Scherrer",
+        "Simon Keith Warfield",
+        "Suheyla Cetin Karayumak",
+        "Yogesh Rathi",
+        "Simon Koppers",
+        "Leon Weninger",
+        "Julia Ebert",
+        "Dorit Merhof",
+        "Daniel Moyer",
+        "Maximilian Pietsch",
+        "Daan Christiaens",
+        "Rui Pedro A. G. Teixeira",
+        "Jacques‐Donald Tournier",
+        "Andrey Zhylka",
+        "Josien P. W. Pluim",
+        "Greg D. Parker",
+        "Umesh S. Rudrapatna",
+        "John Evans",
+        "Cyril Charron",
+        "Derek Kenton Jones",
+        "Chantal M. W. Tax"
+      ],
+      "year": 2019,
+      "venue": "Computational Diffusion MRI (MICCAI workshop)",
+      "doi": "10.1007/978-3-030-05831-9_18",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "dMRI"
+      ],
+      "topics": [
+        "challenge",
+        "multi-shell",
+        "enhancement"
+      ],
+      "note": "Results of the Multi-shell Diffusion MRI Harmonisation and Enhancement Challenge (MUSHAC), which compared submitted harmonization and super-resolution methods.",
+      "methods": [
+        "dmri-harmonization",
+        "dmri-registration-framework",
+        "rish"
+      ]
+    },
+    {
+      "id": "maikusa-2021-ts-vs-combat",
+      "title": "Comparison of traveling‐subject and ComBat harmonization methods for assessing structural brain characteristics",
+      "authors": [
+        "Norihide Maikusa",
+        "Yinghan Zhu",
+        "Akiko Uematsu",
+        "Ayumu Yamashita",
+        "Kousaku Saotome",
+        "Naohiro Okada",
+        "Kiyoto Kasai",
+        "Kazuo Okanoya",
+        "Okito Yamashita",
+        "Saori Tanaka",
+        "Shinsuke Koike"
+      ],
+      "year": 2021,
+      "venue": "Human Brain Mapping",
+      "doi": "10.1002/hbm.25615",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "sMRI"
+      ],
+      "topics": [
+        "traveling subjects",
+        "ComBat",
+        "sample size"
+      ],
+      "note": "Compares traveling-subject GLM, ComBat and traveling-subject ComBat on 20 participants scanned with three procedures: TS-based methods removed more measurement bias (up to 85% vs 59%), and at least 6 traveling subjects were needed.",
+      "methods": [
+        "adni-mri-protocol",
+        "combat",
+        "combat-eb",
+        "combat-mega",
+        "longcombat",
+        "neurocombat",
+        "traveling-subject-harmonization"
+      ]
+    },
+    {
+      "id": "torbati-2021-ravel-combat",
+      "title": "A multi-scanner neuroimaging data harmonization using RAVEL and ComBat",
+      "authors": [
+        "Mahbaneh Eshaghzadeh Torbati",
+        "Davneet Singh Minhas",
+        "Ghasan Ahmad",
+        "Erin E. O’Connor",
+        "John Muschelli",
+        "Charles M. Laymon",
+        "Zixi Yang",
+        "Ann D. Cohen",
+        "Howard Jay Aizenstein",
+        "William E. Klunk",
+        "Bradley T. Christian",
+        "Seong Jae Hwang",
+        "Ciprian M. Crainiceanu",
+        "Dana Tudorascu"
+      ],
+      "year": 2021,
+      "venue": "NeuroImage",
+      "doi": "10.1016/j.neuroimage.2021.118703",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "sMRI"
+      ],
+      "topics": [
+        "RAVEL",
+        "ComBat",
+        "1.5T vs 3T"
+      ],
+      "note": "Compares raw images, RAVEL intensity normalization, ComBat and their combination on subjects scanned at 1.5T and 3T: ComBat gave the most consistent regional harmonization; RAVEL improved intensities but added variance.",
+      "methods": [
+        "combat",
+        "combat-eb",
+        "combat-gam",
+        "deepharmony",
+        "dewey-disentangled-latent",
+        "dmri-harmonization",
+        "intensity-warping",
+        "longcombat",
+        "modanwal-cyclegan",
+        "neurocombat",
+        "nyul",
+        "ravel",
+        "style-encoding-gan",
+        "sva",
+        "whitestripe"
+      ]
+    },
+    {
+      "id": "sun-2022-cortical-thickness-comparison",
+      "title": "A comparison of methods to harmonize cortical thickness measurements across scanners and sites",
+      "authors": [
+        "Delin Sun",
+        "Gopalkumar Rakesh",
+        "Courtney C. Haswell",
+        "Mark Logue",
+        "C. Lexi Baird",
+        "Erin N. O’Leary",
+        "Andrew S. Cotton",
+        "Hong Xie",
+        "Marijo Tamburrino",
+        "Tian Chen",
+        "Emily L. Dennis",
+        "Neda Jahanshad",
+        "Lauren E. Salminen",
+        "Sophia I. Thomopoulos",
+        "Faisal M. Rashid",
+        "Christopher R. K. Ching",
+        "Saskia B.J. Koch",
+        "Jessie L. Frijling",
+        "Laura Nawijn",
+        "Mirjam van Zuiden",
+        "Xi Zhu",
+        "Benjamin Suarez‐Jimenez",
+        "Anika Sierk",
+        "Henrik Walter",
+        "Antje Manthey",
+        "Jennifer Strafford Stevens",
+        "Negar Fani",
+        "Sanne J.H. van Rooij",
+        "Murray B. Stein",
+        "Jessica A. Bomyea",
+        "Inga Katharina Koerte",
+        "Kyle Choi",
+        "Steven J.A. van der Werff",
+        "Robert R. J. M. Vermeiren",
+        "Julia Herzog",
+        "Lauren A. M. Lebois",
+        "Justin Taylor Baker",
+        "Elizabeth A. Olson",
+        "Thomas Straube",
+        "Mayuresh S. Korgaonkar",
+        "Elpiniki Andrew",
+        "Ye Zhu",
+        "Gen Li",
+        "Jonathan Ipser",
+        "Anna R. Hudson",
+        "Matthew Peverill",
+        "Kelly Sambrook",
+        "Evan M. Gordon",
+        "Lee A. Baugh",
+        "Gina L. Forster",
+        "Raluca M. Simons",
+        "Jeffrey S. Simons",
+        "Vincent A. Magnotta",
+        "Adi Maron‐Katz",
+        "Stefan S. du Plessis",
+        "Seth G. Disner",
+        "Nicholas D. Davenport",
+        "Daniel W. Grupe",
+        "Jack B. Nitschke",
+        "Terri A. deRoon‐Cassini",
+        "Jacklynn M. Fitzgerald",
+        "John Harrison Krystal",
+        "Ifat Levy",
+        "Miranda Olff",
+        "Dick J. Veltman",
+        "Li Wang",
+        "Yuval Neria",
+        "Michael D. De Bellis",
+        "Tanja Jovanović",
+        "Judith Karina Daniels",
+        "Martha E. Shenton",
+        "Nic J.A. van der Wee",
+        "Christian G. Schmahl",
+        "Milissa L. Kaufman",
+        "Isabelle M. Rosso",
+        "Scott R. Sponheim",
+        "David Hofmann",
+        "Richard Allan Bryant",
+        "Kelene A. Fercho",
+        "Dan Joseph Stein",
+        "Sven C. Mueller",
+        "Bobak Hosseini",
+        "K. Luan Phan",
+        "Katie A. McLaughlin",
+        "Richard J. Davidson",
+        "Christine L. Larson",
+        "Geoffrey May",
+        "Steven M. Nelson",
+        "Chadi G. Abdallah",
+        "Hassaan Gomaa",
+        "Amit Etkin",
+        "Soraya Seedat",
+        "Ilan Harpaz‐Rotem",
+        "Israel Liberzon",
+        "Theo G.M. van Erp",
+        "Yann Quidé",
+        "Xin Wang",
+        "Paul M. Thompson",
+        "Rajendra A. Morey"
+      ],
+      "year": 2022,
+      "venue": "NeuroImage",
+      "doi": "10.1016/j.neuroimage.2022.119509",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "sMRI"
+      ],
+      "topics": [
+        "ComBat-GAM",
+        "mixed models",
+        "PTSD",
+        "29 sites"
+      ],
+      "note": "Compares mixed-effects models, ComBat and ComBat-GAM on cortical thickness from 29 sites (ENIGMA-PTSD): ComBat-GAM was most sensitive to case-control and age effects.",
+      "methods": [
+        "combat",
+        "combat-eb",
+        "combat-gam",
+        "combat-mega",
+        "deepharmony",
+        "longcombat",
+        "neurocombat"
+      ]
+    },
+    {
+      "id": "richter-2022-combat-validation-ts",
+      "title": "Validation of cross-sectional and longitudinal ComBat harmonization methods for magnetic resonance imaging data on a travelling subject cohort",
+      "authors": [
+        "Sophie Richter",
+        "Stefan Winzeck",
+        "Marta Correia",
+        "Evgenios Kornaropoulos",
+        "Anne E. Manktelow",
+        "Joanne G. Outtrim",
+        "Doris A. Chatfield",
+        "Jussi P. Posti",
+        "Olli S. Tenovuo",
+        "Guy B. Williams",
+        "David Krishna Menon",
+        "Virginia Newcombe"
+      ],
+      "year": 2022,
+      "venue": "Neuroimage Reports",
+      "doi": "10.1016/j.ynirp.2022.100136",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "sMRI",
+        "dMRI"
+      ],
+      "topics": [
+        "traveling subjects",
+        "longitudinal",
+        "neuroCombat",
+        "longCombat"
+      ],
+      "note": "Validates neuroCombat, longCombat and gamCombat on a traveling-subject cohort (73 volunteers, 161 scans): diffusion metrics benefited, but harmonizing structural data without a scanner effect obscured real biology.",
+      "methods": [
+        "combat",
+        "combat-eb",
+        "combat-gam",
+        "combat-mega",
+        "longcombat",
+        "neurocombat"
+      ]
+    },
+    {
+      "id": "cetin-2020-combat-limits-dmri",
+      "title": "Exploring the limits of ComBat method for multi-site diffusion MRI harmonization",
+      "authors": [
+        "Suheyla Cetin Karayumak",
+        "Katharina Stegmayer",
+        "Sebastian Walther",
+        "Philip R. Szeszko",
+        "T. J. Crow",
+        "Anthony James",
+        "Matcheri S. Keshavan",
+        "Marek R. Kubicki",
+        "Yogesh Rathi"
+      ],
+      "year": 2020,
+      "venue": "bioRxiv",
+      "doi": "10.1101/2020.11.20.390120",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "dMRI"
+      ],
+      "topics": [
+        "ComBat",
+        "fractional anisotropy",
+        "biological variability"
+      ],
+      "note": "Tests the limits of ComBat on FA from 542 people at 5 sites: how well it keeps inter-subject biological variability and what happens with age-range and sample-size mismatches between sites.",
+      "methods": [
+        "abcd-imaging-protocol",
+        "b-combat",
+        "combat-eb",
+        "combat-gam",
+        "dmri-harmonization",
+        "dmri-registration-framework",
+        "neuroharmony",
+        "rish"
+      ]
+    },
+    {
+      "id": "kurokawa-2021-dmri-network-ts",
+      "title": "Cross-scanner reproducibility and harmonization of a diffusion MRI structural brain network: A traveling subject study of multi-b acquisition",
+      "authors": [
+        "Ryo Kurokawa",
+        "Kouhei Kamiya",
+        "Shinsuke Koike",
+        "Moto Nakaya",
+        "Akiko Uematsu",
+        "Saori Tanaka",
+        "Koji Kamagata",
+        "Naohiro Okada",
+        "Kentaro Morita",
+        "Kiyoto Kasai",
+        "Osamu Abe"
+      ],
+      "year": 2021,
+      "venue": "NeuroImage",
+      "doi": "10.1016/j.neuroimage.2021.118675",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "dMRI",
+        "connectome"
+      ],
+      "topics": [
+        "traveling subjects",
+        "structural network",
+        "reproducibility"
+      ],
+      "note": "Traveling-subject study of cross-scanner reproducibility of diffusion-MRI structural networks (four 3T scanners), showing harmonizing at the network-matrix level reduces scanner bias while keeping subject differences.",
+      "methods": [
+        "combat-eb",
+        "dmri-harmonization",
+        "dmri-registration-framework",
+        "hbr",
+        "traveling-subject-harmonization"
+      ]
+    },
+    {
+      "id": "li-2021-brain-radiomics-harmonization",
+      "title": "Impact of Preprocessing and Harmonization Methods on the Removal of Scanner Effects in Brain MRI Radiomic Features",
+      "authors": [
+        "Yingping Li",
+        "Samy Ammari",
+        "Corinne Balleyguier",
+        "Nathalie Lassau",
+        "Émilie Chouzenoux"
+      ],
+      "year": 2021,
+      "venue": "Cancers",
+      "doi": "10.3390/cancers13123000",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "radiomics",
+        "sMRI"
+      ],
+      "topics": [
+        "intensity normalization",
+        "ComBat",
+        "phantom"
+      ],
+      "note": "Compares preprocessing, six intensity normalizations and ComBat for removing scanner effects from brain-MRI radiomic features: ComBat was essential; intensity normalization alone did not remove feature-level effects.",
+      "methods": [
+        "b-combat",
+        "combat",
+        "combat-eb",
+        "combat-mega",
+        "deepharmony",
+        "intensity-normalization",
+        "longcombat",
+        "neurocombat",
+        "neuroharmony",
+        "per-site-feature-standardization",
+        "whitestripe"
+      ]
+    },
+    {
+      "id": "crombe-2020-intensity-harmonization-radiomics",
+      "title": "Intensity harmonization techniques influence radiomics features and radiomics-based predictions in sarcoma patients",
+      "authors": [
+        "Amandine Crombé",
+        "Michèle Kind",
+        "David Fadli",
+        "François Le Loarer",
+        "Antoîne Italiano",
+        "Xavier Buy",
+        "Olivier Saut"
+      ],
+      "year": 2020,
+      "venue": "Scientific Reports",
+      "doi": "10.1038/s41598-020-72535-0",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "radiomics",
+        "sMRI"
+      ],
+      "topics": [
+        "intensity harmonization",
+        "sarcoma",
+        "outcome prediction"
+      ],
+      "note": "Shows that the choice of intensity harmonization (standardization, histogram matching, ComBat) changes radiomic features and predictive performance (AUROC 0.69–0.82) in sarcoma MRI.",
+      "methods": [
+        "deepharmony",
+        "nyul",
+        "ravel",
+        "whitestripe"
+      ]
+    },
+    {
+      "id": "leithner-2022-combat-pet-radiomics",
+      "title": "Impact of ComBat Harmonization on PET Radiomics-Based Tissue Classification: A Dual-Center PET/MRI and PET/CT Study",
+      "authors": [
+        "Doris Leithner",
+        "Heiko M. Schöder",
+        "Alexander Robert Haug",
+        "Hebert Alberto Vargas",
+        "Peter Gibbs",
+        "Ida Häggström",
+        "Ivo Rausch",
+        "Michael Weber",
+        "Anton S. Becker",
+        "Jazmin Schwartz",
+        "Marius Erik Mayerhoefer"
+      ],
+      "year": 2022,
+      "venue": "Journal of Nuclear Medicine",
+      "doi": "10.2967/jnumed.121.263102",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "PET",
+        "radiomics"
+      ],
+      "topics": [
+        "ComBat",
+        "PET/MR",
+        "PET/CT",
+        "tissue classification"
+      ],
+      "note": "Dual-centre PET/MR and PET/CT study: ComBat harmonization markedly improved radiomics-based tissue classification on pooled data.",
+      "methods": [
+        "b-combat",
+        "combat-eb"
+      ]
+    },
+    {
+      "id": "leithner-2023-combat-mri-radiomics",
+      "title": "ComBat Harmonization for MRI Radiomics",
+      "authors": [
+        "Doris Leithner",
+        "Rachel Nevin",
+        "Peter Gibbs",
+        "Michael Weber",
+        "Ricardo Otazo",
+        "Hebert Alberto Vargas",
+        "Marius Erik Mayerhoefer"
+      ],
+      "year": 2023,
+      "venue": "Investigative Radiology",
+      "doi": "10.1097/rli.0000000000000970",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "radiomics",
+        "sMRI"
+      ],
+      "topics": [
+        "ComBat",
+        "empirical Bayes",
+        "Dixon MRI"
+      ],
+      "note": "Compares ComBat with and without empirical Bayes for radiomics-based tissue classification on MRI from two vendors; both improved accuracy over unharmonized data.",
+      "methods": [
+        "autocombat",
+        "b-combat",
+        "combat-eb",
+        "per-site-feature-standardization",
+        "transfer-learning-combat"
+      ]
+    },
+    {
+      "id": "jirsaraie-2022-brain-age-generalizability",
+      "title": "Benchmarking the generalizability of brain age models: Challenges posed by scanner variance and prediction bias",
+      "authors": [
+        "Robert J. Jirsaraie",
+        "Tobias Kaufmann",
+        "Vishnu Bashyam",
+        "Güray Erus",
+        "Joan L. Luby",
+        "Lars Tjelta Westlye",
+        "Christos A. Davatzikos",
+        "Deanna M. Barch",
+        "Aristeidis Sotiras"
+      ],
+      "year": 2022,
+      "venue": "Human Brain Mapping",
+      "doi": "10.1002/hbm.26144",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "sMRI"
+      ],
+      "topics": [
+        "brain age",
+        "generalizability",
+        "scanner variance"
+      ],
+      "note": "Benchmarks how two lifespan brain-age models generalize to new youth samples, showing how scanner and protocol differences limit transfer.",
+      "methods": []
+    },
+    {
+      "id": "yu-2024-brain-age-site-effects",
+      "title": "Brain‐age prediction: Systematic evaluation of site effects, and sample age range and size",
+      "authors": [
+        "Yuetong Yu",
+        "H. Cui",
+        "Shalaila S. Haas",
+        "Faye New",
+        "Nicole Sanford",
+        "Kevin Yu",
+        "Denghuang Zhan",
+        "Guoyuan Yang",
+        "Jia‐Hong Gao",
+        "Dongtao Wei",
+        "Jiang Qiu",
+        "Nerisa Banaj",
+        "Dorret Irene Boomsma",
+        "Alan F. Breier",
+        "Henry Brodaty",
+        "Randy Lee Buckner",
+        "Jan K. Buitelaar",
+        "Dara M. Cannon",
+        "Xavier Caseras",
+        "Vincent P. Clark",
+        "Patricia Conrod",
+        "Fabrice Crivello",
+        "Eveline A. Crone",
+        "Udo Dannlowski",
+        "Christopher G. Davey",
+        "Lieuwe de Haan",
+        "Greig Ian de Zubicaray",
+        "Annabella Di Giorgio",
+        "L. Fisch",
+        "Simon E. Fisher",
+        "Barbara Franke",
+        "David C. Glahn",
+        "Dominik Grotegerd",
+        "Oliver Gruber",
+        "Raquel E. Gur",
+        "Ruben C. Gur",
+        "Tim Hahn",
+        "Ben J. Harrison",
+        "Sean N. Hatton",
+        "Ian Bernard Hickie",
+        "Hilleke E. Hulshoff Pol",
+        "Alec J. Jamieson",
+        "Terry L. Jernigan",
+        "Jiyang Jiang",
+        "Andrew J. Kalnin",
+        "Sim Kang",
+        "Nicole A. Kochan",
+        "Anna Kraus",
+        "Jim Lagopoulos",
+        "Luisa Lázaro",
+        "Brenna C. McDonald",
+        "Colm McDonald",
+        "Katie Louise McMahon",
+        "Benson Mwangi",
+        "Fabrizio Piras",
+        "Raúl Rodríguez‐Cruces",
+        "Jessica Royer",
+        "Perminder Singh Sachdev",
+        "Theodore Daniel Satterthwaite",
+        "Andrew J. Saykin",
+        "Günter Schumann",
+        "Pierluigi Sevaggi",
+        "Jordan W. Smoller",
+        "Jair C. Soares",
+        "Gianfranco Spalletta",
+        "Christian Krog Tamnes",
+        "Julian Norman Trollor",
+        "Dennis van ‘t Ent",
+        "Daniela Vecchio",
+        "Henrik Walter",
+        "Yang Wang",
+        "Bernd Weber",
+        "Wei Xiong Wen",
+        "Lara  Marise Wierenga",
+        "Steven Williams",
+        "Mon‐Ju Wu",
+        "Giovana B. Zunta‐Soares",
+        "Boris C. Bernhardt",
+        "Paul M. Thompson",
+        "Sophia Frangou",
+        "Ruiyang Ge",
+        "ENIGMA‐Lifespan Working Group"
+      ],
+      "year": 2024,
+      "venue": "Human Brain Mapping",
+      "doi": "10.1002/hbm.26768",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "sMRI"
+      ],
+      "topics": [
+        "brain age",
+        "site harmonization",
+        "sample size"
+      ],
+      "note": "Systematic test of seven site-harmonization strategies for brain-age prediction (35,683 people): age prediction was most accurate with no site harmonization.",
+      "methods": [
+        "brain-charts-lifespan",
+        "combat-gam",
+        "covbat",
+        "scanner-invariant-repr"
+      ]
+    },
+    {
+      "id": "lombardi-2020-harmonization-brain-age",
+      "title": "Extensive Evaluation of Morphological Statistical Harmonization for Brain Age Prediction",
+      "authors": [
+        "Angela Lombardi",
+        "Nicola Amoroso",
+        "Domenico Diacono",
+        "Alfonso Monaco",
+        "Sabina Tangaro",
+        "R. Bellotti"
+      ],
+      "year": 2020,
+      "venue": "Brain Sciences",
+      "doi": "10.3390/brainsci10060364",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "sMRI"
+      ],
+      "topics": [
+        "brain age",
+        "ABIDE",
+        "feature importance"
+      ],
+      "note": "Evaluates three harmonization strategies for brain-age prediction on ABIDE (17 sites): similar accuracy but different sets of age-related features, a warning for interpretation.",
+      "methods": [
+        "combat",
+        "combat-eb",
+        "neurocombat"
+      ]
+    },
+    {
+      "id": "solanes-2022-site-effects-ml-benchmark",
+      "title": "Removing the effects of the site in brain imaging machine-learning – Measurement and extendable benchmark",
+      "authors": [
+        "Aleix Solanes",
+        "Corentin J. Gosling",
+        "Lydia Fortea",
+        "María Ortuño",
+        "Elisabet López-Soley",
+        "Sara Llufriú",
+        "Santiago Madero",
+        "Eloy Martínez‐Heras",
+        "Edith Pomarol‐Clotet",
+        "Elisabeth Solana",
+        "Eduard Vieta",
+        "Joaquim Raduà"
+      ],
+      "year": 2022,
+      "venue": "NeuroImage",
+      "doi": "10.1016/j.neuroimage.2022.119800",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "sMRI"
+      ],
+      "topics": [
+        "machine learning",
+        "benchmark",
+        "ENIGMA"
+      ],
+      "note": "Provides datasets and formulas to measure how well a site-removal method works for machine learning, separating removal of site effects from loss of true effects.",
+      "methods": [
+        "combat",
+        "combat-eb",
+        "combat-mega",
+        "neurocombat",
+        "ts-net"
+      ]
+    },
+    {
+      "id": "prado-2023-eeg-connectivity-harmonization",
+      "title": "Harmonized multi‐metric and multi‐centric assessment of EEG source space connectivity for dementia characterization",
+      "authors": [
+        "Pavel Prado",
+        "Jhony A. Mejía",
+        "Agustín Sainz‐Ballesteros",
+        "Agustina Birba",
+        "Sebastián Moguilner",
+        "Ruben A Herzog",
+        "Mónica Otero",
+        "Jhosmary Cuadros",
+        "Lucía Z. Rivera",
+        "Daniel Franco O'Byrne",
+        "Mario A. Parra",
+        "Agustín M. Ibáñez"
+      ],
+      "year": 2023,
+      "venue": "Alzheimer's & Dementia: DADM",
+      "doi": "10.1002/dad2.12455",
+      "type": "benchmark",
+      "open_access": true,
+      "scope": [
+        "EEG"
+      ],
+      "topics": [
+        "source connectivity",
+        "dementia",
+        "multicentre"
+      ],
+      "note": "Multicentre EEG pipeline (electrode-layout integration, normalization, source-space connectivity) that harmonized data across sites well enough to classify Alzheimer's disease and bvFTD.",
+      "methods": [
+        "harmnqeeg"
+      ]
     }
   ]
 }

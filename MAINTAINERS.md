@@ -320,7 +320,8 @@ The **Resources** tab lists papers from `data/resources.json`, filtered by type
 with the pills on top: **Reviews** (`review` — surveys, systematic reviews and
 overviews are all filed here), **Comparison studies** (`benchmark`) and **Best
 practice** (`best-practice` — how to use methods without pitfalls, e.g. the
-leakage paper and the ComBat-for-dMRI paper). A fourth pill, **EEG / MEG**, shows
+leakage paper and the ComBat-for-dMRI paper). A second row filters by modality (structural, diffusion, functional MRI,
+radiomics/CT, PET). A fourth type pill, **EEG / MEG**, shows
 the EEG/MEG notes from `data/guide.json` (`eeg`) above the EEG/MEG-scope papers.
 The old values `survey`, `systematic-review`, `book-chapter`, `research` and
 `guide` are still accepted and displayed as review / comparison study / best
@@ -403,8 +404,9 @@ URL (validated). Repos without a usable README example simply have no block.
 ### Abstracts
 
 `abstract` holds the paper abstract and `abstract_source` where it came from
-(OpenAlex, Crossref, Europe PMC, Semantic Scholar or the publisher page). The 40
-entries added in October 2026 have one; older entries are still empty. Abstracts
+(OpenAlex, Crossref, Europe PMC, Semantic Scholar, arXiv or the publisher page).
+210 of 219 entries have one (October 2026); the 9 without are entries with no
+paper DOI (e.g. pycombat, z-score/FCM/KDE/LSQ normalization, ISI). Abstracts
 are searchable from Explore, shown collapsed in the method details and in full
 on the method pages. The validator warns when an abstract has no source.
 

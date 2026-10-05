@@ -1800,3 +1800,5 @@ select:focus, input[type="search"]:focus, button:focus-visible {
 .glossary-wrap .guide-glossary { display: block; }
 .glossary-wrap .guide-term { break-inside: avoid; margin: 0 0 16px; }
 .gloss-letter { break-after: avoid; margin: 6px 0 8px; }
+.resource-modality { margin-top: -12px; }
+.rec-pill.rec-pill-sm { font-size: 11.5px; padding: 3px 10px; }

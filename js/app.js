@@ -50,6 +50,7 @@ const state = {
   toolboxes: [],
   resources: [],
   resourceFilter: "all",
+  resourceModality: "all",
   datasets: [],
   datasetCategory: "all",
   groupBy: "category",
@@ -433,6 +434,18 @@ function resourceShortCite(r) {
   return `${last}${r.authors && r.authors.length > 1 ? " et al." : ""} ${r.year || ""}`.trim();
 }
 
+// Second row of Resources pills: modality.
+const RESOURCE_MODALITIES = [
+  ["all", "Any modality"], ["sMRI", "Structural MRI"], ["dMRI", "Diffusion MRI"], ["fMRI", "Functional MRI"],
+  ["radiomics", "Radiomics / CT"], ["PET", "PET"],
+];
+function resourceMatchesModality(r, m) {
+  if (m === "all") return true;
+  const sc = r.scope || [];
+  if (m === "radiomics") return sc.includes("radiomics") || sc.includes("CT");
+  if (m === "fMRI") return sc.includes("fMRI") || sc.includes("connectome");
+  return sc.includes(m);
+}
 function resourceMatchesFilter(r, f) {
   if (f === "all") return true;
   if (f === "eeg-meg") return (r.scope || []).some((x) => x === "EEG" || x === "MEG");
@@ -476,7 +489,7 @@ function buildResourcesTab() {
   const byId = new Map(state.data.map((d) => [d.id, d]));
   const L = makeContentLinker();
   const visible = state.resources
-    .filter((r) => resourceMatchesFilter(r, state.resourceFilter))
+    .filter((r) => resourceMatchesFilter(r, state.resourceFilter) && resourceMatchesModality(r, state.resourceModality))
     .sort((a, b) => (b.year || 0) - (a.year || 0) || a.title.localeCompare(b.title));
 
   const cards = visible.map((r) => {
@@ -520,12 +533,23 @@ function buildResourcesTab() {
           return `<button type="button" class="rec-pill${state.resourceFilter === f ? " active" : ""}" aria-pressed="${state.resourceFilter === f}" data-filter="${f}">${escapeHtml(label)} (${n})</button>`;
         }).join("")}
       </div>
+      ${state.resourceFilter === "eeg-meg" ? "" : `<div class="rec-options resource-filter resource-modality" role="group" aria-label="Filter resources by modality">
+        ${RESOURCE_MODALITIES.map(([m, label]) => {
+          const n = state.resources.filter((r) => resourceMatchesFilter(r, state.resourceFilter) && resourceMatchesModality(r, m)).length;
+          return n || m === "all" ? `<button type="button" class="rec-pill rec-pill-sm${state.resourceModality === m ? " active" : ""}" aria-pressed="${state.resourceModality === m}" data-modality="${m}">${escapeHtml(label)}${m === "all" ? "" : ` (${n})`}</button>` : "";
+        }).join("")}
+      </div>`}
       ${state.resourceFilter === "eeg-meg" ? eegNotesHtml(L) : ""}
       <div class="resource-list">${cards || `<p class="loading-placeholder">No resources of this type yet.</p>`}</div>
     </div>`;
 
-  root.querySelectorAll(".resource-filter .rec-pill").forEach((b) => b.addEventListener("click", () => {
+  root.querySelectorAll(".resource-filter .rec-pill[data-filter]").forEach((b) => b.addEventListener("click", () => {
     state.resourceFilter = b.dataset.filter;
+    if (b.dataset.filter === "eeg-meg") state.resourceModality = "all";
+    buildResourcesTab();
+  }));
+  root.querySelectorAll(".resource-modality .rec-pill").forEach((b) => b.addEventListener("click", () => {
+    state.resourceModality = b.dataset.modality;
     buildResourcesTab();
   }));
   if (state.resourceFilter === "eeg-meg") {
@@ -551,7 +575,9 @@ function buildResourcesTab() {
 
 function showResource(id) {
   const r = state.resources.find((x) => x.id === id);
-  if (state.resourceFilter !== "all" && !(r && resourceMatchesFilter(r, state.resourceFilter))) { state.resourceFilter = "all"; buildResourcesTab(); }
+  if (!(r && resourceMatchesFilter(r, state.resourceFilter) && resourceMatchesModality(r, state.resourceModality))) {
+    state.resourceFilter = "all"; state.resourceModality = "all"; buildResourcesTab();
+  }
   switchTab("resources");
   const el = document.getElementById(`res-${id}`);
   if (el) {
