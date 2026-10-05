@@ -50,8 +50,8 @@
       "vendors": [],
       "sessions": null,
       "description": "Traveling subjects scanned at the sites of the SRPBS multi-disorder database; used to separate measurement bias from sampling bias in resting-state connectivity.",
-      "access": null,
-      "url": null,
+      "access": "registration",
+      "url": "https://bicr-resource.atr.jp/srpbsts/",
       "doi": "10.1038/s41597-021-01004-8",
       "paper_title": "A multi-site, multi-disorder resting-state magnetic resonance image database",
       "year": 2021,
@@ -152,7 +152,7 @@
       "sessions": "599+ multi-contrast images",
       "description": "One person scanned repeatedly on dozens of scanners: T1w, T2w, PD, FLAIR, T2*, diffusion, SWI, ASL and resting-state fMRI. Useful for scanner-effect and longitudinal-stability tests.",
       "access": "open",
-      "url": null,
+      "url": "https://portal.conp.ca/dataset?id=projects/SIMON-dataset",
       "doi": "10.1038/s41597-019-0262-8",
       "paper_title": "Structural and functional multi-platform MRI series of a single human volunteer over more than fifteen years",
       "year": 2019,
@@ -174,8 +174,8 @@
       "vendors": [],
       "sessions": "\"standard\" and \"state-of-the-art\" protocols per scanner",
       "description": "The reference benchmark for diffusion-signal harmonization, with an evaluation of submitted algorithms.",
-      "access": null,
-      "url": null,
+      "access": "application",
+      "url": "https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/research/projects/cross-scanner-and-cross-protocol-diffusion-MRI-data-harmonisation",
       "doi": "10.1016/j.neuroimage.2019.01.077",
       "paper_title": "Cross-scanner and cross-protocol diffusion MRI data harmonisation: A benchmark database and evaluation of algorithms",
       "year": 2019,
@@ -183,7 +183,8 @@
       "aliases": [
         "MUSHAC",
         "CDMRI"
-      ]
+      ],
+      "access_note": "Signed data-sharing agreement emailed to the organisers."
     },
     {
       "id": "quantconn",
@@ -199,8 +200,8 @@
       "vendors": [],
       "sessions": null,
       "description": "Harmonization challenge evaluated on bundles, tractography and connectomes rather than only voxel-wise measures.",
-      "access": null,
-      "url": null,
+      "access": "open",
+      "url": "https://github.com/nancynewlin-masi/QuantConn",
       "doi": "10.59275/j.melba.2024-9c68",
       "paper_title": "MICCAI-CDMRI 2023 QuantConn Challenge Findings on Achieving Robust Quantitative Connectivity through Harmonized Preprocessing of Diffusion MRI",
       "year": 2024,
@@ -222,15 +223,16 @@
       "vendors": [],
       "sessions": null,
       "description": "Uniformly preprocessed T1w data (VBM, quasi-raw, FreeSurfer) built as a brain-age benchmark with explicit site debiasing.",
-      "access": null,
-      "url": null,
+      "access": "registration",
+      "url": "https://ieee-dataport.org/open-access/openbhb-multi-site-brain-mri-dataset-age-prediction-and-debiasing",
       "doi": "10.1016/j.neuroimage.2022.119637",
       "paper_title": "OpenBHB: a Large-Scale Multi-Site Brain MRI Data-set for Age Prediction and Debiasing",
       "year": 2022,
       "extra_papers": [],
       "aliases": [
         "OpenBHB"
-      ]
+      ],
+      "access_note": "Free IEEE DataPort account; CC BY-NC-SA 3.0."
     },
     {
       "id": "ccr-phantom",
@@ -251,8 +253,8 @@
       ],
       "sessions": null,
       "description": "Standard phantom for measuring CT scanner variability of radiomic features.",
-      "access": null,
-      "url": null,
+      "access": "open",
+      "url": "https://www.cancerimagingarchive.net/collection/cc-radiomics-phantom/",
       "doi": "10.1097/rli.0000000000000180",
       "paper_title": "Measuring Computed Tomography Scanner Variability of Radiomics Features",
       "year": 2015,
@@ -276,8 +278,8 @@
       "vendors": [],
       "sessions": "1,378 image series, several doses",
       "description": "Benchmark for CT image- and feature-level harmonization acquired with a harmonized protocol.",
-      "access": null,
-      "url": null,
+      "access": "open",
+      "url": "https://www.cancerimagingarchive.net/collection/ct4harmonization-multicentric/",
       "doi": "10.48550/arxiv.2507.01539",
       "paper_title": "A Multi-Centric Anthropomorphic 3D CT Phantom-Based Benchmark Dataset for Harmonization",
       "year": 2025,
@@ -496,15 +498,16 @@
       "vendors": [],
       "sessions": null,
       "description": "Psychiatric multi-disorder cohort released together with its own traveling-subject harmonization data.",
-      "access": null,
-      "url": null,
+      "access": "registration",
+      "url": "https://bicr-resource.atr.jp/srpbsopen/",
       "doi": "10.1038/s41597-021-01004-8",
       "paper_title": "A multi-site, multi-disorder resting-state magnetic resonance image database",
       "year": 2021,
       "extra_papers": [],
       "aliases": [
         "SRPBS"
-      ]
+      ],
+      "access_note": "Unrestricted release after free registration; a restricted release needs a signed application."
     },
     {
       "id": "aibl",
@@ -522,7 +525,7 @@
       "longitudinal": true,
       "description": "Dementia cohort often pooled with ADNI as an external site.",
       "access": "application",
-      "url": null,
+      "url": "https://aibl.org.au/",
       "doi": "10.1017/s1041610209009405",
       "paper_title": "The Australian Imaging, Biomarkers and Lifestyle (AIBL) study of aging: methodology and baseline characteristics of 1112 individuals recruited for a longitudinal study of Alzheimer's disease",
       "year": 2009,
@@ -602,7 +605,7 @@
       "sessions": null,
       "description": "HCP-style protocols extended across ages and sites; a near-harmonized acquisition useful as a low-site-effect reference.",
       "access": "application",
-      "url": null,
+      "url": "https://www.humanconnectome.org/study/hcp-lifespan-aging",
       "doi": "10.1016/j.neuroimage.2018.09.060",
       "paper_title": "Extending the Human Connectome Project across ages: Imaging protocols for the Lifespan Development and Aging projects",
       "year": 2018,
@@ -628,7 +631,7 @@
       "sessions": null,
       "description": "The common multi-institution CT set for radiomics robustness and harmonization tests.",
       "access": "open",
-      "url": null,
+      "url": "https://www.cancerimagingarchive.net/collection/lidc-idri/",
       "doi": "10.1118/1.3528204",
       "paper_title": "The Lung Image Database Consortium (LIDC) and Image Database Resource Initiative (IDRI): a completed reference database of lung nodules on CT scans",
       "year": 2011,
@@ -671,7 +674,7 @@
       "vendors": [],
       "sessions": "T1w only; repeat scans on many scanners",
       "description": "One person scanned on more than a hundred clinical scanners — the widest scanner coverage of any traveling-subject resource, used to test inter-scanner stability of volumetry and harmonization.",
-      "access": null,
+      "access": "registration",
       "url": "https://www.nitrc.org/projects/fthp",
       "doi": null,
       "paper_title": null,
@@ -695,7 +698,8 @@
       ],
       "id": "fthp",
       "name": "FTHP (Frequently Traveling Human Phantom)",
-      "category": "traveling-subjects"
+      "category": "traveling-subjects",
+      "access_note": "Download via Kaggle (free account); CC BY-NC-ND 4.0."
     },
     {
       "full_name": "DWI Traveling Human Phantom study (PREDICT-HD reliability)",
@@ -776,7 +780,7 @@
       "vendors": [],
       "sessions": "Each phantom scanned twice at every site; non-harmonized T1w protocols",
       "description": "Compares traveling-phantom correction factors with ComBat on lifespan volume trajectories.",
-      "access": null,
+      "access": "private",
       "url": null,
       "doi": "10.3389/fneur.2022.826564",
       "paper_title": "Lifespan Volume Trajectories From Non–harmonized T1–Weighted MRI Do Not Differ After Site Correction Based on Traveling Human Phantoms",
@@ -785,7 +789,8 @@
       "aliases": [],
       "id": "treit-traveling-phantoms",
       "name": "Alberta traveling human phantoms (Treit et al.)",
-      "category": "traveling-subjects"
+      "category": "traveling-subjects",
+      "access_note": "Available from the authors on request."
     },
     {
       "full_name": "Movement-related artefacts dataset",
@@ -797,8 +802,8 @@
       "vendors": [],
       "sessions": "Matched motion-free and motion-corrupted T1w scans",
       "description": "Not multisite, but the standard set for testing whether harmonization or IQM-based correction handles motion artefacts (used e.g. by ComCat).",
-      "access": null,
-      "url": null,
+      "access": "open",
+      "url": "https://openneuro.org/datasets/ds004173",
       "doi": "10.1038/s41597-022-01694-8",
       "paper_title": "Movement-related artefacts (MR-ART) dataset of matched motion-corrupted and clean structural MRI brain scans",
       "year": 2022,
@@ -822,7 +827,7 @@
       "sessions": null,
       "description": "Multi-institutional tumour MRI widely used to test radiomics robustness and intensity harmonization.",
       "access": "registration",
-      "url": null,
+      "url": "https://www.synapse.org/brats",
       "doi": "10.1109/tmi.2014.2377694",
       "paper_title": "The Multimodal Brain Tumor Image Segmentation Benchmark (BRATS)",
       "year": 2014,

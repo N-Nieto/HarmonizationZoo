@@ -1839,3 +1839,10 @@ select:focus, input[type="search"]:focus, button:focus-visible {
   margin: 0 0 12px;
 }
 .resource-type-background { color: #a3b1c2; }
+
+/* Datasets: modality + access filters, access details */
+.dataset-access-registration { border-color: color-mix(in srgb, var(--cyan) 55%, var(--line)); }
+.dataset-access-unknown { border-style: dotted; color: var(--paper-dim); }
+.dataset-access-note { font-size: 12.5px; color: var(--paper-dim); margin: 0 0 8px; }
+.dataset-count { display: block; margin: -6px 0 14px; padding: 0; }
+.resource-filter .rec-pill[disabled] { opacity: 0.4; cursor: default; }

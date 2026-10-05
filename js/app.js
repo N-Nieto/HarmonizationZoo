@@ -55,6 +55,8 @@ const state = {
   resourceSort: "newest",
   datasets: [],
   datasetCategory: "all",
+  datasetModality: "all",
+  datasetAccess: "all",
   groupBy: "category",
   search: "",
   activeLevels: new Set(LEVEL_ORDER),
@@ -708,6 +710,25 @@ const DATASET_CATEGORIES = [
 ];
 const DATASET_CATEGORY_LABEL = Object.fromEntries(DATASET_CATEGORIES);
 const DATASET_ACCESS_LABEL = { open: "Open download", registration: "Free registration", application: "Data-use application", private: "Not public" };
+// Access filter pills, in the order datasets are sorted: openly downloadable data always comes first.
+const DATASET_ACCESS_ORDER = ["open", "registration", "application", "private", "unknown"];
+const DATASET_ACCESS_FILTERS = [
+  ["all", "Any access"], ["open", "Open download"], ["registration", "Free registration"],
+  ["application", "Data-use application"], ["private", "Not public"], ["unknown", "Not verified"],
+];
+const datasetAccess = (ds) => ds.access || "unknown";
+// Modality filter pills (CT and radiomics share one, as in Resources).
+const DATASET_MODALITIES = [
+  ["all", "Any modality"], ["sMRI", "Structural MRI"], ["dMRI", "Diffusion MRI"], ["fMRI", "Functional MRI"],
+  ["PET", "PET"], ["ct", "CT / radiomics"], ["EEG", "EEG"], ["MEG", "MEG"],
+];
+function datasetMatchesModality(ds, m) {
+  if (m === "all") return true;
+  const mods = ds.modalities || [];
+  return m === "ct" ? mods.includes("CT") || mods.includes("radiomics") : mods.includes(m);
+}
+const datasetMatchesCategory = (ds, c) => c === "all" || ds.category === c;
+const datasetMatchesAccess = (ds, a) => a === "all" || datasetAccess(ds) === a;
 
 function methodsValidatedOn(ds) {
   const names = [ds.name, ...(ds.aliases || [])].filter(Boolean);
@@ -721,9 +742,16 @@ function buildDatasetsTab() {
     root.innerHTML = `<div class="loading-placeholder">No datasets listed yet.</div>`;
     return;
   }
-  const visible = state.datasets.filter((d) => state.datasetCategory === "all" || d.category === state.datasetCategory);
+  const S = state;
+  const visible = state.datasets.filter((d) => datasetMatchesCategory(d, S.datasetCategory)
+    && datasetMatchesModality(d, S.datasetModality) && datasetMatchesAccess(d, S.datasetAccess));
   const order = DATASET_CATEGORIES.map(([k]) => k);
-  visible.sort((a, b) => order.indexOf(a.category) - order.indexOf(b.category) || (b.year || 0) - (a.year || 0));
+  // Openly available datasets always first, then by type, then newest.
+  visible.sort((a, b) => DATASET_ACCESS_ORDER.indexOf(datasetAccess(a)) - DATASET_ACCESS_ORDER.indexOf(datasetAccess(b))
+    || order.indexOf(a.category) - order.indexOf(b.category) || (b.year || 0) - (a.year || 0));
+  // Pill counts reflect the other two active filters.
+  const countWith = (cat, mod, acc) => state.datasets.filter((d) => datasetMatchesCategory(d, cat)
+    && datasetMatchesModality(d, mod) && datasetMatchesAccess(d, acc)).length;
 
   const cards = visible.map((ds) => {
     const used = methodsValidatedOn(ds).sort((a, b) => a.name.localeCompare(b.name));
@@ -737,13 +765,14 @@ function buildDatasetsTab() {
       <article class="dataset-card dataset-${escapeHtml(ds.category)}">
         <div class="resource-meta">
           <span class="resource-type">${escapeHtml(DATASET_CATEGORY_LABEL[ds.category] || ds.category)}</span>
-          ${ds.access ? `<span class="dataset-access dataset-access-${escapeHtml(ds.access)}">${escapeHtml(DATASET_ACCESS_LABEL[ds.access] || ds.access)}</span>` : ""}
+          ${ds.access ? `<span class="dataset-access dataset-access-${escapeHtml(ds.access)}"${ds.access_note ? ` title="${escapeHtml(ds.access_note)}"` : ""}>${escapeHtml(DATASET_ACCESS_LABEL[ds.access] || ds.access)}</span>` : `<span class="dataset-access dataset-access-unknown">Access not verified</span>`}
           ${ds.longitudinal ? `<span>Longitudinal</span>` : ""}
         </div>
         <h3>${escapeHtml(ds.name)}</h3>
         ${ds.full_name && ds.full_name !== ds.name ? `<p class="resource-cite">${escapeHtml(ds.full_name)}</p>` : ""}
         <p class="resource-note">${escapeHtml(ds.description || "")}</p>
         <div class="chip-row">${(ds.modalities || []).map((m) => `<span class="chip">${escapeHtml(MODALITY_FACET_LABEL[m] || m)}</span>`).join("")}</div>
+        ${ds.access_note ? `<p class="dataset-access-note">${escapeHtml(ds.access_note)}</p>` : ""}
         ${facts.length ? `<dl class="spec-table dataset-facts">${facts.map(([k, v]) => `<dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd>`).join("")}</dl>` : ""}
         <div class="dataset-links">
           ${ds.url ? extLink(ds.url, "↗ Website / access", "inline-link") : ""}
@@ -763,20 +792,36 @@ function buildDatasetsTab() {
         scan the same people on several scanners, so scanner effects can be measured directly; they are what
         methods marked "needs paired data" require. <strong>Benchmarks</strong> and <strong>phantoms</strong>
         come with an evaluation set-up. <strong>Multisite cohorts</strong> are large studies whose site effects are
-        the problem harmonization solves. Check each dataset's own terms before use; missing access details mean
-        we haven't verified them yet. Know one that belongs here? Add it to <code>data/datasets.json</code>.
+        the problem harmonization solves. Openly downloadable datasets are always listed first. Check each
+        dataset's own terms before use; "not verified" means we haven't confirmed how to get it yet. Know one that
+        belongs here? Add it to <code>data/datasets.json</code>.
       </p>
-      <div class="rec-options resource-filter" role="group" aria-label="Filter datasets by type">
+      <div class="rec-options resource-filter dataset-filter-cat" role="group" aria-label="Filter datasets by type">
         ${DATASET_CATEGORIES.filter(([c]) => c === "all" || state.datasets.some((d) => d.category === c)).map(([c, label]) => {
-          const n = c === "all" ? state.datasets.length : state.datasets.filter((d) => d.category === c).length;
-          return `<button type="button" class="rec-pill${state.datasetCategory === c ? " active" : ""}" aria-pressed="${state.datasetCategory === c}" data-cat="${c}">${escapeHtml(label)} (${n})</button>`;
+          const n = countWith(c, S.datasetModality, S.datasetAccess);
+          return `<button type="button" class="rec-pill${S.datasetCategory === c ? " active" : ""}" aria-pressed="${S.datasetCategory === c}" data-cat="${c}">${escapeHtml(label)} (${n})</button>`;
         }).join("")}
       </div>
-      <div class="dataset-grid">${cards}</div>
+      <div class="rec-options resource-filter resource-modality dataset-filter-mod" role="group" aria-label="Filter datasets by modality">
+        ${DATASET_MODALITIES.filter(([m]) => m === "all" || state.datasets.some((d) => datasetMatchesModality(d, m))).map(([m, label]) => {
+          const n = countWith(S.datasetCategory, m, S.datasetAccess);
+          return `<button type="button" class="rec-pill${S.datasetModality === m ? " active" : ""}" aria-pressed="${S.datasetModality === m}" data-mod="${m}"${n || S.datasetModality === m ? "" : " disabled"}>${escapeHtml(label)}${m === "all" ? "" : ` (${n})`}</button>`;
+        }).join("")}
+      </div>
+      <div class="rec-options resource-filter resource-modality dataset-filter-acc" role="group" aria-label="Filter datasets by access">
+        ${DATASET_ACCESS_FILTERS.filter(([a]) => a === "all" || state.datasets.some((d) => datasetAccess(d) === a)).map(([a, label]) => {
+          const n = countWith(S.datasetCategory, S.datasetModality, a);
+          return `<button type="button" class="rec-pill${S.datasetAccess === a ? " active" : ""}" aria-pressed="${S.datasetAccess === a}" data-acc="${a}"${n || S.datasetAccess === a ? "" : " disabled"}>${escapeHtml(label)}${a === "all" ? "" : ` (${n})`}</button>`;
+        }).join("")}
+      </div>
+      <p class="resource-count dataset-count">${visible.length} of ${state.datasets.length} datasets</p>
+      <div class="dataset-grid">${cards || `<p class="loading-placeholder">No dataset matches these filters.</p>`}</div>
     </div>`;
 
   root.querySelectorAll(".resource-filter .rec-pill").forEach((b) => b.addEventListener("click", () => {
-    state.datasetCategory = b.dataset.cat;
+    if (b.dataset.cat) state.datasetCategory = b.dataset.cat;
+    if (b.dataset.mod) state.datasetModality = b.dataset.mod;
+    if (b.dataset.acc) state.datasetAccess = b.dataset.acc;
     buildDatasetsTab();
   }));
   root.querySelectorAll(".toolbox-method-chip").forEach((chip) => chip.addEventListener("click", () => {
@@ -824,6 +869,7 @@ function makeContentLinker() {
     root.querySelectorAll(".guide-res-link").forEach((b) => b.addEventListener("click", () => showResource(b.dataset.res)));
     root.querySelectorAll(".guide-ds-link").forEach((b) => b.addEventListener("click", () => {
       state.datasetCategory = b.dataset.cat || "all";
+      state.datasetModality = "all"; state.datasetAccess = "all";
       buildDatasetsTab();
       switchTab("datasets");
     }));

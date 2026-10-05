@@ -374,7 +374,17 @@ scanners — what "needs paired data" methods require), `harmonization-benchmark
 word), so filling in `validation_data` links methods automatically. Numbers
 were taken from each dataset paper's abstract (October 2026); leave a field
 empty rather than guess. The validator checks ids, categories, access values,
-URLs and modalities.
+URLs and modalities. An optional `access_note` (one sentence: licence, how to
+register, restricted vs open release) is shown under the access badge.
+
+Three rows of filter pills combine: type, modality (structural, diffusion,
+functional MRI, PET, CT/radiomics, EEG, MEG — only those present) and access
+(open download, free registration, data-use application, not public, not
+verified). Counts on each pill reflect the other two active filters. Results
+are always sorted by access first — open downloads on top, then registration,
+application, not public, not verified — then by type and newest year.
+Access was verified from the dataset portals in October 2026; HBN and the
+Maikusa traveling subjects are still `null`.
 
 ## "Did harmonization work?", Glossary and EEG/MEG notes
 
