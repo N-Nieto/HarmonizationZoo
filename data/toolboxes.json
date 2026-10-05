@@ -6,7 +6,7 @@
       "url": "https://github.com/N-Nieto/UniHarmony",
       "language": ["Python"],
       "description": "A unified Python package bundling ComBat and several of its extensions alongside interpolation- and optimal-transport-based harmonization methods behind one consistent interface.",
-      "methods": ["combat", "neurocombat", "combat-gam", "harmonizer", "covbat", "prettyharmonize", "pycombat", "ismi", "isi", "otda", "botda"]
+      "methods": ["combat", "neurocombat", "combat-gam", "harmonizer", "covbat", "prettyharmonize", "pycombat", "ismi", "isi", "botda"]
     },
     {
       "id": "combatfamily-r",

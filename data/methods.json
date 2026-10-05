@@ -3979,7 +3979,7 @@
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
-      "modality": "Structural MRI",
+      "modality": "Body MRI (breast, cardiac, abdominal)",
       "needs_gpu": true,
       "architecture_backbone": "CycleGAN",
       "framework": null,
@@ -4009,10 +4009,10 @@
       "venue": "Medical Imaging 2020: Computer-Aided Diagnosis (SPIE)",
       "publication_type": "conference-paper",
       "modalities_proposed": [
-        "general-imaging"
+        "breast-MRI"
       ],
       "modalities_tested": [
-        "general-imaging"
+        "breast-MRI"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -5587,7 +5587,7 @@
     },
     {
       "id": "ismi",
-      "name": "Inter-Site SMOTE (ISMI)",
+      "name": "Intra-Site Matching Interpolation (ISMI)",
       "category": "interpolation-based",
       "method_type": "statistical",
       "level": "feature-level",
@@ -5719,8 +5719,10 @@
       },
       "doi": null,
       "arxiv_id": null,
-      "authors": null,
-      "n_authors": null,
+      "authors": [
+        "Nicolás Nieto"
+      ],
+      "n_authors": 1,
       "venue": null,
       "publication_type": null,
       "modalities_proposed": [
@@ -5735,7 +5737,8 @@
       "extends": [],
       "evidence": [],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": null,
+      "scope_note": "Developed by Nicolás Nieto and available only in UniHarmony; no dedicated paper."
     },
     {
       "id": "fedharmony",
@@ -6251,88 +6254,6 @@
       "preserves_biology": null
     },
     {
-      "id": "otda",
-      "name": "OTDA",
-      "category": "optimal-transport",
-      "method_type": "machine-learning",
-      "level": "feature-level",
-      "tags": [
-        "optimal-transport",
-        "domain-adaptation"
-      ],
-      "paper_title": "Optimal Transport for Domain Adaptation",
-      "paper_year": 2016,
-      "paper_url": "https://doi.org/10.1109/tpami.2016.2615921",
-      "github": null,
-      "other_url": "https://github.com/N-Nieto/UniHarmony",
-      "language": [
-        "Python"
-      ],
-      "abstract": "Domain adaptation is one of the most challenging tasks of modern data analytics. If the adaptation is done correctly, models built on a specific data representation become more robust when confronted to data depicting the same classes, but described by another observation system. Among the many strategies proposed, finding domain-invariant representations has shown excellent properties, in particular since it allows to train a unique classifier effective in all domains. In this paper, we propose a regularized unsupervised optimal transportation model to perform the alignment of the representations in the source and target domains. We learn a transportation plan matching both PDFs, which constrains labeled samples of the same class in the source domain to remain close during transport. This way, we exploit at the same time the labeled samples in the source and the distributions observed in both domains. Experiments on toy and challenging real visual adaptation examples show the interest of the method, that consistently outperforms state of the art approaches. In addition, numerical experiments show that our approach leads to better performances on domain invariant deep learning features and can be easily adapted to the semi-supervised case where few labeled samples are available in the target domain.",
-      "abstract_source": "OpenAlex",
-      "citations": 1010,
-      "stars": null,
-      "forks": null,
-      "open_issues": null,
-      "license": null,
-      "topics": null,
-      "archived": null,
-      "repo_created_at": null,
-      "first_commit_date": null,
-      "last_commit": null,
-      "repo_description": null,
-      "stats_fetched_at": null,
-      "category_label": "Optimal transport-based",
-      "in_uniharmony": true,
-      "also_implemented_in": [],
-      "validation_data": "Agnostic",
-      "modality": "Modality-agnostic (general ML)",
-      "needs_gpu": false,
-      "architecture_backbone": null,
-      "framework": null,
-      "has_pretrained_weights": null,
-      "pretrained_weights_url": null,
-      "recommend": {
-        "requires_site_id": true,
-        "generalizes_to_new_site": false,
-        "low_n_friendly": false,
-        "requires_linear_signal": null,
-        "ml_compatible": true,
-        "needs_gpu": false,
-        "longitudinal": false,
-        "requires_paired_data": false
-      },
-      "citations_source": "openalex",
-      "citations_fetched_at": "2026-10-02T11:26:10Z",
-      "doi": "10.1109/tpami.2016.2615921",
-      "arxiv_id": null,
-      "authors": [
-        "Nicolas Courty",
-        "Rémi Flamary",
-        "Devis Tuia",
-        "Alain Rakotomamonjy"
-      ],
-      "n_authors": 4,
-      "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
-      "publication_type": "article",
-      "modalities_proposed": [
-        "general"
-      ],
-      "modalities_tested": [
-        "general",
-        "general-imaging"
-      ],
-      "modalities_verified": false,
-      "entry_type": "method",
-      "implements": null,
-      "extends": [],
-      "evidence": [],
-      "secondary_categories": [
-        "domain-adaptation"
-      ],
-      "preserves_biology": null
-    },
-    {
       "id": "botda",
       "name": "BOTDA",
       "category": "optimal-transport",
@@ -6409,9 +6330,7 @@
       "modalities_verified": false,
       "entry_type": "method",
       "implements": null,
-      "extends": [
-        "otda"
-      ],
+      "extends": [],
       "evidence": [],
       "secondary_categories": [
         "domain-adaptation"
@@ -6424,7 +6343,8 @@
         "usage_lang": null,
         "source": "https://github.com/vpeterson/otda-mibci#readme",
         "fetched": "2026-10-04"
-      }
+      },
+      "scope_note": "Proposed for cross-subject and cross-session transfer in motor-imagery BCIs, not cross-site harmonization. It becomes a harmonization problem when subjects or sessions are treated as sites. Builds on optimal-transport domain adaptation (Courty et al. 2016, see Resources)."
     },
     {
       "id": "combat-eb",
@@ -8517,7 +8437,7 @@
     {
       "id": "linked-ica-scanner-denoising",
       "name": "Linked ICA Scanner Denoising",
-      "category": "confound-removal",
+      "category": "ica-based",
       "method_type": "statistical",
       "level": "feature-level",
       "tags": [
@@ -8545,7 +8465,7 @@
       "last_commit": null,
       "repo_description": null,
       "stats_fetched_at": null,
-      "category_label": "Confound Removal",
+      "category_label": "ICA-based",
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
@@ -8603,7 +8523,7 @@
         }
       ],
       "secondary_categories": [
-        "ica-based"
+        "confound-removal"
       ],
       "preserves_biology": false
     },
@@ -9808,7 +9728,7 @@
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
-      "modality": "Structural MRI",
+      "modality": "Body MRI (breast, cardiac, abdominal)",
       "needs_gpu": true,
       "architecture_backbone": "CycleGAN",
       "framework": null,
@@ -9841,11 +9761,10 @@
       "venue": "Physics in Medicine and Biology",
       "publication_type": "article",
       "modalities_proposed": [
-        "general-imaging"
+        "abdominal-MRI"
       ],
       "modalities_tested": [
-        "general-imaging",
-        "sMRI"
+        "abdominal-MRI"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -9853,7 +9772,7 @@
       "extends": [],
       "evidence": [
         {
-          "modality": "sMRI",
+          "modality": "abdominal-MRI",
           "title": "Self-supervised learning for multi-center magnetic resonance imaging harmonization without traveling phantoms",
           "year": 2022,
           "doi": "10.1088/1361-6560/ac7b66"
@@ -11461,7 +11380,8 @@
         }
       ],
       "secondary_categories": [],
-      "preserves_biology": null
+      "preserves_biology": null,
+      "scope_note": "Homogenizes contrast at image level (gadolinium-enhanced → non-enhanced T1w) across a clinical data warehouse, rather than removing scanner or site effects."
     },
     {
       "id": "phycharm",
@@ -12126,7 +12046,7 @@
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
-      "modality": "Medical imaging (general, not MRI-brain-specific)",
+      "modality": "Body MRI (breast, cardiac, abdominal)",
       "needs_gpu": true,
       "architecture_backbone": null,
       "framework": null,
@@ -12155,10 +12075,10 @@
       "venue": "Lecture Notes in Computer Science",
       "publication_type": "conference-paper",
       "modalities_proposed": [
-        "general-imaging"
+        "cardiac-MRI"
       ],
       "modalities_tested": [
-        "general-imaging"
+        "cardiac-MRI"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -12166,7 +12086,7 @@
       "extends": [],
       "evidence": [
         {
-          "modality": "general-imaging",
+          "modality": "cardiac-MRI",
           "title": "Neural Style Transfer Improves 3D Cardiovascular MR Image Segmentation on Inconsistent Data",
           "year": 2019,
           "doi": "10.1007/978-3-030-32245-8_15"
@@ -14135,7 +14055,7 @@
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
-      "modality": "Medical imaging (general, not MRI-brain-specific)",
+      "modality": "Body MRI (breast, cardiac, abdominal)",
       "needs_gpu": true,
       "architecture_backbone": "GAN",
       "framework": null,
@@ -14168,10 +14088,10 @@
       "venue": "Lecture Notes in Computer Science",
       "publication_type": "conference-paper",
       "modalities_proposed": [
-        "general-imaging"
+        "cardiac-MRI"
       ],
       "modalities_tested": [
-        "general-imaging"
+        "cardiac-MRI"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -14179,7 +14099,7 @@
       "extends": [],
       "evidence": [
         {
-          "modality": "general-imaging",
+          "modality": "cardiac-MRI",
           "title": "The Domain Shift Problem of Medical Image Segmentation and Vendor-Adaptation by Unet-GAN",
           "year": 2019,
           "doi": "10.1007/978-3-030-32245-8_69"
@@ -15349,280 +15269,6 @@
           "title": "Vendor‐agnostic 3D multiparametric relaxometry improves cross‐platform reproducibility",
           "year": 2025,
           "doi": "10.1002/mrm.30566"
-        }
-      ],
-      "secondary_categories": [],
-      "preserves_biology": null
-    },
-    {
-      "id": "gadgetron",
-      "name": "Gadgetron (open reconstruction framework)",
-      "category": "acquisition-protocol",
-      "method_type": "other",
-      "level": "acquisition-level",
-      "tags": [
-        "reconstruction",
-        "open-source"
-      ],
-      "paper_title": "Gadgetron: An open source framework for medical image reconstruction",
-      "paper_year": 2012,
-      "paper_url": "https://doi.org/10.1002/mrm.24389",
-      "github": "gadgetron/gadgetron",
-      "language": [
-        "C++"
-      ],
-      "other_url": null,
-      "abstract": "This work presents a new open source framework for medical image reconstruction called the \"Gadgetron.\" The framework implements a flexible system for creating streaming data processing pipelines where data pass through a series of modules or \"Gadgets\" from raw data to reconstructed images. The data processing pipeline is configured dynamically at run-time based on an extensible markup language configuration description. The framework promotes reuse and sharing of reconstruction modules and new Gadgets can be added to the Gadgetron framework through a plugin-like architecture without recompiling the basic framework infrastructure. Gadgets are typically implemented in C/C++, but the framework includes wrapper Gadgets that allow the user to implement new modules in the Python scripting language for rapid prototyping. In addition to the streaming framework infrastructure, the Gadgetron comes with a set of dedicated toolboxes in shared libraries for medical image reconstruction. This includes generic toolboxes for data-parallel (e.g., GPU-based) execution of compute-intensive components. The basic framework architecture is independent of medical imaging modality, but this article focuses on its application to Cartesian and non-Cartesian parallel magnetic resonance imaging.",
-      "abstract_source": "OpenAlex",
-      "citations": 346,
-      "stars": 263,
-      "forks": 164,
-      "open_issues": 42,
-      "license": "NOASSERTION",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2014-11-14",
-      "first_commit_date": null,
-      "last_commit": "2026-08-02",
-      "repo_description": "Gadgetron - Medical Image Reconstruction Framework",
-      "stats_fetched_at": "2026-10-04T11:10:16Z",
-      "category_label": "Acquisition / Protocol Harmonization",
-      "in_uniharmony": false,
-      "also_implemented_in": [],
-      "validation_data": "Agnostic",
-      "modality": "Acquisition (modality-agnostic)",
-      "needs_gpu": false,
-      "architecture_backbone": null,
-      "framework": null,
-      "has_pretrained_weights": null,
-      "pretrained_weights_url": null,
-      "recommend": {
-        "requires_site_id": false,
-        "generalizes_to_new_site": true,
-        "low_n_friendly": true,
-        "requires_linear_signal": null,
-        "ml_compatible": true,
-        "needs_gpu": false,
-        "longitudinal": false,
-        "requires_paired_data": false
-      },
-      "citations_source": "openalex",
-      "citations_fetched_at": "2026-10-04T12:00:00Z",
-      "doi": "10.1002/mrm.24389",
-      "arxiv_id": null,
-      "authors": [
-        "Michael S. Hansen",
-        "Thomas Sangild Sørensen"
-      ],
-      "n_authors": 2,
-      "venue": "Magnetic Resonance in Medicine",
-      "publication_type": "article",
-      "modalities_proposed": [
-        "MRI-acquisition"
-      ],
-      "modalities_tested": [
-        "MRI-acquisition"
-      ],
-      "modalities_verified": false,
-      "entry_type": "toolbox",
-      "implements": null,
-      "extends": [],
-      "evidence": [
-        {
-          "modality": "MRI-acquisition",
-          "title": "Gadgetron: An open source framework for medical image reconstruction",
-          "year": 2012,
-          "doi": "10.1002/mrm.24389"
-        }
-      ],
-      "secondary_categories": [],
-      "preserves_biology": null
-    },
-    {
-      "id": "bart",
-      "name": "BART (Berkeley Advanced Reconstruction Toolbox)",
-      "category": "acquisition-protocol",
-      "method_type": "other",
-      "level": "acquisition-level",
-      "tags": [
-        "reconstruction",
-        "open-source"
-      ],
-      "paper_title": "Deep, deep learning with BART",
-      "paper_year": 2022,
-      "paper_url": "https://doi.org/10.1002/mrm.29485",
-      "github": "mrirecon/bart",
-      "language": [
-        "C"
-      ],
-      "other_url": null,
-      "abstract": "PURPOSE: To develop a deep-learning-based image reconstruction framework for reproducible research in MRI. METHODS: The BART toolbox offers a rich set of implementations of calibration and reconstruction algorithms for parallel imaging and compressed sensing. In this work, BART was extended by a nonlinear operator framework that provides automatic differentiation to allow computation of gradients. Existing MRI-specific operators of BART, such as the nonuniform fast Fourier transform, are directly integrated into this framework and are complemented by common building blocks used in neural networks. To evaluate the use of the framework for advanced deep-learning-based reconstruction, two state-of-the-art unrolled reconstruction networks, namely the Variational Network and MoDL, were implemented. RESULTS: State-of-the-art deep image-reconstruction networks can be constructed and trained using BART's gradient-based optimization algorithms. The BART implementation achieves a similar performance in terms of training time and reconstruction quality compared to the original implementations based on TensorFlow. CONCLUSION: By integrating nonlinear operators and neural networks into BART, we provide a general framework for deep-learning-based reconstruction in MRI.",
-      "abstract_source": "OpenAlex",
-      "citations": 17,
-      "stars": 370,
-      "forks": 177,
-      "open_issues": 18,
-      "license": "BSD-3-Clause",
-      "topics": [
-        "bart-toolbox",
-        "compressed-sensing",
-        "computational-imaging",
-        "deep-learning",
-        "iterative-methods",
-        "mri"
-      ],
-      "archived": true,
-      "repo_created_at": "2014-08-22",
-      "first_commit_date": null,
-      "last_commit": "2026-03-01",
-      "repo_description": "BART: Toolbox for Computational Magnetic Resonance Imaging",
-      "stats_fetched_at": "2026-10-04T11:10:16Z",
-      "category_label": "Acquisition / Protocol Harmonization",
-      "in_uniharmony": false,
-      "also_implemented_in": [],
-      "validation_data": "Agnostic",
-      "modality": "Acquisition (modality-agnostic)",
-      "needs_gpu": false,
-      "architecture_backbone": null,
-      "framework": null,
-      "has_pretrained_weights": null,
-      "pretrained_weights_url": null,
-      "recommend": {
-        "requires_site_id": false,
-        "generalizes_to_new_site": true,
-        "low_n_friendly": true,
-        "requires_linear_signal": null,
-        "ml_compatible": true,
-        "needs_gpu": false,
-        "longitudinal": false,
-        "requires_paired_data": false
-      },
-      "citations_source": "openalex",
-      "citations_fetched_at": "2026-10-04T12:00:00Z",
-      "doi": "10.1002/mrm.29485",
-      "arxiv_id": null,
-      "authors": [
-        "Moritz Blumenthal",
-        "Guanxiong Luo",
-        "Martin Karl Schilling",
-        "H. Christian M. Holme",
-        "Martin Uecker"
-      ],
-      "n_authors": 5,
-      "venue": "Magnetic Resonance in Medicine",
-      "publication_type": "article",
-      "modalities_proposed": [
-        "MRI-acquisition"
-      ],
-      "modalities_tested": [
-        "MRI-acquisition"
-      ],
-      "modalities_verified": false,
-      "entry_type": "toolbox",
-      "implements": null,
-      "extends": [],
-      "evidence": [
-        {
-          "modality": "MRI-acquisition",
-          "title": "Deep, deep learning with BART",
-          "year": 2022,
-          "doi": "10.1002/mrm.29485"
-        }
-      ],
-      "secondary_categories": [],
-      "preserves_biology": null
-    },
-    {
-      "id": "ismrmrd",
-      "name": "ISMRM Raw Data format (ISMRMRD)",
-      "category": "acquisition-protocol",
-      "method_type": "other",
-      "level": "acquisition-level",
-      "tags": [
-        "data-standard",
-        "raw-data"
-      ],
-      "paper_title": "ISMRM Raw data format: A proposed standard for MRI raw datasets",
-      "paper_year": 2016,
-      "paper_url": "https://doi.org/10.1002/mrm.26089",
-      "github": "ismrmrd/ismrmrd",
-      "language": [
-        "C++"
-      ],
-      "other_url": null,
-      "abstract": "PURPOSE: This work proposes the ISMRM Raw Data format as a common MR raw data format, which promotes algorithm and data sharing. METHODS: A file format consisting of a flexible header and tagged frames of k-space data was designed. Application Programming Interfaces were implemented in C/C++, MATLAB, and Python. Converters for Bruker, General Electric, Philips, and Siemens proprietary file formats were implemented in C++. Raw data were collected using magnetic resonance imaging scanners from four vendors, converted to ISMRM Raw Data format, and reconstructed using software implemented in three programming languages (C++, MATLAB, Python). RESULTS: Images were obtained by reconstructing the raw data from all vendors. The source code, raw data, and images comprising this work are shared online, serving as an example of an image reconstruction project following a paradigm of reproducible research. CONCLUSION: The proposed raw data format solves a practical problem for the magnetic resonance imaging community. It may serve as a foundation for reproducible research and collaborations. The ISMRM Raw Data format is a completely open and community-driven format, and the scientific community is invited (including commercial vendors) to participate either as users or developers. Magn Reson Med 77:411-421, 2017. © 2016 Wiley Periodicals, Inc.",
-      "abstract_source": "OpenAlex",
-      "citations": 122,
-      "stars": 122,
-      "forks": 93,
-      "open_issues": 25,
-      "license": "NOASSERTION",
-      "topics": [],
-      "archived": false,
-      "repo_created_at": "2014-11-12",
-      "first_commit_date": null,
-      "last_commit": "2026-05-05",
-      "repo_description": "ISMRM Raw Data Format",
-      "stats_fetched_at": "2026-10-04T11:10:16Z",
-      "category_label": "Acquisition / Protocol Harmonization",
-      "in_uniharmony": false,
-      "also_implemented_in": [],
-      "validation_data": "Agnostic",
-      "modality": "Acquisition (modality-agnostic)",
-      "needs_gpu": false,
-      "architecture_backbone": null,
-      "framework": null,
-      "has_pretrained_weights": null,
-      "pretrained_weights_url": null,
-      "recommend": {
-        "requires_site_id": false,
-        "generalizes_to_new_site": true,
-        "low_n_friendly": true,
-        "requires_linear_signal": null,
-        "ml_compatible": true,
-        "needs_gpu": false,
-        "longitudinal": false,
-        "requires_paired_data": false
-      },
-      "citations_source": "openalex",
-      "citations_fetched_at": "2026-10-04T12:00:00Z",
-      "doi": "10.1002/mrm.26089",
-      "arxiv_id": null,
-      "authors": [
-        "Souheil Inati",
-        "Joseph Naegele",
-        "Nicholas R. Zwart",
-        "Vinai Roopchansingh",
-        "Martin J. Lizak",
-        "David Christoffer Hansen",
-        "Chia‐Ying Liu",
-        "David Atkinson",
-        "Peter Kellman",
-        "Sebastian Kozerke",
-        "Hui Xue",
-        "Adrienne E. Campbell‐Washburn",
-        "Thomas Sangild Sørensen",
-        "Michael S. Hansen"
-      ],
-      "n_authors": 14,
-      "venue": "Magnetic Resonance in Medicine",
-      "publication_type": "article",
-      "modalities_proposed": [
-        "MRI-acquisition"
-      ],
-      "modalities_tested": [
-        "MRI-acquisition"
-      ],
-      "modalities_verified": false,
-      "entry_type": "toolbox",
-      "implements": null,
-      "extends": [],
-      "evidence": [
-        {
-          "modality": "MRI-acquisition",
-          "title": "ISMRM Raw data format: A proposed standard for MRI raw datasets",
-          "year": 2016,
-          "doi": "10.1002/mrm.26089"
         }
       ],
       "secondary_categories": [],
@@ -18888,7 +18534,7 @@
       "in_uniharmony": false,
       "also_implemented_in": [],
       "validation_data": "Agnostic",
-      "modality": "Medical imaging (general, not MRI-brain-specific)",
+      "modality": "Body MRI (breast, cardiac, abdominal)",
       "needs_gpu": true,
       "architecture_backbone": "Diffusion model",
       "framework": null,
@@ -18919,10 +18565,10 @@
       "venue": "bioRxiv",
       "publication_type": "preprint",
       "modalities_proposed": [
-        "general-imaging"
+        "abdominal-MRI"
       ],
       "modalities_tested": [
-        "general-imaging"
+        "abdominal-MRI"
       ],
       "modalities_verified": false,
       "entry_type": "method",
@@ -18930,7 +18576,7 @@
       "extends": [],
       "evidence": [
         {
-          "modality": "general-imaging",
+          "modality": "abdominal-MRI",
           "title": "AC-Diff: Anatomy–Contrast Disentangled Diffusion for Multi-Vendor Liver MRI Harmonization",
           "year": 2026,
           "doi": "10.64898/2026.09.28.755033"

@@ -1828,3 +1828,14 @@ select:focus, input[type="search"]:focus, button:focus-visible {
   padding-bottom: 9px;
 }
 .resource-csv-btn { margin-left: auto; }
+
+/* Method scope note (entries that are harmonization only in a particular sense) */
+.drawer-scope-note {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--paper-dim);
+  border-left: 2px solid var(--line);
+  padding: 2px 0 2px 10px;
+  margin: 0 0 12px;
+}
+.resource-type-background { color: #a3b1c2; }

@@ -75,11 +75,13 @@ LEGACY_MODALITY = {
     "CT": "Radiomics (CT/MRI)", "radiomics": "Radiomics (CT/MRI)", "omics": "Omics/Proteomics",
     "histopathology": "Medical imaging (general, not MRI-brain-specific)",
     "general-imaging": "Medical imaging (general, not MRI-brain-specific)",
+    "breast-MRI": "Body MRI (breast, cardiac, abdominal)", "cardiac-MRI": "Body MRI (breast, cardiac, abdominal)",
+    "abdominal-MRI": "Body MRI (breast, cardiac, abdominal)",
     "general": "Modality-agnostic (general ML)", "MRI-acquisition": "Acquisition (modality-agnostic)",
 }
 MODALITY_ORDER = [
     "sMRI", "dMRI", "fMRI", "connectome", "EEG", "MEG", "PET", "CT", "radiomics", "omics",
-    "histopathology", "general-imaging", "general", "MRI-acquisition",
+    "histopathology", "breast-MRI", "cardiac-MRI", "abdominal-MRI", "general-imaging", "general", "MRI-acquisition",
 ]
 DOI_RE = re.compile(r"^10\.\d{4,9}/\S+$")
 

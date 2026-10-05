@@ -32,13 +32,13 @@ CATEGORIES = {
 }
 DATASET_CATEGORIES = {"traveling-subjects", "harmonization-benchmark", "phantom", "multisite-cohort"}
 DATASET_ACCESS = {None, "open", "registration", "application", "private"}
-RESOURCE_TYPES = {"review", "benchmark", "best-practice",
+RESOURCE_TYPES = {"review", "benchmark", "best-practice", "background",
                   "survey", "systematic-review", "book-chapter", "research", "guide"}  # last five: legacy, shown as review/benchmark/best-practice
 METHOD_TYPES = {"statistical", "deep-learning", "machine-learning", "other"}
 ENTRY_TYPES = {"method", "implementation", "toolbox", "protocol"}
 MODALITIES = {
     "sMRI", "dMRI", "fMRI", "connectome", "EEG", "MEG", "PET", "CT", "radiomics", "omics",
-    "histopathology", "general-imaging", "general", "MRI-acquisition",
+    "histopathology", "breast-MRI", "cardiac-MRI", "abdominal-MRI", "general-imaging", "general", "MRI-acquisition",
 }
 URL_FIELDS = ["paper_url", "other_url", "pretrained_weights_url"]
 INT_FIELDS = ["paper_year", "citations", "stars", "forks", "open_issues", "n_authors"]
@@ -88,6 +88,8 @@ def main():
             warnings.append(f"{mid}: abstract has no `abstract_source`")
         if m.get("preserves_biology") not in (True, False, None):
             err("`preserves_biology` must be true, false or null")
+        if m.get("scope_note") is not None and (not isinstance(m["scope_note"], str) or not m["scope_note"].strip()):
+            err("`scope_note` must be a non-empty string when present")
         if m.get("category") == "confound-removal" and m.get("preserves_biology") is True:
             err("confound-removal methods make no explicit biological preservation; `preserves_biology` can't be true")
         gs = m.get("get_started")

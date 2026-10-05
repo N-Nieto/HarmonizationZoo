@@ -32,7 +32,6 @@
         "attention-guided-domain-adaptation",
         "autocombat",
         "b-combat",
-        "bart",
         "bashyam-stargan-harmonization",
         "blindharmony",
         "bme-x",
@@ -58,7 +57,6 @@
         "dual-gan-dti",
         "espa",
         "fully-bayes-combat",
-        "gadgetron",
         "gammastar",
         "goal-specific-harmonization",
         "haca3",
@@ -67,7 +65,6 @@
         "iguane",
         "imunity",
         "intensity-warping",
-        "ismrmrd",
         "longcombat",
         "mispel",
         "modanwal-cyclegan",
@@ -2395,6 +2392,120 @@
       "note": "Multicentre EEG pipeline (electrode-layout integration, normalization, source-space connectivity) that harmonized data across sites well enough to classify Alzheimer's disease and bvFTD.",
       "methods": [
         "harmnqeeg"
+      ]
+    },
+    {
+      "id": "gadgetron-2012",
+      "title": "Gadgetron: An open source framework for medical image reconstruction",
+      "authors": [
+        "Michael S. Hansen",
+        "Thomas Sangild Sørensen"
+      ],
+      "year": 2012,
+      "venue": "Magnetic Resonance in Medicine",
+      "doi": "10.1002/mrm.24389",
+      "type": "background",
+      "open_access": null,
+      "scope": [
+        "MRI-acquisition"
+      ],
+      "topics": [
+        "reconstruction",
+        "vendor-neutral",
+        "open-source",
+        "infrastructure"
+      ],
+      "note": "Open-source streaming framework for MR image reconstruction. Not a harmonization method itself, but vendor-neutral reconstruction pipelines like this are one of the building blocks of prospective (acquisition-level) harmonization.",
+      "methods": []
+    },
+    {
+      "id": "bart-2022",
+      "title": "Deep, deep learning with BART",
+      "authors": [
+        "Moritz Blumenthal",
+        "Guanxiong Luo",
+        "Martin Karl Schilling",
+        "H. Christian M. Holme",
+        "Martin Uecker"
+      ],
+      "year": 2022,
+      "venue": "Magnetic Resonance in Medicine",
+      "doi": "10.1002/mrm.29485",
+      "type": "background",
+      "open_access": null,
+      "scope": [
+        "MRI-acquisition"
+      ],
+      "topics": [
+        "reconstruction",
+        "deep learning",
+        "reproducibility",
+        "infrastructure"
+      ],
+      "note": "Berkeley Advanced Reconstruction Toolbox, here with its deep-learning reconstruction framework. Not a harmonization method itself; useful when the same reconstruction has to be run identically across scanners and sites.",
+      "methods": []
+    },
+    {
+      "id": "ismrmrd-2016",
+      "title": "ISMRM Raw data format: A proposed standard for MRI raw datasets",
+      "authors": [
+        "Souheil Inati",
+        "Joseph Naegele",
+        "Nicholas R. Zwart",
+        "Vinai Roopchansingh",
+        "Martin J. Lizak",
+        "David Christoffer Hansen",
+        "Chia‐Ying Liu",
+        "David Atkinson",
+        "Peter Kellman",
+        "Sebastian Kozerke",
+        "Hui Xue",
+        "Adrienne E. Campbell‐Washburn",
+        "Thomas Sangild Sørensen",
+        "Michael S. Hansen"
+      ],
+      "year": 2016,
+      "venue": "Magnetic Resonance in Medicine",
+      "doi": "10.1002/mrm.26089",
+      "type": "background",
+      "open_access": null,
+      "scope": [
+        "MRI-acquisition"
+      ],
+      "topics": [
+        "raw data",
+        "data standard",
+        "vendor-neutral",
+        "infrastructure"
+      ],
+      "note": "Proposes a common MR raw-data format (ISMRMRD) with converters from vendor formats. A data standard rather than a harmonization method, but it is what makes vendor-neutral reconstruction across sites possible.",
+      "methods": []
+    },
+    {
+      "id": "otda-2016",
+      "title": "Optimal Transport for Domain Adaptation",
+      "authors": [
+        "Nicolas Courty",
+        "Rémi Flamary",
+        "Devis Tuia",
+        "Alain Rakotomamonjy"
+      ],
+      "year": 2016,
+      "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+      "doi": "10.1109/tpami.2016.2615921",
+      "type": "background",
+      "open_access": null,
+      "scope": [
+        "general"
+      ],
+      "topics": [
+        "optimal transport",
+        "domain adaptation",
+        "background"
+      ],
+      "note": "Foundational optimal-transport domain-adaptation paper from computer vision. It does not propose or test data harmonization, but OT-based harmonization and transfer methods in the Zoo (e.g. BOTDA for EEG) build on it.",
+      "methods": [
+        "botda"
       ]
     }
   ]

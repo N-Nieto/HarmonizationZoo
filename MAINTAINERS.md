@@ -8,7 +8,7 @@ debugging the pipelines, or changing how they work.
 
 ## What's in the database right now
 
-`data/methods.json` holds **221 methods** (October 2026) across twelve families (the
+`data/methods.json` holds **217 methods** (October 2026) across twelve families (the
 "Family" grouping) — **Location/Scale Models (ComBat-family)** /
 Deep-learning / IQM / Normative Modeling / Interpolation / Federated / ICA /
 Optimal-transport / **Domain Adaptation & Distribution Matching** /
@@ -320,7 +320,12 @@ The **Resources** tab lists papers from `data/resources.json`, filtered by type
 with the pills on top: **Reviews** (`review` — surveys, systematic reviews and
 overviews are all filed here), **Comparison studies** (`benchmark`) and **Best
 practice** (`best-practice` — how to use methods without pitfalls, e.g. the
-leakage paper and the ComBat-for-dMRI paper). A second row filters by modality (structural, diffusion, functional MRI,
+leakage paper and the ComBat-for-dMRI paper). **Background & tools** (`background`) holds papers that harmonization builds
+on but that are not harmonization methods themselves: vendor-neutral reconstruction frameworks (Gadgetron,
+BART), the ISMRMRD raw-data standard and the original optimal-transport domain-adaptation paper (Courty et
+al. 2016). These four were method entries until the October 2026 sanity check; their old method pages
+redirect to the paper in Resources (`?resource=<id>#resources`). A method's details list background papers
+in a separate "Background" row instead of "Reviewed in". A second row filters by modality (structural, diffusion, functional MRI,
 radiomics/CT, PET). A fourth type pill, **EEG / MEG**, shows
 the EEG/MEG notes from `data/guide.json` (`eeg`) above the EEG/MEG-scope papers.
 The old values `survey`, `systematic-review`, `book-chapter`, `research` and
@@ -449,6 +454,18 @@ WhiteStripe, Nyúl, LSQ); `null` for everything else, including deep-learning
 methods, whose papers rarely state it. Explore has a "Preserves biology" filter
 and the Add-a-model form asks for it. The validator rejects `true` for a
 Confound Removal method.
+
+### Scope notes and body-MRI modalities
+
+`scope_note` (optional string) explains entries that are harmonization only in a particular sense, e.g.
+BOTDA (cross-subject/session transfer for EEG BCIs, harmonization if subjects or sessions are treated as
+sites), CDW contrast homogenization (gadolinium-enhanced → non-enhanced contrast rather than scanner
+effects) and ISI (UniHarmony-only, no paper). It is shown as "Scope" in the drawer and on the method page.
+
+Body MRI has its own modality codes: `breast-MRI`, `cardiac-MRI`, `abdominal-MRI` (abdominal and pelvic).
+They are in the controlled vocabulary in `scripts/validate_methods.py`, `scripts/merge_submissions.py`,
+`scripts/build_pages.py` and `js/app.js` (MODALITY_CODES, facet labels and the "Which method?" modality
+question). Their legacy `modality` group is "Body MRI (breast, cardiac, abdominal)".
 
 ### Overlapping families
 

@@ -152,6 +152,9 @@ async function init() {
       openDrawer(match);
     }
   }
+  // ?resource=<id> opens the Resources tab at that paper (used by moved method pages).
+  const wantedResource = params.get("resource");
+  if (wantedResource && state.resources.some((r) => r.id === wantedResource)) showResource(wantedResource);
 }
 
 function buildLevelToggles() {
@@ -214,7 +217,7 @@ function buildHomeTab() {
 
   root.innerHTML = `
     <div class="home-wrap">
-      <h2 class="home-title">A field guide to MRI harmonization methods</h2>
+      <h2 class="home-title">A field guide to data harmonization methods and resources</h2>
       <p class="home-lede">
         Harmonization Zoo maps out <strong>${state.data.length} methods</strong> for
         harmonizing multi-site / multi-scanner MRI data across
@@ -308,7 +311,7 @@ const SUBMIT_BRANCH = "main";
 // Controlled modality vocabulary — keep in sync with MODALITIES in scripts/validate_methods.py.
 const MODALITY_CODES = [
   "sMRI", "dMRI", "fMRI", "connectome", "EEG", "MEG", "PET", "CT", "radiomics", "omics",
-  "histopathology", "general-imaging", "general", "MRI-acquisition",
+  "histopathology", "breast-MRI", "cardiac-MRI", "abdominal-MRI", "general-imaging", "general", "MRI-acquisition",
 ];
 // Legacy free-text `modality` field (used by "Group by → modality") derived from the first proposed modality.
 const LEGACY_MODALITY = {
@@ -317,6 +320,8 @@ const LEGACY_MODALITY = {
   CT: "Radiomics (CT/MRI)", radiomics: "Radiomics (CT/MRI)", omics: "Omics/Proteomics",
   histopathology: "Medical imaging (general, not MRI-brain-specific)",
   "general-imaging": "Medical imaging (general, not MRI-brain-specific)",
+  "breast-MRI": "Body MRI (breast, cardiac, abdominal)", "cardiac-MRI": "Body MRI (breast, cardiac, abdominal)",
+  "abdominal-MRI": "Body MRI (breast, cardiac, abdominal)",
   general: "Modality-agnostic (general ML)", "MRI-acquisition": "Acquisition (modality-agnostic)",
 };
 const ARCHITECTURE_OPTIONS = [
@@ -415,6 +420,7 @@ function buildToolboxesTab() {
 // overviews are all "Review"; old values still map for older forks of the data.
 const RESOURCE_TYPE_LABEL = {
   "review": "Review", "benchmark": "Comparison study", "best-practice": "Best practice",
+  "background": "Background & tools",
   "survey": "Review", "systematic-review": "Review", "book-chapter": "Review",
   "research": "Comparison study", "guide": "Best practice",
 };
@@ -423,7 +429,7 @@ const resourceType = (r) => RESOURCE_TYPE_NORMAL[r.type] || r.type || "review";
 // Filter pills on top of the Resources tab: one per type, plus the EEG/MEG notes.
 const RESOURCE_FILTERS = [
   ["all", "All"], ["review", "Reviews"], ["benchmark", "Comparison studies"],
-  ["best-practice", "Best practice"], ["eeg-meg", "EEG / MEG"],
+  ["best-practice", "Best practice"], ["background", "Background & tools"], ["eeg-meg", "EEG / MEG"],
 ];
 
 function resourcesCovering(methodId) {
@@ -614,7 +620,9 @@ function buildResourcesTab() {
       <p class="toolboxes-intro">
         Papers worth reading before and while you harmonize: <strong>reviews</strong> map the field,
         <strong>comparison studies</strong> test methods against each other, and <strong>best-practice</strong>
-        papers say how to use them without pitfalls. Each card links to the methods it discusses that are in
+        papers say how to use them without pitfalls. <strong>Background &amp; tools</strong> are foundational methods
+        and infrastructure (reconstruction frameworks, data standards) that harmonization builds on but that are not
+        harmonization methods themselves. Each card links to the methods it discusses that are in
         this database, and every method's details show which of these resources cover it. Know a resource that
         belongs here? Open an issue or a pull request adding it to <code>data/resources.json</code>.
       </p>
@@ -2082,7 +2090,8 @@ function healthBreakdownHtml(h) {
 const MODALITY_FACET_LABEL = {
   sMRI: "Structural MRI", dMRI: "Diffusion MRI", fMRI: "Functional MRI", connectome: "Connectomes",
   EEG: "EEG", MEG: "MEG", PET: "PET", CT: "CT", radiomics: "Radiomics", omics: "Omics",
-  histopathology: "Histopathology", "general-imaging": "Medical imaging (general)",
+  histopathology: "Histopathology", "breast-MRI": "Breast MRI", "cardiac-MRI": "Cardiac MRI",
+  "abdominal-MRI": "Abdominal / pelvic MRI", "general-imaging": "Medical imaging (general)",
   general: "Modality-agnostic", "MRI-acquisition": "MRI acquisition",
 };
 function maintenanceFacet(d) {
@@ -3235,6 +3244,7 @@ function openDrawer(d) {
     <div class="drawer-eyebrow" style="--eyebrow-color:${FAMILY_COLOR.get(d.category) || "#888"}">${escapeHtml(d.category_label)} · ${escapeHtml(LEVEL_LABELS[d.level] || d.level)}</div>
     <h2>${escapeHtml(d.name)} ${archivedBadge}</h2>
     ${FAMILY_NOTE[d.category] ? `<p class="drawer-family-note">${escapeHtml(FAMILY_NOTE[d.category])}</p>` : ""}
+    ${d.scope_note ? `<p class="drawer-scope-note"><strong>Scope:</strong> ${escapeHtml(d.scope_note)}</p>` : ""}
     ${(d.secondary_categories || []).length ? `<p class="drawer-also-fits">Also fits: ${d.secondary_categories.map((c) => `<span class="chip" style="border-color:${FAMILY_COLOR.get(c) || "#888"}">${escapeHtml(FAMILY_SHORT[c] || FAMILY_LABEL.get(c) || c)}</span>`).join(" ")}</p>` : ""}
     ${d.paper_title ? `<p class="paper-title">"${escapeHtml(d.paper_title)}"</p>` : ""}
     ${d.abstract ? `<details class="drawer-abstract"><summary>Abstract <span>${d.abstract_source ? `via ${escapeHtml(d.abstract_source)}` : ""}</span></summary><p>${escapeHtml(d.abstract)}</p></details>` : ""}
@@ -3252,7 +3262,12 @@ function openDrawer(d) {
       <dt>Preserves biology</dt><dd>${escapeHtml(BIOLOGY_LABEL[d.preserves_biology === true ? "true" : d.preserves_biology === false ? "false" : "null"])}</dd>
       <dt>Validation data</dt><dd>${escapeHtml(d.validation_data || "Agnostic")}</dd>
       <dt>Toolboxes</dt><dd>${toolboxLine}</dd>
-      ${(() => { const rs = resourcesCovering(d.id); return rs.length ? `<dt>Reviewed in</dt><dd>${rs.map((r) => `<button type="button" class="inline-link drawer-resource-link" data-res="${escapeHtml(r.id)}">${escapeHtml(resourceShortCite(r))}</button>`).join(", ")}</dd>` : ""; })()}
+      ${(() => {
+        const link = (r) => `<button type="button" class="inline-link drawer-resource-link" data-res="${escapeHtml(r.id)}">${escapeHtml(resourceShortCite(r))}</button>`;
+        const all = resourcesCovering(d.id);
+        const rev = all.filter((r) => resourceType(r) !== "background"), bg = all.filter((r) => resourceType(r) === "background");
+        return (rev.length ? `<dt>Reviewed in</dt><dd>${rev.map(link).join(", ")}</dd>` : "") + (bg.length ? `<dt>Background</dt><dd>${bg.map(link).join(", ")}</dd>` : "");
+      })()}
       <dt>Language</dt><dd><div class="chip-row">${languages}</div></dd>
       ${dlRows}
       <dt>Stars</dt><dd>${starsLine}</dd>
@@ -3437,7 +3452,7 @@ REC_STEPS.push(
     dynamicOptions(pool) {
       const counts = new Map();
       pool.forEach((d) => (d.modalities_tested || []).forEach((m) => counts.set(m, (counts.get(m) || 0) + 1)));
-      const order = ["sMRI", "dMRI", "fMRI", "connectome", "EEG", "MEG", "PET", "CT", "radiomics", "omics", "histopathology"];
+      const order = ["sMRI", "dMRI", "fMRI", "connectome", "EEG", "MEG", "PET", "CT", "radiomics", "omics", "histopathology", "breast-MRI", "cardiac-MRI", "abdominal-MRI"];
       return order.filter((m) => counts.has(m)).map((m) => [m, `${MODALITY_FACET_LABEL[m] || m}`]);
     },
     apply(pool, v, ctx) {

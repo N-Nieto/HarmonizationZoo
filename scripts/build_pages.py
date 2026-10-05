@@ -50,7 +50,8 @@ LEVEL = {"feature-level": "Feature-level", "image-level": "Image-level", "acquis
 MODALITY_LABEL = {
     "sMRI": "Structural MRI", "dMRI": "Diffusion MRI", "fMRI": "Functional MRI", "connectome": "Connectomes",
     "EEG": "EEG", "MEG": "MEG", "PET": "PET", "CT": "CT", "radiomics": "Radiomics", "omics": "Omics",
-    "histopathology": "Histopathology", "general-imaging": "Medical imaging (general)",
+    "histopathology": "Histopathology", "breast-MRI": "Breast MRI", "cardiac-MRI": "Cardiac MRI",
+    "abdominal-MRI": "Abdominal / pelvic MRI", "general-imaging": "Medical imaging (general)",
     "general": "Modality-agnostic", "MRI-acquisition": "MRI acquisition",
 }
 
@@ -333,9 +334,13 @@ def render_page(m, by_id, extended_by, toolboxes, today):
                         for k, v in stats)
 
     rs = [r for r in RESOURCES if m["id"] in (r.get("methods") or [])]
-    res_html = ", ".join(
-        f'<a href="{esc("https://doi.org/" + r["doi"] if r.get("doi") else r.get("url", ""))}" rel="noopener noreferrer">{esc(r["title"])}</a> ({esc(r.get("year", ""))})'
-        for r in rs if r.get("doi") or safe_url(r.get("url")))
+
+    def res_links(items):
+        return ", ".join(
+            f'<a href="{esc("https://doi.org/" + r["doi"] if r.get("doi") else r.get("url", ""))}" rel="noopener noreferrer">{esc(r["title"])}</a> ({esc(r.get("year", ""))})'
+            for r in items if r.get("doi") or safe_url(r.get("url")))
+    res_html = res_links([r for r in rs if r.get("type") != "background"])
+    bg_html = res_links([r for r in rs if r.get("type") == "background"])
     tbs = [tb for tb in toolboxes if m["id"] in tb.get("methods", [])]
     tb_html = ", ".join(f'<a href="{esc(tb["url"])}" rel="noopener noreferrer">{esc(tb["name"])}</a>'
                         for tb in tbs if safe_url(tb.get("url")))
@@ -353,6 +358,7 @@ def render_page(m, by_id, extended_by, toolboxes, today):
     details = "".join([
         row("Family", esc(fam_label)),
         row("About this family", esc(FAMILY_NOTE[m["category"]]) if m["category"] in FAMILY_NOTE else ""),
+        row("Scope", esc(m["scope_note"]) if m.get("scope_note") else ""),
         row("Preserves biology", esc(BIOLOGY.get(m.get("preserves_biology")))),
         row("Also fits", esc(", ".join(FAMILY.get(c, (c, ""))[0] for c in (m.get("secondary_categories") or [])))),
         row("Level", esc(LEVEL.get(m["level"], m["level"]))),
@@ -368,6 +374,7 @@ def render_page(m, by_id, extended_by, toolboxes, today):
         row("Code health", health_html(health) if health else ""),
         row("Toolboxes", tb_html),
         row("Reviewed in", res_html),
+        row("Background", bg_html),
         "".join(lineage),
         row("Tags", chips(m.get("tags"))),
     ])

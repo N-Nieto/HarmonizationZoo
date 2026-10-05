@@ -94,6 +94,7 @@ malformed `github` slugs, wrong value types, unknown categories/modalities, and
 | `category_label` | yes | Human-readable version of `category`, shown as a cluster label. |
 | `secondary_categories` | no | Other families the method also fits, e.g. `["domain-adaptation"]` for an optimal-transport method or `["deep-learning"]` for a deep domain-adaptation network. Families overlap; `category` stays the single primary one (it sets the colour and the map cluster), while the Family filter matches primary *or* secondary. Must not repeat `category`. |
 | `preserves_biology` | no | `true` if the method explicitly protects biological variability (e.g. biological covariates are modelled), `false` if it does not (all `confound-removal` methods), `null` if not assessed. |
+| `scope_note` | no | One or two sentences when the entry is harmonization only in a particular sense (e.g. proposed for cross-subject transfer, or harmonizes contrast rather than scanner effects). Shown as "Scope" on the method's details and page. |
 | `get_started` | no | Short install and usage snippets copied from the project README: `{"install", "install_lang", "usage", "usage_lang", "source", "fetched"}`. `source` (the README URL) is required when present. Shown with copy buttons in the drawer and on the method page. |
 | `method_type` | yes | `statistical`, `deep-learning`, `machine-learning`, or `other`. |
 | `level` | yes | `feature-level` (harmonizes extracted features/ROIs), `image-level` (harmonizes voxel data directly), or `acquisition-level` (harmonizes scanner protocol/sequence). |
@@ -116,7 +117,7 @@ malformed `github` slugs, wrong value types, unknown categories/modalities, and
 | `entry_type` | no | `method` (default), `implementation` (a code package for a method listed elsewhere — set `implements`), `toolbox`, or `protocol` (acquisition-side harmonization). |
 | `implements` | no | For `entry_type: "implementation"` only: the `id` of the method this package implements (e.g. `neurocombat` → `combat`). |
 | `extends` | no | Array of method `id`s this method builds on (e.g. ComBatLS → `["combat-gam"]`). Drives the lineage view; leave `[]` if it's a new approach. |
-| `modalities_proposed` | no | Array from the controlled list `sMRI`, `dMRI`, `fMRI`, `connectome`, `EEG`, `MEG`, `PET`, `CT`, `radiomics`, `omics`, `histopathology`, `general-imaging`, `general`, `MRI-acquisition` — what the method was designed for. |
+| `modalities_proposed` | no | Array from the controlled list `sMRI`, `dMRI`, `fMRI`, `connectome`, `EEG`, `MEG`, `PET`, `CT`, `radiomics`, `omics`, `histopathology`, `breast-MRI`, `cardiac-MRI`, `abdominal-MRI`, `general-imaging`, `general`, `MRI-acquisition` — what the method was designed for. |
 | `modalities_tested` | no | Same list — every modality the method has been validated on, including ones beyond the original paper. This is what the modality filter uses, so an MRI method later validated on EEG appears under EEG. |
 | `evidence` | no | List of `{"modality", "title", "year", "doi"}` — one paper per modality showing the method was validated there (e.g. ComBat on EEG). Each modality listed should also be in `modalities_tested`. Shown on the method page. |
 | `modalities_verified` | no | `true` once someone has checked both modality lists against the paper(s). Auto-seeded entries start as `false`. |
